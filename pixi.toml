@@ -1,0 +1,25 @@
+[project]
+name = "ros-jazzy"
+version = "0.1.0"
+description = "Add a short description here"
+authors = ["Tim de Jager <tim@prefix.dev>"]
+channels = ["conda-forge"]
+platforms = ["osx-arm64"]
+
+[tasks]
+
+[dependencies]
+python = ">=3.12.4,<3.13"
+rattler-build = ">=0.18.0,<0.19"
+
+[feature.beta.pypi-dependencies]
+vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "4414b0e" }
+
+[feature.beta.tasks]
+rename-file = {cmd ="cp vinca_osx_arm64.yaml vinca.yaml"}
+generate-recipes = {cmd = "vinca -m", depends_on = ["rename-file"] }
+remove-file = {cmd = "rm vinca.yaml", depends_on = ["generate-recipes"]}
+build = {cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml --skip-existing", depends_on = ["remove-file"]}
+
+[environments]
+beta = ["beta"]
