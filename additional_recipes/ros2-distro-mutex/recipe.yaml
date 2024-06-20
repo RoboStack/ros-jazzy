@@ -4,7 +4,7 @@ package:
 
 build:
   number: 0
-  string: humble
+  string: jazzy
 
 requirements:
   # NOTE:
@@ -26,22 +26,22 @@ requirements:
   # if the upstream package does not have run_exports
   # please change it in the conda_build_config.yaml!
   run_constraints:
-    - libboost 1.82
-    - libboost-devel 1.82
-    - pcl 1.13.1
-    - gazebo 11
-    - libpqxx 6
+    - libboost 1.84.*
+    - libboost-devel 1.84.*
+    - pcl 1.14.1.*
+    - gazebo 11.*
+    - libpqxx 7.*
 
   run_exports:
     weak:
-      - ${{ pin_subpackage('ros2-distro-mutex', max_pin='x.x') }}
+      - ${{ pin_subpackage('ros2-distro-mutex', upper_bound='x.x') }}
 
 about:
-  homepage: https://github.com/robostack/ros-humble
+  homepage: https://github.com/robostack/ros-jazzy
   license: BSD-3-Clause
   summary: |
     The ROS2 distro mutex. To switch between ROS2 versions, you need to change the mutex.
-    E.g. mamba install ros2-distro-mutex=*=humble to switch to humble.
+    E.g. mamba install ros2-distro-mutex=*=jazzy to switch to jazzy.
 
 extra:
   recipe-maintainers:

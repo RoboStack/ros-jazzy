@@ -13,7 +13,7 @@ yaml_cpp_vendor:
   add_host: ["yaml-cpp"]
   add_run: ["yaml-cpp"]
 zstd_vendor:
-  add_host: ["zstd", {"${{ 'zstd-static' if not win }}"}]
+  add_host: ["zstd", "${{ 'zstd-static' if not win }}"]
   add_run: ["zstd"]
 sqlite3_vendor:
   add_host: ["sqlite"]
@@ -34,6 +34,7 @@ intra_process_demo:
   add_host: ["REQUIRE_OPENGL"]
 rviz_ogre_vendor:
   add_host: ["zlib", "freeimage", "freetype", "assimp", "zziplib", "pugixml"]
+  add_build: ["vcstool"]
   add_run: ["assimp"]
 pcl_conversions:
   add_host: ["REQUIRE_OPENGL", "libboost-devel"]
@@ -160,3 +161,14 @@ vision_msgs_rviz_plugins:
   add_host: ["REQUIRE_OPENGL"]
 velodyne_pointcloud:
   add_host: ["libboost-devel"]
+# TODO unvendor?!
+uncrustify_vendor:
+  add_build: ["vcstool"]
+mimick_vendor:
+  add_build: ["vcstool"]
+gz_cmake_vendor:
+  add_build: ["vcstool"]
+gz_math_vendor:
+  add_build: ["vcstool"]
+gz_utils_vendor:
+  add_build: ["vcstool"]

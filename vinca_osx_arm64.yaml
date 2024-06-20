@@ -1,4 +1,4 @@
-ros_distro: humble
+ros_distro: jazzy
 
 # mapping for package keys
 conda_index:
@@ -7,7 +7,7 @@ conda_index:
 
 build_number: 5
 
-mutex_package: ros2-distro-mutex 0.5 humble
+mutex_package: ros2-distro-mutex 0.5 jazzy
 
 skip_all_deps: false
 

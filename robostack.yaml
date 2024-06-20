@@ -304,7 +304,7 @@ libhdf5-dev:
 libi2c-dev:
   robostack: [libi2c]
 liblttng-ust-dev:
-  robostack: [lttng-ust]
+  robostack: ["${{ \"lttng-ust\" if linux }}"]
 libjpeg:
   robostack: [libjpeg-turbo]
 libjsoncpp:
@@ -850,6 +850,16 @@ python3-unidiff:
   robostack: [unidiff]
 python3-usb:
   robostack: [pyusb]
+python3-vcstool:
+  robostack: [vcstool]
+python3-flake8-docstrings:
+  robostack: [flake8-docstrings]
+python3-flake8-import-order:
+  robostack: [flake8-import-order]
+python3-flake8-builtins:
+  robostack: [flake8-builtins]
+python3-flake8-quotes:
+  robostack: [flake8-quotes]
 python3-venv:
   robostack: [virtualenv, pip, pip-tools, setuptools]
 python3-websocket:
