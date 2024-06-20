@@ -17,13 +17,17 @@ export CONDA_BLD_PATH="/opt/conda/build_artifacts"
 
 pwd
 
+cd ${FEEDSTOCK_ROOT}
+
 for recipe in ${CURRENT_RECIPES[@]}; do
 	pixi run rattler-build build \
 		--recipe ${FEEDSTOCK_ROOT}/recipes/${recipe} \
-		-m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml \
 		-m ${FEEDSTOCK_ROOT}/conda_build_config.yaml \
 		-c robostack-jazzy -c conda-forge \
 		--output-dir $CONDA_BLD_PATH
+
+		# -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml \
+
 done
 
 anaconda -t ${ANACONDA_API_TOKEN} upload /opt/conda/build_artifacts/linux-*/*.conda --force
