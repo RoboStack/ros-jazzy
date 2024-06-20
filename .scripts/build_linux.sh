@@ -18,8 +18,8 @@ export CONDA_BLD_PATH="/opt/conda/build_artifacts"
 pwd
 
 for recipe in ${CURRENT_RECIPES[@]}; do
-	cd ${FEEDSTOCK_ROOT}/recipes/${recipe}
-	pixi run rattler-build build --recipe . \
+	pixi run rattler-build build \
+		--recipe ${FEEDSTOCK_ROOT}/recipes/${recipe} \
 		-m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml \
 		-m ${FEEDSTOCK_ROOT}/conda_build_config.yaml \
 		-c robostack-jazzy -c conda-forge \
