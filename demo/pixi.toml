@@ -1,0 +1,15 @@
+[project]
+name = "demo"
+version = "0.1.0"
+description = "Add a short description here"
+authors = ["Wolf Vollprecht <w.vollprecht@gmail.com>"]
+channels = ["../output", "conda-forge"]
+platforms = ["osx-arm64"]
+
+[tasks]
+
+[dependencies]
+ros-jazzy-demo-nodes-cpp = "*"
+ros-jazzy-demo-nodes-py = "*"
+ros-jazzy-ros-workspace = ">=1.0.3,<1.1"
+ros-jazzy-ros-base = ">=0.11.0,<0.12"
