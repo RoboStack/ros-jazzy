@@ -19,4 +19,4 @@ for recipe in ${CURRENT_RECIPES[@]}; do
 	# -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml \
 done
 
-anaconda -t ${ANACONDA_API_TOKEN} upload ${CONDA_BLD_PATH}/osx-*/*.conda --force
+pixi run upload ${CONDA_BLD_PATH}/osx-*/*.conda --force

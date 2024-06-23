@@ -30,4 +30,4 @@ for recipe in ${CURRENT_RECIPES[@]}; do
 
 done
 
-anaconda -t ${ANACONDA_API_TOKEN} upload /opt/conda/build_artifacts/linux-*/*.conda --force
+pixi run upload ${CONDA_BLD_PATH}/osx-*/*.conda --force

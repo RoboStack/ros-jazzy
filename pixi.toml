@@ -4,14 +4,15 @@ version = "0.1.0"
 description = "Add a short description here"
 authors = ["Tim de Jager <tim@prefix.dev>"]
 channels = ["conda-forge"]
-platforms = ["osx-arm64", "linux-64"]
+platforms = ["osx-arm64", "linux-64", "osx-64", "linux-aarch64", "win-64"]
 
 [tasks]
+upload = "anaconda -t ${ANACONDA_API_TOKEN} upload"
 
 [dependencies]
 python = ">=3.12.4,<3.13"
 rattler-build = ">=0.18.0,<0.19"
-anaconda-client = "*"
+anaconda-client = ">=1.12"
 
 [feature.beta.pypi-dependencies]
 vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "4414b0ec607a92b4f95b85affc0d3352232ff9ca" }
