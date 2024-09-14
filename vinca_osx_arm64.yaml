@@ -17,22 +17,30 @@ full_rebuild: true
 
 packages_skip_by_deps:
   - cartographer
-  - octomap
+  - pcl_conversions
+  - pendulum_control
+  - rqt_common_plugins
+  - rttest
+  - tlsf
+  - tlsf_cpp
 
 packages_remove_from_deps:
   - cartographer
-  - octomap
-  - warehouse_ros_mongo
+  - pcl_conversions
+  - pendulum_control
+  - rqt_common_plugins
+  - rttest
+  - tlsf
+  - tlsf_cpp
 
 skip_existing:
   - https://conda.anaconda.org/robostack-jazzy/
 
 packages_select_by_deps:
+  - ament_cmake_core
   - ros_workspace
   - ros_environment
   - ros_base
-  # - desktop
-
+  - desktop
 
 patch_dir: patch
-
