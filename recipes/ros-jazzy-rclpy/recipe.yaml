@@ -1,0 +1,134 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-rclpy
+  version: 7.1.2
+source:
+  git: https://github.com/ros2-gbp/rclpy-release.git
+  rev: release/jazzy/rclpy/7.1.2-1
+  target_directory: ros-jazzy-rclpy/src/work
+  patches:
+    - patch/ros-jazzy-rclpy.patch
+
+build:
+  script: ${{ 'build_ament_cmake.sh' if unix else 'bld_ament_cmake.bat' }}
+  number: 0
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - if: unix
+      then:
+        - make
+        - coreutils
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+    - if: build_platform != target_platform
+      then:
+        - cross-python_${{ target_platform }}
+    - if: build_platform != target_platform
+      then:
+        - numpy
+    - if: build_platform != target_platform
+      then:
+        - pybind11
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - pytest
+    - python
+    - ros-jazzy-ament-cmake
+    - ros-jazzy-ament-cmake-gtest
+    - ros-jazzy-ament-cmake-pytest
+    - ros-jazzy-ament-lint-auto
+    - ros-jazzy-ament-lint-common
+    - ros-jazzy-lifecycle-msgs
+    - ros-jazzy-pybind11-vendor
+    - ros-jazzy-python-cmake-module
+    - ros-jazzy-rcl
+    - ros-jazzy-rcl-action
+    - ros-jazzy-rcl-interfaces
+    - ros-jazzy-rcl-lifecycle
+    - ros-jazzy-rcl-logging-interface
+    - ros-jazzy-rcl-yaml-param-parser
+    - ros-jazzy-rcpputils
+    - ros-jazzy-rcutils
+    - ros-jazzy-rmw
+    - ros-jazzy-rmw-implementation
+    - ros-jazzy-rmw-implementation-cmake
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rosidl-generator-py
+    - ros-jazzy-rosidl-runtime-c
+    - ros-jazzy-test-msgs
+    - ros-jazzy-unique-identifier-msgs
+    - ros2-distro-mutex 0.5 jazzy
+    - pybind11
+  run:
+    - python
+    - pyyaml
+    - ros-jazzy-action-msgs
+    - ros-jazzy-ament-index-python
+    - ros-jazzy-builtin-interfaces
+    - ros-jazzy-lifecycle-msgs
+    - ros-jazzy-rcl
+    - ros-jazzy-rcl-action
+    - ros-jazzy-rcl-interfaces
+    - ros-jazzy-rcl-lifecycle
+    - ros-jazzy-rcl-logging-interface
+    - ros-jazzy-rcl-yaml-param-parser
+    - ros-jazzy-rmw
+    - ros-jazzy-rmw-implementation
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rosgraph-msgs
+    - ros-jazzy-rosidl-runtime-c
+    - ros-jazzy-rpyutils
+    - ros-jazzy-unique-identifier-msgs
+    - ros2-distro-mutex 0.5 jazzy
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
+tests:
+  - python:
+      imports:
+        - rclpy
+      pip_check: false
