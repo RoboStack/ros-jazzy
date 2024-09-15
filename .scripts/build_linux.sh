@@ -30,4 +30,4 @@ for recipe in ${CURRENT_RECIPES[@]}; do
 
 done
 
-pixi run upload ${CONDA_BLD_PATH}/osx-*/*.conda --force
+pixi run upload ${CONDA_BLD_PATH}/linux-*/*.conda --force
