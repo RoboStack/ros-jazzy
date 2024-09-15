@@ -1,0 +1,972 @@
+jobs:
+  stage_0_job_0:
+    name: mutex octomap urdfdom-py
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros2-distro-mutex ros-humble-octomap ros-humble-urdfdom-py
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-distro-mutex ros-humble-octomap ros-humble-urdfdom-py
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_1_job_1:
+    name: ament-cmake-lint-cmake uncrustify-vendor launch rosidl-cli fastcdr
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-cmake-lint-cmake ros-jazzy-uncrustify-vendor ros-jazzy-launch
+        ros-jazzy-rosidl-cli ros-jazzy-fastcdr
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-cmake-lint-cmake ros-jazzy-uncrustify-vendor
+          ros-jazzy-launch ros-jazzy-rosidl-cli ros-jazzy-fastcdr
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_2_job_2:
+    name: ament-cmake-copyright ament-uncrustify launch-yaml launch-xml
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-cmake-copyright ros-jazzy-ament-uncrustify ros-jazzy-launch-yaml
+        ros-jazzy-launch-xml
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-cmake-copyright ros-jazzy-ament-uncrustify
+          ros-jazzy-launch-yaml ros-jazzy-launch-xml
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_3_job_3:
+    name: ament-cmake-xmllint ament-cmake-uncrustify ament-cmake-pep257 ament-cmake-flake8
+      ament-cmake-cpplint
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-cmake-xmllint ros-jazzy-ament-cmake-uncrustify ros-jazzy-ament-cmake-pep257
+        ros-jazzy-ament-cmake-flake8 ros-jazzy-ament-cmake-cpplint
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-cmake-xmllint ros-jazzy-ament-cmake-uncrustify
+          ros-jazzy-ament-cmake-pep257 ros-jazzy-ament-cmake-flake8 ros-jazzy-ament-cmake-cpplint
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_3_job_4:
+    name: ament-cmake-cppcheck launch-testing eigen3-cmake-module ament-cmake-clang-format
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-cmake-cppcheck ros-jazzy-launch-testing ros-jazzy-eigen3-cmake-module
+        ros-jazzy-ament-cmake-clang-format
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-cmake-cppcheck ros-jazzy-launch-testing ros-jazzy-eigen3-cmake-module
+          ros-jazzy-ament-cmake-clang-format
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_4_job_5:
+    name: ament-lint-common foonathan-memory-vendor
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_3
+    - stage_3_job_4
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-lint-common ros-jazzy-foonathan-memory-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-lint-common ros-jazzy-foonathan-memory-vendor
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_5_job_6:
+    name: python-cmake-module rosidl-adapter performance-test-fixture mimick-vendor
+      ament-cmake-ros
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-python-cmake-module ros-jazzy-rosidl-adapter ros-jazzy-performance-test-fixture
+        ros-jazzy-mimick-vendor ros-jazzy-ament-cmake-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-python-cmake-module ros-jazzy-rosidl-adapter ros-jazzy-performance-test-fixture
+          ros-jazzy-mimick-vendor ros-jazzy-ament-cmake-ros
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_5_job_7:
+    name: rosidl-typesupport-interface fastrtps-cmake-module fastrtps rti-connext-dds-cmake-module
+      rmw-implementation-cmake
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-typesupport-interface ros-jazzy-fastrtps-cmake-module
+        ros-jazzy-fastrtps ros-jazzy-rti-connext-dds-cmake-module ros-jazzy-rmw-implementation-cmake
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-typesupport-interface ros-jazzy-fastrtps-cmake-module
+          ros-jazzy-fastrtps ros-jazzy-rti-connext-dds-cmake-module ros-jazzy-rmw-implementation-cmake
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_5_job_8:
+    name: ament-index-cpp spdlog-vendor orocos-kdl-vendor keyboard-handler
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-index-cpp ros-jazzy-spdlog-vendor ros-jazzy-orocos-kdl-vendor
+        ros-jazzy-keyboard-handler
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-index-cpp ros-jazzy-spdlog-vendor ros-jazzy-orocos-kdl-vendor
+          ros-jazzy-keyboard-handler
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_6_job_9:
+    name: launch-testing-ament-cmake rosidl-parser tracetools libyaml-vendor console-bridge-vendor
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_6
+    - stage_5_job_7
+    - stage_5_job_8
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-launch-testing-ament-cmake ros-jazzy-rosidl-parser ros-jazzy-tracetools
+        ros-jazzy-libyaml-vendor ros-jazzy-console-bridge-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-launch-testing-ament-cmake ros-jazzy-rosidl-parser
+          ros-jazzy-tracetools ros-jazzy-libyaml-vendor ros-jazzy-console-bridge-vendor
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_6_job_10:
+    name: urdf-parser-plugin
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_6
+    - stage_5_job_7
+    - stage_5_job_8
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-urdf-parser-plugin
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-urdf-parser-plugin
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_7_job_11:
+    name: rcutils rosidl-pycommon rosidl-generator-type-description urdfdom
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_9
+    - stage_6_job_10
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rcutils ros-jazzy-rosidl-pycommon ros-jazzy-rosidl-generator-type-description
+        ros-jazzy-urdfdom
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rcutils ros-jazzy-rosidl-pycommon ros-jazzy-rosidl-generator-type-description
+          ros-jazzy-urdfdom
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_8_job_12:
+    name: rosidl-runtime-c rosidl-cmake rcpputils
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_7_job_11
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-runtime-c ros-jazzy-rosidl-cmake ros-jazzy-rcpputils
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-runtime-c ros-jazzy-rosidl-cmake ros-jazzy-rcpputils
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_9_job_13:
+    name: rosidl-runtime-cpp rosidl-generator-c rosidl-dynamic-typesupport rcl-logging-interface
+      class-loader
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_8_job_12
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-runtime-cpp ros-jazzy-rosidl-generator-c ros-jazzy-rosidl-dynamic-typesupport
+        ros-jazzy-rcl-logging-interface ros-jazzy-class-loader
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-runtime-cpp ros-jazzy-rosidl-generator-c
+          ros-jazzy-rosidl-dynamic-typesupport ros-jazzy-rcl-logging-interface ros-jazzy-class-loader
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_10_job_14:
+    name: rosidl-generator-cpp rmw rosidl-typesupport-introspection-c rosidl-dynamic-typesupport-fastrtps
+      rcl-logging-spdlog
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_9_job_13
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-generator-cpp ros-jazzy-rmw ros-jazzy-rosidl-typesupport-introspection-c
+        ros-jazzy-rosidl-dynamic-typesupport-fastrtps ros-jazzy-rcl-logging-spdlog
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-generator-cpp ros-jazzy-rmw ros-jazzy-rosidl-typesupport-introspection-c
+          ros-jazzy-rosidl-dynamic-typesupport-fastrtps ros-jazzy-rcl-logging-spdlog
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_10_job_15:
+    name: pluginlib
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_9_job_13
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-pluginlib
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-pluginlib
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_11_job_16:
+    name: rosidl-typesupport-fastrtps-cpp rosidl-typesupport-introspection-cpp rcl-yaml-param-parser
+      urdf
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_10_job_14
+    - stage_10_job_15
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-typesupport-fastrtps-cpp ros-jazzy-rosidl-typesupport-introspection-cpp
+        ros-jazzy-rcl-yaml-param-parser ros-jazzy-urdf
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-typesupport-fastrtps-cpp ros-jazzy-rosidl-typesupport-introspection-cpp
+          ros-jazzy-rcl-yaml-param-parser ros-jazzy-urdf
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_12_job_17:
+    name: rosidl-typesupport-fastrtps-c kdl-parser rosidl-typesupport-c
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_16
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-typesupport-fastrtps-c ros-jazzy-kdl-parser ros-jazzy-rosidl-typesupport-c
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-typesupport-fastrtps-c ros-jazzy-kdl-parser
+          ros-jazzy-rosidl-typesupport-c
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_13_job_18:
+    name: rosidl-typesupport-cpp rosidl-generator-py rosidl-core-runtime rosidl-core-generators
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_12_job_17
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-typesupport-cpp ros-jazzy-rosidl-generator-py ros-jazzy-rosidl-core-runtime
+        ros-jazzy-rosidl-core-generators
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-typesupport-cpp ros-jazzy-rosidl-generator-py
+          ros-jazzy-rosidl-core-runtime ros-jazzy-rosidl-core-generators
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_14_job_19:
+    name: builtin-interfaces unique-identifier-msgs service-msgs
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_13_job_18
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-builtin-interfaces ros-jazzy-unique-identifier-msgs ros-jazzy-service-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-builtin-interfaces ros-jazzy-unique-identifier-msgs
+          ros-jazzy-service-msgs
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_15_job_20:
+    name: action-msgs type-description-interfaces rosidl-default-runtime rosidl-default-generators
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_14_job_19
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-action-msgs ros-jazzy-type-description-interfaces ros-jazzy-rosidl-default-runtime
+        ros-jazzy-rosidl-default-generators
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-action-msgs ros-jazzy-type-description-interfaces
+          ros-jazzy-rosidl-default-runtime ros-jazzy-rosidl-default-generators
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_16_job_21:
+    name: rmw-dds-common test-msgs rcl-interfaces lifecycle-msgs std-msgs
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_15_job_20
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rmw-dds-common ros-jazzy-test-msgs ros-jazzy-rcl-interfaces
+        ros-jazzy-lifecycle-msgs ros-jazzy-std-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rmw-dds-common ros-jazzy-test-msgs ros-jazzy-rcl-interfaces
+          ros-jazzy-lifecycle-msgs ros-jazzy-std-msgs
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_16_job_22:
+    name: statistics-msgs rosgraph-msgs std-srvs rosbag2-test-msgdefs rosbag2-interfaces
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_15_job_20
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-statistics-msgs ros-jazzy-rosgraph-msgs ros-jazzy-std-srvs
+        ros-jazzy-rosbag2-test-msgdefs ros-jazzy-rosbag2-interfaces
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-statistics-msgs ros-jazzy-rosgraph-msgs ros-jazzy-std-srvs
+          ros-jazzy-rosbag2-test-msgdefs ros-jazzy-rosbag2-interfaces
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_16_job_23:
+    name: ros2cli-test-interfaces
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_15_job_20
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ros2cli-test-interfaces
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ros2cli-test-interfaces
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_17_job_24:
+    name: rmw-fastrtps-shared-cpp rmw-connextdds-common rmw-cyclonedds-cpp composition-interfaces
+      geometry-msgs
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_16_job_21
+    - stage_16_job_22
+    - stage_16_job_23
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rmw-fastrtps-shared-cpp ros-jazzy-rmw-connextdds-common
+        ros-jazzy-rmw-cyclonedds-cpp ros-jazzy-composition-interfaces ros-jazzy-geometry-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rmw-fastrtps-shared-cpp ros-jazzy-rmw-connextdds-common
+          ros-jazzy-rmw-cyclonedds-cpp ros-jazzy-composition-interfaces ros-jazzy-geometry-msgs
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_17_job_25:
+    name: rosidl-runtime-py actionlib-msgs
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_16_job_21
+    - stage_16_job_22
+    - stage_16_job_23
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-runtime-py ros-jazzy-actionlib-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-runtime-py ros-jazzy-actionlib-msgs
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_18_job_26:
+    name: rmw-fastrtps-dynamic-cpp rmw-fastrtps-cpp rmw-connextdds sensor-msgs tf2
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_17_job_24
+    - stage_17_job_25
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rmw-fastrtps-dynamic-cpp ros-jazzy-rmw-fastrtps-cpp ros-jazzy-rmw-connextdds
+        ros-jazzy-sensor-msgs ros-jazzy-tf2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rmw-fastrtps-dynamic-cpp ros-jazzy-rmw-fastrtps-cpp
+          ros-jazzy-rmw-connextdds ros-jazzy-sensor-msgs ros-jazzy-tf2
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_18_job_27:
+    name: tf2-msgs shape-msgs trajectory-msgs nav-msgs diagnostic-msgs
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_17_job_24
+    - stage_17_job_25
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-tf2-msgs ros-jazzy-shape-msgs ros-jazzy-trajectory-msgs
+        ros-jazzy-nav-msgs ros-jazzy-diagnostic-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-tf2-msgs ros-jazzy-shape-msgs ros-jazzy-trajectory-msgs
+          ros-jazzy-nav-msgs ros-jazzy-diagnostic-msgs
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_19_job_28:
+    name: rmw-implementation visualization-msgs stereo-msgs sensor-msgs-py tf2-eigen-kdl
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_18_job_26
+    - stage_18_job_27
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rmw-implementation ros-jazzy-visualization-msgs ros-jazzy-stereo-msgs
+        ros-jazzy-sensor-msgs-py ros-jazzy-tf2-eigen-kdl
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rmw-implementation ros-jazzy-visualization-msgs
+          ros-jazzy-stereo-msgs ros-jazzy-sensor-msgs-py ros-jazzy-tf2-eigen-kdl
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_20_job_29:
+    name: rcl common-interfaces
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_19_job_28
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rcl ros-jazzy-common-interfaces
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rcl ros-jazzy-common-interfaces
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_21_job_30:
+    name: rcl-lifecycle rcl-action libstatistics-collector
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_20_job_29
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rcl-lifecycle ros-jazzy-rcl-action ros-jazzy-libstatistics-collector
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rcl-lifecycle ros-jazzy-rcl-action ros-jazzy-libstatistics-collector
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_22_job_31:
+    name: rclpy rclcpp
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_21_job_30
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rclpy ros-jazzy-rclcpp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rclpy ros-jazzy-rclcpp
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_23_job_32:
+    name: launch-ros rclcpp-lifecycle ros2cli rosbag2-test-common rclcpp-components
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_22_job_31
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-launch-ros ros-jazzy-rclcpp-lifecycle ros-jazzy-ros2cli
+        ros-jazzy-rosbag2-test-common ros-jazzy-rclcpp-components
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-launch-ros ros-jazzy-rclcpp-lifecycle ros-jazzy-ros2cli
+          ros-jazzy-rosbag2-test-common ros-jazzy-rclcpp-components
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_23_job_33:
+    name: rclcpp-action tf2-py
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_22_job_31
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rclcpp-action ros-jazzy-tf2-py
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rclcpp-action ros-jazzy-tf2-py
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_24_job_34:
+    name: launch-testing-ros message-filters rosbag2-storage tf2-ros-py ros2lifecycle-test-fixtures
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_23_job_32
+    - stage_23_job_33
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-launch-testing-ros ros-jazzy-message-filters ros-jazzy-rosbag2-storage
+        ros-jazzy-tf2-ros-py ros-jazzy-ros2lifecycle-test-fixtures
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-launch-testing-ros ros-jazzy-message-filters ros-jazzy-rosbag2-storage
+          ros-jazzy-tf2-ros-py ros-jazzy-ros2lifecycle-test-fixtures
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_24_job_35:
+    name: ros2multicast
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_23_job_32
+    - stage_23_job_33
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ros2multicast
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ros2multicast
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_25_job_36:
+    name: ros2topic tf2-ros rosbag2-storage-sqlite3 rosbag2-storage-mcap ros2pkg
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_24_job_34
+    - stage_24_job_35
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ros2topic ros-jazzy-tf2-ros ros-jazzy-rosbag2-storage-sqlite3
+        ros-jazzy-rosbag2-storage-mcap ros-jazzy-ros2pkg
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ros2topic ros-jazzy-tf2-ros ros-jazzy-rosbag2-storage-sqlite3
+          ros-jazzy-rosbag2-storage-mcap ros-jazzy-ros2pkg
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_25_job_37:
+    name: ros2service ros2node ros2test ros2interface ros2doctor
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_24_job_34
+    - stage_24_job_35
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ros2service ros-jazzy-ros2node ros-jazzy-ros2test ros-jazzy-ros2interface
+        ros-jazzy-ros2doctor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ros2service ros-jazzy-ros2node ros-jazzy-ros2test
+          ros-jazzy-ros2interface ros-jazzy-ros2doctor
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_25_job_38:
+    name: ros2action tf2-tools
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_24_job_34
+    - stage_24_job_35
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ros2action ros-jazzy-tf2-tools
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ros2action ros-jazzy-tf2-tools
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_26_job_39:
+    name: robot-state-publisher tf2-geometry-msgs rosbag2-storage-default-plugins
+      tf2-kdl tf2-eigen
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_25_job_36
+    - stage_25_job_37
+    - stage_25_job_38
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-robot-state-publisher ros-jazzy-tf2-geometry-msgs ros-jazzy-rosbag2-storage-default-plugins
+        ros-jazzy-tf2-kdl ros-jazzy-tf2-eigen
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-robot-state-publisher ros-jazzy-tf2-geometry-msgs
+          ros-jazzy-rosbag2-storage-default-plugins ros-jazzy-tf2-kdl ros-jazzy-tf2-eigen
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_26_job_40:
+    name: ros2run ros2param tf2-sensor-msgs ros-testing ros2launch
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_25_job_36
+    - stage_25_job_37
+    - stage_25_job_38
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ros2run ros-jazzy-ros2param ros-jazzy-tf2-sensor-msgs
+        ros-jazzy-ros-testing ros-jazzy-ros2launch
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ros2run ros-jazzy-ros2param ros-jazzy-tf2-sensor-msgs
+          ros-jazzy-ros-testing ros-jazzy-ros2launch
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_26_job_41:
+    name: ros2lifecycle tf2-bullet
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_25_job_36
+    - stage_25_job_37
+    - stage_25_job_38
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ros2lifecycle ros-jazzy-tf2-bullet
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ros2lifecycle ros-jazzy-tf2-bullet
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_27_job_42:
+    name: rosbag2-cpp sros2 ros2component geometry2
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_26_job_39
+    - stage_26_job_40
+    - stage_26_job_41
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosbag2-cpp ros-jazzy-sros2 ros-jazzy-ros2component ros-jazzy-geometry2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosbag2-cpp ros-jazzy-sros2 ros-jazzy-ros2component
+          ros-jazzy-geometry2
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_28_job_43:
+    name: rosbag2-compression sros2-cmake ros2cli-common-extensions
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_27_job_42
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosbag2-compression ros-jazzy-sros2-cmake ros-jazzy-ros2cli-common-extensions
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosbag2-compression ros-jazzy-sros2-cmake ros-jazzy-ros2cli-common-extensions
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_29_job_44:
+    name: rosbag2-compression-zstd ros-core rosbag2-transport rosbag2-py
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_28_job_43
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosbag2-compression-zstd ros-jazzy-ros-core ros-jazzy-rosbag2-transport
+        ros-jazzy-rosbag2-py
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosbag2-compression-zstd ros-jazzy-ros-core ros-jazzy-rosbag2-transport
+          ros-jazzy-rosbag2-py
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_30_job_45:
+    name: ros2bag rosbag2-tests rosbag2 ros-base
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_29_job_44
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ros2bag ros-jazzy-rosbag2-tests ros-jazzy-rosbag2 ros-jazzy-ros-base
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ros2bag ros-jazzy-rosbag2-tests ros-jazzy-rosbag2
+          ros-jazzy-ros-base
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+name: build_osx
+on:
+  push:
+    branches:
+    - buildbranch_osx_arm64

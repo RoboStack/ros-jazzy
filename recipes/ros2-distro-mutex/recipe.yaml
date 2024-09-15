@@ -1,0 +1,49 @@
+package:
+  name: ros2-distro-mutex
+  version: 0.5.0
+
+build:
+  number: 0
+  string: jazzy
+
+requirements:
+  # NOTE:
+  # The idea with automatically adding versions to run_exports doesn't
+  # work since we don't want all these dependencies as run deps of all ROS
+  # packages. Therefore I am currently manually adding them to run_constrained.
+  # This has to be synchronized with our current conda_build_config all the time :(
+  # host:
+  #   # values here should 
+  #   - log4cxx
+  #   - poco
+  #   - pcl
+  #   - opencv
+  #   - gazebo
+  #   - ogre
+  #   - qt
+  # run:
+  # values here should be applied from run_exports!
+  # if the upstream package does not have run_exports
+  # please change it in the conda_build_config.yaml!
+  run_constraints:
+    - libboost 1.84.*
+    - libboost-devel 1.84.*
+    - pcl 1.14.1.*
+    - gazebo 11.*
+    - libpqxx 7.*
+
+  run_exports:
+    weak:
+      - ${{ pin_subpackage('ros2-distro-mutex', upper_bound='x.x') }}
+
+about:
+  homepage: https://github.com/robostack/ros-jazzy
+  license: BSD-3-Clause
+  summary: |
+    The ROS2 distro mutex. To switch between ROS2 versions, you need to change the mutex.
+    E.g. mamba install ros2-distro-mutex=*=jazzy to switch to jazzy.
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
