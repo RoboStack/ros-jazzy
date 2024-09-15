@@ -1,0 +1,30 @@
+From 72ccfb186d93c3f7ba59c30fa2b05bddd31a3432 Mon Sep 17 00:00:00 2001
+From: Wade Hunkapiller <wade.hunk@gmail.com>
+Date: Fri, 15 Mar 2024 11:11:09 -0500
+Subject: [PATCH] Add gettid() macro to address GLIBC version comptability
+ (#4225)
+
+Signed-off-by: Wade Hunkapiller <wade.hunk@gmail.com>
+---
+ src/cpp/utils/threading/threading_pthread.ipp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/src/cpp/utils/threading/threading_pthread.ipp b/src/cpp/utils/threading/threading_pthread.ipp
+index 75ad33f2d64..252f60c775a 100644
+--- a/src/cpp/utils/threading/threading_pthread.ipp
++++ b/src/cpp/utils/threading/threading_pthread.ipp
+@@ -25,6 +25,14 @@
+ #include <fastdds/dds/log/Log.hpp>
+ #include <fastdds/rtps/attributes/ThreadSettings.hpp>
+ 
++#if defined(__GLIBC__) && ((__GLIBC__ > 2) || ((__GLIBC__ == 2) && (__GLIBC_MINOR__ <= 30)))
++    #include <sys/syscall.h>
++    #ifndef SYS_gettid
++        #error "SYS_gettid unavailable on this system"
++    #endif
++    #define gettid() ((pid_t)syscall(SYS_gettid))
++#endif
++
+ namespace eprosima {
+ 
+ template<typename... Args>

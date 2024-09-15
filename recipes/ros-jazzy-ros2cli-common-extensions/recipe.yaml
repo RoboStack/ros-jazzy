@@ -1,0 +1,102 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-ros2cli-common-extensions
+  version: 0.3.0
+source:
+  git: https://github.com/ros2-gbp/ros2cli_common_extensions-release.git
+  rev: release/jazzy/ros2cli_common_extensions/0.3.0-3
+  target_directory: ros-jazzy-ros2cli-common-extensions/src/work
+
+build:
+  script: ${{ 'build_ament_cmake.sh' if unix else 'bld_ament_cmake.bat' }}
+  number: 0
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - if: unix
+      then:
+        - make
+        - coreutils
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+    - if: build_platform != target_platform
+      then:
+        - cross-python_${{ target_platform }}
+    - if: build_platform != target_platform
+      then:
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros-jazzy-ament-cmake
+    - ros-jazzy-ament-lint-auto
+    - ros-jazzy-ament-lint-common
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros2-distro-mutex 0.5 jazzy
+  run:
+    - python
+    - ros-jazzy-launch-xml
+    - ros-jazzy-launch-yaml
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-ros2action
+    - ros-jazzy-ros2cli
+    - ros-jazzy-ros2component
+    - ros-jazzy-ros2doctor
+    - ros-jazzy-ros2interface
+    - ros-jazzy-ros2launch
+    - ros-jazzy-ros2lifecycle
+    - ros-jazzy-ros2multicast
+    - ros-jazzy-ros2node
+    - ros-jazzy-ros2param
+    - ros-jazzy-ros2pkg
+    - ros-jazzy-ros2run
+    - ros-jazzy-ros2service
+    - ros-jazzy-ros2topic
+    - ros-jazzy-sros2
+    - ros2-distro-mutex 0.5 jazzy
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
