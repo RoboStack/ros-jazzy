@@ -1,0 +1,38 @@
+ros_distro: jazzy
+
+# mapping for package keys
+conda_index:
+  - robostack.yaml
+  - packages-ignore.yaml
+
+build_number: 0
+
+mutex_package: ros2-distro-mutex 0.5 jazzy
+
+skip_all_deps: false
+
+# If full rebuild, the build number of the existing package has
+# to match the selected build number for skipping
+full_rebuild: true
+
+packages_skip_by_deps:
+  - cartographer
+  - octomap
+
+packages_remove_from_deps:
+  - cartographer
+  - octomap
+  - warehouse_ros_mongo
+
+skip_existing:
+  - https://conda.anaconda.org/robostack-jazzy/
+
+packages_select_by_deps:
+  - ros_workspace
+  - ros_environment
+  - ros_base
+  # - desktop
+
+
+patch_dir: patch
+
