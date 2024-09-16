@@ -19,7 +19,6 @@ packages_skip_by_deps:
   - cartographer
   - pcl_conversions
   - pendulum_control
-  - rqt_common_plugins
   - rttest
   - tlsf
   - tlsf_cpp
@@ -28,7 +27,6 @@ packages_remove_from_deps:
   - cartographer
   - pcl_conversions
   - pendulum_control
-  - rqt_common_plugins
   - rttest
   - tlsf
   - tlsf_cpp
