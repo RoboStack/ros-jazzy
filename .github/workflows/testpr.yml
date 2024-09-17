@@ -116,6 +116,7 @@ jobs:
         # Workaround for https://github.com/prefix-dev/rattler-build/issues/981
         mkdir recipe_dir
         mv recipe.yaml ./recipe_dir
+        mv patches/ ./recipe_dir
     - name: Generate recipes for linux-aarch64
       shell: bash -l {0}
       if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
@@ -126,6 +127,7 @@ jobs:
         # Workaround for https://github.com/prefix-dev/rattler-build/issues/981
         mkdir recipe_dir
         mv recipe.yaml ./recipe_dir
+        mv patches/ ./recipe_dir
     - name: Generate recipes for osx-64
       shell: bash -l {0}
       if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-64'
@@ -136,6 +138,7 @@ jobs:
         # Workaround for https://github.com/prefix-dev/rattler-build/issues/981
         mkdir recipe_dir
         mv recipe.yaml ./recipe_dir
+        mv patches/ ./recipe_dir
     - name: Generate recipes for osx-arm64
       shell: bash -l {0}
       if: steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.os == 'macos-14' && matrix.platform == 'osx-arm64'
@@ -146,6 +149,7 @@ jobs:
         # Workaround for https://github.com/prefix-dev/rattler-build/issues/981
         mkdir recipe_dir
         mv recipe.yaml ./recipe_dir
+        mv patches/ ./recipe_dir
     - name: Generate recipes for win-64
       shell: bash -l {0}
       if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
@@ -156,6 +160,7 @@ jobs:
         # Workaround for https://github.com/prefix-dev/rattler-build/issues/981
         mkdir recipe_dir
         mv recipe.yaml ./recipe_dir
+        mv patches/ ./recipe_dir
     - name: Check if there are packages to be built
       id: newrecipecheck
       shell: bash -l {0}
