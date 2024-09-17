@@ -29,7 +29,7 @@ new file mode 100644
 index 0000000..87c4527
 --- /dev/null
 +++ b/cmake/pyproject.toml.in
-@@ -0,0 +1,27 @@
+@@ -0,0 +1,28 @@
 +[project]
 +name = "lib@PROJECT_NAME@"
 +
@@ -43,6 +43,7 @@ index 0000000..87c4527
 +
 +[tool.sip.builder]
 +qmake = "@QMAKE_EXECUTABLE@"
++qmake-settings = [ "QMAKE_MACOSX_DEPLOYMENT_TARGET=@MACOS_MINIMUM_VERSION@", "CONFIG+=c++17" ]
 +
 +[tool.sip.project]
 +sip-files-dir = "@SIP_FILES_DIR@"
