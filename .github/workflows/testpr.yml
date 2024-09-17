@@ -113,6 +113,9 @@ jobs:
         cp vinca_linux_64.yaml vinca.yaml
         $HOME/.pixi/bin/pixi run -e beta -v vinca --platform linux-64 
         cat recipe.yaml
+        # Workaround for https://github.com/prefix-dev/rattler-build/issues/981
+        mkdir recipe_dir
+        mv recipe.yaml ./recipe_dir
     - name: Generate recipes for linux-aarch64
       shell: bash -l {0}
       if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
@@ -120,6 +123,9 @@ jobs:
         cp vinca_linux_aarch64.yaml vinca.yaml
         $HOME/.pixi/bin/pixi run -e beta -v vinca --platform linux-aarch64
         cat recipe.yaml
+        # Workaround for https://github.com/prefix-dev/rattler-build/issues/981
+        mkdir recipe_dir
+        mv recipe.yaml ./recipe_dir
     - name: Generate recipes for osx-64
       shell: bash -l {0}
       if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-64'
@@ -127,6 +133,9 @@ jobs:
         cp vinca_osx.yaml vinca.yaml
         $HOME/.pixi/bin/pixi run -e beta -v vinca --platform osx-64
         cat recipe.yaml
+        # Workaround for https://github.com/prefix-dev/rattler-build/issues/981
+        mkdir recipe_dir
+        mv recipe.yaml ./recipe_dir
     - name: Generate recipes for osx-arm64
       shell: bash -l {0}
       if: steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.os == 'macos-14' && matrix.platform == 'osx-arm64'
@@ -134,6 +143,9 @@ jobs:
         cp vinca_osx_arm64.yaml vinca.yaml
         $HOME/.pixi/bin/pixi run -e beta -v vinca --platform osx-arm64
         cat recipe.yaml
+        # Workaround for https://github.com/prefix-dev/rattler-build/issues/981
+        mkdir recipe_dir
+        mv recipe.yaml ./recipe_dir
     - name: Generate recipes for win-64
       shell: bash -l {0}
       if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
@@ -141,6 +153,9 @@ jobs:
         cp vinca_win.yaml vinca.yaml
         $HOME/.pixi/bin/pixi run -e beta -v vinca --platform win-64
         cat recipe.yaml
+        # Workaround for https://github.com/prefix-dev/rattler-build/issues/981
+        mkdir recipe_dir
+        mv recipe.yaml ./recipe_dir
     - name: Check if there are packages to be built
       id: newrecipecheck
       shell: bash -l {0}
@@ -152,32 +167,32 @@ jobs:
     - name: Build recipes for linux-64
       shell: bash -l {0}
       run: |
-        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros2-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing --output-dir ../output
-        $HOME/.pixi/bin/pixi run -e beta rattler-build build -r recipe.yaml -m ./conda_build_config.yaml --skip-existing --output-dir ../output
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros2-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build -r recipe_dir/recipe.yaml -m ./conda_build_config.yaml --skip-existing
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-64'
     - name: Build recipes for linux-aarch64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
       run: |
-        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros2-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing --output-dir ../output
-        $HOME/.pixi/bin/pixi run -e beta rattler-build build -r recipe.yaml -m ./conda_build_config.yaml --skip-existing --output-dir ../output
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros2-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build -r recipe_dir/recipe.yaml -m ./conda_build_config.yaml --skip-existing
     - name: Build recipes for osx-64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-64'
       run: |
-        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros2-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing --output-dir ../output
-        $HOME/.pixi/bin/pixi run -e beta rattler-build build -r recipe.yaml -m ./conda_build_config.yaml --skip-existing --output-dir ../output
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros2-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build -r recipe_dir/recipe.yaml -m ./conda_build_config.yaml --skip-existing --output-dir ../output
     - name: Build recipes for osx-arm64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.os == 'macos-14' && matrix.platform == 'osx-arm64'
       run: |
         pwd
         find .pixi
-        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros2-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing --output-dir ../output
-        $HOME/.pixi/bin/pixi run -e beta rattler-build build -r recipe.yaml -m ./conda_build_config.yaml --skip-existing --output-dir ../output
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros2-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build -r recipe_dir/recipe.yaml -m ./conda_build_config.yaml --skip-existing
     - name: Build recipes for win-64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
       run: |
-        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros2-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing --output-dir ../output
-        $HOME/.pixi/bin/pixi run -e beta rattler-build build -r recipe.yaml -m ./conda_build_config.yaml --skip-existing --output-dir ../output
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros2-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build -r recipe_dir/recipe.yaml -m ./conda_build_config.yaml --skip-existing
