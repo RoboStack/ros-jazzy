@@ -162,7 +162,7 @@ jobs:
       run: |
         # continue on error
         set +e
-        grep -q "outputs: \[\]" recipe.yaml > /dev/null
+        grep -q "outputs: \[\]" ./recipe_dir/recipe.yaml > /dev/null
         echo "::set-output name=RECIPE_CREATED::${?}"
     - name: Build recipes for linux-64
       shell: bash -l {0}
