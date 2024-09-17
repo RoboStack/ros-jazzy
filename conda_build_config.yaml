@@ -24,14 +24,14 @@ c_stdlib_version:
   - ${{ "10.14" if osx and x86_64 }}
   - ${{ "11.0" if osx and arm64 }}
 
-# Project overrides
-macos_min_version:             # [osx and x86_64]
-  - 10.15                      # [osx and x86_64]
-macos_machine:                 # [osx]
-  - x86_64-apple-darwin13.4.0  # [osx and x86_64]
-  - arm64-apple-darwin20.0.0   # [osx and arm64]
-MACOSX_DEPLOYMENT_TARGET:      # [osx]
-  - 11.0                       # [osx and arm64]
-  - 10.15                      # [osx and x86_64]
-CONDA_BUILD_SYSROOT:
-  - /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk  # [osx and arm64]
+# # Project overrides
+# macos_min_version:             # [osx and x86_64]
+#   - 10.15                      # [osx and x86_64]
+# macos_machine:                 # [osx]
+#   - x86_64-apple-darwin13.4.0  # [osx and x86_64]
+#   - arm64-apple-darwin20.0.0   # [osx and arm64]
+# MACOSX_DEPLOYMENT_TARGET:      # [osx]
+#   - 11.0                       # [osx and arm64]
+#   - 10.15                      # [osx and x86_64]
+# CONDA_BUILD_SYSROOT:
+#   - /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk  # [osx and arm64]
