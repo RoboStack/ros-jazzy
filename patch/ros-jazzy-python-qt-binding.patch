@@ -1,15 +1,16 @@
-From c8c554e4b8306ee18e5e1819ef7aacbdd2a0f6ac Mon Sep 17 00:00:00 2001
+From 71f2d86a8b786503b93f4d6114573d0829c5d76d Mon Sep 17 00:00:00 2001
 From: Jacob Oursland <jacob.oursland@gmail.com>
-Date: Mon, 16 Sep 2024 10:15:49 -0700
+Date: Wed, 18 Sep 2024 00:20:33 -0700
 Subject: [PATCH] X
 
 ---
- CMakeLists.txt                    |   1 +
- cmake/pyproject.toml.in           |  25 ++++++
- cmake/sip_configure.py            |   1 +
- cmake/sip_helper.cmake            | 130 ++++++++++++++++++++++++------
- src/python_qt_binding/__init__.py |   8 ++
- 5 files changed, 141 insertions(+), 24 deletions(-)
+ CMakeLists.txt                          |   1 +
+ cmake/pyproject.toml.in                 |  28 +++++
+ cmake/sip_configure.py                  |   1 +
+ cmake/sip_helper.cmake                  | 130 +++++++++++++++++++-----
+ src/python_qt_binding/__init__.py       |   8 ++
+ src/python_qt_binding/binding_helper.py |   6 +-
+ 6 files changed, 145 insertions(+), 29 deletions(-)
  create mode 100644 cmake/pyproject.toml.in
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
@@ -26,7 +27,7 @@ index 919969e..2bf015a 100644
  if(BUILD_TESTING)
 diff --git a/cmake/pyproject.toml.in b/cmake/pyproject.toml.in
 new file mode 100644
-index 0000000..87c4527
+index 0000000..cf4f57f
 --- /dev/null
 +++ b/cmake/pyproject.toml.in
 @@ -0,0 +1,28 @@
@@ -71,7 +72,7 @@ index 5210ee5..7bafe73 100644
      makefile.extra_cxxflags.append('-std=c++17')
  
 diff --git a/cmake/sip_helper.cmake b/cmake/sip_helper.cmake
-index a5ac3c2..a1f145c 100644
+index a5ac3c2..fdc9c18 100644
 --- a/cmake/sip_helper.cmake
 +++ b/cmake/sip_helper.cmake
 @@ -31,7 +31,7 @@ execute_process(
@@ -246,5 +247,22 @@ index 1e209de..6b55f35 100644
 +QIcon.setThemeSearchPaths(current_theme_path + [os.path.join(conda_path, 'share/icons/')])
 +QIcon.setThemeName('Adwaita')
 +del os
+diff --git a/src/python_qt_binding/binding_helper.py b/src/python_qt_binding/binding_helper.py
+index 27c3237..781fe62 100644
+--- a/src/python_qt_binding/binding_helper.py
++++ b/src/python_qt_binding/binding_helper.py
+@@ -50,11 +50,7 @@ QT_BINDING_VERSION = None
+ def _select_qt_binding(binding_name=None, binding_order=None):
+     global QT_BINDING, QT_BINDING_VERSION
+ 
+-    # order of default bindings can be changed here
+-    if platform.system() == 'Darwin':
+-        DEFAULT_BINDING_ORDER = ['pyside']
+-    else:
+-        DEFAULT_BINDING_ORDER = ['pyqt', 'pyside']
++    DEFAULT_BINDING_ORDER = ['pyqt', 'pyside']
+ 
+     binding_order = binding_order or DEFAULT_BINDING_ORDER
+ 
 -- 
 2.46.1
