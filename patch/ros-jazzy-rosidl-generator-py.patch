@@ -1,0 +1,15 @@
+diff --git a/cmake/rosidl_generator_py_generate_interfaces.cmake b/cmake/rosidl_generator_py_generate_interfaces.cmake
+index cfc424a..6f1e3c2 100644
+--- a/cmake/rosidl_generator_py_generate_interfaces.cmake
++++ b/cmake/rosidl_generator_py_generate_interfaces.cmake
+@@ -162,6 +162,10 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+   set(_extension_compile_flags -Wall -Wextra)
+ endif()
+ 
++if(APPLE)
++  set_target_properties(${_target_name_lib} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
++endif()
++
+ rosidl_get_typesupport_target(c_typesupport_target "${rosidl_generate_interfaces_TARGET}" "rosidl_typesupport_c")
+ target_link_libraries(${_target_name_lib} PRIVATE ${c_typesupport_target})
+ 
