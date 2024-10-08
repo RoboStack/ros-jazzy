@@ -6,6 +6,10 @@ numpy:
   - 1.26
 ogre:
   - 14.2.*
+libprotobuf:
+  - 4.25.3
+protobuf:
+  - 4.25.3
 
 cdt_name:
   - ${{ "cos7" if linux }}
