@@ -167,14 +167,58 @@ uncrustify_vendor:
 mimick_vendor:
   add_build: ["vcstool"]
 gz_cmake_vendor:
-  add_build: ["vcstool"]
+  # https://github.com/gazebo-release/gz_cmake_vendor/blob/jazzy/CMakeLists.txt#L6 for select the right major version
+  # (this is true for all gz-* vendor packages) or https://github.com/gazebo-tooling/gazebodistro/blob/master/collection-harmonic.yaml
+  # See https://gazebosim.org/docs/latest/ros_installation/#summary-of-compatible-ros-and-gazebo-combinations for mapping between ROS2 and Gazebo distros
+  add_host: ["gz-cmake3"]
+  add_run: ["gz-cmake3"]
+gz_common_vendor:
+  add_host: ["gz-common5"]
+  add_run: ["gz-common5"]
+gz_fuel_tools_vendor:
+  add_host: ["gz-fuel-tools9"]
+  add_run: ["gz-fuel-tools9"]
+gz_sim_vendor:
+  add_host: ["gz-sim8"]
+  add_run: ["gz-sim8"]
+gz_gui_vendor:
+  add_host: ["gz-gui8"]
+  add_run: ["gz-gui8"]
+gz_launch_vendor:
+  add_host: ["gz-launch8"]
+  add_run: ["gz-launch8"]
 gz_math_vendor:
-  add_build: ["vcstool"]
+  add_host: ["gz-math7"]
+  add_run: ["gz-math7"]
+gz_msgs_vendor:
+  add_host: ["gz-msgs8"]
+  add_run: ["gz-msgs8"]
+gz_physics_vendor:
+  add_host: ["gz-physics7"]
+  add_run: ["gz-physics7"]
+gz_plugin_vendor:
+  add_host: ["gz-plugin2"]
+  add_run: ["gz-plugin2"]
+gz_rendering_vendor:
+  add_host: ["gz-rendering8"]
+  add_run: ["gz-rendering8"]
+gz_sensors_vendor:
+  add_host: ["gz-sensors8"]
+  add_run: ["gz-sensors8"]
+gz_tools_vendor:
+  add_host: ["gz-tools2"]
+  add_run: ["gz-tools2"]
+gz_transport_vendor:
+  add_host: ["gz-transport8"]
+  add_run: ["gz-transport8"]
 gz_utils_vendor:
   add_build: ["vcstool"]
-gz_common_vendor:
-  add_host: ["glib"]
-gz_sim_vendor:
-  add_host: ["ffmpeg"]
+sdformat_vendor:
+  add_host: ["sdformat14"]
+  add_run: ["sdformat14"]
 gz_dartsim_vendor:
-  add_host: ["ipopt", "nlopt", "pagmo"]
+  add_host: ["dartsim-cpp"]
+  add_run: ["dartsim-cpp"]
+gz_ogre_next_vendor:
+  add_host: ["ogre-next"]
+  add_run: ["ogre-next"]
