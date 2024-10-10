@@ -25,12 +25,12 @@ requirements:
   # values here should be applied from run_exports!
   # if the upstream package does not have run_exports
   # please change it in the conda_build_config.yaml!
-  run_constraints:
-    - libboost 1.84.*
-    - libboost-devel 1.84.*
-    - pcl 1.14.1.*
-    - gazebo 11.*
-    - libpqxx 7.*
+  # run_constraints:
+  #   - libboost 1.86.*
+  #   - libboost-devel 1.86.*
+  #   - pcl 1.14.1.*
+  #   - gazebo 11.*
+  #   - libpqxx 7.*
 
   run_exports:
     weak:
@@ -46,4 +46,3 @@ about:
 extra:
   recipe-maintainers:
     - ros-forge
-

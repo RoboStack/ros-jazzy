@@ -1,0 +1,7 @@
+diff --git a/gz_cmake_vendor-extras.cmake.in b/gz_cmake_vendor-extras.cmake.in
+index d490202..7dc00ea 100644
+--- a/gz_cmake_vendor-extras.cmake.in
++++ b/gz_cmake_vendor-extras.cmake.in
+@@ -1 +1,2 @@
++set(ENV{GZ_RELAX_VERSION_MATCH} "True")
+ list(PREPEND CMAKE_PREFIX_PATH "@CMAKE_INSTALL_PREFIX@/opt/@PROJECT_NAME@/extra_cmake")

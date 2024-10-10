@@ -20,7 +20,7 @@ pwd
 cd ${FEEDSTOCK_ROOT}
 
 for recipe in ${CURRENT_RECIPES[@]}; do
-	pixi run rattler-build build \
+	pixi run -v rattler-build build \
 		--recipe ${FEEDSTOCK_ROOT}/recipes/${recipe} \
 		-m ${FEEDSTOCK_ROOT}/conda_build_config.yaml \
 		-c robostack-jazzy -c conda-forge \
