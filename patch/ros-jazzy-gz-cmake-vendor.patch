@@ -1,12 +1,7 @@
-diff --git a/gz-cmake-config.cmake.in b/gz-cmake-config.cmake.in
-index 56d06dd..c77c0b0 100644
---- a/gz-cmake-config.cmake.in
-+++ b/gz-cmake-config.cmake.in
-@@ -1,5 +1,7 @@
- cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
- 
+diff --git a/gz_cmake_vendor-extras.cmake.in b/gz_cmake_vendor-extras.cmake.in
+index d490202..7dc00ea 100644
+--- a/gz_cmake_vendor-extras.cmake.in
++++ b/gz_cmake_vendor-extras.cmake.in
+@@ -1 +1,2 @@
 +set(ENV{GZ_RELAX_VERSION_MATCH} "True")
-+
- find_package(@LIB_NAME@@LIB_VER_MAJOR@ ${@LIB_NAME@_FIND_VERSION} REQUIRED COMPONENTS ${@LIB_NAME@_FIND_COMPONENTS})
- 
- # Set up the core library and add it to the list of all components
+ list(PREPEND CMAKE_PREFIX_PATH "@CMAKE_INSTALL_PREFIX@/opt/@PROJECT_NAME@/extra_cmake")
