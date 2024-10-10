@@ -185,14 +185,14 @@ gz_gui_vendor:
   add_host: ["gz-gui8"]
   add_run: ["gz-gui8"]
 gz_launch_vendor:
-  add_host: ["gz-launch8"]
-  add_run: ["gz-launch8"]
+  add_host: ["gz-launch7"]
+  add_run: ["gz-launch7"]
 gz_math_vendor:
   add_host: ["gz-math7"]
   add_run: ["gz-math7"]
 gz_msgs_vendor:
-  add_host: ["gz-msgs8"]
-  add_run: ["gz-msgs8"]
+  add_host: ["gz-msgs10"]
+  add_run: ["gz-msgs10"]
 gz_physics_vendor:
   add_host: ["gz-physics7"]
   add_run: ["gz-physics7"]
@@ -200,8 +200,8 @@ gz_plugin_vendor:
   add_host: ["gz-plugin2"]
   add_run: ["gz-plugin2"]
 gz_rendering_vendor:
-  add_host: ["gz-rendering8"]
-  add_run: ["gz-rendering8"]
+  add_host: ["gz-rendering8", "swig"]
+  add_run: ["gz-rendering8", "swig"]
 gz_sensors_vendor:
   add_host: ["gz-sensors8"]
   add_run: ["gz-sensors8"]
@@ -209,10 +209,11 @@ gz_tools_vendor:
   add_host: ["gz-tools2"]
   add_run: ["gz-tools2"]
 gz_transport_vendor:
-  add_host: ["gz-transport8"]
-  add_run: ["gz-transport8"]
+  add_host: ["gz-transport13"]
+  add_run: ["gz-transport13"]
 gz_utils_vendor:
-  add_build: ["vcstool"]
+  add_host: ["gz-utils2"]
+  add_run: ["gz-utils2"]
 sdformat_vendor:
   add_host: ["sdformat14"]
   add_run: ["sdformat14"]

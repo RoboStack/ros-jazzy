@@ -190,6 +190,8 @@ libabsl-dev:
   robostack: [libabseil]
 libblas-dev:
   robostack: [libblas, libcblas]
+libboost:
+  robostack: [libboost]
 libboost-chrono-dev:
   robostack: [libboost-devel]
 libboost-date-time:
