@@ -7,9 +7,9 @@ numpy:
 # ogre:
 #   - 14.2.*
 libprotobuf:
-  - 4.25.3
+  - 5.27.5
 protobuf:
-  - 4.25.3
+  - 5.27.5
 
 cdt_name:
   - ${{ "cos7" if linux }}
