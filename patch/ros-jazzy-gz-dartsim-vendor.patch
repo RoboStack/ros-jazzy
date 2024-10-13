@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 6b642f8..31cedab 100644
+index 6b642f8..3a93810 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -1,10 +1,20 @@
+@@ -1,10 +1,23 @@
  cmake_minimum_required(VERSION 3.10)
  project(gz_dartsim_vendor)
  
@@ -17,6 +17,9 @@ index 6b642f8..31cedab 100644
  
 +find_package(DART ${LIB_VER})
 +message(NOTICE "DART_FOUND" = ${DART_FOUND})
++
++# Hack
++set(DART_FOUND TRUE)
 +
  ament_vendor(${PROJECT_NAME}
 +  SATISFIED ${DART_FOUND}

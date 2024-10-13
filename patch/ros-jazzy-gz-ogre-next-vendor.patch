@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index a904707..7e1c41e 100644
+index a904707..e6b84cd 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -1,9 +1,18 @@
+@@ -1,9 +1,21 @@
  cmake_minimum_required(VERSION 3.10)
  project(gz_ogre_next_vendor)
  
@@ -18,10 +18,13 @@ index a904707..7e1c41e 100644
 +find_package(OGRE ${LIB_VER})
 +message(NOTICE "OGRE_FOUND" = ${OGRE})
 +
++# Hack
++set(OGRE_FOUND TRUE)
++
  set(EXTRA_CMAKE_FLAGS)
  if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(aarch64.*|AARCH64.*|arm64.*|ARM64.*|arm.*|ARM.*)")
    # Flags for non SIMD architectures
-@@ -12,6 +21,7 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(aarch64.*|AARCH64.*|arm64.*|ARM64.*|arm.*|A
+@@ -12,6 +24,7 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(aarch64.*|AARCH64.*|arm64.*|ARM64.*|arm.*|A
  endif()
  
  ament_vendor(${PROJECT_NAME}
@@ -29,7 +32,7 @@ index a904707..7e1c41e 100644
    VCS_URL https://github.com/OGRECave/ogre-next.git
    VCS_VERSION v2.3.3
    CMAKE_ARGS
-@@ -33,8 +43,7 @@ ament_vendor(${PROJECT_NAME}
+@@ -33,8 +46,7 @@ ament_vendor(${PROJECT_NAME}
      -DOGRE_VULKAN_WINDOW_XCB:BOOL=ON
      ${EXTRA_CMAKE_FLAGS}
    GLOBAL_HOOK
