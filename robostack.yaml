@@ -104,11 +104,11 @@ g++-static:
 gawk:
   robostack: [gawk]
 gazebo:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 gazebo11:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 gazebo9:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 geographiclib:
   robostack: [geographiclib-cpp]
 geographiclib-tools:
@@ -276,9 +276,9 @@ libfreetype6-dev:
 libftdi-dev:
   robostack: [libftdi, libusb]
 libgazebo11-dev:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 libgazebo9-dev:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 libgdal-dev:
   robostack: [libgdal]
 libgeos++-dev:
@@ -374,7 +374,7 @@ libpcap:
 libpcl-all:
   robostack: [pcl]
 libpcl-all-dev:
-  robostack: [pcl]
+  robostack: [pcl, libboost-devel, vtk-base, REQUIRE_OPENGL]
 libpng-dev:
   robostack: [libpng]
 libpoco-dev:
@@ -416,7 +416,7 @@ libshaderc-dev:
 libsndfile1-dev:
   robostack: [libsndfile]
 libspnav-dev:
-  robostack: [libspnav]
+  robostack: [libspnav, xorg-xorgproto]
 libsqlite3-dev:
   robostack: [sqlite 3.*]
 libssl-dev:
@@ -470,9 +470,9 @@ libvulkan-dev:
     osx: []
     win64: [libvulkan-headers, libvulkan-loader]
 libx11:
-  robostack: [xorg-libx11, REQUIRE_OPENGL]
+  robostack: [xorg-libx11, xorg-xorgproto, REQUIRE_OPENGL]
 libx11-dev:
-  robostack: [xorg-libx11, REQUIRE_OPENGL]
+  robostack: [xorg-libx11, xorg-xorgproto, REQUIRE_OPENGL]
 libxaw:
   robostack:
     linux: [xorg-libxaw]
@@ -987,7 +987,7 @@ wget:
 xsimd:
   robostack: [xsimd]
 xtensor:
-  robostack: [xtensor 0.24]
+  robostack: [xtensor ==0.24.7]
 wx-common:
   robostack: [wxpython]
 wxpython:
