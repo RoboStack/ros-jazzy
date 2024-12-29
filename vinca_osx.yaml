@@ -17,7 +17,6 @@ full_rebuild: true
 
 packages_skip_by_deps:
   - cartographer
-  - pcl_conversions
   - pendulum_control
   - rttest
   - tlsf
@@ -25,15 +24,14 @@ packages_skip_by_deps:
 
 packages_remove_from_deps:
   - cartographer
-  - pcl_conversions
   - pendulum_control
   - rttest
   - tlsf
   - tlsf_cpp
 
-# skip_existing:
-#   # - output
-#   - https://conda.anaconda.org/robostack-jazzy/
+skip_existing:
+  # - output
+  - https://conda.anaconda.org/robostack-jazzy/
 
 packages_select_by_deps:
   - ament_cmake_core

@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6d47b08..c7b66df 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -10,7 +10,7 @@ find_package(tcb_span REQUIRED)
+ find_package(tl_expected REQUIRED)
+ 
+ if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
+-    add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
++    add_compile_options(-Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
+ endif()
+ 
+ option(BUILD_SHARED_LIBS "Build shared libraries" ON)

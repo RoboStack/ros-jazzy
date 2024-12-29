@@ -22,6 +22,7 @@ packages_skip_by_deps:
   - rttest
   - tlsf
   - tlsf_cpp
+  - gripper_controllers
 
 packages_remove_from_deps:
   - cartographer
@@ -30,10 +31,11 @@ packages_remove_from_deps:
   - rttest
   - tlsf
   - tlsf_cpp
+  - gripper_controllers
 
-# skip_existing:
-#   # - output
-#   - https://conda.anaconda.org/robostack-jazzy/
+skip_existing:
+  # - output
+  - https://conda.anaconda.org/robostack-jazzy/
 
 packages_select_by_deps:
   - ament_cmake_core
