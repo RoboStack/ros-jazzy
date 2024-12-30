@@ -469,11 +469,12 @@ diff --git a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt b/3rdparty/Qt-Advanced-
 index 6b650f1b..82c58edb 100644
 --- a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
 +++ b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
-@@ -67,7 +67,8 @@ target_link_libraries(qt_advanced_docking PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets
+@@ -67,7 +67,9 @@ target_link_libraries(qt_advanced_docking PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets
  
  if(UNIX AND NOT APPLE)
      target_link_libraries(qt_advanced_docking PUBLIC Qt5::X11Extras)
 -        target_link_libraries(qt_advanced_docking PRIVATE xcb)
++    find_package(XCB REQUIRED)
 +    target_link_libraries(qt_advanced_docking PRIVATE ${XCB_LIBRARIES})
 +    target_include_directories(qt_advanced_docking SYSTEM PUBLIC ${XCB_INCLUDE_DIRS})
  endif()

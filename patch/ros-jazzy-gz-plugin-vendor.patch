@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ed2578e..cb5c72a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -36,7 +36,7 @@ if(NOT $ENV{GZ_RELAX_VERSION_MATCH} STREQUAL "")
+   set(VERSION_MATCH "")
+ endif()
+ 
+-find_package(${LIB_NAME_FULL} ${VERSION_MATCH} ${LIB_VER} COMPONENTS all QUIET)
++find_package(${LIB_NAME_FULL} COMPONENTS all QUIET)
+ 
+ ament_vendor(${LIB_NAME_UNDERSCORE}_vendor
+   SATISFIED ${${LIB_NAME_FULL}_FOUND}
