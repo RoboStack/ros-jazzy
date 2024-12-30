@@ -58,13 +58,13 @@ jobs:
         frozen: true
 
     # Workaround for https://github.com/RoboStack/ros-humble/pull/141#issuecomment-1941919816
-    - name: Clean up PATH
-      if: contains(matrix.os, 'windows')
-      uses: egor-tensin/cleanup-path@v4
-      with:
+    # - name: Clean up PATH
+    #   if: contains(matrix.os, 'windows')
+    #   uses: egor-tensin/cleanup-path@v4
+    #   with:
         # cygpath in C:\Program Files\Git\usr\bin is used by install micromamba
         # git in C:\Program Files\Git\bin is used by pip install git+
-        dirs: 'C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin'
+    #     dirs: 'C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin'
 
     - shell: bash -l {0}
       if: matrix.platform == 'linux-aarch64'
