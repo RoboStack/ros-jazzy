@@ -38,13 +38,13 @@ jobs:
             platform: osx-arm64
           - os: macos-latest
             platform: win-64
-          - os: windows-2019
+          - os: windows-2022
             platform: linux-64
-          - os: windows-2019
+          - os: windows-2022
             platform: linux-aarch64
-          - os: windows-2019
+          - os: windows-2022
             platform: osx-64
-          - os: windows-2019
+          - os: windows-2022
             platform: osx-arm64
     steps:
     - uses: actions/checkout@v4
@@ -143,7 +143,7 @@ jobs:
         ls -la recipes
     - name: Generate recipes for win-64
       shell: bash -l {0}
-      if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
+      if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2022' && matrix.platform == 'win-64'
       run: |
         # Workaround for problem related to long paths
         echo "CONDA_BLD_PATH=C:\\bld\\" >> $GITHUB_ENV
@@ -186,7 +186,7 @@ jobs:
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
     - name: Build recipes for win-64
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2022' && matrix.platform == 'win-64'
       run: |
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros2-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
