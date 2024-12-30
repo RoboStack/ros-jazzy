@@ -22,7 +22,7 @@ git = ">=2.47.1,<3"
 
 [feature.beta.pypi-dependencies]
 # This is tipically the latest commit on rattler-build-humble branch
-vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "59b8bacfee22b1bb738a3741d35ecad23f3b16d7" }
+vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "0b1e16d1ade9716246c1618dc0a5c2a18ee01fd9" }
 # Uncomment this line to work with a local vinca for faster iteration, but remember to comment it back
 # (and regenerate the pixi.lock) once you push the modified commit to the repo
 #vinca = { path = "../vinca", editable = true }
