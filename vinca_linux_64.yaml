@@ -49,7 +49,7 @@ packages_select_by_deps:
   - slam_toolbox
   - turtlebot3
 
-  - plotjuggler-ros
+  # - plotjuggler-ros
 
   - apriltag_ros
 
