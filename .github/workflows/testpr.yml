@@ -61,10 +61,10 @@ jobs:
     - name: Clean up PATH
       if: contains(matrix.os, 'windows')
       uses: egor-tensin/cleanup-path@v4
-      # with:
+      with:
         # cygpath in C:\Program Files\Git\usr\bin is used by install micromamba
         # git in C:\Program Files\Git\bin is used by pip install git+
-        # dirs: 'C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin'
+        dirs: 'C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin'
 
     - shell: bash -l {0}
       if: matrix.platform == 'linux-aarch64'
@@ -84,11 +84,13 @@ jobs:
 
     # For some reason, the Strawberry perl's pkg-config is found
     # instead of the conda's one, so let's delete the /c/Strawberry directory
+    # Furthermore, we also need to remove an older SDK that is used and can result in compilation problems
     - name: Debug pkg-config problem
       if: contains(matrix.os, 'windows')
       shell: bash -l {0}
       run: |
         rm -rf /c/Strawberry
+        rm -rf "/c/Program Files (x86)/Windows Kits/10/Include/10.0.17763.0/"
 
     - name: Check what files have changed
       id: filecheck
@@ -143,6 +145,9 @@ jobs:
       shell: bash -l {0}
       if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
       run: |
+        # Workaround for problem related to long paths
+        echo "CONDA_BLD_PATH=C:\\bld\\" >> $GITHUB_ENV
+        mkdir /c/bld
         cp vinca_win.yaml vinca.yaml
         mkdir -p recipes
         $HOME/.pixi/bin/pixi run -e beta -v vinca --platform win-64 -m -n
