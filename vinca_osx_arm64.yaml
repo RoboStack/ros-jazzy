@@ -27,8 +27,6 @@ packages_skip_by_deps:
 
 packages_remove_from_deps:
   - cartographer
-  - urdfdom_py
-  - urdfdom_headers
   - pendulum_control
   - rttest
   - tlsf
