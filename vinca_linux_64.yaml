@@ -17,6 +17,7 @@ full_rebuild: true
 
 packages_skip_by_deps:
   - cartographer
+  - urdfdom
   - urdfdom_headers
   - urdfdom_py
 
