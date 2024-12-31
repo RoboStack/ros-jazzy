@@ -17,6 +17,8 @@ full_rebuild: true
 
 packages_skip_by_deps:
   - cartographer
+  - urdfdom_py
+  - urdfdom_headers
   - pcl_conversions
   - pendulum_control
   - rttest
@@ -26,6 +28,8 @@ packages_skip_by_deps:
 
 packages_remove_from_deps:
   - cartographer
+  - urdfdom_py
+  - urdfdom_headers
   - pcl_conversions
   - pendulum_control
   - rttest
