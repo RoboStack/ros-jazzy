@@ -15,7 +15,7 @@ new file mode 100644
 index 0000000..cf4f57f
 --- /dev/null
 +++ b/cmake/pyproject.toml.in
-@@ -0,0 +1,28 @@
+@@ -0,0 +1,31 @@
 +[project]
 +name = "lib@PROJECT_NAME@"
 +
@@ -36,6 +36,9 @@ index 0000000..cf4f57f
 +build-dir = "@SIP_BUILD_DIR@"
 +verbose = true
 +minimum-macos-version = "@MACOS_MINIMUM_VERSION@"
++# Specify the PEP 566 metadata for the project.
++[tool.sip.metadata]
++name = "lib@PROJECT_NAME@"
 +
 +[tool.sip.bindings.libqt_gui_cpp_sip]
 +sip-file = "@SIP_FILE@"
