@@ -5,9 +5,9 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 0
+build_number: 1
 
-mutex_package: ros2-distro-mutex 0.5 jazzy
+mutex_package: ros2-distro-mutex 0.6.* jazzy_*
 
 skip_all_deps: false
 
@@ -17,22 +17,48 @@ full_rebuild: true
 
 packages_skip_by_deps:
   - cartographer
-  - octomap
+  - urdfdom
+  - urdfdom_headers
+  - urdfdom_py
 
 packages_remove_from_deps:
   - cartographer
-  - octomap
-  - warehouse_ros_mongo
 
 skip_existing:
+  # - output
   - https://conda.anaconda.org/robostack-jazzy/
 
 packages_select_by_deps:
-  - ros_workspace
-  - ros_environment
-  - ros_base
-  # - desktop
+  - ament_cmake_core
+  - ament_cmake_catch2
 
+  - desktop
+  - ros_base
+  - ros_environment
+  - ros_workspace
+  - dev_tools
+  - diagnostics
+  - teleop
+  - robot
+  - perception
+  - navigation2
+  - simulation
+  - desktop_full
+
+  - moveit
+  - moveit-planners-chomp
+
+  - ros_gz
+  - slam_toolbox
+  - turtlebot3
+
+  # - plotjuggler-ros
+
+  - apriltag_ros
+
+  - ackermann-msgs
+  - velodyne
+  - sbg_driver
+  - gtsam
 
 patch_dir: patch
-

@@ -1,0 +1,23 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 77ca936..5decd53 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -25,7 +25,7 @@ if(NOT $ENV{GZ_RELAX_VERSION_MATCH} STREQUAL "")
+   set(VERSION_MATCH "")
+ endif()
+ 
+-find_package(DART ${VERSION_MATCH} ${LIB_VER_MAJOR}.${LIB_VER_MINOR}
++find_package(DART
+   CONFIG
+   COMPONENTS
+   collision-bullet
+@@ -35,6 +35,9 @@ find_package(DART ${VERSION_MATCH} ${LIB_VER_MAJOR}.${LIB_VER_MINOR}
+   QUIET
+ )
+ 
++# Hack
++set(DART_FOUND TRUE)
++
+ ament_vendor(${PROJECT_NAME}
+   SATISFIED ${DART_FOUND}
+   VCS_URL https://github.com/dartsim/dart.git

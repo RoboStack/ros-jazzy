@@ -87,7 +87,11 @@ festival:
     linux: [festival, festvox-kallpc16k]
     osx: []
     win64: []
+file:
+  robostack: [file]
 ffmpeg:
+  robostack: [ffmpeg]
+ffmpeg-dev:
   robostack: [ffmpeg]
 flac:
   robostack: [libflac]
@@ -100,17 +104,19 @@ g++-static:
 gawk:
   robostack: [gawk]
 gazebo:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 gazebo11:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 gazebo9:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 geographiclib:
   robostack: [geographiclib-cpp]
 geographiclib-tools:
   robostack: [geographiclib-cpp]
 git:
   robostack: [git]
+glslang-dev:
+  robostack: [glslang]
 glut:
   robostack:
     linux: [freeglut]
@@ -184,6 +190,8 @@ libabsl-dev:
   robostack: [libabseil]
 libblas-dev:
   robostack: [libblas, libcblas]
+libboost:
+  robostack: [libboost]
 libboost-chrono-dev:
   robostack: [libboost-devel]
 libboost-date-time:
@@ -255,8 +263,12 @@ libflann-dev:
   robostack: [flann]
 libfltk-dev:
   robostack: [fltk]
+libfreeimage-dev:
+  robostack: [freeimage]
 libfreenect-dev:
   robostack: []
+libfreetype-dev:
+  robostack: [freetype]
 libfreetype6:
   robostack: [freetype]
 libfreetype6-dev:
@@ -264,9 +276,9 @@ libfreetype6-dev:
 libftdi-dev:
   robostack: [libftdi, libusb]
 libgazebo11-dev:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 libgazebo9-dev:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 libgdal-dev:
   robostack: [libgdal]
 libgeos++-dev:
@@ -313,6 +325,10 @@ libjsoncpp-dev:
   robostack: [jsoncpp]
 liblapack-dev:
   robostack: [liblapack]
+liblz4:
+  robostack: [lz4]
+liblz4-dev:
+  robostack: [lz4]
 libmicrohttpd:
   robostack: [libmicrohttpd]
 libncurses-dev:
@@ -358,7 +374,7 @@ libpcap:
 libpcl-all:
   robostack: [pcl]
 libpcl-all-dev:
-  robostack: [pcl]
+  robostack: [pcl, libboost-devel, vtk-base, REQUIRE_OPENGL]
 libpng-dev:
   robostack: [libpng]
 libpoco-dev:
@@ -395,10 +411,12 @@ libreadline:
   robostack: [readline]
 libreadline-dev:
   robostack: [readline]
+libshaderc-dev:
+  robostack: [shaderc]
 libsndfile1-dev:
   robostack: [libsndfile]
 libspnav-dev:
-  robostack: [libspnav]
+  robostack: [libspnav, xorg-xorgproto]
 libsqlite3-dev:
   robostack: [sqlite 3.*]
 libssl-dev:
@@ -446,10 +464,15 @@ libvtk:
   robostack: [vtk]
 libvtk-qt:
   robostack: [vtk]
+libvulkan-dev:
+  robostack: 
+    linux: [libvulkan-headers, libvulkan-loader]
+    osx: []
+    win64: [libvulkan-headers, libvulkan-loader]
 libx11:
-  robostack: [xorg-libx11, REQUIRE_OPENGL]
+  robostack: [xorg-libx11, xorg-xorgproto, REQUIRE_OPENGL]
 libx11-dev:
-  robostack: [xorg-libx11, REQUIRE_OPENGL]
+  robostack: [xorg-libx11, xorg-xorgproto, REQUIRE_OPENGL]
 libxaw:
   robostack:
     linux: [xorg-libxaw]
@@ -476,6 +499,12 @@ libxt-dev:
   robostack: [xorg-libxt]
 libxxf86vm:
   robostack: [REQUIRE_OPENGL]
+libyaml:
+  robostack: [yaml]
+libyaml-dev:
+  robostack: [yaml]
+libzip-dev:
+  robostack: [libzip]
 libzmq3-dev:
   robostack: [zeromq, cppzmq]
 libzstd-dev:
@@ -678,6 +707,8 @@ python3-cryptography:
   robostack: [cryptography]
 python3-defusedxml:
   robostack: [defusedxml]
+python3-deprecated:
+  robostack: [deprecated]
 python3-dev:
   robostack: [python]
 python3-docopt:
@@ -688,6 +719,8 @@ python3-empy:
   robostack: [empy]
 python3-flake8:
   robostack: [flake8]
+python3-flake8-comprehensions:
+  robostack: [flake8-comprehensions]
 python3-flask:
   robostack: [flask]
 python3-flask-cors:
@@ -762,6 +795,8 @@ python3-pip:
   robostack: [pip]
 python3-pkg-resources:
   robostack: []
+python3-protobuf:
+  robostack: [protobuf]
 python3-psutil:
   robostack: [psutil]
 python3-pyassimp:
@@ -874,12 +909,16 @@ qt5-qmake:
   robostack: [qt-main, REQUIRE_OPENGL]
 qtbase5-dev:
   robostack: [qt-main, REQUIRE_OPENGL]
+rapidjson-dev:
+  robostack: [rapidjson]
 roboticstoolbox-python:
   robostack: [roboticstoolbox-python]
 rsync:
   robostack: [rsync]
 rti-connext-dds-5.3.1:
   robostack: []
+ruby:
+  robostack: [ruby]
 sbcl:
   robostack:
     linux: [sbcl]
@@ -948,7 +987,7 @@ wget:
 xsimd:
   robostack: [xsimd]
 xtensor:
-  robostack: [xtensor 0.24]
+  robostack: [xtensor ==0.24.7]
 wx-common:
   robostack: [wxpython]
 wxpython:
@@ -965,4 +1004,5 @@ zbar:
   robostack: [zbar]
 zlib:
   robostack: [zlib]
-
+zziplib:
+  robostack: [zziplib]

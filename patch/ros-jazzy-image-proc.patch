@@ -1,0 +1,37 @@
+diff --git a/include/image_proc/track_marker.hpp b/include/image_proc/track_marker.hpp
+index 6c212913..f6366c35 100644
+--- a/include/image_proc/track_marker.hpp
++++ b/include/image_proc/track_marker.hpp
+@@ -61,8 +61,7 @@ private:
+   std::string image_topic_;
+   rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr pub_;
+ 
+-  cv::Ptr<cv::aruco::DetectorParameters> detector_params_;
+-  cv::Ptr<cv::aruco::Dictionary> dictionary_;
++  cv::aruco::Dictionary dictionary_;
+ 
+   void imageCb(
+     const sensor_msgs::msg::Image::ConstSharedPtr & image_msg,
+diff --git a/src/track_marker.cpp b/src/track_marker.cpp
+index 86177438..8fee7a36 100644
+--- a/src/track_marker.cpp
++++ b/src/track_marker.cpp
+@@ -66,7 +66,6 @@ TrackMarkerNode::TrackMarkerNode(const rclcpp::NodeOptions & options)
+   // Default dictionary is cv::aruco::DICT_6X6_250
+   int dict_id = this->declare_parameter("dictionary", 10);
+ 
+-  detector_params_ = cv::aruco::DetectorParameters::create();
+   dictionary_ = cv::aruco::getPredefinedDictionary(dict_id);
+ 
+   // Setup lazy subscriber using publisher connection callback
+@@ -108,7 +107,9 @@ void TrackMarkerNode::imageCb(
+ 
+   std::vector<int> marker_ids;
+   std::vector<std::vector<cv::Point2f>> marker_corners;
+-  cv::aruco::detectMarkers(cv_ptr->image, dictionary_, marker_corners, marker_ids);
++  cv::Ptr<cv::aruco::Dictionary> dictionaryPtr = cv::makePtr<cv::aruco::Dictionary>(dictionary_);
++  const cv::Ptr<cv::aruco::Dictionary> constDictionaryPtr = dictionaryPtr;
++  cv::aruco::detectMarkers(cv_ptr->image, constDictionaryPtr, marker_corners, marker_ids);
+ 
+   for (size_t i = 0; i < marker_ids.size(); ++i) {
+     if (marker_ids[i] == marker_id_) {
