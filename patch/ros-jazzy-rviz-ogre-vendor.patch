@@ -1,3 +1,16 @@
+diff --git a/rviz_ogre_vendor/CMakeLists.txt b/rviz_ogre_vendor/CMakeLists.txt
+index 8d23a299a..5154e4477 100644
+--- a/rviz_ogre_vendor/CMakeLists.txt
++++ b/rviz_ogre_vendor/CMakeLists.txt
+@@ -76,7 +76,7 @@ endif()
+ 
+ if(APPLE)
+   list(APPEND OGRE_CMAKE_ARGS -DOGRE_ENABLE_PRECOMPILED_HEADERS:BOOL=OFF)
+-  list(APPEND OGRE_CMAKE_ARGS -DCMAKE_OSX_ARCHITECTURES=arm64;x86_64)
++  # list(APPEND OGRE_CMAKE_ARGS -DCMAKE_OSX_ARCHITECTURES=arm64;x86_64)
+ endif()
+ 
+ ament_vendor(ogre_vendor
 diff --git a/patches/0005-fix-macos-arm64.patch b/patches/0005-fix-macos-arm64.patch
 new file mode 100644
 index 000000000..9494cc9ae
