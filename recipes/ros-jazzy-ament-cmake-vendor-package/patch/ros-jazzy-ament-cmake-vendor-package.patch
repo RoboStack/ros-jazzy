@@ -1,0 +1,64 @@
+diff --git a/cmake/ament_vendor.cmake b/cmake/ament_vendor.cmake
+index c9b963cd0..d23ff2aa2 100644
+--- a/cmake/ament_vendor.cmake
++++ b/cmake/ament_vendor.cmake
+@@ -49,6 +49,14 @@
+ #   projects.
+ # :type GLOBAL_HOOK: option
+ #
++# Beside CMake macro options, the macro is also influenced by the following two
++# CMake options, that can be set at the CMake invocation for the project that
++# uses ament_vendor() macro:
++# * `FORCE_BUILD_VENDOR_PKG`: If ON build vendor packages from source, even if 
++#                             system-installed packages are available
++# * `AMENT_VENDOR_NEVER_VENDOR`: If ON, raise an error if SATISFIED argument is 
++#                                not true instead of building the vendored package
++#
+ # @public
+ #
+ macro(ament_vendor TARGET_NAME)
+@@ -97,6 +105,18 @@ macro(ament_vendor TARGET_NAME)
+     "Build vendor packages from source, even if system-installed packages are available"
+     OFF)
+ 
++  option(AMENT_VENDOR_NEVER_VENDOR
++    "If ON, raise an error if SATISFIED argument is not true instead of building the vendored package"
++    OFF)
++
++  if(FORCE_BUILD_VENDOR_PKG AND AMENT_VENDOR_NEVER_VENDOR)
++      message(FATAL_ERROR "ament_vendor() cannot have both FORCE_BUILD_VENDOR_PKG and AMENT_VENDOR_NEVER_VENDOR options enabled")
++  endif()
++
++  if(NOT _ARG_SATISFIED AND AMENT_VENDOR_NEVER_VENDOR)
++      message(FATAL_ERROR "ament_vendor() SATISFIED option is OFF and AMENT_VENDOR_NEVER_VENDOR is ON")
++  endif()
++
+   if(NOT _ARG_SATISFIED OR FORCE_BUILD_VENDOR_PKG)
+     if(_ARG_SATISFIED)
+       message(STATUS "Forcing vendor package build for '${TARGET_NAME}', which is already satisfied")
+@@ -245,6 +245,10 @@ function(_ament_vendor TARGET_NAME VCS_TYPE VCS_URL VCS_VERSION PATCHES CMAKE_AR
+     set(CMAKE_ARGS_CONTENT "${CMAKE_ARGS_CONTENT}\nset(CMAKE_MODULE_PATH [=[${CMAKE_MODULE_PATH}]=] CACHE INTERNAL \"\")")
+   endif()
+ 
++  if(DEFINED CMAKE_IGNORE_PREFIX_PATH)
++    set(CMAKE_ARGS_CONTENT "${CMAKE_ARGS_CONTENT}\nset(CMAKE_IGNORE_PREFIX_PATH [=[${CMAKE_IGNORE_PREFIX_PATH}]=] CACHE INTERNAL \"\")")
++  endif()
++
+   list(PREPEND CMAKE_PREFIX_PATH ${_AMENT_CMAKE_VENDOR_PACKAGE_PREFIX_PATH})
+   set(CMAKE_ARGS_CONTENT "${CMAKE_ARGS_CONTENT}\nset(CMAKE_PREFIX_PATH [=[${CMAKE_PREFIX_PATH}]=] CACHE INTERNAL \"\")")
+ 
+@@ -256,6 +260,14 @@ function(_ament_vendor TARGET_NAME VCS_TYPE VCS_URL VCS_VERSION PATCHES CMAKE_AR
+     set(CMAKE_ARGS_CONTENT "${CMAKE_ARGS_CONTENT}\nset(BUILD_SHARED_LIBS ON CACHE BOOL \"\")")
+   endif()
+ 
++  if(DEFINED Python_EXECUTABLE)
++    set(CMAKE_ARGS_CONTENT "${CMAKE_ARGS_CONTENT}\nset(Python_EXECUTABLE [=[${Python_EXECUTABLE}]=] CACHE INTERNAL \"\")")
++  endif()
++
++  if(DEFINED Python3_EXECUTABLE)
++    set(CMAKE_ARGS_CONTENT "${CMAKE_ARGS_CONTENT}\nset(Python3_EXECUTABLE [=[${Python3_EXECUTABLE}]=] CACHE INTERNAL \"\")")
++  endif()
++
+   file(GENERATE OUTPUT "${CMAKE_ARGS_FILE}" CONTENT "${CMAKE_ARGS_CONTENT}")
+   list(PREPEND CMAKE_ARGS "-C${CMAKE_ARGS_FILE}")
+ 
