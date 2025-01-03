@@ -1,0 +1,51 @@
+ros_distro: jazzy
+
+# mapping for package keys
+conda_index:
+  - robostack.yaml
+  - packages-ignore.yaml
+
+build_number: 1
+
+mutex_package: ros2-distro-mutex 0.6.* jazzy_*
+
+skip_all_deps: false
+
+# If full rebuild, the build number of the existing package has
+# to match the selected build number for skipping
+full_rebuild: true
+
+packages_skip_by_deps:
+  - cartographer
+  - urdfdom
+  - urdfdom_py
+  - urdfdom_headers
+  - pcl_conversions
+  - pendulum_control
+  - rttest
+  - tlsf
+  - tlsf_cpp
+  - gripper_controllers
+
+packages_remove_from_deps:
+  - cartographer
+  - pcl_conversions
+  - pendulum_control
+  - rttest
+  - tlsf
+  - tlsf_cpp
+  - gripper_controllers
+
+skip_existing:
+  # - output
+  - https://conda.anaconda.org/robostack-jazzy/
+
+packages_select_by_deps:
+  - ament_cmake_core
+  - desktop
+  - ros_base
+  - ros_environment
+  - ros_gz
+  - ros_workspace
+
+patch_dir: patch
