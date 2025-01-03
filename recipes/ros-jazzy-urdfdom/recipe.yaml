@@ -1,0 +1,20 @@
+package:
+  name: ros-jazzy-urdfdom
+  version: "4.0.1"
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - urdfdom ==4.0.1
+    - python 3.11.* *_cpython
+
+about:
+  homepage: https://github.com/conda-forge/urdfdom-feedstock
+  license: BSD-3-Clause
+  summary: |
+    URDF parser
+extra:
+  recipe-maintainers:
+    - ros-forge
