@@ -15,6 +15,11 @@ python:
 python_impl:
   - cpython
 
+c_compiler:
+  - ${{ "vs2019" if win }}
+cxx_compiler:
+  - ${{ "vs2019" if win }}
+
 c_stdlib:
   - ${{ "sysroot" if linux }}
   - ${{ "macosx_deployment_target" if osx }}
