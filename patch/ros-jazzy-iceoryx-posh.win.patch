@@ -23,36 +23,49 @@ index 0f74ce4f6b..1de0093d3b 100644
 +list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
  check_required_components("@PROJECT_NAME@")
 diff --git a/iceoryx_posh/cmake/cpptoml/cpptoml.cmake.in b/iceoryx_posh/cmake/cpptoml/cpptoml.cmake.in
-index f51b630473..04aa38fc72 100644
+index f51b630473..2962762734 100644
 --- a/iceoryx_posh/cmake/cpptoml/cpptoml.cmake.in
 +++ b/iceoryx_posh/cmake/cpptoml/cpptoml.cmake.in
-@@ -20,13 +20,25 @@ cmake_minimum_required(VERSION 3.16)
+@@ -20,13 +20,38 @@ cmake_minimum_required(VERSION 3.16)
  project(cpptoml-download NONE)
  
  include(ExternalProject)
 +
-+# Convert paths to CMake-compatible format for cross-platform support
-+file(TO_CMAKE_PATH "${CMAKE_BINARY_DIR}/dependencies/cpptoml/src" SOURCE_DIR)
-+file(TO_CMAKE_PATH "${CMAKE_BINARY_DIR}/dependencies/cpptoml/build" BINARY_DIR)
-+file(TO_CMAKE_PATH "${CMAKE_CURRENT_LIST_DIR}/0001-cpptoml-cmake-version.patch" PATCH_FILE)
++# Ensure proper paths
++set(SOURCE_DIR "${CMAKE_BINARY_DIR}/dependencies/cpptoml/src")
++set(BINARY_DIR "${CMAKE_BINARY_DIR}/dependencies/cpptoml/build")
++set(PATCH_FILE "${CMAKE_CURRENT_LIST_DIR}/0001-cpptoml-cmake-version.patch")
 +
-+message(STATUS "Source directory: ${SOURCE_DIR}")
-+message(STATUS "Binary directory: ${BINARY_DIR}")
-+message(STATUS "Patch file: ${PATCH_FILE}")
++# Convert paths to forward slashes for Windows compatibility
++file(TO_CMAKE_PATH "${SOURCE_DIR}" SOURCE_DIR_FIXED)
++file(TO_CMAKE_PATH "${BINARY_DIR}" BINARY_DIR_FIXED)
++file(TO_CMAKE_PATH "${PATCH_FILE}" PATCH_FILE_FIXED)
 +
++# Debugging messages
++message(STATUS "Resolved source directory: ${SOURCE_DIR_FIXED}")
++message(STATUS "Resolved binary directory: ${BINARY_DIR_FIXED}")
++message(STATUS "Resolved patch file: ${PATCH_FILE_FIXED}")
++
++# Validate paths to ensure they are correctly resolved
++if(NOT EXISTS "${PATCH_FILE_FIXED}")
++  message(FATAL_ERROR "Patch file does not exist: ${PATCH_FILE_FIXED}")
++endif()
++
++# External project setup
  ExternalProject_Add(ext_cpptoml
    GIT_REPOSITORY    https://github.com/skystrife/cpptoml.git
    GIT_TAG           v0.1.1
 -  SOURCE_DIR        "${CMAKE_BINARY_DIR}/dependencies/cpptoml/src"
 -  BINARY_DIR        "${CMAKE_BINARY_DIR}/dependencies/cpptoml/build"
-+  SOURCE_DIR        "${SOURCE_DIR}"
-+  BINARY_DIR        "${BINARY_DIR}"
++  SOURCE_DIR        "${SOURCE_DIR_FIXED}"
++  BINARY_DIR        "${BINARY_DIR_FIXED}"
    CONFIGURE_COMMAND ""
    BUILD_COMMAND     ""
    INSTALL_COMMAND   ""
    TEST_COMMAND      ""
 +  PATCH_COMMAND
-+    patch -p1 --forward --ignore-whitespace --fuzz=3 --input="${PATCH_FILE}" --directory="${SOURCE_DIR}"
++    ${CMAKE_COMMAND} -E echo "Applying patch to cpptoml..." &&
++    ${CMAKE_COMMAND} -E env bash -c "patch -p1 --forward --ignore-whitespace --fuzz=3 --input=\"${PATCH_FILE_FIXED}\" --directory=\"${SOURCE_DIR_FIXED}\""
  )
 diff --git a/iceoryx_posh/cmake/cpptoml/CMakeLists.txt b/iceoryx_posh/cmake/cpptoml/CMakeLists.txt
 index e770e4fdba..b3ab7c8aca 100644
