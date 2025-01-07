@@ -11,80 +11,24 @@ index 57e84cdd0..d7781cbb9 100644
  endif()
  
  set(PREFIX iceoryx/v${CMAKE_PROJECT_VERSION})
-diff --git a/iceoryx_posh/cmake/Config.cmake.in b/iceoryx_posh/cmake/Config.cmake.in
-index 0f74ce4f6b..1de0093d3b 100644
---- a/iceoryx_posh/cmake/Config.cmake.in
-+++ b/iceoryx_posh/cmake/Config.cmake.in
-@@ -22,5 +22,5 @@ include(CMakeFindDependencyMacro)
- find_dependency(iceoryx_hoofs)
- 
- include("${CMAKE_CURRENT_LIST_DIR}/@TARGETS_EXPORT_NAME@.cmake")
--list(APPEND CMAKE_MODULE_PATH "@CMAKE_INSTALL_PREFIX@/@DESTINATION_CONFIGDIR@")
-+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
- check_required_components("@PROJECT_NAME@")
-diff --git a/iceoryx_posh/cmake/cpptoml/cpptoml.cmake.in b/iceoryx_posh/cmake/cpptoml/cpptoml.cmake.in
-index f51b630473..2962762734 100644
---- a/iceoryx_posh/cmake/cpptoml/cpptoml.cmake.in
-+++ b/iceoryx_posh/cmake/cpptoml/cpptoml.cmake.in
-@@ -20,13 +20,38 @@ cmake_minimum_required(VERSION 3.16)
- project(cpptoml-download NONE)
- 
- include(ExternalProject)
-+
-+# Ensure proper paths
-+set(SOURCE_DIR "${CMAKE_BINARY_DIR}/dependencies/cpptoml/src")
-+set(BINARY_DIR "${CMAKE_BINARY_DIR}/dependencies/cpptoml/build")
-+set(PATCH_FILE "${CMAKE_CURRENT_LIST_DIR}/0001-cpptoml-cmake-version.patch")
-+
-+# Convert paths to forward slashes for Windows compatibility
-+file(TO_CMAKE_PATH "${SOURCE_DIR}" SOURCE_DIR_FIXED)
-+file(TO_CMAKE_PATH "${BINARY_DIR}" BINARY_DIR_FIXED)
-+file(TO_CMAKE_PATH "${PATCH_FILE}" PATCH_FILE_FIXED)
-+
-+# Debugging messages
-+message(STATUS "Resolved source directory: ${SOURCE_DIR_FIXED}")
-+message(STATUS "Resolved binary directory: ${BINARY_DIR_FIXED}")
-+message(STATUS "Resolved patch file: ${PATCH_FILE_FIXED}")
-+
-+# Validate paths to ensure they are correctly resolved
-+if(NOT EXISTS "${PATCH_FILE_FIXED}")
-+  message(FATAL_ERROR "Patch file does not exist: ${PATCH_FILE_FIXED}")
-+endif()
-+
-+# External project setup
- ExternalProject_Add(ext_cpptoml
-   GIT_REPOSITORY    https://github.com/skystrife/cpptoml.git
-   GIT_TAG           v0.1.1
--  SOURCE_DIR        "${CMAKE_BINARY_DIR}/dependencies/cpptoml/src"
--  BINARY_DIR        "${CMAKE_BINARY_DIR}/dependencies/cpptoml/build"
-+  SOURCE_DIR        "${SOURCE_DIR_FIXED}"
-+  BINARY_DIR        "${BINARY_DIR_FIXED}"
-   CONFIGURE_COMMAND ""
-   BUILD_COMMAND     ""
-   INSTALL_COMMAND   ""
-   TEST_COMMAND      ""
-+  PATCH_COMMAND
-+    ${CMAKE_COMMAND} -E echo "Applying patch to cpptoml..." &&
-+    ${CMAKE_COMMAND} -E env bash -c "patch -p1 --forward --ignore-whitespace --fuzz=3 --input=\"${PATCH_FILE_FIXED}\" --directory=\"${SOURCE_DIR_FIXED}\""
- )
 diff --git a/iceoryx_posh/cmake/cpptoml/CMakeLists.txt b/iceoryx_posh/cmake/cpptoml/CMakeLists.txt
-index e770e4fdba..b3ab7c8aca 100644
+index e770e4fdba..a548376f1a 100644
 --- a/iceoryx_posh/cmake/cpptoml/CMakeLists.txt
 +++ b/iceoryx_posh/cmake/cpptoml/CMakeLists.txt
-@@ -74,26 +74,6 @@ if(DEFINED CMAKE_TOOLCHAIN_FILE)
-     set(cpptoml_DIR ${cpptoml_DIR} CACHE PATH "" FORCE)
+@@ -75,23 +75,13 @@ if(DEFINED CMAKE_TOOLCHAIN_FILE)
  endif()
  
--execute_process(
+ execute_process(
 -    COMMAND git apply -R -p1 --ignore-space-change --whitespace=nowarn --check
--    INPUT_FILE "${CMAKE_CURRENT_LIST_DIR}/0001-cpptoml-cmake-version.patch"
--    WORKING_DIRECTORY "${SOURCE_DIR}"
++    COMMAND patch -p1 --forward --ignore-whitespace --fuzz=3
+     INPUT_FILE "${CMAKE_CURRENT_LIST_DIR}/0001-cpptoml-cmake-version.patch"
+     WORKING_DIRECTORY "${SOURCE_DIR}"
 -    OUTPUT_QUIET
 -    ERROR_QUIET
--    RESULT_VARIABLE result)
+     RESULT_VARIABLE result)
 -if(result)
 -    message(STATUS "Applying patch for minimal cmake version to cpptoml")
--
+ 
 -    execute_process(
 -        COMMAND git apply -p1 --ignore-space-change --whitespace=nowarn
 -        INPUT_FILE "${CMAKE_CURRENT_LIST_DIR}/0001-cpptoml-cmake-version.patch"
@@ -93,8 +37,8 @@ index e770e4fdba..b3ab7c8aca 100644
 -    if(result)
 -        message(FATAL_ERROR "CMake step [patch] for '${PROJECT_NAME}' failed! Error code: ${result}!")
 -    endif()
--endif()
--
++if(result)
++    message(FATAL_ERROR "CMake step [patch] for '${PROJECT_NAME}' failed! Error code: ${result}!")
+ endif()
+ 
  execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" "-DENABLE_LIBCXX=off" "-DCPPTOML_BUILD_EXAMPLES=off" "-DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}" "${SOURCE_DIR}" ${CMAKE_ADDITIONAL_OPTIONS}
-     RESULT_VARIABLE result
-     WORKING_DIRECTORY ${BUILD_DIR} )
