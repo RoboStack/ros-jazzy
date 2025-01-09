@@ -1,0 +1,9 @@
+diff --git a/ros_gz_sim/CMakeLists.txt b/ros_gz_sim/CMakeLists.txt
+index dc8deb03..ec6ac678 100644
+--- a/ros_gz_sim/CMakeLists.txt
++++ b/ros_gz_sim/CMakeLists.txt
+@@ -12,3 +12,4 @@ endif()
++set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+ 
+ find_package(ament_cmake REQUIRED)
+ find_package(rclcpp REQUIRED)
