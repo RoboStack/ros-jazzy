@@ -53,7 +53,7 @@ packages_select_by_deps:
   - teleop
   - robot
   - perception
-  - navigation2
+  # - navigation2
   - simulation
   - desktop_full
 
