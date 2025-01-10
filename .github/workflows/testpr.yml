@@ -54,12 +54,12 @@ jobs:
     #     export GIT_BRANCH="$(basename $GITHUB_REF)"
     #     echo "::endgroup::"
 
-    - name: Install libgl1-mesa-dev (only for linux-aarch64)
-      if: matrix.platform == 'linux-aarch64'
-      shell: bash -l {0}
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libgl1-mesa-dev libglu1-mesa-dev libx11-dev libxi-dev libxmu-dev
+    # - name: Install libgl1-mesa-dev (only for linux-aarch64)
+    #   if: matrix.platform == 'linux-aarch64'
+    #   shell: bash -l {0}
+    #   run: |
+    #     sudo apt-get update
+    #     sudo apt-get install -y libgl1-mesa-dev libglu1-mesa-dev libx11-dev libxi-dev libxmu-dev
 
     # For some reason, the Strawberry perl's pkg-config is found
     # instead of the conda's one, so let's delete the /c/Strawberry directory
