@@ -25,7 +25,6 @@ packages_skip_by_deps:
   - rttest
   - tlsf
   - tlsf_cpp
-  - gripper_controllers
 
 packages_remove_from_deps:
   - cartographer
@@ -34,7 +33,6 @@ packages_remove_from_deps:
   - rttest
   - tlsf
   - tlsf_cpp
-  - gripper_controllers
 
 skip_existing:
   # - output
@@ -48,30 +46,30 @@ packages_select_by_deps:
   - ros_base
   - ros_environment
   - ros_workspace
-  # - dev_tools
-  # - diagnostics
-  # - teleop
-  # - robot
-  # - perception
+  - dev_tools
+  - diagnostics
+  - teleop
+  - robot
+  - perception
   # - navigation2
-  # - simulation
-  # - desktop_full
+  - simulation
+  - desktop_full
 
-  # - moveit
-  # - moveit-planners-chomp
+  - moveit
+  - moveit-planners-chomp
 
   - ros_gz
-  # - slam_toolbox
-  # - turtlebot3
+  - slam_toolbox
+  - turtlebot3
 
-  # - plotjuggler-ros
+  - plotjuggler-ros
 
-  # - apriltag_ros
+  - apriltag_ros
 
-  # - ackermann-msgs
-  # - velodyne
-  # - sbg_driver
-  # - gtsam
+  - ackermann-msgs
+  - velodyne
+  - sbg_driver
+  - gtsam
 
 patch_dir: patch
 
