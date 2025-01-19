@@ -5,6 +5,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
+# Reminder for next full rebuild, the next build number should be 4
 build_number: 1
 
 mutex_package: ros2-distro-mutex 0.6.* jazzy_*
@@ -20,19 +21,17 @@ packages_skip_by_deps:
   - urdfdom
   - urdfdom_py
   - urdfdom_headers
-  - pcl_conversions
-  - pendulum_control
   - rttest
   - tlsf
   - tlsf_cpp
+  - pendulum_control
 
 packages_remove_from_deps:
   - cartographer
-  - pcl_conversions
-  - pendulum_control
   - rttest
   - tlsf
   - tlsf_cpp
+  - pendulum_control
 
 skip_existing:
   # - output
@@ -51,7 +50,7 @@ packages_select_by_deps:
   - teleop
   - robot
   - perception
-  # - navigation2
+  - navigation2
   - simulation
   - desktop_full
 
@@ -62,14 +61,16 @@ packages_select_by_deps:
   - slam_toolbox
   - turtlebot3
 
-  - plotjuggler-ros
+  # Skip for now
+  # - plotjuggler-ros
 
   - apriltag_ros
 
   - ackermann-msgs
   - velodyne
   - sbg_driver
-  - gtsam
+  # Commented out as in the next rebuild on Windows we will switch to use the conda-forge version
+  #- gtsam
 
 patch_dir: patch
 

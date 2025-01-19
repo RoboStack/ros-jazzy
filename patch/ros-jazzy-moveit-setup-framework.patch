@@ -121,6 +121,20 @@ index 72d9bf4af..3ca176656 100644
  
  namespace moveit_setup
  {
+@@ -121,7 +121,7 @@ void URDFConfig::setPackageName()
+ void URDFConfig::loadFromPackage(const std::filesystem::path& package_name, const std::filesystem::path& relative_path,
+                                  const std::string& xacro_args)
+ {
+-  const std::filesystem::path package_path = getSharePath(package_name);
++  const std::filesystem::path package_path = getSharePath(package_name.string());
+   if (package_path.empty())
+   {
+     throw std::runtime_error("URDF/COLLADA package not found: ''" + package_name.string());
+
+diff --git a/src/urdf_config.cpp b/src/urdf_config.cpp
+index 72d9bf4af..3ca176656 100644
+--- a/src/urdf_config.cpp
++++ b/src/urdf_config.cpp
 @@ -126,7 +127,7 @@ void URDFConfig::loadFromPackage(const std::filesystem::path& package_name, cons
      throw std::runtime_error("URDF/COLLADA package not found: ''" + package_name.string());
    }
@@ -145,6 +159,11 @@ index 72d9bf4af..3ca176656 100644
    {
      throw std::runtime_error("Running xacro failed.\nPlease check console for errors.");
    }
+
+diff --git a/src/urdf_config.cpp b/src/urdf_config.cpp
+index 72d9bf4af..3ca176656 100644
+--- a/src/urdf_config.cpp
++++ b/src/urdf_config.cpp
 @@ -154,7 +155,7 @@ void URDFConfig::load()
    {
      throw std::runtime_error("URDF/COLLADA file is not a valid robot model.");

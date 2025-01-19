@@ -1,0 +1,9 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 32b9f9f..587d5ca 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -12,3 +12,4 @@ endif()
++set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+ 
+ ##############################################################################
+ # Find dependencies

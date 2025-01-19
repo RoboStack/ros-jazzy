@@ -1,0 +1,8 @@
+tests:
+  - script:
+    - cmake-package-check control_toolbox --targets control_toolbox::control_toolbox control_toolbox::rate_limiter control_toolbox::low_pass_filter
+    requirements:
+      run:
+        - cmake-package-check
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}

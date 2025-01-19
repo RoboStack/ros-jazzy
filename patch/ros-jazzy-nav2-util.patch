@@ -6,8 +6,8 @@ index 993eaf53b..83ab5ebaa 100644
  
  void setSoftRealTimePriority()
  {
-+#if defined(__APPLE__)
-+  throw std::runtime_error("Cannot set as real-time thread on macOS!");
++#if defined(__APPLE__) || defined(_WIN32)
++  throw std::runtime_error("Cannot set as real-time thread if not on Linux!");
 +#else
    sched_param sch;
    sch.sched_priority = 49;

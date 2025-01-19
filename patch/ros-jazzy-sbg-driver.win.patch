@@ -1,0 +1,21 @@
+diff --git a/src/sbg_utm.cpp b/src/sbg_utm.cpp
+index b49e84c..e0791e7 100644
+--- a/src/sbg_utm.cpp
++++ b/src/sbg_utm.cpp
+@@ -1,2 +1,4 @@
++#define _USE_MATH_DEFINES
++
+ // File header
+
+diff --git a/src/message_wrapper.cpp b/src/message_wrapper.cpp
+index d0c0b6d..2a646b9 100644
+--- a/src/message_wrapper.cpp
++++ b/src/message_wrapper.cpp
+@@ -19,3 +19,7 @@
++#ifndef M_SQRT2
++#define M_SQRT2	1.41421356237309504880	/* sqrt(2) */
++#endif
++
+ /*!
+  * Class to wrap the SBG logs into ROS messages.
+  */
