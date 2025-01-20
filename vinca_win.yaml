@@ -67,10 +67,12 @@ packages_select_by_deps:
   - apriltag_ros
 
   - ackermann-msgs
-  - velodyne
+  # velodyne packages are not supported on Windows
+  # - velodyne
   - sbg_driver
   # Commented out as in the next rebuild on Windows we will switch to use the conda-forge version
   #- gtsam
 
 patch_dir: patch
+rosdistro_snapshot: rosdistro_snapshot.yaml
 
