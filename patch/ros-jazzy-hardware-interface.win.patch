@@ -1,0 +1,8 @@
+diff --git a/hardware_interface/CMakeLists.txt b/hardware_interface/CMakeLists.txt
+index b4e0f6cab0..50120726bb 100644
+--- a/hardware_interface/CMakeLists.txt
++++ b/hardware_interface/CMakeLists.txt
+@@ -57,3 +57,4 @@ target_include_directories(mock_components PUBLIC
++target_link_libraries(mock_components PUBLIC hardware_interface)
+ ament_target_dependencies(mock_components PUBLIC ${THIS_PACKAGE_INCLUDE_DEPENDS})
+

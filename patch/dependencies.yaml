@@ -42,8 +42,8 @@ pcl_ros:
   add_host: ["REQUIRE_OPENGL", "libboost-devel"]
 rviz_rendering:
   add_host: ["glew"]
-behaviortree_cpp_v3:
-  add_host: ["libboost-devel", "cppzmq"]
+behaviortree_cpp:
+  add_host: ["libboost-devel", "cppzmq", "zeromq", "sqlite"]
   add_run: ["libboost"]
 plotjuggler:
   add_host: ["libxcb", "${{ 'elfutils' if linux }}", "ros-jazzy-ros-workspace"]
@@ -157,7 +157,7 @@ rqt_image_overlay:
   add_host: ["REQUIRE_OPENGL"]
 slam_toolbox:
   add_build: ["${{ 'qt-main' if (build_platform != target_platform) }}"]
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL", "blas-devel"]
 vision_msgs_rviz_plugins:
   add_build: ["${{ 'qt-main' if (build_platform != target_platform) }}"]
   add_host: ["REQUIRE_OPENGL"]

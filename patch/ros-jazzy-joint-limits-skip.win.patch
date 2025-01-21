@@ -1,0 +1,12 @@
+diff --git a/joint_limits/src/joint_soft_limiter.cpp b/joint_limits/src/joint_soft_limiter.cpp
+index a2292cb033..622a320384 100644
+--- a/joint_limits/src/joint_soft_limiter.cpp
++++ b/joint_limits/src/joint_soft_limiter.cpp
+@@ -13,6 +13,7 @@
+ // limitations under the License.
+ 
+ /// \author Adrià Roig Moreno
++#define _USE_MATH_DEFINES
+ #include "joint_limits/joint_soft_limiter.hpp"
+ 
+ namespace joint_limits
