@@ -48,6 +48,18 @@ packages_select_by_deps:
 
   - moveit
   - moveit-planners-chomp
+  - moveit-servo
+  - moveit-visual-tools
+
+  - ros2_control
+  - ros2_controllers
+  - gz_ros2_control
+  - gz_ros2_control_demos
+
+  - rviz_visual_tools
+
+  - ur
+  - ur_simulation_gz
 
   - ros_gz
   - slam_toolbox
@@ -61,6 +73,7 @@ packages_select_by_deps:
   - velodyne
   - sbg_driver
   - gtsam
+
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
