@@ -227,7 +227,7 @@ gz_ogre_next_vendor:
   add_run: ["ogre-next"]
 rosx_introspection:
   add_host: ["rapidjson"]
-gz_ro2_control:
+gz_ros2_control:
   add_host: ["REQUIRE_OPENGL"]
-gz_ro2_control_demos:
+gz_ros2_control_demos:
   add_host: ["REQUIRE_OPENGL"]
