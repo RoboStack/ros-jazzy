@@ -1,0 +1,12 @@
+diff --git a/ackermann_steering_controller/CMakeLists.txt b/ackermann_steering_controller/CMakeLists.txt
+index 6ad0e9485f..874e9055b3 100644
+--- a/ackermann_steering_controller/CMakeLists.txt
++++ b/ackermann_steering_controller/CMakeLists.txt
+@@ -4,6 +4,7 @@ project(ackermann_steering_controller LANGUAGES CXX)
+ if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
+   add_compile_options(-Wall -Wextra -Wpedantic -Wconversion)
+ endif()
++set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+ 
+ # find dependencies
+ set(THIS_PACKAGE_INCLUDE_DEPENDS

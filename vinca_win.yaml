@@ -67,7 +67,7 @@ packages_select_by_deps:
   - rviz_visual_tools
 
   # ur driver does not support Windows
-  # - ur
+  - ur
   - ur_simulation_gz 
 
   - ros_gz
