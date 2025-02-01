@@ -1,0 +1,8 @@
+tests:
+  - script:
+    - cmake-package-check ur_client_library --targets ur_client_library::urcl
+    requirements:
+      run:
+        - cmake-package-check
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}

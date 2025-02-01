@@ -4,3 +4,5 @@ ros_workspace:
   build_number: 3
 rviz_common:
   build_number: 3
+tinyxml2_vendor:
+  build_number: 3
