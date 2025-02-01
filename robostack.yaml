@@ -43,6 +43,8 @@ cartographer:
   robostack: [cartographer]
 ca-certificates:
   robostack: [ca-certificates]
+cargo:
+  robostack: [rust]
 clang-format:
   robostack: [clang-format]
 clang-tidy:
@@ -949,7 +951,10 @@ sdl-image:
 sdl2:
   robostack: [sdl2]
 socat:
-  robostack: [socat]
+  robostack:
+    linux: [socat]
+    osx: [socat]
+    win64: []
 spacenavd:
   robostack: [libspnav]
 spdlog:

@@ -74,6 +74,12 @@ packages_select_by_deps:
   - sbg_driver
   - gtsam
 
+  # requested in https://github.com/RoboStack/ros-humble/issues/249
+  - twist_mux
+
+  # requested in https://github.com/RoboStack/ros-humble/issues/252
+  - rmw_zenoh_cpp
+
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

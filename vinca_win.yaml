@@ -68,7 +68,7 @@ packages_select_by_deps:
 
   # ur driver does not support Windows
   - ur
-  - ur_simulation_gz 
+  - ur_simulation_gz
 
   - ros_gz
   - slam_toolbox
@@ -85,6 +85,12 @@ packages_select_by_deps:
   - sbg_driver
   # Commented out as in the next rebuild on Windows we will switch to use the conda-forge version
   #- gtsam
+
+  # requested in https://github.com/RoboStack/ros-humble/issues/249
+  - twist_mux
+
+  # requested in https://github.com/RoboStack/ros-humble/issues/252
+  - rmw_zenoh_cpp
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

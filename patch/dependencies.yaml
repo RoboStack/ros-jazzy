@@ -231,3 +231,7 @@ gz_ros2_control:
   add_host: ["REQUIRE_OPENGL"]
 gz_ros2_control_demos:
   add_host: ["REQUIRE_OPENGL"]
+zenoh_cpp_vendor:
+  add_host: ["libzenohc", "libzenohcxx"]
+rmw_zenoh_cpp:
+  add_host: ["libzenohc", "libzenohcxx"]

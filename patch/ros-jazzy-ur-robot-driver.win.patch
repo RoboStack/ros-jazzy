@@ -34,7 +34,7 @@ index 14bdd29ea..330e4161e 100644
 --- a/ur_robot_driver/include/ur_robot_driver/hardware_interface.hpp
 +++ b/ur_robot_driver/include/ur_robot_driver/hardware_interface.hpp
 @@ -66,3 +66,5 @@
-+typedef uint unsigned int;
++typedef unsigned int uint;
 +
  namespace ur_robot_driver
  {
