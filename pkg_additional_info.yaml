@@ -6,3 +6,7 @@ rviz_common:
   build_number: 3
 tinyxml2_vendor:
   build_number: 3
+moveit_servo:
+  build_number: 3
+ros2_controllers:
+  build_number: 3
