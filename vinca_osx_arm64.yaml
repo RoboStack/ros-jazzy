@@ -25,7 +25,6 @@ packages_skip_by_deps:
   - rttest
   - tlsf
   - tlsf_cpp
-  - gripper_controllers
 
 packages_remove_from_deps:
   - cartographer
@@ -33,7 +32,6 @@ packages_remove_from_deps:
   - rttest
   - tlsf
   - tlsf_cpp
-  - gripper_controllers
 
 skip_existing:
   # - output
@@ -91,6 +89,7 @@ packages_select_by_deps:
   - rmw_zenoh_cpp
 
   - flex_sync
+  - gripper_controllers
 
 
 patch_dir: patch
