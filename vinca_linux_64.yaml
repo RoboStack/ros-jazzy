@@ -8,7 +8,7 @@ conda_index:
 # Reminder for next full rebuild, the next build number should be 4
 build_number: 4
 
-mutex_package: ros2-distro-mutex 0.6.* jazzy_*
+mutex_package: ros2-distro-mutex 0.7.* jazzy_*
 
 skip_all_deps: false
 
