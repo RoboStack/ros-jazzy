@@ -1880,9 +1880,9 @@ gz_utils_vendor:
   url: https://github.com/ros2-gbp/gz_utils_vendor-release.git
   version: 0.0.4
 hardware_interface:
-  tag: release/jazzy/hardware_interface/4.23.0-1
+  tag: release/jazzy/hardware_interface/4.25.0-1
   url: https://github.com/ros2-gbp/ros2_control-release.git
-  version: 4.23.0
+  version: 4.25.0
 hardware_interface_testing:
   tag: release/jazzy/hardware_interface_testing/4.23.0-1
   url: https://github.com/ros2-gbp/ros2_control-release.git
