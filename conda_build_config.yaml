@@ -46,3 +46,5 @@ libzenohc:
   - 1.1.1
 libzenohcxx:
   - 1.1.1
+libcap:
+  - 2.71
