@@ -1,0 +1,27 @@
+diff --git a/include/grid_map_core/BufferRegion.hpp b/include/grid_map_core/BufferRegion.hpp
+index fbe2d20..873b4b6 100644
+--- a/include/grid_map_core/BufferRegion.hpp
++++ b/include/grid_map_core/BufferRegion.hpp
+@@ -39,6 +39,8 @@ public:
+   BufferRegion(
+     const Index & startIndex, const Size & size,
+     const BufferRegion::Quadrant & quadrant);
++  BufferRegion(const BufferRegion & other) = default;
++  BufferRegion & operator=(const BufferRegion & other) = default;
+   virtual ~BufferRegion() = default;
+ 
+   const Index & getStartIndex() const;
+diff --git a/include/grid_map_core/Polygon.hpp b/include/grid_map_core/Polygon.hpp
+index 9d7ad27..a02b133 100644
+--- a/include/grid_map_core/Polygon.hpp
++++ b/include/grid_map_core/Polygon.hpp
+@@ -40,6 +40,9 @@ public:
+    */
+   explicit Polygon(std::vector<Position> vertices);
+ 
++  Polygon(const Polygon & other) = default;
++  Polygon & operator=(const Polygon & other) = default;
++
+   /*!
+    * Destructor.
+    */
