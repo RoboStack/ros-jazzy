@@ -231,6 +231,10 @@ gz_ros2_control:
   add_host: ["REQUIRE_OPENGL"]
 gz_ros2_control_demos:
   add_host: ["REQUIRE_OPENGL"]
+octomap_ros:
+  add_host: ["octomap"]
+octomap_rviz_plugins:
+  add_host: ["octomap"]
 zenoh_cpp_vendor:
   add_host: ["libzenohc", "libzenohcxx"]
 rmw_zenoh_cpp:
