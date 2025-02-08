@@ -109,6 +109,7 @@ jobs:
       if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.platform == 'win-64'
       run: |
         # Workaround for problem related to long paths
+        git config --system core.longpaths true
         echo "CONDA_BLD_PATH=C:\\bld\\" >> $GITHUB_ENV
         mkdir /c/bld
         cp vinca_win.yaml vinca.yaml
