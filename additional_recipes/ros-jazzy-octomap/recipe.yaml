@@ -1,0 +1,20 @@
+package:
+  name: ros-jazzy-octomap
+  version: "1.10.0"
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - octomap 1.10.*
+
+
+about:
+  homepage: https://github.com/conda-forge/octomap-feedstock
+  license: BSD-3-Clause
+  summary: |
+    An Efficient Probabilistic 3D Mapping Framework Based on Octrees
+extra:
+  recipe-maintainers:
+    - ros-forge

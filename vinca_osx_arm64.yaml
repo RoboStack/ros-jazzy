@@ -89,7 +89,10 @@ packages_select_by_deps:
   - rmw_zenoh_cpp
 
   - flex_sync
+
   - gripper_controllers
+
+  - grid_map
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
