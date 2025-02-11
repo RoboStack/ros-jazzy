@@ -480,9 +480,9 @@ azure_iot_sdk_c:
   url: https://github.com/ros2-gbp/azure_iot_sdk_c-release.git
   version: 1.14.0
 backward_ros:
-  tag: release/jazzy/backward_ros/1.0.6-1
+  tag: release/jazzy/backward_ros/1.0.7-1
   url: https://github.com/ros2-gbp/backward_ros-release.git
-  version: 1.0.6
+  version: 1.0.7
 bag2_to_image:
   tag: release/jazzy/bag2_to_image/0.1.0-5
   url: https://github.com/ros2-gbp/bag2_to_image-release.git
