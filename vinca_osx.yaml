@@ -91,6 +91,9 @@ packages_select_by_deps:
   - flex_sync
   - gripper_controllers
 
+  - ament_cmake_mypy
+  - rosbridge_suite
+
 
 
 patch_dir: patch
