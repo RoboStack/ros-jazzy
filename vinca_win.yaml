@@ -93,6 +93,9 @@ packages_select_by_deps:
   - rmw_zenoh_cpp
 
   - flex_sync
+  
+  - ament_cmake_mypy
+  - rosbridge_suite
 
 
 patch_dir: patch
