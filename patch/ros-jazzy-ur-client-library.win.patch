@@ -1,32 +1,25 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 878ffede2..2ef4cf829 100644
+index 3c41f99..ec37c9a 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -9,15 +9,16 @@ if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+@@ -7,8 +7,10 @@ if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
  endif()
  
  option(WITH_ASAN "Compile with address sanitizer support" OFF)
 +option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 +set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
  
- ##
- ## Check C++11 support / enable global pedantic and Wall
- ##
- include(DefineCXX17CompilerFlag)
- DEFINE_CXX_17_COMPILER_FLAG(CXX17_FLAG)
--set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
- 
 -add_library(urcl SHARED
 +add_library(urcl
      src/comm/tcp_socket.cpp
      src/comm/tcp_server.cpp
      src/control/reverse_interface.cpp
-@@ -51,12 +52,22 @@ add_library(urcl SHARED
+@@ -43,12 +43,22 @@ add_library(urcl SHARED
      src/helpers.cpp
  )
  add_library(ur_client_library::urcl ALIAS urcl)
 -target_compile_options(urcl PRIVATE -Wall -Wextra -Wno-unused-parameter)
--target_compile_options(urcl PUBLIC ${CXX17_FLAG})
+-target_compile_features(urcl PUBLIC cxx_std_17)
 -if(WITH_ASAN)
 -  target_compile_options(urcl PUBLIC -fsanitize=address)
 -  target_link_options(urcl PUBLIC -fsanitize=address)
@@ -44,12 +37,12 @@ index 878ffede2..2ef4cf829 100644
 +  endif()
  endif()
 +
-+target_compile_options(urcl PUBLIC ${CXX17_FLAG})
++target_compile_features(urcl PUBLIC cxx_std_17)
 +
  target_include_directories( urcl PUBLIC
    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
    $<INSTALL_INTERFACE:include>
-@@ -87,6 +98,7 @@ include(GNUInstallDirs)
+@@ -79,6 +89,7 @@ include(GNUInstallDirs)
  install(TARGETS urcl EXPORT urcl_targets
    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -57,51 +50,6 @@ index 878ffede2..2ef4cf829 100644
  )
  install(DIRECTORY include/ DESTINATION include)
 
-diff --git a/CMakeModules/DefineCXX17CompilerFlag.cmake b/CMakeModules/DefineCXX17CompilerFlag.cmake
-index 37a6058b0..ad9992e65 100644
---- a/CMakeModules/DefineCXX17CompilerFlag.cmake
-+++ b/CMakeModules/DefineCXX17CompilerFlag.cmake
-@@ -33,23 +33,26 @@ include(CheckCXXCompilerFlag)
- macro (DEFINE_CXX_17_COMPILER_FLAG _RESULT)
-   if(NOT DEFINED "${_RESULT}")
- 
--    if(NOT CMAKE_REQUIRED_QUIET)
--      message(STATUS "Performing C++17 Test")
--    endif()
--
--    # Check for default argument (all newer compilers)
--    CHECK_CXX_COMPILER_FLAG("-std=c++17" COMPILER_SUPPORTS_CXX17)
--    if(COMPILER_SUPPORTS_CXX17)
--      set(${_RESULT} "-std=c++17" CACHE INTERNAL "C++17 flag")
-+    if(MSVC AND MSVC_VERSION GREATER 1919)
-+      set(${_RESULT} "/std:c++17" CACHE INTERNAL "C++17 flag")
-     else()
--      # Check for older version (before 2017)
--      CHECK_CXX_COMPILER_FLAG("-std=c++1z" COMPILER_SUPPORTS_CXX1Z)
--      if(COMPILER_SUPPORTS_CXX1Z)
--	set(${_RESULT} "-std=c++1z" CACHE INTERNAL "C++17 flag")
-+      if(NOT CMAKE_REQUIRED_QUIET)
-+        message(STATUS "Performing C++17 Test")
-+      endif()
-+
-+      # Check for default argument (all newer compilers)
-+      CHECK_CXX_COMPILER_FLAG("-std=c++17" COMPILER_SUPPORTS_CXX17)
-+      if(COMPILER_SUPPORTS_CXX17)
-+        set(${_RESULT} "-std=c++17" CACHE INTERNAL "C++17 flag")
-       else()
--	message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++17 support. Please use a different C++ compiler.")
-+        # Check for older version (before 2017)
-+        CHECK_CXX_COMPILER_FLAG("-std=c++1z" COMPILER_SUPPORTS_CXX1Z)
-+        if(COMPILER_SUPPORTS_CXX1Z)
-+          set(${_RESULT} "-std=c++1z" CACHE INTERNAL "C++17 flag")
-+        else()
-+          message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++17 support. Please use a different C++ compiler.")
-+        endif()
-       endif()
-     endif()
--
-   endif()
- endmacro()
 diff --git a/examples/dashboard_example.cpp b/examples/dashboard_example.cpp
 index 81eda8cbe..dda78d761 100644
 --- a/examples/dashboard_example.cpp
@@ -924,15 +872,6 @@ diff --git a/tests/test_pipeline.cpp b/tests/test_pipeline.cpp
 index fccf0dd80..f7e0171d2 100644
 --- a/tests/test_pipeline.cpp
 +++ b/tests/test_pipeline.cpp
-@@ -60,7 +60,7 @@ class PipelineTest : public ::testing::Test
-     pipeline_->init();
-   }
- 
--  void Teardown()
-+  void teardown()
-   {
-     // Clean up
-     pipeline_->stop();
 @@ -247,7 +247,7 @@ TEST_F(PipelineTest, connect_non_connected_robot)
    auto end = std::chrono::system_clock::now();
    auto elapsed = end - start;
@@ -946,15 +885,6 @@ diff --git a/tests/test_producer.cpp b/tests/test_producer.cpp
 index 15663cbb1..fbfecee95 100644
 --- a/tests/test_producer.cpp
 +++ b/tests/test_producer.cpp
-@@ -49,7 +49,7 @@ class ProducerTest : public ::testing::Test
-     server_->start();
-   }
- 
--  void Teardown()
-+  void teardown()
-   {
-     // Clean up
-     server_.reset();
 @@ -133,7 +133,7 @@ TEST_F(ProducerTest, connect_non_connected_robot)
    auto end = std::chrono::system_clock::now();
    auto elapsed = end - start;
@@ -968,15 +898,6 @@ diff --git a/tests/test_stream.cpp b/tests/test_stream.cpp
 index d095b41d9..28448e3c5 100644
 --- a/tests/test_stream.cpp
 +++ b/tests/test_stream.cpp
-@@ -51,7 +51,7 @@ class StreamTest : public ::testing::Test
-     server_->start();
-   }
- 
--  void Teardown()
-+  void teardown()
-   {
-     // Clean up
-     server_.reset();
 @@ -329,7 +329,7 @@ TEST_F(StreamTest, connect_non_connected_robot)
    auto end = std::chrono::system_clock::now();
    auto elapsed = end - start;
@@ -1010,11 +931,15 @@ index a96b6595b..6241a8c8d 100644
    size_t read_chars = 0;
 
 diff --git a/include/ur_client_library/primary/package_header.h b/include/ur_client_library/primary/package_header.h
-index cd64bdaf0..440b2e405 100644
+index cd64bda..440b2e4 100644
 --- a/include/ur_client_library/primary/package_header.h
 +++ b/include/ur_client_library/primary/package_header.h
-@@ -35,4 +35,4 @@
+@@ -32,7 +32,7 @@
+ 
+ #include <inttypes.h>
+ #include <cstddef>
 -#include <endian.h>
 +#include "ur_client_library/portable_endian.h"
  #include "ur_client_library/types.h"
-
+ 
+ namespace urcl
