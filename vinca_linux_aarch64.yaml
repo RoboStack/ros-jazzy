@@ -83,6 +83,7 @@ packages_select_by_deps:
   - flex_sync
 
   - ament_cmake_mypy
+  - rosbridge_suite
 
   - grid_map
 
