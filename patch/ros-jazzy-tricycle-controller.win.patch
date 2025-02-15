@@ -1,0 +1,10 @@
+diff --git a/tricycle_controller/src/tricycle_controller.cpp b/tricycle_controller/src/tricycle_controller.cpp
+index 9630d88b44..716583021f 100644
+--- a/tricycle_controller/src/tricycle_controller.cpp
++++ b/tricycle_controller/src/tricycle_controller.cpp
+@@ -19,3 +19,5 @@
++#define _USE_MATH_DEFINES
++
+ #include <memory>
+ #include <queue>
+ #include <string>

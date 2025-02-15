@@ -1,13 +1,15 @@
 numpy:
   - 1.26
 libprotobuf:
-  - 5.28.2
+  - 5.28.3
 protobuf:
-  - 5.28.2
+  - 5.28.3
 spdlog:
-  - 1.14
+  - 1.15
 pugixml:
-  - '1.14'
+  - '1.15'
+libopencv:
+  - 4.11.0
 
 cdt_name:  # [linux]
   - conda  # [linux]
@@ -43,6 +45,8 @@ cxx_compiler_version:          # [unix]
   - 18                         # [osx]
 
 libzenohc:
-  - 1.1.1
+  - 1.2.1
 libzenohcxx:
-  - 1.1.1
+  - 1.2.1
+libcap:
+  - 2.71
