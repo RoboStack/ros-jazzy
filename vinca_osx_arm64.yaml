@@ -25,6 +25,7 @@ packages_skip_by_deps:
   - rttest
   - tlsf
   - tlsf_cpp
+  - octomap
 
 packages_remove_from_deps:
   - cartographer

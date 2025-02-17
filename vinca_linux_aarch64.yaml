@@ -21,6 +21,7 @@ packages_skip_by_deps:
   - urdfdom
   - urdfdom_headers
   - urdfdom_py
+  - octomap
 
 packages_remove_from_deps:
   - cartographer
