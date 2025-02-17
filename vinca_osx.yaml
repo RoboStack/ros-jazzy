@@ -25,6 +25,7 @@ packages_skip_by_deps:
   - rttest
   - tlsf
   - tlsf_cpp
+  - octomap
 
 packages_remove_from_deps:
   - cartographer
@@ -94,7 +95,7 @@ packages_select_by_deps:
   - ament_cmake_mypy
   - rosbridge_suite
 
-
+  - grid_map
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

@@ -25,6 +25,7 @@ packages_skip_by_deps:
   - tlsf
   - tlsf_cpp
   - pendulum_control
+  - octomap
 
 packages_remove_from_deps:
   - cartographer
