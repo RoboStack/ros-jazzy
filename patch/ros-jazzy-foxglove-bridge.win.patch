@@ -1,0 +1,33 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 715ce29..2f54899 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -14,6 +14,11 @@ project(foxglove_bridge LANGUAGES CXX VERSION 0.8.3)
+ set(CMAKE_CXX_STANDARD 17)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ 
++if(MSVC)
++  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
++  set(BUILD_SHARED_LIBS TRUE)
++endif()
++
+ macro(enable_strict_compiler_warnings target)
+   if (MSVC)
+     target_compile_options(${target} PRIVATE /WX /W4)
+@@ -77,7 +82,7 @@ add_library(foxglove_bridge_base SHARED
+   ${CMAKE_CURRENT_BINARY_DIR}/foxglove_bridge_base/src/version.cpp
+ )
+ target_include_directories(foxglove_bridge_base
+-  PUBLIC
++  SYSTEM PUBLIC
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/foxglove_bridge_base/include>
+     $<INSTALL_INTERFACE:include>
+ )
+@@ -93,6 +98,7 @@ else()
+   message(STATUS "nlohmann_json not found, will search at compile time")
+ endif()
+ enable_strict_compiler_warnings(foxglove_bridge_base)
++target_compile_definitions(foxglove_bridge_base PUBLIC _WEBSOCKETPP_CPP11_STL_)
+ 
+ message(STATUS "ROS_VERSION: " $ENV{ROS_VERSION})
+ message(STATUS "ROS_DISTRO: " $ENV{ROS_DISTRO})
