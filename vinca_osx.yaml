@@ -97,5 +97,9 @@ packages_select_by_deps:
 
   - grid_map
 
+  - foxglove_bridge
+  - foxglove_compressed_video_transport
+  - foxglove_msgs
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
