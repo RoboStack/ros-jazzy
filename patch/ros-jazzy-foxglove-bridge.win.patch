@@ -1,0 +1,169 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 715ce29..f8b43d5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -14,6 +14,11 @@ project(foxglove_bridge LANGUAGES CXX VERSION 0.8.3)
+ set(CMAKE_CXX_STANDARD 17)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ 
++if(MSVC)
++  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
++  set(BUILD_SHARED_LIBS TRUE)
++endif()
++
+ macro(enable_strict_compiler_warnings target)
+   if (MSVC)
+     target_compile_options(${target} PRIVATE /WX /W4)
+@@ -77,8 +82,9 @@ add_library(foxglove_bridge_base SHARED
+   ${CMAKE_CURRENT_BINARY_DIR}/foxglove_bridge_base/src/version.cpp
+ )
+ target_include_directories(foxglove_bridge_base
+-  PUBLIC
++  SYSTEM PUBLIC
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/foxglove_bridge_base/include>
++    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+     $<INSTALL_INTERFACE:include>
+ )
+ target_link_libraries(foxglove_bridge_base
+@@ -92,7 +98,12 @@ if(nlohmann_json_FOUND)
+ else()
+   message(STATUS "nlohmann_json not found, will search at compile time")
+ endif()
+-enable_strict_compiler_warnings(foxglove_bridge_base)
++# enable_strict_compiler_warnings(foxglove_bridge_base)
++if(MSVC)
++  target_compile_definitions(foxglove_bridge_base PUBLIC _WEBSOCKETPP_CPP11_STL_)
++  include(GenerateExportHeader)
++  generate_export_header(foxglove_bridge_base)
++endif()
+ 
+ message(STATUS "ROS_VERSION: " $ENV{ROS_VERSION})
+ message(STATUS "ROS_DISTRO: " $ENV{ROS_DISTRO})
+@@ -280,6 +291,9 @@ elseif(ROS_BUILD_TYPE STREQUAL "ament_cmake")
+       LIBRARY DESTINATION lib
+       RUNTIME DESTINATION bin
+     )
++    if(MSVC)
++      install(FILES ${CMAKE_CURRENT_BINARY_DIR}/foxglove_bridge_base_export.h DESTINATION include)
++    endif()
+     install(DIRECTORY ros2_foxglove_bridge/launch
+       DESTINATION share/${PROJECT_NAME}/
+     )
+diff --git a/foxglove_bridge_base/include/foxglove_bridge/foxglove_bridge.hpp b/foxglove_bridge_base/include/foxglove_bridge/foxglove_bridge.hpp
+index 4b85891..6a946ee 100644
+--- a/foxglove_bridge_base/include/foxglove_bridge/foxglove_bridge.hpp
++++ b/foxglove_bridge_base/include/foxglove_bridge/foxglove_bridge.hpp
+@@ -1,11 +1,13 @@
+ #pragma once
+ 
++#include <foxglove_bridge_base_export.h>
++
+ namespace foxglove {
+ 
+ const char* WebSocketUserAgent();
+ 
+-extern const char FOXGLOVE_BRIDGE_VERSION[];
++extern FOXGLOVE_BRIDGE_BASE_EXPORT const char FOXGLOVE_BRIDGE_VERSION[];
+ 
+-extern const char FOXGLOVE_BRIDGE_GIT_HASH[];
++extern FOXGLOVE_BRIDGE_BASE_EXPORT const char FOXGLOVE_BRIDGE_GIT_HASH[];
+ 
+ }  // namespace foxglove
+diff --git a/ros2_foxglove_bridge/src/generic_client.cpp b/ros2_foxglove_bridge/src/generic_client.cpp
+index 7c58801..3e0b015 100644
+--- a/ros2_foxglove_bridge/src/generic_client.cpp
++++ b/ros2_foxglove_bridge/src/generic_client.cpp
+@@ -11,17 +11,20 @@
+ 
+ // clang-format off
+ /* True if the version of RCLCPP is at least major.minor.patch */
+-#define RCLCPP_VERSION_GTE(major, minor, patch)        \
+-  (major < RCLCPP_VERSION_MAJOR                        \
+-     ? true                                            \
+-     : major > RCLCPP_VERSION_MAJOR                    \
+-         ? false                                       \
+-         : minor < RCLCPP_VERSION_MINOR                \
+-             ? true                                    \
+-             : minor > RCLCPP_VERSION_MINOR            \
+-                 ? false                               \
+-                 : patch < RCLCPP_VERSION_PATCH ? true \
+-                                                : patch > RCLCPP_VERSION_PATCH ? false : true)
++#define RCLCPP_VERSION_MAJOR_GT(major) ((major) < RCLCPP_VERSION_MAJOR)
++#define RCLCPP_VERSION_MAJOR_LT(major) ((major) > RCLCPP_VERSION_MAJOR)
++#define RCLCPP_VERSION_MINOR_GT(minor) ((minor) < RCLCPP_VERSION_MINOR)
++#define RCLCPP_VERSION_MINOR_LT(minor) ((minor) > RCLCPP_VERSION_MINOR)
++#define RCLCPP_VERSION_PATCH_GT(patch) ((patch) < RCLCPP_VERSION_PATCH)
++#define RCLCPP_VERSION_PATCH_LT(patch) ((patch) > RCLCPP_VERSION_PATCH)
++
++#define RCLCPP_VERSION_GTE(major, minor, patch) \
++    (RCLCPP_VERSION_MAJOR_GT(major) || \
++    (!RCLCPP_VERSION_MAJOR_LT(major) && \
++     (RCLCPP_VERSION_MINOR_GT(minor) || \
++      (!RCLCPP_VERSION_MINOR_LT(minor) && \
++       (RCLCPP_VERSION_PATCH_GT(patch) || \
++        (!RCLCPP_VERSION_PATCH_LT(patch)))))))
+ // clang-format on
+ 
+ namespace {
+diff --git a/ros2_foxglove_bridge/src/message_definition_cache.cpp b/ros2_foxglove_bridge/src/message_definition_cache.cpp
+index 262c482..2d72a3a 100644
+--- a/ros2_foxglove_bridge/src/message_definition_cache.cpp
++++ b/ros2_foxglove_bridge/src/message_definition_cache.cpp
+@@ -234,7 +234,7 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
+   }
+ 
+   // Read the file
+-  const std::string full_path = share_dir + std::filesystem::path::preferred_separator + *it;
++  const std::string full_path = share_dir + std::string(1, std::filesystem::path::preferred_separator) + *it;
+   std::ifstream file{full_path};
+   if (!file.good()) {
+     throw DefinitionNotFoundError(definition_identifier.package_resource_name);
+@@ -283,11 +283,11 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
+     }
+ 
+     // Find the the subtype that was originally requested and return it.
+-    const auto it = msg_specs_by_definition_identifier_.find(definition_identifier);
+-    if (it == msg_specs_by_definition_identifier_.end()) {
++    const auto it_action = msg_specs_by_definition_identifier_.find(definition_identifier);
++    if (it_action == msg_specs_by_definition_identifier_.end()) {
+       throw DefinitionNotFoundError(definition_identifier.package_resource_name);
+     }
+-    return it->second;
++    return it_action->second;
+   } else if (subfolder == "srv") {
+     if (definition_identifier.format == MessageDefinitionFormat::IDL) {
+       RCUTILS_LOG_ERROR_NAMED("foxglove_bridge",
+@@ -319,11 +319,11 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
+     }
+ 
+     // Find the the subtype that was originally requested and return it.
+-    const auto it = msg_specs_by_definition_identifier_.find(definition_identifier);
+-    if (it == msg_specs_by_definition_identifier_.end()) {
++    const auto it_srv = msg_specs_by_definition_identifier_.find(definition_identifier);
++    if (it_srv == msg_specs_by_definition_identifier_.end()) {
+       throw DefinitionNotFoundError(definition_identifier.package_resource_name);
+     }
+-    return it->second;
++    return it_srv->second;
+   } else {
+     // Normal message type.
+     const MessageSpec& spec =
+diff --git a/ros2_foxglove_bridge/src/ros2_foxglove_bridge.cpp b/ros2_foxglove_bridge/src/ros2_foxglove_bridge.cpp
+index 0143674..d6876e3 100644
+--- a/ros2_foxglove_bridge/src/ros2_foxglove_bridge.cpp
++++ b/ros2_foxglove_bridge/src/ros2_foxglove_bridge.cpp
+@@ -20,7 +20,14 @@ using foxglove::isWhitelisted;
+ 
+ FoxgloveBridge::FoxgloveBridge(const rclcpp::NodeOptions& options)
+     : Node("foxglove_bridge", options) {
++#if defined(_MSC_VER)
++  char* rosDistro;
++  std::size_t size;
++  _dupenv_s(&rosDistro, &size, "ROS_DISTRO");
++  std::unique_ptr<char, decltype(&free)> release(rosDistro, &free);
++#else
+   const char* rosDistro = std::getenv("ROS_DISTRO");
++#endif
+   RCLCPP_INFO(this->get_logger(), "Starting foxglove_bridge (%s, %s@%s) with %s", rosDistro,
+               foxglove::FOXGLOVE_BRIDGE_VERSION, foxglove::FOXGLOVE_BRIDGE_GIT_HASH,
+               foxglove::WebSocketUserAgent());

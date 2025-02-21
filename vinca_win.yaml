@@ -98,6 +98,9 @@ packages_select_by_deps:
   - ament_cmake_mypy
   - rosbridge_suite
 
+  - foxglove_bridge
+  # - foxglove_compressed_video_transport
+  - foxglove_msgs
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
