@@ -102,6 +102,7 @@ packages_select_by_deps:
   # - foxglove_compressed_video_transport
   - foxglove_msgs
 
+<<<<<<< HEAD
   - lanelet2
 
   - ublox
@@ -127,6 +128,8 @@ packages_select_by_deps:
 
   # TODO: fix iconv link issue
   # - ffmpeg_image_transport
+
+  - ouster_ros
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
