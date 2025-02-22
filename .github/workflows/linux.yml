@@ -1,0 +1,87 @@
+jobs:
+  stage_0_job_0:
+    name: mrt-cmake-modules lanelet2-core
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-mrt-cmake-modules ros-jazzy-lanelet2-core
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-mrt-cmake-modules ros-jazzy-lanelet2-core
+        DOCKER_IMAGE: condaforge/linux-anvil-cos7-x86_64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_linux.sh
+  stage_1_job_1:
+    name: lanelet2-io lanelet2-traffic-rules lanelet2-maps
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-lanelet2-io ros-jazzy-lanelet2-traffic-rules ros-jazzy-lanelet2-maps
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-lanelet2-io ros-jazzy-lanelet2-traffic-rules ros-jazzy-lanelet2-maps
+        DOCKER_IMAGE: condaforge/linux-anvil-cos7-x86_64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_linux.sh
+  stage_2_job_2:
+    name: lanelet2-projection lanelet2-routing lanelet2-matching lanelet2-validation
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-lanelet2-projection ros-jazzy-lanelet2-routing ros-jazzy-lanelet2-matching
+        ros-jazzy-lanelet2-validation
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-lanelet2-projection ros-jazzy-lanelet2-routing
+          ros-jazzy-lanelet2-matching ros-jazzy-lanelet2-validation
+        DOCKER_IMAGE: condaforge/linux-anvil-cos7-x86_64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_linux.sh
+  stage_3_job_3:
+    name: lanelet2-python lanelet2-examples lanelet2
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-lanelet2-python ros-jazzy-lanelet2-examples ros-jazzy-lanelet2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-lanelet2-python ros-jazzy-lanelet2-examples ros-jazzy-lanelet2
+        DOCKER_IMAGE: condaforge/linux-anvil-cos7-x86_64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_linux.sh
+name: build_linux
+on:
+  push:
+    branches:
+    - buildbranch_linux
