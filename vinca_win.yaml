@@ -102,6 +102,8 @@ packages_select_by_deps:
   # - foxglove_compressed_video_transport
   - foxglove_msgs
 
+  - lanelet2
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
 
