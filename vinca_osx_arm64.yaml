@@ -103,5 +103,7 @@ packages_select_by_deps:
 
   - lanelet2
 
+  - ublox
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
