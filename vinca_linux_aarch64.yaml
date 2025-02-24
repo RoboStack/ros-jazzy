@@ -94,6 +94,8 @@ packages_select_by_deps:
 
   - lanelet2
 
+  - ublox
+  
   - can_msgs
   - ros2_socketcan_msgs
   - ros2_socketcan
