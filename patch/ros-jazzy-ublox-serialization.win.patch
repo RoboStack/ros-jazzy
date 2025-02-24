@@ -1,0 +1,13 @@
+diff --git a/include/ublox_serialization/serialization.hpp b/include/ublox_serialization/serialization.hpp
+index b04fc81..ba3ef08 100644
+--- a/include/ublox_serialization/serialization.hpp
++++ b/include/ublox_serialization/serialization.hpp
+@@ -324,7 +324,7 @@ class Message {
+   };
+ 
+  private:
+-  static std::vector<std::pair<uint8_t,uint8_t> > keys_;
++  static UBLOX_SERIALIZATION_EXPORT std::vector<std::pair<uint8_t,uint8_t> > keys_;
+ };
+ 
+ /**

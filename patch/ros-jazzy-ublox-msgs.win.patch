@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e4c03c0..c77f681 100644
+index e4c03c0..5f18382 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -10,6 +10,8 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -11,6 +11,44 @@ index e4c03c0..c77f681 100644
  find_package(ament_cmake_ros REQUIRED)
  find_package(rosidl_default_generators REQUIRED)
  find_package(sensor_msgs REQUIRED)
+@@ -108,12 +110,16 @@ if(cpp_typesupport_target)
+   add_library(${PROJECT_NAME}_lib src/ublox_msgs.cpp)
+   target_include_directories(${PROJECT_NAME}_lib PRIVATE
+     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
++    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
+     "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>")
+   target_link_libraries(${PROJECT_NAME}_lib
+     ${cpp_typesupport_target}
+     ublox_serialization::ublox_serialization
+   )
+ 
++  include(GenerateExportHeader)
++  generate_export_header(${PROJECT_NAME}_lib BASE_NAME ublox_serialization)
++
+   install(TARGETS ${PROJECT_NAME}_lib EXPORT ${PROJECT_NAME}_lib
+     ARCHIVE DESTINATION lib
+     LIBRARY DESTINATION lib
+@@ -124,6 +130,8 @@ if(cpp_typesupport_target)
+     DESTINATION "include/${PROJECT_NAME}"
+   )
+ 
++  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ublox_serialization_export.h DESTINATION include)
++
+   ament_export_include_directories("include/${PROJECT_NAME}")
+   ament_export_libraries(${PROJECT_NAME}_lib)
+   ament_export_targets(${PROJECT_NAME}_lib)
+diff --git a/include/ublox_msgs/serialization.hpp b/include/ublox_msgs/serialization.hpp
+index 9ef607f..980f920 100644
+--- a/include/ublox_msgs/serialization.hpp
++++ b/include/ublox_msgs/serialization.hpp
+@@ -32,6 +32,7 @@
+ 
+ #include <cstdint>
+ 
++#include <ublox_serialization_export.h>
+ #include <ublox_serialization/serialization.hpp>
+ #include <ublox_msgs/ublox_msgs.hpp>
+ 
 diff --git a/include/ublox_msgs/ublox_msgs.hpp b/include/ublox_msgs/ublox_msgs.hpp
 index d362c8d..761a08c 100644
 --- a/include/ublox_msgs/ublox_msgs.hpp
