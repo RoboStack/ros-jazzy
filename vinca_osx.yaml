@@ -103,5 +103,8 @@ packages_select_by_deps:
 
   - lanelet2
 
+  - can_msgs
+  - ros2_socketcan_msgs
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
