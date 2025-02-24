@@ -11,3 +11,25 @@ index e4c03c0..c77f681 100644
  find_package(ament_cmake_ros REQUIRED)
  find_package(rosidl_default_generators REQUIRED)
  find_package(sensor_msgs REQUIRED)
+diff --git a/include/ublox_msgs/ublox_msgs.hpp b/include/ublox_msgs/ublox_msgs.hpp
+index d362c8d..761a08c 100644
+--- a/include/ublox_msgs/ublox_msgs.hpp
++++ b/include/ublox_msgs/ublox_msgs.hpp
+@@ -185,7 +185,17 @@ namespace Message {
+   }  // namespace RXM
+ 
+   namespace INF {
++#if defined(_WIN32)
++#  if defined(ERROR)
++#    pragma push_macro("ERROR")
++#    undef ERROR
++#  endif
++#endif
+     static const uint8_t ERROR = 0x00;
++#if defined(_WIN32)
++#  pragma warning(suppress : 4602)
++#  pragma pop_macro("ERROR")
++#endif
+     static const uint8_t WARNING = 0x01;
+     static const uint8_t NOTICE = 0x02;
+     static const uint8_t TEST = 0x03;
