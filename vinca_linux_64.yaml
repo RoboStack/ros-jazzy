@@ -100,5 +100,7 @@ packages_select_by_deps:
   - ros2_socketcan_msgs
   - ros2_socketcan
 
+  - nav2_bringup
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
