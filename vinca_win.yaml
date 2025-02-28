@@ -94,7 +94,7 @@ packages_select_by_deps:
   - rmw_zenoh_cpp
 
   - flex_sync
-  
+
   - ament_cmake_mypy
   - rosbridge_suite
 
@@ -109,6 +109,7 @@ packages_select_by_deps:
   - can_msgs
   - ros2_socketcan_msgs
 
+  - nav2_bringup
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
-
