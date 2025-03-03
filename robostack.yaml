@@ -118,6 +118,8 @@ gazebo11:
   robostack: [gazebo, libprotobuf, libabseil]
 gazebo9:
   robostack: [gazebo, libprotobuf, libabseil]
+gazebo_ros_pkgs:
+  robostack: [gazebo, libprotobuf, libabseil]
 geographiclib:
   robostack: [geographiclib-cpp]
 geographiclib-tools:
