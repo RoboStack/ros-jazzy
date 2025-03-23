@@ -10,6 +10,8 @@ pugixml:
   - '1.15'
 libopencv:
   - 4.11.0
+tinyxml2:
+  - 10.0
 
 cdt_name:  # [linux]
   - conda  # [linux]
