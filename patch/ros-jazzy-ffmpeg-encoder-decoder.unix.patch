@@ -37,7 +37,7 @@ index 0a12d25..9737ffe 100644
        callback_(image, decodedFrame_->key_frame);  // deliver callback
  #endif
 diff --git a/src/encoder.cpp b/src/encoder.cpp
-index a4b6de6..8a3f40a 100644
+index d5c15ca..1086f35 100644
 --- a/src/encoder.cpp
 +++ b/src/encoder.cpp
 @@ -54,7 +54,11 @@ static void free_frame(AVFrame ** frame)
@@ -52,10 +52,10 @@ index a4b6de6..8a3f40a 100644
      codecContext_ = nullptr;
    }
    free_frame(&frame_);
-@@ -207,11 +211,19 @@ void Encoder::doOpenCodec(int width, int height)
-   setAVOption("preset", preset_);
+@@ -208,11 +212,19 @@ void Encoder::doOpenCodec(int width, int height)
    setAVOption("tune", tune_);
    setAVOption("delay", delay_);
+   setAVOption("crf", crf_);
 +#ifdef __APPLE__
 +  RCLCPP_DEBUG(
 +    logger_,
