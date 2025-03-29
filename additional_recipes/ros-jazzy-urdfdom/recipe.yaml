@@ -8,7 +8,7 @@ build:
 requirements:
   run:
     - urdfdom ==4.0.1
-    - python 3.11.* *_cpython
+    - python 3.12.* *_cpython
 
 about:
   homepage: https://github.com/conda-forge/urdfdom-feedstock
