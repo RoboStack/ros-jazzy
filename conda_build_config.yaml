@@ -12,6 +12,8 @@ libopencv:
   - 4.11.0
 tinyxml2:
   - 10.0
+cmake:
+  - 3.*
 
 cdt_name:  # [linux]
   - conda  # [linux]
