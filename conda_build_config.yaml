@@ -14,8 +14,6 @@ tinyxml2:
   - 10.0
 cmake:
   - 3.*
-fmt:
-  - 11.1.4
 
 cdt_name:  # [linux]
   - conda  # [linux]
