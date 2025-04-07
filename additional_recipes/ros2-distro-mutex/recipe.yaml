@@ -33,6 +33,7 @@ requirements:
     - pcl 1.14.1.*
     - gazebo 11.*
     - libprotobuf 5.29.3.*
+    - libxml2 2.13.*
 
   run_exports:
     weak:
