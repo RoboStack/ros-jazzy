@@ -1,8 +1,6 @@
 on:
   pull_request:
-    paths:
-      - '*.yml'
-      - '*.yaml'
+  workflow_dispatch:
 
 env:
   ROS_VERSION: 2
