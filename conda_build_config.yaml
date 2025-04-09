@@ -10,8 +10,6 @@ pugixml:
   - '1.15'
 libopencv:
   - 4.11.0
-cmake:
-  - 3.*
 libxml2:
   - 2.13.*
 
