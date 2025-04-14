@@ -1,15 +1,17 @@
 numpy:
   - 1.26
 libprotobuf:
-  - 5.28.3
+  - 5.29.3
 protobuf:
-  - 5.28.3
+  - 5.29.3
 spdlog:
   - 1.15
 pugixml:
   - '1.15'
 libopencv:
   - 4.11.0
+libxml2:
+  - 2.13.*
 
 # Workaround for https://github.com/RoboStack/ros-jazzy/pull/40#issuecomment-2782226697
 cmake:
@@ -19,7 +21,7 @@ cdt_name:  # [linux]
   - conda  # [linux]
 
 python:
-  - 3.11.* *_cpython
+  - 3.12.* *_cpython
 python_impl:
   - cpython
 

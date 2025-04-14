@@ -1,7 +1,7 @@
-diff --git a/ur_robot_driver/CMakeLists.txt b/ur_robot_driver/CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 05b59e628..78a197a44 100644
---- a/ur_robot_driver/CMakeLists.txt
-+++ b/ur_robot_driver/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -9,9 +9,12 @@ option(
    OFF
  )
@@ -19,20 +19,20 @@ index 05b59e628..78a197a44 100644
  if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
    message("${PROJECT_NAME}: You did not request a specific build type: selecting 'RelWithDebInfo'.")
 
-diff --git a/ur_robot_driver/src/hardware_interface.cpp b/ur_robot_driver/src/hardware_interface.cpp
+diff --git a/src/hardware_interface.cpp b/src/hardware_interface.cpp
 index 216d7d462..b500aadc7 100644
---- a/ur_robot_driver/src/hardware_interface.cpp
-+++ b/ur_robot_driver/src/hardware_interface.cpp
+--- a/src/hardware_interface.cpp
++++ b/src/hardware_interface.cpp
 @@ -45,3 +45,4 @@
 +#include "ur_robot_driver/hardware_interface.hpp"
  #include "ur_client_library/exceptions.h"
  #include "ur_client_library/ur/tool_communication.h"
  #include "ur_client_library/ur/version_information.h"
 
-diff --git a/ur_robot_driver/include/ur_robot_driver/hardware_interface.hpp b/ur_robot_driver/include/ur_robot_driver/hardware_interface.hpp
+diff --git a/include/ur_robot_driver/hardware_interface.hpp b/include/ur_robot_driver/hardware_interface.hpp
 index 14bdd29ea..330e4161e 100644
---- a/ur_robot_driver/include/ur_robot_driver/hardware_interface.hpp
-+++ b/ur_robot_driver/include/ur_robot_driver/hardware_interface.hpp
+--- a/include/ur_robot_driver/hardware_interface.hpp
++++ b/include/ur_robot_driver/hardware_interface.hpp
 @@ -66,3 +66,5 @@
 +typedef unsigned int uint;
 +

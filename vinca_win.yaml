@@ -5,10 +5,10 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 4
-build_number: 4
+# Reminder for next full rebuild, the next build number should be 6 
+build_number: 5
 
-mutex_package: ros2-distro-mutex 0.7.* jazzy_*
+mutex_package: ros2-distro-mutex 0.8.* jazzy_*
 
 skip_all_deps: false
 

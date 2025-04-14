@@ -1,6 +1,6 @@
 package:
   name: ros2-distro-mutex
-  version: 0.7.0
+  version: 0.8.0
 
 build:
   number: 0
@@ -32,7 +32,8 @@ requirements:
     - libboost-devel 1.86.*
     - pcl 1.14.1.*
     - gazebo 11.*
-    - libprotobuf 5.28.3.*
+    - libprotobuf 5.29.3.*
+    - libxml2 2.13.*
 
   run_exports:
     weak:

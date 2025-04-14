@@ -1,21 +1,34 @@
-diff --git a/zenoh_cpp_vendor/CMakeLists.txt b/zenoh_cpp_vendor/CMakeLists.txt
-index 2d3ae046..de971841 100644
---- a/zenoh_cpp_vendor/CMakeLists.txt
-+++ b/zenoh_cpp_vendor/CMakeLists.txt
-@@ -10,35 +10,10 @@ endif()
- find_package(ament_cmake REQUIRED)
- find_package(ament_cmake_vendor_package REQUIRED)
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5b7cf79..db6328b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -17,46 +17,10 @@ find_package(ament_cmake_vendor_package REQUIRED)
+ # when expanded.
+ set(ZENOHC_CARGO_FLAGS "--no-default-features$<SEMICOLON>--features=shared-memory zenoh/transport_compression zenoh/transport_tcp zenoh/transport_udp zenoh/transport_tls")
  
--# Disable default features and enable only the most useful ones. This reduces build time and footprint.
--# For a complete list of features see: https://github.com/eclipse-zenoh/zenoh/blob/main/zenoh/Cargo.toml
--# Note: We separate the two args needed for cargo with "$<SEMICOLON>" and not ";" as the
--# latter is a list separater in cmake and hence the string will be split into two
--# when expanded.
--set(ZENOHC_CARGO_FLAGS "--no-default-features$<SEMICOLON>--features=shared-memory zenoh/transport_compression zenoh/transport_tcp zenoh/transport_tls")
--
+-# Set VCS_VERSION to include latest changes from zenoh/zenoh-c/zenoh-cpp to benefit from:
+-# - Reword SHM warning log about "setting scheduling priority":
+-#   - https://github.com/eclipse-zenoh/zenoh/pull/1778
+-# - Performances improvements at launch time:
+-#   - https://github.com/eclipse-zenoh/zenoh/pull/1786
+-#   - https://github.com/eclipse-zenoh/zenoh/pull/1789
+-#   - https://github.com/eclipse-zenoh/zenoh/pull/1793
+-# - Fixed open timeout
+-#   - https://github.com/eclipse-zenoh/zenoh/pull/1796
+-# - Improve ACL behaviour, notably for S-ROS
+-#   - https://github.com/eclipse-zenoh/zenoh/pull/1781
+-#   - https://github.com/eclipse-zenoh/zenoh/pull/1785
+-#   - https://github.com/eclipse-zenoh/zenoh/pull/1795
+-#   - https://github.com/eclipse-zenoh/zenoh/pull/1806
+-# - Reduce the number of threads in case of scouting
+-#  - https://github.com/eclipse-zenoh/zenoh-c/pull/937
+-# - Namespace prefix support
+-#   - https://github.com/eclipse-zenoh/zenoh/pull/1792
+-# - Fix debug mode crash
+-#  - https://github.com/eclipse-zenoh/zenoh-cpp/pull/432
 -ament_vendor(zenoh_c_vendor
 -  VCS_URL https://github.com/eclipse-zenoh/zenoh-c.git
--  VCS_VERSION 57d5e4d31d9b38fef34d7bcad3d3e54869c4ce73
+-  VCS_VERSION e6a1971139f405f7887bf5bb54f0efe402123032
 -  CMAKE_ARGS
 -    "-DZENOHC_CARGO_FLAGS=${ZENOHC_CARGO_FLAGS}"
 -    "-DZENOHC_BUILD_WITH_UNSTABLE_API=TRUE"
@@ -25,11 +38,9 @@ index 2d3ae046..de971841 100644
 +find_package(zenohc REQUIRED)
  ament_export_dependencies(zenohc)
  
--# Set VCS_VERSION to include latest changes from zenoh-c to benefit from :
--# - https://github.com/eclipse-zenoh/zenoh-cpp/pull/342 (Fix include what you use)
 -ament_vendor(zenoh_cpp_vendor
 -  VCS_URL https://github.com/eclipse-zenoh/zenoh-cpp
--  VCS_VERSION 964b64dc8b935a43147287199e7bb12da7b141e6
+-  VCS_VERSION 8ad67f6c7a9031acd437c8739bbc8ddab0ca8173
 -  CMAKE_ARGS
 -    -DZENOHCXX_ZENOHC=OFF
 -)

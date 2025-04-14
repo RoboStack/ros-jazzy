@@ -8,7 +8,7 @@ build:
 requirements:
   run:
     - urdfdom-py 1.2.1.*
-    - python 3.11.* *_cpython
+    - python 3.12.* *_cpython
 
 about:
   homepage: https://github.com/ros/urdf_parser_py
