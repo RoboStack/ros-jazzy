@@ -1,7 +1,5 @@
 [project]
 name = "ros-jazzy"
-# Just a convention, this is the same as the mutex package
-version = "0.6.0"
 description = "RoboStack repo to package ros-jazzy packages as conda packages"
 authors = ["Tobias Fischer <tobias.fischer@qut.edu.au>", "Wolf Vollprecht <w.vollprecht@gmail.com>", "Silvio Traversaro <silvio@traversaro.it>"]
 channels = ["https://repo.prefix.dev/conda-forge"]
