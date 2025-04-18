@@ -15,8 +15,6 @@ upload = "anaconda -t $ANACONDA_API_TOKEN upload"
 [dependencies]
 python = ">=3.12.0,<3.13"
 rattler-build = ">=0.35.5"
-# Avoid https://github.com/RoboStack/ros-jazzy/issues/44
-platformdirs = ">=4.3.7"
 anaconda-client = ">=1.13.0"
 cmake = "<4.0"
 
