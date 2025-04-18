@@ -60,7 +60,7 @@ jobs:
     - name: Check that anaconda-client command works fine
       shell: bash -l {0}
       run: |
-        anaconda --version
+        pixi run anaconda --version
 
     - name: Generate recipes for linux-64
       shell: bash -l {0}
