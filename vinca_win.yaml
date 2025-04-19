@@ -59,6 +59,7 @@ packages_select_by_deps:
   - moveit-planners-chomp
   - moveit-servo
   - moveit-visual-tools
+  - moveit-tutorials
 
   - ros2_control
   - ros2_controllers
@@ -74,6 +75,7 @@ packages_select_by_deps:
   - ros_gz
   - slam_toolbox
   - turtlebot3
+  - turtlebot3_gazebo
 
   # Skip for now
   # - plotjuggler-ros
