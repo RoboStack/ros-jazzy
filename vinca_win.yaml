@@ -125,7 +125,8 @@ packages_select_by_deps:
   - autoware_cmake
   - autoware_utils
 
-  - ffmpeg_image_transport
+  # TODO: fix iconv link issue
+  # - ffmpeg_image_transport
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
