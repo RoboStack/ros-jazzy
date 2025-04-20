@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2368174..b265710 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -101,6 +101,8 @@ install(TARGETS urcl EXPORT urcl_targets
+ )
+ install(DIRECTORY include/ DESTINATION include)
+ 
++install(FILES 3rdparty/endian/endian.h DESTINATION include)
++
+ install(EXPORT urcl_targets
+   DESTINATION lib/cmake/ur_client_library
+   FILE urclTargets.cmake
