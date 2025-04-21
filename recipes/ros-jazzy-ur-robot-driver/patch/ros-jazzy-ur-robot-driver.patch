@@ -1,0 +1,13 @@
+diff --git a/src/robot_state_helper.cpp b/src/robot_state_helper.cpp
+index cd3d4ef2..691e99d2 100755
+--- a/src/robot_state_helper.cpp
++++ b/src/robot_state_helper.cpp
+@@ -345,7 +345,7 @@ void RobotStateHelper::setModeExecute(const std::shared_ptr<RobotStateHelper::Se
+         result_->success = safeDashboardTrigger(this->resend_robot_program_srv_);
+       } else {
+         // The dashboard denies playing immediately after switching the mode to RUNNING
+-        sleep(1);
++        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+         result_->success = safeDashboardTrigger(this->play_program_srv_);
+       }
+     }
