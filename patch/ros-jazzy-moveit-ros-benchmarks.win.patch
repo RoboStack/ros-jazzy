@@ -1,7 +1,7 @@
 diff --git a/moveit_ros/benchmarks/CMakeLists.txt b/moveit_ros/benchmarks/CMakeLists.txt
 index 58538a70b9..7b60f0a220 100644
---- a/moveit_ros/benchmarks/CMakeLists.txt
-+++ b/moveit_ros/benchmarks/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -34,6 +34,7 @@ set_target_properties(moveit_ros_benchmarks
  if(WIN32)
    set(EXTRA_LIB ws2_32.lib)

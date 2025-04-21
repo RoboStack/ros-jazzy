@@ -1,7 +1,7 @@
-diff --git a/ur_controllers/CMakeLists.txt b/ur_controllers/CMakeLists.txt
-index 79a89acbd..9e4584419 100644
---- a/ur_controllers/CMakeLists.txt
-+++ b/ur_controllers/CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3db6e822..52fb849b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -4,6 +4,7 @@ project(ur_controllers)
  if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
    add_compile_options(-Wall -Wextra)
@@ -14,9 +14,9 @@ index 79a89acbd..9e4584419 100644
    ${THIS_PACKAGE_INCLUDE_DEPENDS}
  )
  
--target_compile_options(${PROJECT_NAME} PRIVATE -Wpedantic -Werror=return-type)
+-target_compile_options(${PROJECT_NAME} PRIVATE -Wpedantic -Werror)
 +if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-+  target_compile_options(${PROJECT_NAME} PRIVATE -Wpedantic -Werror=return-type)
++  target_compile_options(${PROJECT_NAME} PRIVATE -Wpedantic -Werror)
 +endif()
  
  # prevent pluginlib from using boost

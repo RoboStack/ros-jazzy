@@ -1,7 +1,7 @@
-diff --git a/ur_calibration/CMakeLists.txt b/ur_calibration/CMakeLists.txt
-index 0b17e4d5f..31c63864f 100644
---- a/ur_calibration/CMakeLists.txt
-+++ b/ur_calibration/CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0b17e4d5..9ace1736 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -2,10 +2,9 @@ cmake_minimum_required(VERSION 3.5)
  project(ur_calibration)
  
@@ -15,12 +15,7 @@ index 0b17e4d5f..31c63864f 100644
  
  if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
    message("${PROJECT_NAME}: You did not request a specific build type: selecting 'RelWithDebInfo'.")
-
-diff --git a/ur_calibration/CMakeLists.txt b/ur_calibration/CMakeLists.txt
-index 0b17e4d5f..8b8bbf871 100644
---- a/ur_calibration/CMakeLists.txt
-+++ b/ur_calibration/CMakeLists.txt
-@@ -37,7 +37,7 @@ target_include_directories(calibration
+@@ -37,7 +36,7 @@ target_include_directories(calibration
      ${YAML_CPP_INCLUDE_DIRS}
  )
  target_link_libraries(calibration

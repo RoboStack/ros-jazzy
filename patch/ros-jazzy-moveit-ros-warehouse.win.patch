@@ -1,7 +1,7 @@
-diff --git a/moveit_ros/warehouse/CMakeLists.txt b/moveit_ros/warehouse/CMakeLists.txt
+diff --git a/warehouse/CMakeLists.txt b/CMakeLists.txt
 index 825f6b11c7..e68e1d866b 100644
---- a/moveit_ros/warehouse/CMakeLists.txt
-+++ b/moveit_ros/warehouse/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -56,7 +56,7 @@ target_link_libraries(moveit_warehouse_broadcast moveit_warehouse)
  add_executable(moveit_save_to_warehouse src/save_to_warehouse.cpp)
  ament_target_dependencies(moveit_save_to_warehouse
