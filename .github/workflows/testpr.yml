@@ -37,9 +37,9 @@ jobs:
         persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
         fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
-    - uses: prefix-dev/setup-pixi@v0.8.1
+    - uses: prefix-dev/setup-pixi@v0.8.8
       with:
-        pixi-version: v0.41.1
+        pixi-version: v0.44.0
         environments: beta
         frozen: true
 
