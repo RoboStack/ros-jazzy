@@ -112,6 +112,10 @@ jobs:
         mkdir -p recipes
         $HOME/.pixi/bin/pixi run -e beta -v vinca --platform win-64 -m -n
         ls -la recipes
+    - name: Copy additional recipes which have been changed into recipes
+      shell: bash -l {0}
+      run: |
+        echo '${{ toJson(matrix.additional_recipes) }}' | jq -r ".[]" | xargs -I@ cp -r additional_recipes/@ recipes/
     - name: Check if there are packages to be built
       id: newrecipecheck
       shell: bash -l {0}
@@ -123,55 +127,30 @@ jobs:
         else
           echo "RECIPE_CREATED=1" >> $GITHUB_OUTPUT
         fi
-    - name: Build additional recipes for linux-64
-      shell: bash -l {0}
-      if: matrix.platform == 'linux-64'
-      run: |
-        echo '${{ toJson(matrix.additional_recipes) }}' | jq -r ".[]" | xargs -I@ env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir additional_recipes/@ --target-platform linux-64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
     - name: Build recipes for linux-64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && matrix.platform == 'linux-64'
       run: |
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir additional_recipes --target-platform linux-64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes --target-platform linux-64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-    - name: Build additional recipes for linux-aarch64
-      shell: bash -l {0}
-      if: matrix.platform == 'linux-aarch64'
-      run: |
-        echo '${{ toJson(matrix.additional_recipes) }}' | jq -r ".[]" | xargs -I@ env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir additional_recipes/@ --target-platform linux-aarch64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
     - name: Build recipes for linux-aarch64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && matrix.platform == 'linux-aarch64'
       run: |
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir additional_recipes --target-platform linux-aarch64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes --target-platform linux-aarch64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-    - name: Build additional recipes for osx-64
-      shell: bash -l {0}
-      if: matrix.platform == 'osx-64'
-      run: |
-        echo '${{ toJson(matrix.additional_recipes) }}' | jq -r ".[]" | xargs -I@ env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir additional_recipes/@ --target-platform osx-64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing    
     - name: Build recipes for osx-64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && matrix.platform == 'osx-64'
       run: |
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir additional_recipes --target-platform osx-64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes --target-platform osx-64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-    - name: Build additional recipes for osx-arm64
-      shell: bash -l {0}
-      if: matrix.platform == 'osx-arm64'
-      run: |
-        echo '${{ toJson(matrix.additional_recipes) }}' | jq -r ".[]" | xargs -I@ env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir additional_recipes/@ --target-platform osx-arm64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
     - name: Build recipes for osx-arm64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && matrix.platform == 'osx-arm64'
       run: |
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir additional_recipes --target-platform osx-arm64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes --target-platform osx-arm64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-    - name: Build additional recipes for win-64
-      shell: bash -l {0}
-      if: matrix.platform == 'win-64'
-      run: |
-        echo '${{ toJson(matrix.additional_recipes) }}' | jq -r ".[]" | xargs -I@ env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir additional_recipes/@ --target-platform win-64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
     - name: Build recipes for win-64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && matrix.platform == 'win-64'
