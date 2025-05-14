@@ -13,14 +13,21 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux-64
+            additional_recipes:
+              - "ros-jazzy-livox-ros-driver2"
           - os: ubuntu-24.04-arm
             platform: linux-aarch64
+            additional_recipes: 
+              - "ros-jazzy-livox-ros-driver2"
           - os: macos-13
             platform: osx-64
+            additional_recipes: []
           - os: macos-14
             platform: osx-arm64
+            additional_recipes: []
           - os: windows-2019
             platform: win-64
+            additional_recipes: []
 
     runs-on: ${{ matrix.os }}
 
@@ -105,6 +112,10 @@ jobs:
         mkdir -p recipes
         $HOME/.pixi/bin/pixi run -e beta -v vinca --platform win-64 -m -n
         ls -la recipes
+    - name: Copy additional recipes which have been changed into recipes
+      shell: bash -l {0}
+      run: |
+        echo '${{ toJson(matrix.additional_recipes) }}' | jq -r ".[]" | xargs -I@ cp -r additional_recipes/@ recipes/
     - name: Check if there are packages to be built
       id: newrecipecheck
       shell: bash -l {0}
