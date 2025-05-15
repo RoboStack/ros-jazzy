@@ -13,6 +13,8 @@ source:
 build:
   script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
   number: 6
+  skip:
+    - not linux
   post_process:
     - files:
         - '*.pc'
