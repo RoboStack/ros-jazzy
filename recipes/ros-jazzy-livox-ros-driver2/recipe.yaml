@@ -1,0 +1,122 @@
+package:
+  name: ros-jazzy-livox-ros-driver2
+  version: 1.2.4
+
+source:
+  git: https://github.com/Livox-SDK/livox_ros_driver2.git
+  tag: 1.2.4
+  target_directory: ros-jazzy-livox-ros-driver2/src/work
+  patches:
+    - add_package_xml.patch
+    - fix_livox_interfaces.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 6
+  skip:
+    - not linux
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+
+about:
+  homepage: https://github.com/Livox-SDK/livox_ros_driver2
+  license: MIT
+  summary: |
+    Livox device driver under Ros(Compatible with ros and ros2), support Lidar HAP and Mid-360.
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - eigen
+    - libboost-devel
+    - livox-sdk2
+    - numpy
+    - pcl
+    - pip
+    - python
+    - ros-jazzy-ament-cmake
+    - ros-jazzy-ament-cmake-auto
+    - ros-jazzy-ament-lint-auto
+    - ros-jazzy-ament-lint-common
+    - ros-jazzy-pcl-conversions
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-components
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rosidl-default-generators
+    - ros-jazzy-sensor-msgs
+    - ros2-distro-mutex 0.8.* jazzy_*
+    - vtk-base
+    - if: linux
+      then:
+        - libgl-devel
+        - libopengl-devel
+    - if: unix
+      then:
+        - xorg-libx11
+        - xorg-libxext
+  run:
+    - eigen
+    - libboost-devel
+    - pcl
+    - python
+    - ros-jazzy-pcl-conversions
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-components
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-sensor-msgs
+    - ros2-distro-mutex 0.8.* jazzy_*
+    - vtk-base
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
+    - if: unix
+      then:
+        - xorg-libx11
+        - xorg-libxext
