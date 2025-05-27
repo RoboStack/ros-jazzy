@@ -30,10 +30,11 @@ requirements:
   run_constraints:
     - libboost 1.86.*
     - libboost-devel 1.86.*
-    - pcl 1.14.1.*
+    - pcl 1.15.0.*
     - gazebo 11.*
     - libprotobuf 5.29.3.*
     - libxml2 2.13.*
+    - vtk 9.4.2.*
 
   run_exports:
     weak:
