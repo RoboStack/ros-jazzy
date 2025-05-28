@@ -1,20 +1,20 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 9ccbe4c..5652dad 100644
+index b3fcf87..7e5c654 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -48,7 +48,7 @@ target_include_directories(realtime_tools PUBLIC
+@@ -46,7 +46,7 @@ target_include_directories(realtime_tools PUBLIC
    $<INSTALL_INTERFACE:include/realtime_tools>
  )
- ament_target_dependencies(realtime_tools PUBLIC ${THIS_PACKAGE_INCLUDE_DEPENDS})
+ target_link_libraries(realtime_tools PUBLIC rclcpp::rclcpp rclcpp_action::rclcpp_action rcpputils::rcpputils Threads::Threads Boost::boost)
 -if(UNIX)
 +if(UNIX AND NOT APPLE)
    target_link_libraries(realtime_tools PUBLIC cap)
  endif()
  
-@@ -62,7 +62,7 @@ target_include_directories(thread_priority PUBLIC
+@@ -60,7 +60,7 @@ target_include_directories(thread_priority PUBLIC
    $<INSTALL_INTERFACE:include/realtime_tools>
  )
- ament_target_dependencies(thread_priority PUBLIC ${THIS_PACKAGE_INCLUDE_DEPENDS})
+ target_link_libraries(thread_priority PUBLIC rclcpp::rclcpp rclcpp_action::rclcpp_action rcpputils::rcpputils Threads::Threads)
 -if(UNIX)
 +if(UNIX AND NOT APPLE)
    target_link_libraries(thread_priority PUBLIC cap)
