@@ -48,6 +48,9 @@ packages_select_by_deps:
   - desktop_full
 
   - moveit
+  - moveit-py
+  - moveit-ros-perception
+  - moveit-ros-occupancy-map-monitor
   - moveit-planners-chomp
   - moveit-servo
   - moveit-visual-tools
