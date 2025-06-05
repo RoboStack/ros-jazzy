@@ -1,0 +1,24 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a823eda..b6610b0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,6 +7,7 @@ autoware_package()
+ ament_auto_add_library(${PROJECT_NAME} SHARED
+   "src/time_keeper.cpp"
+ )
++target_link_libraries(${PROJECT_NAME} fmt::fmt)
+ 
+ if(BUILD_TESTING)
+   file(GLOB_RECURSE test_files test/*.cpp)
+diff --git a/package.xml b/package.xml
+index c3a760a..a08d032 100644
+--- a/package.xml
++++ b/package.xml
+@@ -18,6 +18,7 @@
+   <depend>autoware_internal_msgs</depend>
+   <depend>autoware_utils_system</depend>
+   <depend>diagnostic_msgs</depend>
++  <depend>fmt</depend>
+   <depend>rclcpp</depend>
+ 
+   <test_depend>ament_cmake_ros</test_depend>
