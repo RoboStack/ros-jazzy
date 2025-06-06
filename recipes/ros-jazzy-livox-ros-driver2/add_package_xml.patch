@@ -1,0 +1,55 @@
+From 318d447b347d87ce2087c40dd6ad169643fc32d9 Mon Sep 17 00:00:00 2001
+From: wep21 <daisuke.nishimatsu1021@gmail.com>
+Date: Tue, 22 Apr 2025 21:53:53 +0900
+Subject: [PATCH] add package.xml
+
+Signed-off-by: wep21 <daisuke.nishimatsu1021@gmail.com>
+---
+ package.xml | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+ create mode 100644 package.xml
+
+diff --git a/package.xml b/package.xml
+new file mode 100644
+index 0000000..96f5762
+--- /dev/null
++++ b/package.xml
+@@ -0,0 +1,35 @@
++<?xml version="1.0"?>
++<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
++<package format="3">
++  <name>livox_ros_driver2</name>
++  <version>1.0.0</version>
++  <description>The ROS device driver for Livox 3D LiDARs, for ROS2</description>
++  <maintainer email="dev@livoxtech.com">feng</maintainer>
++  <license>MIT</license>
++
++  <buildtool_depend>ament_cmake_auto</buildtool_depend>
++  <build_depend>rosidl_default_generators</build_depend>
++  <member_of_group>rosidl_interface_packages</member_of_group>
++
++  <depend>rclcpp</depend>
++  <depend>rclcpp_components</depend>
++  <depend>std_msgs</depend>
++  <depend>sensor_msgs</depend>
++  <depend>rcutils</depend>
++  <depend>pcl_conversions</depend>
++  <depend>rcl_interfaces</depend>
++  <depend>libpcl-all-dev</depend>
++
++  <exec_depend>rosbag2</exec_depend>
++  <exec_depend>rosidl_default_runtime</exec_depend>
++
++  <test_depend>ament_lint_auto</test_depend>
++  <test_depend>ament_lint_common</test_depend>
++
++  <depend>git</depend>
++  <depend>apr</depend>
++
++  <export>
++    <build_type>ament_cmake</build_type>
++  </export>
++</package>
+-- 
+2.39.5 (Apple Git-154)
+
