@@ -1,5 +1,5 @@
 diff --git a/src/backtrace.cpp b/src/backtrace.cpp
-index 3bdfa8f..34626c7 100644
+index 3bdfa8f..ee27f35 100644
 --- a/src/backtrace.cpp
 +++ b/src/backtrace.cpp
 @@ -16,7 +16,9 @@
@@ -12,15 +12,21 @@ index 3bdfa8f..34626c7 100644
  
  #include <iostream>
  #include <memory>
-@@ -32,7 +34,11 @@ void print_backtrace()
+@@ -29,6 +31,7 @@ namespace autoware_utils_system
+ // cppcheck-suppress unusedFunction
+ void print_backtrace()
+ {
++#if !defined(_MSC_VER)
    constexpr size_t max_frames = 100;
    void * addrlist[max_frames + 1];
  
-+#if !defined(_MSC_VER)
-   int addrlen = backtrace(addrlist, sizeof(addrlist) / sizeof(void *));
+@@ -49,5 +52,9 @@ void print_backtrace()
+ 
+   free(symbol_list);
+ }
 +#else
-+  int addrlen = 0;
++  return;
++}
 +#endif
  
-   if (addrlen == 0) {
-     return;
+ }  // namespace autoware_utils_system
