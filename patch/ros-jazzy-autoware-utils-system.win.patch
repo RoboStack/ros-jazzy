@@ -1,0 +1,26 @@
+diff --git a/src/backtrace.cpp b/src/backtrace.cpp
+index 3bdfa8f..34626c7 100644
+--- a/src/backtrace.cpp
++++ b/src/backtrace.cpp
+@@ -16,7 +16,9 @@
+ 
+ #include <rclcpp/rclcpp.hpp>
+ 
++#if !defined(_MSC_VER)
+ #include <execinfo.h>
++#endif
+ 
+ #include <iostream>
+ #include <memory>
+@@ -32,7 +34,11 @@ void print_backtrace()
+   constexpr size_t max_frames = 100;
+   void * addrlist[max_frames + 1];
+ 
++#if !defined(_MSC_VER)
+   int addrlen = backtrace(addrlist, sizeof(addrlist) / sizeof(void *));
++#else
++  int addrlen = 0;
++#endif
+ 
+   if (addrlen == 0) {
+     return;
