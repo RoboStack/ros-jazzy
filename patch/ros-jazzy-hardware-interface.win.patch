@@ -1,8 +1,20 @@
-diff --git a/hardware_interface/CMakeLists.txt b/hardware_interface/CMakeLists.txt
-index b4e0f6cab0..50120726bb 100644
---- a/hardware_interface/CMakeLists.txt
-+++ b/hardware_interface/CMakeLists.txt
-@@ -57,3 +57,4 @@ target_include_directories(mock_components PUBLIC
-+target_link_libraries(mock_components PUBLIC hardware_interface)
- ament_target_dependencies(mock_components PUBLIC ${THIS_PACKAGE_INCLUDE_DEPENDS})
-
+diff --git a/include/hardware_interface/handle.hpp b/include/hardware_interface/handle.hpp
+index 6fbb547e6..372895a18 100644
+--- a/include/hardware_interface/handle.hpp
++++ b/include/hardware_interface/handle.hpp
+@@ -39,10 +39,15 @@ namespace
+ template <typename T>
+ std::string get_type_name()
+ {
++#ifdef _MSC_VER
++  const char* name = typeid(T).name();
++  return std::string(name);
++#else
+   int status = 0;
+   std::unique_ptr<char[], void (*)(void *)> res{
+     abi::__cxa_demangle(typeid(T).name(), nullptr, nullptr, &status), std::free};
+   return (status == 0) ? res.get() : typeid(T).name();
++#endif
+ }
+ }  // namespace
+ 

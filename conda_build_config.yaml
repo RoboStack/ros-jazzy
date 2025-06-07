@@ -51,8 +51,8 @@ cxx_compiler_version:          # [unix]
   - 18                         # [osx]
 
 libzenohc:
-  - 1.2.1
+  - 1.3.4
 libzenohcxx:
-  - 1.2.1
+  - 1.3.4
 libcap:
   - 2.71
