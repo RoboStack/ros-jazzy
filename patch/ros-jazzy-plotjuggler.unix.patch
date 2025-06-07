@@ -56,7 +56,7 @@ index 761e0b73..b7ce4129 100644
 +                  .arg(QString::fromStdString(std::string(message)));
  }
 diff --git a/plotjuggler_plugins/ParserProtobuf/error_collectors.h b/plotjuggler_plugins/ParserProtobuf/error_collectors.h
-index f70a881f..7afe1fea 100644
+index 8abfa5e0..7afe1fea 100644
 --- a/plotjuggler_plugins/ParserProtobuf/error_collectors.h
 +++ b/plotjuggler_plugins/ParserProtobuf/error_collectors.h
 @@ -3,17 +3,18 @@
@@ -71,12 +71,12 @@ index f70a881f..7afe1fea 100644
  {
  public:
 -  void AddError(int line, google::protobuf::io::ColumnNumber column,
--                const std::string& message) override;
+-                const std::string& message);
 +  void RecordError(int line, google::protobuf::io::ColumnNumber column,
 +                const absl::string_view message) override;
  
 -  void AddWarning(int line, google::protobuf::io::ColumnNumber column,
--                  const std::string& message) override;
+-                  const std::string& message);
 +  void RecordWarning(int line, google::protobuf::io::ColumnNumber column,
 +                  const absl::string_view message) override;
  
