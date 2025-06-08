@@ -1,0 +1,13 @@
+diff --git a/src/controller_interface_base.cpp b/src/controller_interface_base.cpp
+index 532544ab3..22229eb8a 100644
+--- a/src/controller_interface_base.cpp
++++ b/src/controller_interface_base.cpp
+@@ -153,7 +153,7 @@ const rclcpp_lifecycle::State & ControllerInterfaceBase::configure()
+     {
+       RCLCPP_WARN(
+         get_node()->get_logger(),
+-        "The update rate of the controller : '%ld Hz' cannot be higher than the update rate of the "
++        "The update rate of the controller : '%lld Hz' cannot be higher than the update rate of the "
+         "controller manager : '%d Hz'. Setting it to the update rate of the controller manager.",
+         update_rate, update_rate_);
+     }
