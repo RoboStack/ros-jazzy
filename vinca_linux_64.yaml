@@ -118,5 +118,33 @@ packages_select_by_deps:
 
   - ffmpeg_image_transport
 
+  - apriltag_detector
+
+  - apriltag_draw
+
+  - apriltag_tools
+
+  - apriltag_detector_umich
+
+  - apriltag_detector_mit
+
+  - ament_cmake_black
+
+  - behaviortree_cpp
+
+  - py-binding-tools
+
+  - dual-laser-merger
+
+  - pointcloud-to-laserscan
+
+  - laser-segmentation
+  
+  - rqt_tf_tree
+
+  - rviz_satellite
+
+  - odom_to_tf_ros2
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
