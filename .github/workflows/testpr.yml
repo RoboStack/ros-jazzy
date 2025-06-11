@@ -25,7 +25,7 @@ jobs:
           - os: macos-14
             platform: osx-arm64
             additional_recipes: []
-          - os: windows-2019
+          - os: windows-2022
             platform: win-64
             additional_recipes: []
 
