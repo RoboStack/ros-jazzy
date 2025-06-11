@@ -11,3 +11,15 @@ index f7cb43b..115964a 100644
  endif()
  
  set(PREFIX iceoryx/v${CMAKE_PROJECT_VERSION})
+diff --git a/platform/win/source/time.cpp b/platform/win/source/time.cpp
+index 4c2ab2d..4a7074b 100644
+--- a/platform/win/source/time.cpp
++++ b/platform/win/source/time.cpp
+@@ -16,6 +16,7 @@
+ // SPDX-License-Identifier: Apache-2.0
+ 
+ #include "iceoryx_hoofs/platform/time.hpp"
++#include <chrono>
+ 
+ static std::chrono::nanoseconds getNanoSeconds(const timespec& value)
+ {
