@@ -128,5 +128,11 @@ packages_select_by_deps:
   # TODO: fix iconv link issue
   # - ffmpeg_image_transport
 
+  - apriltag_detector
+
+  - ament_cmake_black
+
+  - behaviortree_cpp
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
