@@ -129,7 +129,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/fa/c1/b0616243c1f922252ceb4513c22abefc1773cf372bfc0b6f7e59c2829f96/rospkg-1.6.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/35/79/5e2cffa1c77432f11cd93a5351f30732c997a239d3a3090856a72d6d8ba7/ruamel.yaml-0.17.40-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/44/d0/3f68a86e006448fb6c005aee66565b9eb89014a70c491d70c08de597f8e4/ruamel.yaml.clib-0.2.12-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-      - pypi: git+https://github.com/RoboStack/vinca.git?rev=cbb8eba834ce3834df552977d6b08c325a30768e#cbb8eba834ce3834df552977d6b08c325a30768e
+      - pypi: git+https://github.com/RoboStack/vinca.git?rev=89e3fda78f32023c77481bd8f64a7030a4c72fc8#89e3fda78f32023c77481bd8f64a7030a4c72fc8
       linux-aarch64:
       - conda: https://repo.prefix.dev/conda-forge/linux-aarch64/_openmp_mutex-4.5-2_gnu.tar.bz2
       - conda: https://repo.prefix.dev/conda-forge/noarch/anaconda-cli-base-0.5.2-pyhd8ed1ab_0.conda
@@ -252,7 +252,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/fa/c1/b0616243c1f922252ceb4513c22abefc1773cf372bfc0b6f7e59c2829f96/rospkg-1.6.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/35/79/5e2cffa1c77432f11cd93a5351f30732c997a239d3a3090856a72d6d8ba7/ruamel.yaml-0.17.40-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/ec/b0/b850385604334c2ce90e3ee1013bd911aedf058a934905863a6ea95e9eb4/ruamel.yaml.clib-0.2.12-cp312-cp312-manylinux2014_aarch64.whl
-      - pypi: git+https://github.com/RoboStack/vinca.git?rev=cbb8eba834ce3834df552977d6b08c325a30768e#cbb8eba834ce3834df552977d6b08c325a30768e
+      - pypi: git+https://github.com/RoboStack/vinca.git?rev=89e3fda78f32023c77481bd8f64a7030a4c72fc8#89e3fda78f32023c77481bd8f64a7030a4c72fc8
       osx-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/anaconda-cli-base-0.5.2-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/anaconda-client-1.13.0-pyh29332c3_1.conda
@@ -364,7 +364,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/fa/c1/b0616243c1f922252ceb4513c22abefc1773cf372bfc0b6f7e59c2829f96/rospkg-1.6.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/35/79/5e2cffa1c77432f11cd93a5351f30732c997a239d3a3090856a72d6d8ba7/ruamel.yaml-0.17.40-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/20/84/80203abff8ea4993a87d823a5f632e4d92831ef75d404c9fc78d0176d2b5/ruamel.yaml.clib-0.2.12.tar.gz
-      - pypi: git+https://github.com/RoboStack/vinca.git?rev=cbb8eba834ce3834df552977d6b08c325a30768e#cbb8eba834ce3834df552977d6b08c325a30768e
+      - pypi: git+https://github.com/RoboStack/vinca.git?rev=89e3fda78f32023c77481bd8f64a7030a4c72fc8#89e3fda78f32023c77481bd8f64a7030a4c72fc8
       osx-arm64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/anaconda-cli-base-0.5.2-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/anaconda-client-1.13.0-pyh29332c3_1.conda
@@ -476,7 +476,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/fa/c1/b0616243c1f922252ceb4513c22abefc1773cf372bfc0b6f7e59c2829f96/rospkg-1.6.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/35/79/5e2cffa1c77432f11cd93a5351f30732c997a239d3a3090856a72d6d8ba7/ruamel.yaml-0.17.40-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/20/84/80203abff8ea4993a87d823a5f632e4d92831ef75d404c9fc78d0176d2b5/ruamel.yaml.clib-0.2.12.tar.gz
-      - pypi: git+https://github.com/RoboStack/vinca.git?rev=cbb8eba834ce3834df552977d6b08c325a30768e#cbb8eba834ce3834df552977d6b08c325a30768e
+      - pypi: git+https://github.com/RoboStack/vinca.git?rev=89e3fda78f32023c77481bd8f64a7030a4c72fc8#89e3fda78f32023c77481bd8f64a7030a4c72fc8
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/win-64/_openmp_mutex-4.5-2_gnu.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/anaconda-cli-base-0.5.2-pyhd8ed1ab_0.conda
@@ -595,7 +595,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/fa/c1/b0616243c1f922252ceb4513c22abefc1773cf372bfc0b6f7e59c2829f96/rospkg-1.6.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/35/79/5e2cffa1c77432f11cd93a5351f30732c997a239d3a3090856a72d6d8ba7/ruamel.yaml-0.17.40-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/d7/8f/c3654f6f1ddb75daf3922c3d8fc6005b1ab56671ad56ffb874d908bfa668/ruamel.yaml.clib-0.2.12-cp312-cp312-win_amd64.whl
-      - pypi: git+https://github.com/RoboStack/vinca.git?rev=cbb8eba834ce3834df552977d6b08c325a30768e#cbb8eba834ce3834df552977d6b08c325a30768e
+      - pypi: git+https://github.com/RoboStack/vinca.git?rev=89e3fda78f32023c77481bd8f64a7030a4c72fc8#89e3fda78f32023c77481bd8f64a7030a4c72fc8
   default:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
@@ -4980,9 +4980,9 @@ packages:
   purls: []
   size: 750733
   timestamp: 1743195092905
-- pypi: git+https://github.com/RoboStack/vinca.git?rev=cbb8eba834ce3834df552977d6b08c325a30768e#cbb8eba834ce3834df552977d6b08c325a30768e
+- pypi: git+https://github.com/RoboStack/vinca.git?rev=89e3fda78f32023c77481bd8f64a7030a4c72fc8#89e3fda78f32023c77481bd8f64a7030a4c72fc8
   name: vinca
-  version: 0.0.4
+  version: 0.1.0
   requires_dist:
   - catkin-pkg>=0.4.16
   - ruamel-yaml>=0.16.6,<0.18.0
