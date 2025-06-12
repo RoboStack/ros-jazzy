@@ -46,7 +46,7 @@ behaviortree_cpp:
   add_host: ["libboost-devel", "cppzmq", "zeromq", "sqlite"]
   add_run: ["libboost"]
 plotjuggler:
-  add_host: ["libxcb", "${{ 'elfutils' if linux }}", "ros-jazzy-ros-workspace"]
+  add_host: ["libxcb", "${{ 'elfutils' if linux }}", "ros-jazzy-ros-workspace", "git-lfs"]
 embree_vendor:
   add_host: ["REQUIRE_OPENGL", "libpng", "libjpeg-turbo", "openimageio", "tbb", "tbb-devel", "embree"]
 ign_rviz_common:
