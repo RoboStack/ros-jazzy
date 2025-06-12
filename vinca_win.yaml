@@ -55,16 +55,15 @@ packages_select_by_deps:
   - simulation
   - desktop_full
 
-  # Temporary disabled as a workaround for the win issue in https://github.com/RoboStack/ros-jazzy/issues/61#issue-3128308287
-  # - moveit
-  # - moveit-planners-chomp
-  # - moveit-servo
-  # - moveit-visual-tools
+  - moveit
+  - moveit-planners-chomp
+  - moveit-servo
+  - moveit-visual-tools
 
-  # - ros2_control
-  # - ros2_controllers
-  # - gz_ros2_control
-  # - gz_ros2_control_demos
+  - ros2_control
+  - ros2_controllers
+  - gz_ros2_control
+  - gz_ros2_control_demos
 
   - rviz_visual_tools
 
