@@ -69,42 +69,6 @@ index 4b85891..6a946ee 100644
 +extern FOXGLOVE_BRIDGE_BASE_EXPORT const char FOXGLOVE_BRIDGE_GIT_HASH[];
  
  }  // namespace foxglove
-diff --git a/ros2_foxglove_bridge/src/generic_client.cpp b/ros2_foxglove_bridge/src/generic_client.cpp
-index 7c58801..3e0b015 100644
---- a/ros2_foxglove_bridge/src/generic_client.cpp
-+++ b/ros2_foxglove_bridge/src/generic_client.cpp
-@@ -11,17 +11,20 @@
- 
- // clang-format off
- /* True if the version of RCLCPP is at least major.minor.patch */
--#define RCLCPP_VERSION_GTE(major, minor, patch)        \
--  (major < RCLCPP_VERSION_MAJOR                        \
--     ? true                                            \
--     : major > RCLCPP_VERSION_MAJOR                    \
--         ? false                                       \
--         : minor < RCLCPP_VERSION_MINOR                \
--             ? true                                    \
--             : minor > RCLCPP_VERSION_MINOR            \
--                 ? false                               \
--                 : patch < RCLCPP_VERSION_PATCH ? true \
--                                                : patch > RCLCPP_VERSION_PATCH ? false : true)
-+#define RCLCPP_VERSION_MAJOR_GT(major) ((major) < RCLCPP_VERSION_MAJOR)
-+#define RCLCPP_VERSION_MAJOR_LT(major) ((major) > RCLCPP_VERSION_MAJOR)
-+#define RCLCPP_VERSION_MINOR_GT(minor) ((minor) < RCLCPP_VERSION_MINOR)
-+#define RCLCPP_VERSION_MINOR_LT(minor) ((minor) > RCLCPP_VERSION_MINOR)
-+#define RCLCPP_VERSION_PATCH_GT(patch) ((patch) < RCLCPP_VERSION_PATCH)
-+#define RCLCPP_VERSION_PATCH_LT(patch) ((patch) > RCLCPP_VERSION_PATCH)
-+
-+#define RCLCPP_VERSION_GTE(major, minor, patch) \
-+    (RCLCPP_VERSION_MAJOR_GT(major) || \
-+    (!RCLCPP_VERSION_MAJOR_LT(major) && \
-+     (RCLCPP_VERSION_MINOR_GT(minor) || \
-+      (!RCLCPP_VERSION_MINOR_LT(minor) && \
-+       (RCLCPP_VERSION_PATCH_GT(patch) || \
-+        (!RCLCPP_VERSION_PATCH_LT(patch)))))))
- // clang-format on
- 
- namespace {
 diff --git a/ros2_foxglove_bridge/src/message_definition_cache.cpp b/ros2_foxglove_bridge/src/message_definition_cache.cpp
 index 262c482..2d72a3a 100644
 --- a/ros2_foxglove_bridge/src/message_definition_cache.cpp

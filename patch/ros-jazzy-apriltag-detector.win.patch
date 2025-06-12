@@ -1,0 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 35b0303..b7b031a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -16,7 +16,10 @@
+ cmake_minimum_required(VERSION 3.16)
+ project(apriltag_detector)
+ 
+-add_compile_options(-Wall -Wextra -Wpedantic -Werror)
++if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
++  add_compile_options(-Wall -Wextra -Wpedantic -Werror)
++endif()
++set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+ 
+ # find dependencies
+ find_package(ament_cmake REQUIRED)

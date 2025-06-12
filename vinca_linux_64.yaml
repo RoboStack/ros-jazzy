@@ -146,5 +146,7 @@ packages_select_by_deps:
 
   - odom_to_tf_ros2
 
+  - ouster_ros
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

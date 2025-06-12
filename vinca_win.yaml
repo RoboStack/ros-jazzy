@@ -134,5 +134,7 @@ packages_select_by_deps:
 
   - behaviortree_cpp
 
+  - ouster_ros
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
