@@ -91,7 +91,7 @@ requirements:
     - ros-jazzy-ros-workspace
     - ros-jazzy-rosidl-default-generators
     - ros-jazzy-sensor-msgs
-    - ros2-distro-mutex 0.8.* jazzy_*
+    - ros2-distro-mutex 0.9.* jazzy_*
     - vtk-base
     - if: linux
       then:
