@@ -12,7 +12,7 @@ source:
 
 build:
   script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
-  number: 6
+  number: 7
   skip:
     - not linux
   post_process:
@@ -91,7 +91,7 @@ requirements:
     - ros-jazzy-ros-workspace
     - ros-jazzy-rosidl-default-generators
     - ros-jazzy-sensor-msgs
-    - ros2-distro-mutex 0.8.* jazzy_*
+    - ros2-distro-mutex 0.9.* jazzy_*
     - vtk-base
     - if: linux
       then:
@@ -111,7 +111,7 @@ requirements:
     - ros-jazzy-rclcpp-components
     - ros-jazzy-ros-workspace
     - ros-jazzy-sensor-msgs
-    - ros2-distro-mutex 0.8.* jazzy_*
+    - ros2-distro-mutex 0.9.* jazzy_*
     - vtk-base
     - if: osx and x86_64
       then:
