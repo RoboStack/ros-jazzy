@@ -4,13 +4,13 @@ Date: Mon, 6 Jan 2025 22:05:57 +0100
 Subject: [PATCH] Add Windows support for shared libraries
 
 ---
- turtlebot3_node/CMakeLists.txt | 1 +
+ CMakeLists.txt | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/turtlebot3_node/CMakeLists.txt b/turtlebot3_node/CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
 index d81d8127..3c464b42 100644
---- a/turtlebot3_node/CMakeLists.txt
-+++ b/turtlebot3_node/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -11,6 +11,7 @@ endif()
  if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
    add_compile_options(-Wall -Wextra -Wpedantic)
@@ -19,4 +19,3 @@ index d81d8127..3c464b42 100644
  
  ################################################################################
  # Find ament packages and libraries for ament and system dependencies
-
