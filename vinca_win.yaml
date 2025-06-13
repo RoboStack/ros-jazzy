@@ -26,7 +26,6 @@ packages_skip_by_deps:
   - tlsf_cpp
   - pendulum_control
   - octomap
-  - ur_robot_driver
 
 packages_remove_from_deps:
   - cartographer
@@ -34,7 +33,6 @@ packages_remove_from_deps:
   - tlsf
   - tlsf_cpp
   - pendulum_control
-  - ur_robot_driver
 
 skip_existing:
   # - output
