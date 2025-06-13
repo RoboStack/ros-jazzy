@@ -15,12 +15,3 @@ index 0b17e4d5..9ace1736 100644
  
  if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
    message("${PROJECT_NAME}: You did not request a specific build type: selecting 'RelWithDebInfo'.")
-@@ -37,7 +36,7 @@ target_include_directories(calibration
-     ${YAML_CPP_INCLUDE_DIRS}
- )
- target_link_libraries(calibration
--  ${YAML_CPP_LIBRARIES}
-+  yaml-cpp::yaml-cpp
- )
- ament_target_dependencies(calibration
-   rclcpp
