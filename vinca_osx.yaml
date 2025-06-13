@@ -73,6 +73,7 @@ packages_select_by_deps:
   - ros_gz
   - slam_toolbox
   - turtlebot3
+  - turtlebot3_simulations
 
   - plotjuggler-ros
 
