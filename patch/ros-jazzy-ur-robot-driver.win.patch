@@ -40,10 +40,10 @@ index 14bdd29ea..330e4161e 100644
  {
  enum class PausingState
 
- diff --git a/ur_robot_driver/src/robot_state_helper.cpp b/ur_robot_driver/src/robot_state_helper.cpp
+ diff --git a/src/robot_state_helper.cpp b/src/robot_state_helper.cpp
 index c422ae951..0a57ae75d 100755
---- a/ur_robot_driver/src/robot_state_helper.cpp
-+++ b/ur_robot_driver/src/robot_state_helper.cpp
+--- a/src/robot_state_helper.cpp
++++ b/src/robot_state_helper.cpp
 @@ -366,7 +366,7 @@ void RobotStateHelper::setModeExecute(const std::shared_ptr<RobotStateHelper::Se
            result_->message = "Play program service not available on this robot.";
          } else {
