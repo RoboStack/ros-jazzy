@@ -1,40 +1,28 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 0b17e4d5..9ace1736 100644
+index e95014a1..8dbdd64d 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -2,10 +2,9 @@ cmake_minimum_required(VERSION 3.5)
- project(ur_calibration)
- 
- if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
--  add_compile_options(-Wall -Wextra -Wpedantic)
-+  add_compile_options(-Wall -Wextra -Wpedantic -Wno-unused-parameter)
+@@ -5,7 +5,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+   add_compile_options(-Wall -Wextra -Wpedantic)
  endif()
--
+ 
 -add_compile_options(-Wno-unused-parameter)
 +set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
  
  if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
    message("${PROJECT_NAME}: You did not request a specific build type: selecting 'RelWithDebInfo'.")
-
-diff --git a/ur_calibration/CMakeLists.txt b/ur_calibration/CMakeLists.txt
-index 1f6bd0d9e..42de20644 100644
---- a/ur_calibration/CMakeLists.txt
-+++ b/ur_calibration/CMakeLists.txt
-@@ -37,11 +37,16 @@ target_include_directories(calibration
- target_link_libraries(calibration
-   ur_client_library::urcl
-   Eigen3::Eigen
--  yaml-cpp
-   rclcpp::rclcpp
-   ur_robot_driver::ur_robot_driver_log_handler
+@@ -33,9 +33,11 @@ target_include_directories(calibration
+     include
+     ${EIGEN3_INCLUDE_DIRS}
  )
- 
+-target_link_libraries(calibration
+-  yaml-cpp
+-)
 +if(TARGET yaml-cpp::yaml-cpp)
 +  target_link_libraries(calibration yaml-cpp::yaml-cpp)
 +else()
 +  target_link_libraries(calibration yaml-cpp)
 +endif()
-+
- add_executable(calibration_correction
-   src/calibration_correction.cpp
- )
+ ament_target_dependencies(calibration
+   rclcpp
+   ur_robot_driver
