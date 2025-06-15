@@ -5,10 +5,10 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 4
-build_number: 4
+# Reminder for next full rebuild, the next build number should be 8
+build_number: 7
 
-mutex_package: ros2-distro-mutex 0.7.* jazzy_*
+mutex_package: ros2-distro-mutex 0.9.* jazzy_*
 
 skip_all_deps: false
 
@@ -77,6 +77,7 @@ packages_select_by_deps:
   - ros_gz
   - slam_toolbox
   - turtlebot3
+  - turtlebot3_simulations
 
   - plotjuggler-ros
 
@@ -126,6 +127,36 @@ packages_select_by_deps:
   - autoware_vehicle_msgs
   - autoware_cmake
   - autoware_utils
+
+  - ffmpeg_image_transport
+
+  - apriltag_detector
+
+  - apriltag_draw
+
+  - apriltag_detector_umich
+
+  - apriltag_detector_mit
+
+  - apriltag_tools
+
+  - ament_cmake_black
+
+  - behaviortree_cpp
+
+  - dual-laser-merger
+
+  - pointcloud-to-laserscan
+
+  - laser-segmentation
+
+  - rqt_tf_tree
+
+  - rviz_satellite
+
+  - odom_to_tf_ros2
+
+  - ouster_ros
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

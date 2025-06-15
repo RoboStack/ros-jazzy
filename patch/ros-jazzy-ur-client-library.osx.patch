@@ -1,3 +1,65 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index dd720dc..d785132 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -79,6 +79,9 @@ endif()
+ if(CMAKE_THREAD_LIBS_INIT)
+   target_link_libraries(urcl PUBLIC "${CMAKE_THREAD_LIBS_INIT}")
+ endif()
++if(UNIX AND NOT APPLE)
++  target_link_libraries(urcl PUBLIC "rt")
++endif()
+ 
+ ##
+ ## Build testing if enabled by option
+diff --git a/include/ur_client_library/comm/bin_parser.h b/include/ur_client_library/comm/bin_parser.h
+index e13aba6..83f8e6c 100644
+--- a/include/ur_client_library/comm/bin_parser.h
++++ b/include/ur_client_library/comm/bin_parser.h
+@@ -21,7 +21,6 @@
+ #pragma once
+ 
+ #include <assert.h>
+-#include <endian.h>
+ #include <inttypes.h>
+ #include <array>
+ #include <bitset>
+@@ -29,6 +28,7 @@
+ #include <cstring>
+ #include <string>
+ #include <memory>
++#include "ur_client_library/portable_endian.h"
+ #include "ur_client_library/log.h"
+ #include "ur_client_library/types.h"
+ #include "ur_client_library/exceptions.h"
+diff --git a/include/ur_client_library/comm/package_serializer.h b/include/ur_client_library/comm/package_serializer.h
+index 7745da9..ded500a 100644
+--- a/include/ur_client_library/comm/package_serializer.h
++++ b/include/ur_client_library/comm/package_serializer.h
+@@ -29,8 +29,8 @@
+ #ifndef UR_CLIENT_LIBRARY_PACKAGE_SERIALIZER_H_INCLUDED
+ #define UR_CLIENT_LIBRARY_PACKAGE_SERIALIZER_H_INCLUDED
+ 
+-#include <endian.h>
+ #include <cstring>
++#include "ur_client_library/portable_endian.h"
+ 
+ namespace urcl
+ {
+diff --git a/include/ur_client_library/control/reverse_interface.h b/include/ur_client_library/control/reverse_interface.h
+index e68acd9..38e2a27 100644
+--- a/include/ur_client_library/control/reverse_interface.h
++++ b/include/ur_client_library/control/reverse_interface.h
+@@ -35,8 +35,8 @@
+ #include "ur_client_library/log.h"
+ #include "ur_client_library/ur/robot_receive_timeout.h"
+ #include <cstring>
+-#include <endian.h>
+ #include <condition_variable>
++#include "ur_client_library/portable_endian.h"
+ 
+ namespace urcl
+ {
 diff --git a/include/ur_client_library/portable_endian.h b/include/ur_client_library/portable_endian.h
 new file mode 100644
 index 0000000..2b43378
@@ -122,69 +184,6 @@ index 0000000..2b43378
 +#endif
 +
 +#endif
-
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 878ffed..a1b176e 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -69,6 +65,9 @@ endif()
- if(CMAKE_THREAD_LIBS_INIT)
-   target_link_libraries(urcl PUBLIC "${CMAKE_THREAD_LIBS_INIT}")
- endif()
-+if(UNIX AND NOT APPLE)
-+  target_link_libraries(urcl PUBLIC "rt")
-+endif()
- 
- ##
- ## Build testing if enabled by option
-diff --git a/include/ur_client_library/comm/bin_parser.h b/include/ur_client_library/comm/bin_parser.h
-index e13aba6..83f8e6c 100644
---- a/include/ur_client_library/comm/bin_parser.h
-+++ b/include/ur_client_library/comm/bin_parser.h
-@@ -21,7 +21,6 @@
- #pragma once
- 
- #include <assert.h>
--#include <endian.h>
- #include <inttypes.h>
- #include <array>
- #include <bitset>
-@@ -29,6 +28,7 @@
- #include <cstring>
- #include <string>
- #include <memory>
-+#include "ur_client_library/portable_endian.h"
- #include "ur_client_library/log.h"
- #include "ur_client_library/types.h"
- #include "ur_client_library/exceptions.h"
-diff --git a/include/ur_client_library/comm/package_serializer.h b/include/ur_client_library/comm/package_serializer.h
-index 7745da9..ded500a 100644
---- a/include/ur_client_library/comm/package_serializer.h
-+++ b/include/ur_client_library/comm/package_serializer.h
-@@ -29,8 +29,8 @@
- #ifndef UR_CLIENT_LIBRARY_PACKAGE_SERIALIZER_H_INCLUDED
- #define UR_CLIENT_LIBRARY_PACKAGE_SERIALIZER_H_INCLUDED
- 
--#include <endian.h>
- #include <cstring>
-+#include "ur_client_library/portable_endian.h"
- 
- namespace urcl
- {
-diff --git a/include/ur_client_library/control/reverse_interface.h b/include/ur_client_library/control/reverse_interface.h
-index 707c455..ee8c318 100644
---- a/include/ur_client_library/control/reverse_interface.h
-+++ b/include/ur_client_library/control/reverse_interface.h
-@@ -35,8 +35,8 @@
- #include "ur_client_library/log.h"
- #include "ur_client_library/ur/robot_receive_timeout.h"
- #include <cstring>
--#include <endian.h>
- #include <condition_variable>
-+#include "ur_client_library/portable_endian.h"
- 
- namespace urcl
- {
 diff --git a/include/ur_client_library/primary/package_header.h b/include/ur_client_library/primary/package_header.h
 index cd64bda..440b2e4 100644
 --- a/include/ur_client_library/primary/package_header.h
@@ -212,31 +211,31 @@ index f910a08..eb509ea 100644
  #include "ur_client_library/comm/package_serializer.h"
  
 diff --git a/src/comm/tcp_socket.cpp b/src/comm/tcp_socket.cpp
-index 8803664..1d92880 100644
+index 778e5f1..1a42c8a 100644
 --- a/src/comm/tcp_socket.cpp
 +++ b/src/comm/tcp_socket.cpp
-@@ -21,7 +21,6 @@
+@@ -20,7 +20,6 @@
+  * limitations under the License.
   */
  
- #include <arpa/inet.h>
 -#include <endian.h>
- #include <netinet/tcp.h>
- #include <unistd.h>
  #include <chrono>
-@@ -29,6 +28,7 @@
+ #include <cstring>
  #include <sstream>
- #include <thread>
+@@ -31,6 +30,7 @@
+ #  include <netinet/tcp.h>
+ #endif
  
 +#include "ur_client_library/portable_endian.h"
  #include "ur_client_library/log.h"
  #include "ur_client_library/comm/tcp_socket.h"
  
-@@ -48,7 +48,9 @@ void TCPSocket::setupOptions()
+@@ -55,7 +55,9 @@ void TCPSocket::setupOptions()
  {
    int flag = 1;
-   setsockopt(socket_fd_, IPPROTO_TCP, TCP_NODELAY, &flag, sizeof(int));
+   ur_setsockopt(socket_fd_, IPPROTO_TCP, TCP_NODELAY, &flag, sizeof(int));
 +#ifndef __APPLE__
-   setsockopt(socket_fd_, IPPROTO_TCP, TCP_QUICKACK, &flag, sizeof(int));
+   ur_setsockopt(socket_fd_, IPPROTO_TCP, TCP_QUICKACK, &flag, sizeof(int));
 +#endif
  
    if (recv_timeout_ != nullptr)
