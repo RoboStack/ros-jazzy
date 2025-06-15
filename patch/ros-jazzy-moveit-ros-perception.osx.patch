@@ -1,0 +1,14 @@
+diff --git a/semantic_world/CMakeLists.txt b/semantic_world/CMakeLists.txt
+index dc8d941da..61f34d777 100644
+--- a/semantic_world/CMakeLists.txt
++++ b/semantic_world/CMakeLists.txt
+@@ -13,6 +13,8 @@ ament_target_dependencies(
+   moveit_msgs
+   tf2_eigen
+   Eigen3
+-  Boost)
++  Boost
++  OpenCV
++)
+ 
+ install(DIRECTORY include/ DESTINATION include/moveit_ros_perception)
