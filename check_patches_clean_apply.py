@@ -142,7 +142,8 @@ def main() -> None:
     args = parse_args()
 
     if not RECIPES_DIR.is_dir():
-        sys.exit("❌  recipes/ folder not found – abort.")
+        print("❌  recipes/ folder not found – abort.")
+        return
 
     if args.clean:
         shutil.rmtree(PATCH_RECIPES_DIR, ignore_errors=True)
@@ -155,7 +156,8 @@ def main() -> None:
 
     recreated = prepare_patch_recipes()
     if not recreated:
-        sys.exit("⚠️  No recipes with patches found – nothing to test.")
+        print("⚠️  No recipes with patches found – nothing to test.")
+        return
 
     print(f"✅  Prepared {len(recreated)} minimal recipe(s) in {PATCH_RECIPES_DIR}/")
 
