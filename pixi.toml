@@ -56,3 +56,4 @@ rename-file = { cmd = "ln -s vinca_linux_aarch64.yaml vinca.yaml", depends-on = 
 
 [target.win-64.tasks]
 rename-file = { cmd = "cp vinca_win.yaml vinca.yaml", depends-on = ["remove-file"] }
+
