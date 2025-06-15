@@ -33,7 +33,8 @@ vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "89e3fda78f32023c
 
 [feature.beta.tasks]
 generate-recipes = { cmd = "vinca -m", depends-on = ["rename-file"] }
-remove-file = { cmd = "rm vinca.yaml; rm -rf recipes; mkdir recipes" }
+remove-file = { cmd = "rm vinca.yaml; rm -rf recipes_only_patch; rm -rf recipes; mkdir recipes" }
+check-patches = { cmd = "python check_patches_clean_apply.py", depends-on = ["generate-recipes"] }
 build_additional_recipes = { cmd = "rattler-build build --recipe-dir ./additional_recipes -m ./conda_build_config.yaml --skip-existing -c robostack-jazzy -c https://repo.prefix.dev/conda-forge", depends-on = ["generate-recipes"] }
 build = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-jazzy -c https://repo.prefix.dev/conda-forge --skip-existing", depends-on = ["build_additional_recipes", "generate-recipes"] }
 build_one_package = { cmd = "cp ./patch/$PACKAGE.*patch ./recipes/$PACKAGE/patch/; rattler-build build --recipe ./recipes/$PACKAGE/recipe.yaml -m ./conda_build_config.yaml -c robostack-jazzy -c https://repo.prefix.dev/conda-forge", env = { PACKAGE = "ros-jazzy-ros-workspace" } }
