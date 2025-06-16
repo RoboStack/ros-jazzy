@@ -1,0 +1,8 @@
+image_tools:
+  build_number: 8
+camera_calibration:
+  build_number: 8
+intra_process_demo:
+  build_number: 8
+image_view:
+  build_number: 8
