@@ -147,5 +147,7 @@ packages_select_by_deps:
 
   - ouster_ros
 
+  - usb-cam
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
