@@ -15,3 +15,16 @@ index ad1792ec..a8fa2328 100644
    {stringify(AV_PIX_FMT_YUV440P10LE), AV_PIX_FMT_YUV440P10LE},        ///< planar YUV 4:4:0,20bpp,
                                                                        ///< (1 Cr & Cb sample per
                                                                        ///< 1x2 Y samples),
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1a83c1e..fcfb823 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,7 +7,7 @@ if(NOT CMAKE_CXX_STANDARD)
+ endif()
+ 
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-  add_compile_options(-Wall -Wextra -Wpedantic -Werror)
++  add_compile_options(-Wall -Wextra -Wpedantic)
+ endif()
+ 
+ find_package(ament_cmake_auto REQUIRED)
