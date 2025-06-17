@@ -134,9 +134,9 @@ packages_select_by_deps:
 
   - apriltag_detector
 
-  - apriltag_umich
+  - apriltag_detector_umich
 
-  - apriltag_mit
+  - apriltag_detector_mit
 
 
   - ament_cmake_black
