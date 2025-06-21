@@ -1,0 +1,11 @@
+# This file is used to add additional recipes to the ROS 2 distribution, not contained in the
+# upstream rosdistro. Differently from rosdistro_snapshot.yaml, this file is not
+# automatically generated, but manually maintained.
+livox_ros_driver2:
+  tag: 1.2.4
+  url: https://github.com/Livox-SDK/livox_ros_driver2.git
+  version: 1.2.4
+  # This is not part of the regular snapshot, but it is an additional argument used to
+  # support packages that stores their package.xml under a different name. For any
+  # other modification, regular patch files should be used.
+  package_xml_name: package_ROS2.xml
