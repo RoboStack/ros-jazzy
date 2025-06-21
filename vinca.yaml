@@ -22,9 +22,23 @@ packages_skip_by_deps:
   - urdfdom_headers
   - urdfdom_py
   - octomap
+  - if: not linux
+    then:
+      - pendulum_control
+      - rttest
+      - tlsf
+      - tlsf_cpp
+
 
 packages_remove_from_deps:
   - cartographer
+  - if: not linux
+    then:
+      - pendulum_control
+      - rttest
+      - tlsf
+      - tlsf_cpp
+
 
 skip_existing:
   # - output
@@ -33,6 +47,7 @@ skip_existing:
 packages_select_by_deps:
   - ament_cmake_core
   - ament_cmake_catch2
+  - ament_cmake_mypy
 
   - desktop
   - ros_base
@@ -48,9 +63,6 @@ packages_select_by_deps:
   - desktop_full
 
   - moveit
-  - moveit-py
-  - moveit-ros-perception
-  - moveit-ros-occupancy-map-monitor
   - moveit-planners-chomp
   - moveit-servo
   - moveit-visual-tools
@@ -70,14 +82,10 @@ packages_select_by_deps:
   - turtlebot3
   - turtlebot3_simulations
 
-  - plotjuggler-ros
-
   - apriltag_ros
 
   - ackermann-msgs
-  - velodyne
   - sbg_driver
-  - gtsam
 
   # requested in https://github.com/RoboStack/ros-humble/issues/249
   - twist_mux
@@ -86,14 +94,13 @@ packages_select_by_deps:
   - rmw_zenoh_cpp
 
   - flex_sync
+  - gripper_controllers
 
-  - ament_cmake_mypy
   - rosbridge_suite
 
   - grid_map
 
   - foxglove_bridge
-  - foxglove_compressed_video_transport
   - foxglove_msgs
 
   - lanelet2
@@ -102,7 +109,6 @@ packages_select_by_deps:
 
   - can_msgs
   - ros2_socketcan_msgs
-  - ros2_socketcan
 
   - nav2_bringup
 
@@ -120,37 +126,51 @@ packages_select_by_deps:
   - autoware_cmake
   - autoware_utils
 
-  - ffmpeg_image_transport
-
   - apriltag_detector
-
-  - apriltag_draw
-
-  - apriltag_detector_umich
-
-  - apriltag_detector_mit
-
-  - apriltag_tools
 
   - ament_cmake_black
 
   - behaviortree_cpp
 
-  - dual-laser-merger
-
-  - pointcloud-to-laserscan
-
-  - laser-segmentation
-
-  - rqt_tf_tree
-
-  - rviz_satellite
-
-  - odom_to_tf_ros2
-
   - ouster_ros
 
-  - usb-cam
+  # These packages are only built on Windows as they depend on Linux-specific API
+  - if: linux
+    then:
+      # Depends on socketcan
+      - ros2_socketcan
+      # Depends on v4l
+      - usb_cam
+
+  # These packages are currently only build on Linux, but they currently only build on
+  # Linux as trying to build them in the past on macos or Windows resulted in errors
+  - if: linux
+    then:
+      - py_binding_tools
+
+  # These packages are currently not build on Windows, but they be with some work
+  - if: not win
+    then:
+      - plotjuggler-ros
+      - foxglove_compressed_video_transport
+      - velodyne
+      - moveit-py
+      - moveit-ros-perception
+      - moveit-ros-occupancy-map-monitor
+      # todo: switch to dummy vendored package that just depends on the conda-forge's gtsam, so it works also on Windows
+      - gtsam
+      # TODO on windows: fix iconv link issue
+      - ffmpeg_image_transport
+      - apriltag_draw
+      - apriltag_tools
+      - apriltag_detector_umich
+      - apriltag_detector_mit
+      - dual-laser-merger
+      - pointcloud-to-laserscan
+      - laser-segmentation
+      - rqt_tf_tree
+      - rviz_satellite
+      - odom_to_tf_ros2
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

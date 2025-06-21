@@ -13,21 +13,14 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux-64
-            additional_recipes:
-              - "ros-jazzy-livox-ros-driver2"
           - os: ubuntu-24.04-arm
             platform: linux-aarch64
-            additional_recipes:
-              - "ros-jazzy-livox-ros-driver2"
           - os: macos-13
             platform: osx-64
-            additional_recipes: []
           - os: macos-14
             platform: osx-arm64
-            additional_recipes: []
           - os: windows-2022
             platform: win-64
-            additional_recipes: []
 
     runs-on: ${{ matrix.os }}
 
@@ -72,7 +65,6 @@ jobs:
       shell: bash -l {0}
       if: matrix.platform == 'linux-64'
       run: |
-        cp vinca_linux_64.yaml vinca.yaml
         mkdir -p recipes
         $HOME/.pixi/bin/pixi run -v vinca --platform linux-64 -m -n
         ls -la recipes
@@ -80,7 +72,6 @@ jobs:
       shell: bash -l {0}
       if: matrix.platform == 'linux-aarch64'
       run: |
-        cp vinca_linux_aarch64.yaml vinca.yaml
         mkdir -p recipes
         $HOME/.pixi/bin/pixi run -v vinca --platform linux-aarch64 -m -n
         ls -la recipes
@@ -88,7 +79,6 @@ jobs:
       shell: bash -l {0}
       if: matrix.platform == 'osx-64'
       run: |
-        cp vinca_osx.yaml vinca.yaml
         mkdir -p recipes
         $HOME/.pixi/bin/pixi run -v vinca --platform osx-64 -m -n
         ls -la recipes
@@ -96,7 +86,6 @@ jobs:
       shell: bash -l {0}
       if: matrix.platform == 'osx-arm64'
       run: |
-        cp vinca_osx_arm64.yaml vinca.yaml
         mkdir -p recipes
         $HOME/.pixi/bin/pixi run -v vinca --platform osx-arm64 -m -n
         ls -la recipes
@@ -107,14 +96,9 @@ jobs:
         # Workaround for problem related to long paths
         echo "CONDA_BLD_PATH=C:\\bld\\" >> $GITHUB_ENV
         mkdir /c/bld
-        cp vinca_win.yaml vinca.yaml
         mkdir -p recipes
         $HOME/.pixi/bin/pixi run -v vinca --platform win-64 -m -n
         ls -la recipes
-    - name: Copy additional recipes which have been changed into recipes
-      shell: bash -l {0}
-      run: |
-        echo '${{ toJson(matrix.additional_recipes) }}' | jq -r ".[]" | xargs -I@ cp -r additional_recipes/@ recipes/
     - name: Check if there are packages to be built
       id: newrecipecheck
       shell: bash -l {0}
