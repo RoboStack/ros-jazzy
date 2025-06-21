@@ -98,8 +98,6 @@ packages_select_by_deps:
 
   - rosbridge_suite
 
-  - grid_map
-
   - foxglove_bridge
   - foxglove_msgs
 
@@ -162,6 +160,9 @@ packages_select_by_deps:
       - gtsam
       # TODO on windows: fix iconv link issue
       - ffmpeg_image_transport
+      # most of the dep of grid_map work on Windows, but there are some rviz linking problems in octomap_rviz_plugins, 
+      # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
+      - grid_map
       - apriltag_draw
       - apriltag_tools
       - apriltag_detector_umich
