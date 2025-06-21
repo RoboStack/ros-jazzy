@@ -147,6 +147,7 @@ packages_select_by_deps:
   - if: linux
     then:
       - py_binding_tools
+      - livox_ros_driver2
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
