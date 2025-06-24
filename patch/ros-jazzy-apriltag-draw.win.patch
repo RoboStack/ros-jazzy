@@ -1,7 +1,7 @@
-diff --git a/apriltag_draw/CMakeLists.txt b/apriltag_draw/CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 8c6bd79..b163dbc 100644
---- a/apriltag_draw/CMakeLists.txt
-+++ b/apriltag_draw/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -16,7 +16,10 @@
  cmake_minimum_required(VERSION 3.16)
  project(apriltag_draw)
