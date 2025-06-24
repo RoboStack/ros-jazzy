@@ -11,7 +11,8 @@ index 1899f1e..18d8fbd 100644
 +  add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 +endif()
 +set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
- 
++add_definitions(-DNOMINMAX)
+
  # find dependencies
  find_package(ament_cmake REQUIRED)
 @@ -64,8 +67,7 @@ ament_export_libraries(${PROJECT_NAME})
