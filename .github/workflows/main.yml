@@ -25,7 +25,6 @@ jobs:
     - name: Generate recipes for linux-64
       run: |
         git clean -fdx
-        cp vinca_linux_64.yaml vinca.yaml
         vinca --multiple --platform linux-64
     - name: Generate azure pipelines for linux-64
       run: |
@@ -51,7 +50,6 @@ jobs:
     - name: Generate recipes for osx-64
       run: |
         git clean -fdx
-        cp vinca_osx.yaml vinca.yaml
         vinca --multiple --platform osx-64
     - name: Generate azure pipelines for osx-64
       run: |
@@ -77,7 +75,6 @@ jobs:
     - name: Generate recipes for osx-arm64
       run: |
         git clean -fdx
-        cp vinca_osx_arm64.yaml vinca.yaml
         vinca --multiple --platform osx-arm64
     - name: Generate azure pipelines for osx-arm64
       run: |
@@ -103,7 +100,6 @@ jobs:
     - name: Generate recipes for win-64
       run: |
         git clean -fdx
-        cp vinca_win.yaml vinca.yaml
         vinca --multiple --platform win-64
     - name: Generate azure pipelines for win-64
       run: |
@@ -129,7 +125,6 @@ jobs:
     - name: Generate recipes for linux-aarch64
       run: |
         git clean -fdx
-        cp vinca_linux_aarch64.yaml vinca.yaml
         vinca --multiple --platform linux-aarch64
     - name: Generate azure pipelines for linux-aarch64
       run: |

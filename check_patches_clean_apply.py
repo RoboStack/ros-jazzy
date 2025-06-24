@@ -112,7 +112,7 @@ def prepare_patch_recipes() -> List[Path]:
             continue
         filtered = filter_sources(src_section)
         if not filtered:
-            # No patches → skip
+            # No patches -> skip
             continue
 
         pkg = recipe.get("package", {"name": recipe_file.parent.name, "version": "0"})
@@ -121,7 +121,10 @@ def prepare_patch_recipes() -> List[Path]:
         dest_recipe_file = dest_recipe_dir / "recipe.yaml"
 
         copy_patch_files(filtered, recipe_file.parent, dest_recipe_dir)
-        write_minimal_recipe(dest_recipe_file, pkg, filtered)
+        # append "-check-patches" to the package name in the dummy recipe
+        patched_pkg = dict(pkg)
+        patched_pkg["name"] = f"{patched_pkg['name']}-check-patches"
+        write_minimal_recipe(dest_recipe_file, patched_pkg, filtered)
         recreated.append(dest_recipe_file)
 
     return recreated
@@ -134,7 +137,7 @@ def run_rattler_build() -> None:
         "--recipe-dir",
         str(PATCH_RECIPES_DIR)
     ]
-    print("\n🔧  Running:", " ".join(cmd), "\n", flush=True)
+    print("\n Running:", " ".join(cmd), "\n", flush=True)
     subprocess.run(cmd, check=True)
 
 
@@ -142,31 +145,30 @@ def main() -> None:
     args = parse_args()
 
     if not RECIPES_DIR.is_dir():
-        print("❌  recipes/ folder not found – abort.")
-        return
+        print("recipes/ folder not found – abort.")
+        sys.exit(1)
 
     if args.clean:
         shutil.rmtree(PATCH_RECIPES_DIR, ignore_errors=True)
-        print("🧹  Removed recipes_only_patch/")
+        print(" Removed recipes_only_patch/")
         return
 
     if PATCH_RECIPES_DIR.exists():
-        print("♻️   Refreshing recipes_only_patch/ …")
+        print("Refreshing recipes_only_patch/ …")
         shutil.rmtree(PATCH_RECIPES_DIR)
 
     recreated = prepare_patch_recipes()
     if not recreated:
-        print("⚠️  No recipes with patches found – nothing to test.")
+        print("No recipes with patches found – nothing to test.")
         return
 
-    print(f"✅  Prepared {len(recreated)} minimal recipe(s) in {PATCH_RECIPES_DIR}/")
+    print(f"Prepared {len(recreated)} minimal recipe(s) in {PATCH_RECIPES_DIR}/")
 
     if not args.dry:
         run_rattler_build()
     else:
-        print("💡  --dry given – rattler-build not executed.")
+        print("--dry given – rattler-build not executed.")
 
 
 if __name__ == "__main__":
     main()
-
