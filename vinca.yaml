@@ -138,6 +138,11 @@ packages_select_by_deps:
 
   - ouster_ros
 
+  # cascade lifecycle packages
+  - cascade-lifecycle-msgs
+  - rclcpp-cascade-lifecycle
+  - rclpy-cascade-lifecycle
+
   # These packages are only built on Windows as they depend on Linux-specific API
   - if: linux
     then:
