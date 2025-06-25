@@ -1,8 +1,8 @@
-diff --git a/apriltag_detector_umich/CMakeLists.txt b/apriltag_detector_umich/CMakeLists.txt
-index 1899f1e..18d8fbd 100644
---- a/apriltag_detector_umich/CMakeLists.txt
-+++ b/apriltag_detector_umich/CMakeLists.txt
-@@ -16,7 +16,10 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1899f1e..2a5ce73 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -16,7 +16,11 @@
  cmake_minimum_required(VERSION 3.16)
  project(apriltag_detector_umich)
  
@@ -12,10 +12,10 @@ index 1899f1e..18d8fbd 100644
 +endif()
 +set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 +add_definitions(-DNOMINMAX)
-
+ 
  # find dependencies
  find_package(ament_cmake REQUIRED)
-@@ -64,8 +67,7 @@ ament_export_libraries(${PROJECT_NAME})
+@@ -64,8 +68,7 @@ ament_export_libraries(${PROJECT_NAME})
  
  install(
    TARGETS ${PROJECT_NAME}
@@ -25,4 +25,3 @@ index 1899f1e..18d8fbd 100644
  
  if(BUILD_TESTING)
    find_package(ament_cmake REQUIRED)
-
