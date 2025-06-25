@@ -1,14 +1,7 @@
-<<<<<<< add-cascade-lifecycle
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 1899f1e..2a5ce73 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-=======
-diff --git a/apriltag_detector_umich/CMakeLists.txt b/apriltag_detector_umich/CMakeLists.txt
-index 1899f1e..2a5ce73 100644
---- a/apriltag_detector_umich/CMakeLists.txt
-+++ b/apriltag_detector_umich/CMakeLists.txt
->>>>>>> main
 @@ -16,7 +16,11 @@
  cmake_minimum_required(VERSION 3.16)
  project(apriltag_detector_umich)
