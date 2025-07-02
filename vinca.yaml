@@ -64,6 +64,7 @@ packages_select_by_deps:
 
   - moveit
   - moveit-planners-chomp
+  - moveit-ros-trajectory-cache
   - moveit-servo
   - moveit-visual-tools
 
@@ -167,6 +168,7 @@ packages_select_by_deps:
       - moveit-py
       - moveit-ros-perception
       - moveit-ros-occupancy-map-monitor
+      - moveit-runtime
       # todo: switch to dummy vendored package that just depends on the conda-forge's gtsam, so it works also on Windows
       - gtsam
       # TODO on windows: fix iconv link issue
