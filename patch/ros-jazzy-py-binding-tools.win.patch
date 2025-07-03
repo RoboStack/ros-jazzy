@@ -49,3 +49,23 @@ index c42e81a..9c23de2 100644
 +void PY_BINDING_TOOLS_EXPORT shutdown();
  
  }  // namespace py_binding_tools
+diff --git a/src/rclcpp.cpp b/src/rclcpp.cpp
+index 50232c9..794421d 100644
+--- a/src/rclcpp.cpp
++++ b/src/rclcpp.cpp
+@@ -38,12 +38,14 @@
+ #include <rclcpp/node.hpp>
+ #include <rclcpp/node_options.hpp>
+ 
++#include <py_binding_tools_export.h>
++
+ namespace py = pybind11;
+ using namespace py_binding_tools;
+ 
+ namespace py_binding_tools
+ {
+-void add_node(const rclcpp::Node::SharedPtr& node);
++void PY_BINDING_TOOLS_EXPORT add_node(const rclcpp::Node::SharedPtr& node);
+ }
+ 
+ namespace
