@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e940609..04dfb65 100644
+index e940609..d3ac163 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -13,6 +13,10 @@ add_library(${PROJECT_NAME} SHARED
+@@ -13,9 +13,14 @@ add_library(${PROJECT_NAME} SHARED
    src/ros_msg_typecasters.cpp
    src/initializer.cpp
  )
@@ -13,7 +13,11 @@ index e940609..04dfb65 100644
  target_include_directories(${PROJECT_NAME}
    PUBLIC
      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-@@ -34,6 +38,8 @@ install(
++    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+     $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
+ ament_target_dependencies(${PROJECT_NAME} rclcpp geometry_msgs pybind11)
+ 
+@@ -34,6 +39,8 @@ install(
    DESTINATION include/${PROJECT_NAME}
  )
  
