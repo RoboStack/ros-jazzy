@@ -1,0 +1,47 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e940609..04dfb65 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -13,6 +13,10 @@ add_library(${PROJECT_NAME} SHARED
+   src/ros_msg_typecasters.cpp
+   src/initializer.cpp
+ )
++
++include(GenerateExportHeader)
++generate_export_header(${PROJECT_NAME})
++
+ target_include_directories(${PROJECT_NAME}
+   PUBLIC
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+@@ -34,6 +38,8 @@ install(
+   DESTINATION include/${PROJECT_NAME}
+ )
+ 
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}_export.h DESTINATION include)
++
+ _ament_cmake_python_register_environment_hook()
+ 
+ pybind11_add_module(rclcpp src/rclcpp.cpp)
+diff --git a/include/py_binding_tools/initializer.h b/include/py_binding_tools/initializer.h
+index c42e81a..9c23de2 100644
+--- a/include/py_binding_tools/initializer.h
++++ b/include/py_binding_tools/initializer.h
+@@ -36,6 +36,8 @@
+ #include <string>
+ #include <vector>
+ 
++#include <py_binding_tools_export.h>
++
+ namespace py_binding_tools
+ {
+ /** The constructor of this class ensures that rclcpp::init() has been called.
+@@ -48,7 +50,7 @@ public:
+   ~RCLInitializer();
+ };
+ 
+-void init(const std::vector<std::string>& args);
+-void shutdown();
++void PY_BINDING_TOOLS_EXPORT init(const std::vector<std::string>& args);
++void PY_BINDING_TOOLS_EXPORT shutdown();
+ 
+ }  // namespace py_binding_tools
