@@ -9,3 +9,29 @@ livox_ros_driver2:
   # support packages that stores their package.xml under a different name. For any
   # other modification, regular patch files should be used.
   package_xml_name: package_ROS2.xml
+
+# TODO: remove moveit_task_constructor and it's sub packages when they are available from ros2-gbp
+moveit_task_constructor_capabilities:
+  tag: release/jazzy/moveit_task_constructor_capabilities/0.1.3-1
+  url: https://github.com/wep21/moveit_task_constructor-release.git
+  version: 0.1.3
+moveit_task_constructor_core:
+  tag: release/jazzy/moveit_task_constructor_core/0.1.3-1
+  url: https://github.com/wep21/moveit_task_constructor-release.git
+  version: 0.1.3
+moveit_task_constructor_demo:
+  tag: release/jazzy/moveit_task_constructor_demo/0.1.3-1
+  url: https://github.com/wep21/moveit_task_constructor-release.git
+  version: 0.1.3
+moveit_task_constructor_msgs:
+  tag: release/jazzy/moveit_task_constructor_msgs/0.1.3-1
+  url: https://github.com/wep21/moveit_task_constructor-release.git
+  version: 0.1.3
+moveit_task_constructor_visualization:
+  tag: release/jazzy/moveit_task_constructor_visualization/0.1.3-1
+  url: https://github.com/wep21/moveit_task_constructor-release.git
+  version: 0.1.3
+rviz_marker_tools:
+  tag: release/jazzy/rviz_marker_tools/0.1.3-1
+  url: https://github.com/wep21/moveit_task_constructor-release.git
+  version: 0.1.3

@@ -66,6 +66,7 @@ packages_select_by_deps:
   - moveit-planners-chomp
   - moveit-ros-trajectory-cache
   - moveit-servo
+  - moveit-task-constructor-demo
   - moveit-visual-tools
 
   - ros2_control
