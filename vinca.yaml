@@ -144,6 +144,8 @@ packages_select_by_deps:
   - rclcpp-cascade-lifecycle
   - rclpy-cascade-lifecycle
 
+  - py_binding_tools
+
   # These packages are only built on Windows as they depend on Linux-specific API
   - if: linux
     then:
@@ -156,7 +158,6 @@ packages_select_by_deps:
   # Linux as trying to build them in the past on macos or Windows resulted in errors
   - if: linux
     then:
-      - py_binding_tools
       - livox_ros_driver2
 
   # These packages are currently not build on Windows, but they be with some work
@@ -169,6 +170,7 @@ packages_select_by_deps:
       - moveit-ros-perception
       - moveit-ros-occupancy-map-monitor
       - moveit-runtime
+      - moveit-task-constructor-demo
       # todo: switch to dummy vendored package that just depends on the conda-forge's gtsam, so it works also on Windows
       - gtsam
       # TODO on windows: fix iconv link issue
