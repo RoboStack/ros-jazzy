@@ -1,0 +1,9 @@
+diff --git a/diagnostic_updater/CMakeLists.txt b/diagnostic_updater/CMakeLists.txt
+index eafa9891..9199df0d 100644
+--- a/diagnostic_updater/CMakeLists.txt
++++ b/diagnostic_updater/CMakeLists.txt
+@@ -6,3 +6,4 @@ endif()
++set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+ 
+ find_package(ament_cmake REQUIRED)
+ find_package(ament_cmake_ros REQUIRED)
