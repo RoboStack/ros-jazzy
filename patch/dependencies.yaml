@@ -255,3 +255,5 @@ camera_calibration:
   add_run: ["libopencv * *qt6*"]
 livox_ros_driver2:
   add_host: ["livox-sdk2"]
+moveit2_tutorials:
+  add_host: ["REQUIRE_OPENGL"]
