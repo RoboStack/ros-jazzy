@@ -171,6 +171,7 @@ packages_select_by_deps:
       - moveit-ros-occupancy-map-monitor
       - moveit-runtime
       - moveit-task-constructor-demo
+      - moveit2-tutorials
       # todo: switch to dummy vendored package that just depends on the conda-forge's gtsam, so it works also on Windows
       - gtsam
       # TODO on windows: fix iconv link issue
