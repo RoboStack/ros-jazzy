@@ -1,7 +1,7 @@
-diff --git a/ros_gz_sim/CMakeLists.txt b/ros_gz_sim/CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 9f7f956..86ef3e4 100644
---- a/ros_gz_sim/CMakeLists.txt
-+++ b/ros_gz_sim/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -11,6 +11,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
  endif()
@@ -12,43 +12,3 @@ index 9f7f956..86ef3e4 100644
  find_package(CLI11 REQUIRED)
  find_package(ament_cmake REQUIRED)
  find_package(builtin_interfaces REQUIRED)
-diff --git a/ros_gz_sim/launch/gz_sim.launch.py.in b/ros_gz_sim/launch/gz_sim.launch.py.in
-index 359e9d1..6a06642 100644
---- a/ros_gz_sim/launch/gz_sim.launch.py.in
-+++ b/ros_gz_sim/launch/gz_sim.launch.py.in
-@@ -16,6 +16,7 @@
- 
- import os
- from os import environ
-+import shutil
- 
- from ament_index_python.packages import get_package_share_directory
- from catkin_pkg.package import InvalidPackage, PACKAGE_MANIFEST_FILENAME, parse_package
-@@ -77,6 +78,12 @@ class GazeboRosPaths:
- 
-         return gazebo_model_path, gazebo_plugin_path
- 
-+def get_executable_path(command):
-+    path = shutil.which(command)
-+    if path.lower().endswith('.bat'):
-+        return os.path.splitext(path)[0]
-+    return path
-+
- def launch_gz(context, *args, **kwargs):
-     model_paths, plugin_paths = GazeboRosPaths.get_paths()
- 
-@@ -111,12 +118,12 @@ def launch_gz(context, *args, **kwargs):
-         exec_args = gz_args
- 
-     if len(ign_version) or (ign_version == '' and int(gz_version) < 7):
--        exec = 'ruby $(which ign) gazebo'
-+        exec = 'ruby ' + get_executable_path('ign') + ' gazebo'
- 
-         if len(ign_version):
-             gz_version = ign_version
-     else:
--        exec = 'ruby $(which gz) sim'
-+        exec = 'ruby ' + get_executable_path('gz') + ' sim'
- 
-     if debugger != 'false':
-         debug_prefix = 'x-terminal-emulator -e gdb -ex run --args'

@@ -230,13 +230,3 @@ index 778e5f1..1a42c8a 100644
  #include "ur_client_library/log.h"
  #include "ur_client_library/comm/tcp_socket.h"
  
-@@ -55,7 +55,9 @@ void TCPSocket::setupOptions()
- {
-   int flag = 1;
-   ur_setsockopt(socket_fd_, IPPROTO_TCP, TCP_NODELAY, &flag, sizeof(int));
-+#ifndef __APPLE__
-   ur_setsockopt(socket_fd_, IPPROTO_TCP, TCP_QUICKACK, &flag, sizeof(int));
-+#endif
- 
-   if (recv_timeout_ != nullptr)
-   {

@@ -1,7 +1,7 @@
-diff --git a/diagnostic_aggregator/CMakeLists.txt b/diagnostic_aggregator/CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 6014edf3..bbcee116 100644
---- a/diagnostic_aggregator/CMakeLists.txt
-+++ b/diagnostic_aggregator/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -6,3 +6,4 @@ endif()
 +set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
  
