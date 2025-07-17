@@ -1,7 +1,7 @@
-diff --git a/diagnostic_updater/CMakeLists.txt b/diagnostic_updater/CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
 index eafa9891..9199df0d 100644
---- a/diagnostic_updater/CMakeLists.txt
-+++ b/diagnostic_updater/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -6,3 +6,4 @@ endif()
 +set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
  
