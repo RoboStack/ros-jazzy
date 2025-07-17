@@ -151,6 +151,9 @@ packages_select_by_deps:
 
   - py_binding_tools
 
+  # Requested in https://github.com/RoboStack/ros-humble/issues/325
+  - data_tamer_cpp
+
   # These packages are only built on Windows as they depend on Linux-specific API
   - if: linux
     then:
