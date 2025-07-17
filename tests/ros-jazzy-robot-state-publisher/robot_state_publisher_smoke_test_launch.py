@@ -40,9 +40,9 @@ class TestRobotStatePublisher(unittest.TestCase):
 
     def test_node_output(self, proc_output):
         # Check that some output indicative of URDF parsing appears.
-        # The robot_state_publisher usually logs "got segment ..." for each link.
+        # The robot_state_publisher print "Robot initialized" at the end of the loading
         proc_output.assertWaitFor(
-            expected_output="got segment", timeout=0.5, stream='stderr'
+            expected_output="Robot initialized", timeout=0.5, stream='stderr'
         )
 
 @launch_testing.post_shutdown_test()
