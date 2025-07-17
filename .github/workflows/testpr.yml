@@ -109,7 +109,7 @@ jobs:
     - name: Build recipes
       shell: bash -l {0}
       run: |
-        pixi run rattler-build build --recipe-dir recipes --target-platform ${{ matrix.platform }} -m ./conda_build_config.yaml -c conda-forge -c robostack-humble --skip-existing
+        pixi run rattler-build build --recipe-dir recipes --target-platform ${{ matrix.platform }} -m ./conda_build_config.yaml -c conda-forge -c robostack-jazzy --skip-existing
 
     - name: See packages that will be saved in cache
       shell: bash -l {0}
