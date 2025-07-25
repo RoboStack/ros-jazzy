@@ -13,7 +13,12 @@ libopencv:
 libxml2:
   - 2.13.*
 graphviz:
-  - 12.*
+  - 13.*
+
+tbb:
+  - '2021'
+tbb_devel:
+  - '2021'
 
 # Workaround for https://github.com/RoboStack/ros-jazzy/pull/40#issuecomment-2782226697
 cmake:
@@ -32,8 +37,8 @@ c_compiler:
   - clang                      # [osx]
   - vs2022                     # [win]
 c_compiler_version:            # [unix]
-  - 13                         # [linux]
-  - 18                         # [osx]
+  - 14                         # [linux]
+  - 19                         # [osx]
 c_stdlib:
   - sysroot                    # [linux]
   - macosx_deployment_target   # [osx]
@@ -47,8 +52,8 @@ cxx_compiler:
   - clangxx                    # [osx]
   - vs2022                     # [win]
 cxx_compiler_version:          # [unix]
-  - 13                         # [linux]
-  - 18                         # [osx]
+  - 14                         # [linux]
+  - 19                         # [osx]
 
 libzenohc:
   - 1.4.0
