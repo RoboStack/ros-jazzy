@@ -95,11 +95,11 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-${{ matrix.platform }}-pr-${{ github.event.pull_request.number }}-
 
-    - name: Do a full rebuild on macOS
-      if: contains(matrix.os, 'macos')
+    - name: Remove outdated files
       shell: bash -l {0}
       run: |
-        rm -rf ${{ matrix.folder_cache }}/*
+        rm -rf ${{ matrix.folder_cache }}/cartographer-*
+        rm -rf ${{ matrix.folder_cache }}/ros-jazzy-rmw-zenoh-*
 
     - name: See packages restored by cache
       shell: bash -l {0}
