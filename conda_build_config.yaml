@@ -56,3 +56,7 @@ libzenohcxx:
   - 1.4.0
 libcap:
   - 2.71
+
+libhwloc:
+  - 2.11.2
+
