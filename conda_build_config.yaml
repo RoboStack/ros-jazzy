@@ -12,6 +12,8 @@ libopencv:
   - 4.11.0
 libxml2:
   - 2.13.*
+graphviz:
+  - 12.*
 
 # Workaround for https://github.com/RoboStack/ros-jazzy/pull/40#issuecomment-2782226697
 cmake:
