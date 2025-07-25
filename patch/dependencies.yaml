@@ -209,7 +209,8 @@ gz_plugin_vendor:
   add_run: ["gz-plugin2"]
 gz_rendering_vendor:
   add_host: ["gz-rendering8", "swig"]
-  add_run: ["gz-rendering8", "swig"]
+  # find_package(gz-rendering) requires find_package(OpenGL) to work
+  add_run: ["gz-rendering8", "swig", "${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 gz_sensors_vendor:
   add_host: ["gz-sensors8"]
   add_run: ["gz-sensors8"]
