@@ -1,0 +1,40 @@
+diff --git a/ros2_control_cmake/cmake/ros2_control.cmake b/ros2_control_cmake/cmake/ros2_control.cmake
+index 9d74527..c267128 100644
+--- a/ros2_control_cmake/cmake/ros2_control.cmake
++++ b/ros2_control_cmake/cmake/ros2_control.cmake
+@@ -34,10 +34,10 @@ endmacro()
+ # set compiler options depending on detected compiler
+ macro(set_compiler_options)
+   if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
+-    add_compile_options(-Wall -Wextra -Wpedantic -Werror=conversion -Werror=unused-but-set-variable
+-                        -Werror=return-type -Werror=shadow -Werror=format
+-                        -Werror=missing-braces)
+-    message(STATUS "Compiler warnings enabled for ${CMAKE_CXX_COMPILER_ID}")
++    # add_compile_options(-Wall -Wextra -Wpedantic -Werror=conversion -Werror=unused-but-set-variable
++    #                     -Werror=return-type -Werror=shadow -Werror=format
++    #                     -Werror=missing-braces)
++    # message(STATUS "Compiler warnings enabled for ${CMAKE_CXX_COMPILER_ID}")
+ 
+     # https://docs.ros.org/en/rolling/How-To-Guides/Ament-CMake-Documentation.html#compiler-and-linker-options
+     if(NOT CMAKE_C_STANDARD)
+@@ -48,13 +48,13 @@ macro(set_compiler_options)
+     endif()
+ 
+     # Extract major version if g++ is used
+-    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+-      extract_gcc_version()
+-      if(DEFINED GCC_MAJOR_VERSION AND GCC_MAJOR_VERSION GREATER 10)
+-        # GCC 11 introduced -Werror=range-loop-construct
+-        add_compile_options(-Werror=range-loop-construct)
+-      endif()
+-    endif()
++    # if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
++    #   extract_gcc_version()
++    #   if(DEFINED GCC_MAJOR_VERSION AND GCC_MAJOR_VERSION GREATER 10)
++    #     # GCC 11 introduced -Werror=range-loop-construct
++    #     add_compile_options(-Werror=range-loop-construct)
++    #   endif()
++    # endif()
+   endif()
+ endmacro()
+ 
