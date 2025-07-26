@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 05b59e628..78a197a44 100644
+index 5b54eb0b4..18150e6a5 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -9,9 +9,12 @@ option(
@@ -18,29 +18,32 @@ index 05b59e628..78a197a44 100644
  
  if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
    message("${PROJECT_NAME}: You did not request a specific build type: selecting 'RelWithDebInfo'.")
-
-diff --git a/src/hardware_interface.cpp b/src/hardware_interface.cpp
-index 216d7d462..b500aadc7 100644
---- a/src/hardware_interface.cpp
-+++ b/src/hardware_interface.cpp
-@@ -45,3 +45,4 @@
-+#include "ur_robot_driver/hardware_interface.hpp"
- #include "ur_client_library/exceptions.h"
- #include "ur_client_library/ur/tool_communication.h"
- #include "ur_client_library/ur/version_information.h"
-
 diff --git a/include/ur_robot_driver/hardware_interface.hpp b/include/ur_robot_driver/hardware_interface.hpp
-index 14bdd29ea..330e4161e 100644
+index e9ea08129..8eba2be91 100644
 --- a/include/ur_robot_driver/hardware_interface.hpp
 +++ b/include/ur_robot_driver/hardware_interface.hpp
-@@ -66,3 +66,5 @@
+@@ -64,6 +64,8 @@
+ #include "geometry_msgs/msg/transform_stamped.hpp"
+ #include "tf2_geometry_msgs/tf2_geometry_msgs.hpp"
+ 
 +typedef unsigned int uint;
 +
  namespace ur_robot_driver
  {
  enum class PausingState
-
- diff --git a/src/robot_state_helper.cpp b/src/robot_state_helper.cpp
+diff --git a/src/hardware_interface.cpp b/src/hardware_interface.cpp
+index 5e2e5730d..51d093547 100644
+--- a/src/hardware_interface.cpp
++++ b/src/hardware_interface.cpp
+@@ -42,6 +42,7 @@
+ #include <utility>
+ #include <vector>
+ 
++#include "ur_robot_driver/hardware_interface.hpp"
+ #include "ur_client_library/exceptions.h"
+ #include "ur_client_library/ur/tool_communication.h"
+ #include "ur_client_library/ur/version_information.h"
+diff --git a/src/robot_state_helper.cpp b/src/robot_state_helper.cpp
 index c422ae951..0a57ae75d 100755
 --- a/src/robot_state_helper.cpp
 +++ b/src/robot_state_helper.cpp
@@ -53,4 +56,3 @@ index c422ae951..0a57ae75d 100755
            result_->success = safeDashboardTrigger(this->play_program_srv_);
          }
        }
-

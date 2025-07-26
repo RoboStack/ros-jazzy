@@ -89,7 +89,9 @@ popf:
 rtabmap:
   add_host: ["REQUIRE_OPENGL", "ceres-solver", "libdc1394", "libusb", "vtk"]
 backward_ros:
-  add_host: ["${{ 'binutils' if linux or (osx and x86_64) }}", "${{ 'elfutils' if linux }}", "ros-jazzy-ament-cmake-libraries"]
+  # binutils is added only on linux to avoid the -liberty library not found in macos
+  # see https://github.com/RoboStack/ros-jazzy/pull/95#issuecomment-3113166166
+  add_host: ["${{ 'binutils' if linux }}", "${{ 'elfutils' if linux }}", "ros-jazzy-ament-cmake-libraries"]
 nav2_smac_planner:
   add_build: ["${{ 'llvm-openmp' if osx }}"]
   add_host: ["${{ 'llvm-openmp' if osx }}", "ompl", "libode"]
@@ -207,7 +209,8 @@ gz_plugin_vendor:
   add_run: ["gz-plugin2"]
 gz_rendering_vendor:
   add_host: ["gz-rendering8", "swig"]
-  add_run: ["gz-rendering8", "swig"]
+  # find_package(gz-rendering) requires find_package(OpenGL) to work
+  add_run: ["gz-rendering8", "swig", "${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 gz_sensors_vendor:
   add_host: ["gz-sensors8"]
   add_run: ["gz-sensors8"]

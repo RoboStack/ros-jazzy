@@ -39,8 +39,6 @@ bullet:
   robostack: [bullet]
 bzip2:
   robostack: [bzip2]
-cartographer:
-  robostack: [cartographer]
 ca-certificates:
   robostack: [ca-certificates]
 cargo:
@@ -132,7 +130,11 @@ glut:
     osx: []
     win64: [freeglut]
 google-mock:
-  robostack: [gmock]
+  robostack:
+    linux: [gmock]
+    osx: [gmock]
+    win64: [gmock]
+    emscripten: []
 graphicsmagick:
   robostack: [graphicsmagick]
 graphviz:
@@ -264,6 +266,8 @@ libcurl-dev:
   robostack: [libcurl]
 libdc1394-dev:
   robostack: [libdc1394]
+libdraco-dev:
+  robostack: [draco]
 libdw-dev:
   robostack:
     linux: [elfutils]
@@ -345,6 +349,8 @@ liblz4-dev:
   robostack: [lz4]
 libmicrohttpd:
   robostack: [libmicrohttpd]
+libnanoflann-dev:
+  robostack: [nanoflann]
 libncurses-dev:
   robostack:
     linux: [ncurses]
@@ -371,6 +377,8 @@ libomp-dev:
     linux: [libgomp]
     osx: [llvm-openmp]
     win64: []
+libopen3d-dev:
+  robostack: [open3d, REQUIRE_OPENGL]
 libopenblas-dev:
   robostack: [libblas]
 libopencv-dev:
@@ -923,6 +931,8 @@ qt5-qmake:
   robostack: [qt-main, REQUIRE_OPENGL]
 qtbase5-dev:
   robostack: [qt-main, REQUIRE_OPENGL]
+range-v3:
+  robostack: [range-v3]
 rapidjson-dev:
   robostack: [rapidjson]
 roboticstoolbox-python:
@@ -964,7 +974,7 @@ sshpass:
 subversion:
   robostack: [subversion]
 suitesparse:
-  robostack: [suitesparse]
+  robostack: [suitesparse, blas-devel]
 sqlite3:
   robostack: [sqlite 3.*]
 swig:

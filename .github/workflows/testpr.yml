@@ -4,7 +4,8 @@ on:
 
 env:
   ROS_VERSION: 2
-
+  # Change to 'true' to enable the cache upload as artifacts
+  SAVE_CACHE_AS_ARTIFACT: 'false'
 jobs:
   build:
     strategy:
@@ -13,14 +14,19 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux-64
+            folder_cache: 'output/linux-64'
           - os: ubuntu-24.04-arm
             platform: linux-aarch64
+            folder_cache: 'output/linux-aarch64'
           - os: macos-13
             platform: osx-64
+            folder_cache: 'output/osx-64'
           - os: macos-14
             platform: osx-arm64
+            folder_cache: 'output/osx-arm64'
           - os: windows-2022
             platform: win-64
+            folder_cache: 'C:/bld/win-64'
 
     runs-on: ${{ matrix.os }}
 
@@ -32,8 +38,15 @@ jobs:
 
     - uses: prefix-dev/setup-pixi@v0.8.10
       with:
-        pixi-version: v0.49.0
         frozen: true
+
+    - name: Long paths workarounds for win-64
+      shell: bash -l {0}
+      if: matrix.platform == 'win-64'
+      run: |
+        # Workaround for problem related to long paths
+        echo "CONDA_BLD_PATH=C:\\bld\\" >> $GITHUB_ENV
+        mkdir /c/bld
 
     # Workaround for https://github.com/RoboStack/ros-humble/pull/141#issuecomment-1941919816
     - name: Clean up PATH
@@ -54,94 +67,71 @@ jobs:
         rm -rf /c/Strawberry
         rm -rf "/c/Program Files (x86)/Windows Kits/10/Include/10.0.17763.0/"
 
-
     # Regression for https://github.com/RoboStack/ros-jazzy/issues/44
     - name: Check that anaconda-client command works fine
       shell: bash -l {0}
       run: |
         pixi run anaconda --version
 
-    - name: Generate recipes for linux-64
+    - name: Generate recipes
       shell: bash -l {0}
-      if: matrix.platform == 'linux-64'
       run: |
         mkdir -p recipes
-        $HOME/.pixi/bin/pixi run -v vinca --platform linux-64 -m -n
-        ls -la recipes
-    - name: Generate recipes for linux-aarch64
-      shell: bash -l {0}
-      if: matrix.platform == 'linux-aarch64'
-      run: |
-        mkdir -p recipes
-        $HOME/.pixi/bin/pixi run -v vinca --platform linux-aarch64 -m -n
-        ls -la recipes
-    - name: Generate recipes for osx-64
-      shell: bash -l {0}
-      if: matrix.platform == 'osx-64'
-      run: |
-        mkdir -p recipes
-        $HOME/.pixi/bin/pixi run -v vinca --platform osx-64 -m -n
-        ls -la recipes
-    - name: Generate recipes for osx-arm64
-      shell: bash -l {0}
-      if: matrix.platform == 'osx-arm64'
-      run: |
-        mkdir -p recipes
-        $HOME/.pixi/bin/pixi run -v vinca --platform osx-arm64 -m -n
-        ls -la recipes
-    - name: Generate recipes for win-64
-      shell: bash -l {0}
-      if: matrix.platform == 'win-64'
-      run: |
-        # Workaround for problem related to long paths
-        echo "CONDA_BLD_PATH=C:\\bld\\" >> $GITHUB_ENV
-        mkdir /c/bld
-        mkdir -p recipes
-        $HOME/.pixi/bin/pixi run -v vinca --platform win-64 -m -n
-        ls -la recipes
-    - name: Check if there are packages to be built
-      id: newrecipecheck
+        pixi run -v vinca --platform ${{ matrix.platform }} -m -n
+
+    - name: Check patches
       shell: bash -l {0}
       run: |
-        # Workaround for https://github.com/prefix-dev/rattler-build/issues/1535
-        set +e
-        if [ ! -d recipes ] || [ -z "$(ls -A recipes)" ]; then
-          echo "RECIPE_CREATED=0" >> $GITHUB_OUTPUT
-        else
-          echo "RECIPE_CREATED=1" >> $GITHUB_OUTPUT
-        fi
-    - name: Build recipes for linux-64
+        pixi run python check_patches_clean_apply.py
+
+    - name: Restore build cache
+      id: cache-restore
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          ${{ matrix.folder_cache }}
+        key: ${{ runner.os }}-${{ matrix.platform }}-pr-${{ github.event.pull_request.number }}
+        # allow a later run to pick up a cache that has an extra suffix
+        restore-keys: |
+          ${{ runner.os }}-${{ matrix.platform }}-pr-${{ github.event.pull_request.number }}-
+
+    - name: Remove outdated files
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && matrix.platform == 'linux-64'
       run: |
-        env -i $HOME/.pixi/bin/pixi run python check_patches_clean_apply.py
-        # env -i $HOME/.pixi/bin/pixi run rattler-build build --recipe-dir additional_recipes --target-platform linux-64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-        env -i $HOME/.pixi/bin/pixi run rattler-build build --recipe-dir recipes --target-platform linux-64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-    - name: Build recipes for linux-aarch64
+        rm -rf ${{ matrix.folder_cache }}/cartographer-*
+        rm -rf ${{ matrix.folder_cache }}/ros-jazzy-rmw-zenoh-*
+        rm -rf ${{ matrix.folder_cache }}/ros-jazzy-gz-*
+        rm -rf ${{ matrix.folder_cache }}/ros-jazzy-sdformat-*
+        rm -rf ${{ matrix.folder_cache }}/ros-jazzy-ros2-control-cmake-*
+
+    - name: See packages restored by cache
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && matrix.platform == 'linux-aarch64'
       run: |
-        env -i $HOME/.pixi/bin/pixi run python check_patches_clean_apply.py
-        # env -i $HOME/.pixi/bin/pixi run rattler-build build --recipe-dir additional_recipes --target-platform linux-aarch64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-        env -i $HOME/.pixi/bin/pixi run rattler-build build --recipe-dir recipes --target-platform linux-aarch64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-    - name: Build recipes for osx-64
+        ls ${{ matrix.folder_cache }}
+
+    - name: Build recipes
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && matrix.platform == 'osx-64'
       run: |
-        env -i $HOME/.pixi/bin/pixi run python check_patches_clean_apply.py
-        # env -i $HOME/.pixi/bin/pixi run rattler-build build --recipe-dir additional_recipes --target-platform osx-64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-        env -i $HOME/.pixi/bin/pixi run rattler-build build --recipe-dir recipes --target-platform osx-64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-    - name: Build recipes for osx-arm64
+        pixi run rattler-build build --recipe-dir recipes --target-platform ${{ matrix.platform }} -m ./conda_build_config.yaml -c conda-forge -c robostack-jazzy --skip-existing
+
+    - name: See packages that will be saved in cache
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && matrix.platform == 'osx-arm64'
+      if: always()
       run: |
-        env -i $HOME/.pixi/bin/pixi run python check_patches_clean_apply.py
-        # env -i $HOME/.pixi/bin/pixi run rattler-build build --recipe-dir additional_recipes --target-platform osx-arm64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-        env -i $HOME/.pixi/bin/pixi run rattler-build build --recipe-dir recipes --target-platform osx-arm64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-    - name: Build recipes for win-64
-      shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && matrix.platform == 'win-64'
-      run: |
-        $HOME/.pixi/bin/pixi run python check_patches_clean_apply.py
-        # $HOME/.pixi/bin/pixi run rattler-build build --recipe-dir additional_recipes --target-platform win-64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-        $HOME/.pixi/bin/pixi run rattler-build build --recipe-dir recipes --target-platform win-64 -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
+        ls ${{ matrix.folder_cache }}
+
+    - name: Save build cache
+      uses: actions/cache/save@v4
+      if: always()
+      with:
+        path: |
+          ${{ matrix.folder_cache }}
+        key: ${{ runner.os }}-${{ matrix.platform }}-pr-${{ github.event.pull_request.number }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+    - name: Upload build cache as artifact
+      if: ${{ always() && env.SAVE_CACHE_AS_ARTIFACT == 'true' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: cache-${{ matrix.platform }}-${{ github.run_id }}
+        path: ${{ matrix.folder_cache }}
+        retention-days: 7
