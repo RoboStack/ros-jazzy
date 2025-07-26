@@ -4036,9 +4036,9 @@ plotjuggler_msgs:
   url: https://github.com/ros2-gbp/plotjuggler_msgs-release.git
   version: 0.2.3
 plotjuggler_ros:
-  tag: release/jazzy/plotjuggler_ros/2.1.2-2
+  tag: release/jazzy/plotjuggler_ros/2.3.0-1
   url: https://github.com/ros2-gbp/plotjuggler-ros-plugins-release.git
-  version: 2.1.2
+  version: 2.3.0
 pluginlib:
   tag: release/jazzy/pluginlib/5.4.2-2
   url: https://github.com/ros2-gbp/pluginlib-release.git
