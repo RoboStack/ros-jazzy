@@ -38,7 +38,7 @@ c_compiler:
   - vs2022                     # [win]
 c_compiler_version:            # [unix]
   - 14                         # [linux]
-  - 19                         # [osx]
+  - 18                         # [osx]
 c_stdlib:
   - sysroot                    # [linux]
   - macosx_deployment_target   # [osx]
@@ -53,7 +53,7 @@ cxx_compiler:
   - vs2022                     # [win]
 cxx_compiler_version:          # [unix]
   - 14                         # [linux]
-  - 19                         # [osx]
+  - 18                         # [osx]
 
 libzenohc:
   - 1.4.0
