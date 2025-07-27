@@ -1,0 +1,73 @@
+jobs:
+  stage_0_job_0:
+    name: moveit-setup-assistant moveit-task-constructor-core ur-moveit-config moveit-ros-trajectory-cache
+      moveit-runtime
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-setup-assistant ros-jazzy-moveit-task-constructor-core
+        ros-jazzy-ur-moveit-config ros-jazzy-moveit-ros-trajectory-cache ros-jazzy-moveit-runtime
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-setup-assistant ros-jazzy-moveit-task-constructor-core
+          ros-jazzy-ur-moveit-config ros-jazzy-moveit-ros-trajectory-cache ros-jazzy-moveit-runtime
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_1_job_1:
+    name: moveit-task-constructor-capabilities moveit kinova-gen3-7dof-robotiq-2f-85-moveit-config
+      ur-simulation-gz ur
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-task-constructor-capabilities ros-jazzy-moveit
+        ros-jazzy-kinova-gen3-7dof-robotiq-2f-85-moveit-config ros-jazzy-ur-simulation-gz
+        ros-jazzy-ur
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-task-constructor-capabilities ros-jazzy-moveit
+          ros-jazzy-kinova-gen3-7dof-robotiq-2f-85-moveit-config ros-jazzy-ur-simulation-gz
+          ros-jazzy-ur
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_2:
+    name: moveit-task-constructor-demo moveit2-tutorials
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-task-constructor-demo ros-jazzy-moveit2-tutorials
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-task-constructor-demo ros-jazzy-moveit2-tutorials
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+name: build_unix
+on:
+  push:
+    branches:
+    - buildbranch_linux
