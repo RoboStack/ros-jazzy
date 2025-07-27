@@ -664,7 +664,7 @@ python-pydot:
 python-pygithub3:
   robostack: [pygithub]
 python-pygraphviz:
-  robostack: [pygraphviz]
+  robostack: [graphviz, pygraphviz]
 python-pyusb-pip:
   robostack: [pyusb]
 python-qt5-bindings:
@@ -830,7 +830,7 @@ python3-pycryptodome:
 python3-pydot:
   robostack: [pydot]
 python3-pygraphviz:
-  robostack: [pygraphviz]
+  robostack: [graphviz, pygraphviz]
 python3-pykdl:
   robostack: [python-orocos-kdl]
 python3-pymongo:
