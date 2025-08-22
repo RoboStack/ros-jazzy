@@ -21,12 +21,6 @@ mutex_package:
     - libxml2 2.13.*
     - vtk 9.4.2.*
 
-skip_all_deps: false
-
-# If full rebuild, the build number of the existing package has
-# to match the selected build number for skipping
-full_rebuild: true
-
 packages_skip_by_deps:
   - if: not linux
     then:
