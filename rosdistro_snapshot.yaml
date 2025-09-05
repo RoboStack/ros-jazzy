@@ -376,9 +376,9 @@ asio_cmake_module:
   url: https://github.com/ros2-gbp/transport_drivers-release.git
   version: 1.2.0
 async_web_server_cpp:
-  tag: release/jazzy/async_web_server_cpp/2.0.0-6
+  tag: release/jazzy/async_web_server_cpp/2.0.1-1
   url: https://github.com/ros2-gbp/async_web_server_cpp-release.git
-  version: 2.0.0
+  version: 2.0.1
 at_sonde_ros_driver:
   tag: release/jazzy/at_sonde_ros_driver/1.0.0-1
   url: https://github.com/ros2-gbp/at_sonde_ros_driver-release.git
@@ -6512,9 +6512,9 @@ warehouse_ros_sqlite:
   url: https://github.com/ros2-gbp/warehouse_ros_sqlite-release.git
   version: 1.0.5
 web_video_server:
-  tag: release/jazzy/web_video_server/2.1.0-1
+  tag: release/jazzy/web_video_server/2.1.1-1
   url: https://github.com/ros2-gbp/web_video_server-release.git
-  version: 2.1.0
+  version: 2.1.1
 webots_ros2:
   tag: release/jazzy/webots_ros2/2025.0.0-1
   url: https://github.com/ros2-gbp/webots_ros2-release.git

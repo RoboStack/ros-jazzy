@@ -148,6 +148,9 @@ packages_select_by_deps:
   # Requested in https://github.com/RoboStack/ros-humble/issues/325
   - data_tamer_cpp
 
+  # Requested in https://github.com/RoboStack/ros-jazzy/issues/99
+  - web_video_server
+
   # These packages are only built on Windows as they depend on Linux-specific API
   - if: linux
     then:
