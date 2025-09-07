@@ -82,8 +82,6 @@ packages_select_by_deps:
   - turtlebot3
   - turtlebot3_simulations
 
-  - apriltag_ros
-
   - ackermann-msgs
   - sbg_driver
 
@@ -155,6 +153,8 @@ packages_select_by_deps:
       - ros2_socketcan
       # Depends on v4l
       - usb_cam
+      # Depends (indirectly) on libcamera
+      - apriltag_ros
 
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
@@ -187,6 +187,9 @@ packages_select_by_deps:
       - rqt_tf_tree
       - rviz_satellite
       - odom_to_tf_ros2
+      # Requested in https://github.com/RoboStack/ros-jazzy/issues/99
+      # error C2338: static_assert failed: 'the Header struct is not properly packed' error on Windows
+      - web_video_server
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
