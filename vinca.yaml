@@ -82,8 +82,6 @@ packages_select_by_deps:
   - turtlebot3
   - turtlebot3_simulations
 
-  - apriltag_ros
-
   - ackermann-msgs
   - sbg_driver
 
@@ -158,6 +156,8 @@ packages_select_by_deps:
       - ros2_socketcan
       # Depends on v4l
       - usb_cam
+      # Depends (indirectly) on libcamera
+      - apriltag_ros
 
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
