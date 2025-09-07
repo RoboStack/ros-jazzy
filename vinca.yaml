@@ -146,9 +146,6 @@ packages_select_by_deps:
   # Requested in https://github.com/RoboStack/ros-humble/issues/325
   - data_tamer_cpp
 
-  # Requested in https://github.com/RoboStack/ros-jazzy/issues/99
-  - web_video_server
-
   # These packages are only built on Windows as they depend on Linux-specific API
   - if: linux
     then:
@@ -190,6 +187,9 @@ packages_select_by_deps:
       - rqt_tf_tree
       - rviz_satellite
       - odom_to_tf_ros2
+      # Requested in https://github.com/RoboStack/ros-jazzy/issues/99
+      # error C2338: static_assert failed: 'the Header struct is not properly packed' error on Windows
+      - web_video_server
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
