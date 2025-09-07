@@ -1,0 +1,46 @@
+jobs:
+  stage_0_job_0:
+    name: async-web-server-cpp ament-pyflakes libcamera
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-async-web-server-cpp ros-jazzy-ament-pyflakes ros-jazzy-libcamera
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-async-web-server-cpp ros-jazzy-ament-pyflakes ros-jazzy-libcamera
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_1_job_1:
+    name: web-video-server ament-cmake-pyflakes camera-ros
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-web-video-server ros-jazzy-ament-cmake-pyflakes ros-jazzy-camera-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-web-video-server ros-jazzy-ament-cmake-pyflakes
+          ros-jazzy-camera-ros
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+name: build_unix
+on:
+  push:
+    branches:
+    - buildbranch_linux
