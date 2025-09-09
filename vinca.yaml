@@ -190,6 +190,9 @@ packages_select_by_deps:
       # Requested in https://github.com/RoboStack/ros-jazzy/issues/99
       # error C2338: static_assert failed: 'the Header struct is not properly packed' error on Windows
       - web_video_server
+      - orbbec_description
+      - orbbec_camera_msgs
+      - orbbec_camera
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

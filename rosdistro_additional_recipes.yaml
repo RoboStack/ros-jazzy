@@ -71,3 +71,17 @@ moveit2_tutorials:
   rev: 27b5ed0232cd08de9631d26e823dccc6e8766513
   url: https://github.com/moveit/moveit2_tutorials.git
   version: 0.1.0
+
+# TODO: Remove orbbec_* packages when they are available from ros2-gbp
+orbbec_camera:
+  tag: release/jazzy/orbbec_camera/1.5.13-1
+  url: https://github.com/JafarAbdi/orbbec-release.git
+  version: 1.5.13
+orbbec_description:
+  tag: release/jazzy/orbbec_description/1.5.13-1
+  url: https://github.com/JafarAbdi/orbbec-release.git
+  version: 1.5.13
+orbbec_camera_msgs:
+  tag: release/jazzy/orbbec_camera_msgs/1.5.13-1
+  url: https://github.com/JafarAbdi/orbbec-release.git
+  version: 1.5.13
