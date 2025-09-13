@@ -161,6 +161,7 @@ packages_select_by_deps:
   - if: linux
     then:
       - livox_ros_driver2
+      - orbbec_camera
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
@@ -192,7 +193,6 @@ packages_select_by_deps:
       - web_video_server
       - orbbec_description
       - orbbec_camera_msgs
-      - orbbec_camera
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
