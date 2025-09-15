@@ -161,6 +161,7 @@ packages_select_by_deps:
   - if: linux
     then:
       - livox_ros_driver2
+      - orbbec_camera
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
@@ -190,6 +191,8 @@ packages_select_by_deps:
       # Requested in https://github.com/RoboStack/ros-jazzy/issues/99
       # error C2338: static_assert failed: 'the Header struct is not properly packed' error on Windows
       - web_video_server
+      - orbbec_description
+      - orbbec_camera_msgs
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
