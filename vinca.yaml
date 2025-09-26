@@ -133,7 +133,6 @@ packages_select_by_deps:
   - ament_cmake_black
 
   - behaviortree_cpp
-  - pinocchio
   - ouster_ros
 
   # cascade lifecycle packages
@@ -175,6 +174,7 @@ packages_select_by_deps:
       - moveit-runtime
       - moveit-task-constructor-demo
       - moveit2-tutorials
+      - pinocchio
       # todo: switch to dummy vendored package that just depends on the conda-forge's gtsam, so it works also on Windows
       - gtsam
       # TODO on windows: fix iconv link issue
