@@ -1,0 +1,194 @@
+{
+  "arch": "x86_64",
+  "build": "py312h680f630_0",
+  "build_number": 0,
+  "constrains": [
+    "__glibc >=2.17"
+  ],
+  "depends": [
+    "python",
+    "__glibc >=2.17,<3.0.a0",
+    "libgcc >=13",
+    "python_abi 3.12.* *_cp312"
+  ],
+  "license": "MIT",
+  "license_family": "MIT",
+  "md5": "5b251d4dd547d8b5970152bae2cc1600",
+  "name": "rpds-py",
+  "platform": "linux",
+  "purls": [
+    "pkg:pypi/rpds-py?source=compressed-mapping"
+  ],
+  "sha256": "bb051358e7550fd8ef9129def61907ad03853604f5e641108b1dbe2ce93247cc",
+  "size": 389020,
+  "subdir": "linux-64",
+  "timestamp": 1751467350968,
+  "version": "0.26.0",
+  "fn": "rpds-py-0.26.0-py312h680f630_0.conda",
+  "url": "https://repo.prefix.dev/conda-forge/linux-64/rpds-py-0.26.0-py312h680f630_0.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/rpds-py-0.26.0-py312h680f630_0",
+  "files": [
+    "lib/python3.12/site-packages/rpds/__pycache__/__init__.cpython-312.pyc",
+    "etc/conda/test-files/rpds-py/1/tests/__init__.py",
+    "etc/conda/test-files/rpds-py/1/tests/requirements.in",
+    "etc/conda/test-files/rpds-py/1/tests/requirements.txt",
+    "etc/conda/test-files/rpds-py/1/tests/test_hash_trie_map.py",
+    "etc/conda/test-files/rpds-py/1/tests/test_hash_trie_set.py",
+    "etc/conda/test-files/rpds-py/1/tests/test_list.py",
+    "etc/conda/test-files/rpds-py/1/tests/test_queue.py",
+    "lib/python3.12/site-packages/rpds/__init__.py",
+    "lib/python3.12/site-packages/rpds/__init__.pyi",
+    "lib/python3.12/site-packages/rpds/py.typed",
+    "lib/python3.12/site-packages/rpds/rpds.cpython-312-x86_64-linux-gnu.so",
+    "lib/python3.12/site-packages/rpds_py-0.26.0.dist-info/INSTALLER",
+    "lib/python3.12/site-packages/rpds_py-0.26.0.dist-info/METADATA",
+    "lib/python3.12/site-packages/rpds_py-0.26.0.dist-info/RECORD",
+    "lib/python3.12/site-packages/rpds_py-0.26.0.dist-info/REQUESTED",
+    "lib/python3.12/site-packages/rpds_py-0.26.0.dist-info/WHEEL",
+    "lib/python3.12/site-packages/rpds_py-0.26.0.dist-info/direct_url.json",
+    "lib/python3.12/site-packages/rpds_py-0.26.0.dist-info/licenses/LICENSE"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "lib/python3.12/site-packages/rpds/__pycache__/__init__.cpython-312.pyc",
+        "path_type": "hardlink",
+        "sha256": "ac0e6b90d1d7ab3d980b0b200817a37fca0ab20d9aad94db12480dd05f1d8f6a",
+        "sha256_in_prefix": "ac0e6b90d1d7ab3d980b0b200817a37fca0ab20d9aad94db12480dd05f1d8f6a",
+        "size_in_bytes": 560
+      },
+      {
+        "_path": "etc/conda/test-files/rpds-py/1/tests/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "etc/conda/test-files/rpds-py/1/tests/requirements.in",
+        "path_type": "hardlink",
+        "sha256": "57ea3a7232dafe157f0e0b5ec6604ee9804338ad062c31341f97385b744698eb",
+        "sha256_in_prefix": "57ea3a7232dafe157f0e0b5ec6604ee9804338ad062c31341f97385b744698eb",
+        "size_in_bytes": 46
+      },
+      {
+        "_path": "etc/conda/test-files/rpds-py/1/tests/requirements.txt",
+        "path_type": "hardlink",
+        "sha256": "fc4213e25d2c7e16379faa40862f14d95835f1f944409ba0da4aa0d72d314a03",
+        "sha256_in_prefix": "fc4213e25d2c7e16379faa40862f14d95835f1f944409ba0da4aa0d72d314a03",
+        "size_in_bytes": 519
+      },
+      {
+        "_path": "etc/conda/test-files/rpds-py/1/tests/test_hash_trie_map.py",
+        "path_type": "hardlink",
+        "sha256": "a3f9a1aa361fda5291171a641ea2d78fbfd3d88aa3844057a014005a387971c6",
+        "sha256_in_prefix": "a3f9a1aa361fda5291171a641ea2d78fbfd3d88aa3844057a014005a387971c6",
+        "size_in_bytes": 15358
+      },
+      {
+        "_path": "etc/conda/test-files/rpds-py/1/tests/test_hash_trie_set.py",
+        "path_type": "hardlink",
+        "sha256": "ea05c08aea4fbe65170b712b9b849bf0fc82d4abb8da26c1071861787687983c",
+        "sha256_in_prefix": "ea05c08aea4fbe65170b712b9b849bf0fc82d4abb8da26c1071861787687983c",
+        "size_in_bytes": 6094
+      },
+      {
+        "_path": "etc/conda/test-files/rpds-py/1/tests/test_list.py",
+        "path_type": "hardlink",
+        "sha256": "b148c00972cdf4175db4880820f0dfb1b91aadc12188e10e86556e1bab99a830",
+        "sha256_in_prefix": "b148c00972cdf4175db4880820f0dfb1b91aadc12188e10e86556e1bab99a830",
+        "size_in_bytes": 4323
+      },
+      {
+        "_path": "etc/conda/test-files/rpds-py/1/tests/test_queue.py",
+        "path_type": "hardlink",
+        "sha256": "3690ddfa38068677841f41a360b8c67e9947dee9c3d03696218922a4829f7667",
+        "sha256_in_prefix": "3690ddfa38068677841f41a360b8c67e9947dee9c3d03696218922a4829f7667",
+        "size_in_bytes": 3658
+      },
+      {
+        "_path": "lib/python3.12/site-packages/rpds/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "c373205d6ee5a530880b0d0a5dbc36d105f9ef7fe46ec12758878cb0202e82f3",
+        "sha256_in_prefix": "c373205d6ee5a530880b0d0a5dbc36d105f9ef7fe46ec12758878cb0202e82f3",
+        "size_in_bytes": 99
+      },
+      {
+        "_path": "lib/python3.12/site-packages/rpds/__init__.pyi",
+        "path_type": "hardlink",
+        "sha256": "fa177503577506a1b12f75d9188f52a56d7ec597b6889703314e82a627a3815e",
+        "sha256_in_prefix": "fa177503577506a1b12f75d9188f52a56d7ec597b6889703314e82a627a3815e",
+        "size_in_bytes": 2570
+      },
+      {
+        "_path": "lib/python3.12/site-packages/rpds/py.typed",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.12/site-packages/rpds/rpds.cpython-312-x86_64-linux-gnu.so",
+        "path_type": "hardlink",
+        "sha256": "0345184ac9ca314625d717f2640b051763caeec72f202af75f2a08658b013ea2",
+        "sha256_in_prefix": "0345184ac9ca314625d717f2640b051763caeec72f202af75f2a08658b013ea2",
+        "size_in_bytes": 1037464
+      },
+      {
+        "_path": "lib/python3.12/site-packages/rpds_py-0.26.0.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "bc33022edcb7639ff53355b4e91dade50a0bbf0299efeb6171d1ec0ba5029cfc",
+        "sha256_in_prefix": "bc33022edcb7639ff53355b4e91dade50a0bbf0299efeb6171d1ec0ba5029cfc",
+        "size_in_bytes": 6
+      },
+      {
+        "_path": "lib/python3.12/site-packages/rpds_py-0.26.0.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "9f6cafcfc8a30c056671eb01c2b01ddac86be786a000f622efe4e870b77c3982",
+        "sha256_in_prefix": "9f6cafcfc8a30c056671eb01c2b01ddac86be786a000f622efe4e870b77c3982",
+        "size_in_bytes": 4183
+      },
+      {
+        "_path": "lib/python3.12/site-packages/rpds_py-0.26.0.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "41a470a724f8f9c95df494cb6cb73d24bb7ca833f844836607bd82ddce699f3a",
+        "sha256_in_prefix": "41a470a724f8f9c95df494cb6cb73d24bb7ca833f844836607bd82ddce699f3a",
+        "size_in_bytes": 948
+      },
+      {
+        "_path": "lib/python3.12/site-packages/rpds_py-0.26.0.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.12/site-packages/rpds_py-0.26.0.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "f78c6ffa79aace054a301cc9c22113a70775bc36a4f0391d992bbb4baedc6c7c",
+        "sha256_in_prefix": "f78c6ffa79aace054a301cc9c22113a70775bc36a4f0391d992bbb4baedc6c7c",
+        "size_in_bytes": 99
+      },
+      {
+        "_path": "lib/python3.12/site-packages/rpds_py-0.26.0.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "3b495552602bbad74111090941b73def0f0f5afa6f40fe35951053162ead6333",
+        "sha256_in_prefix": "3b495552602bbad74111090941b73def0f0f5afa6f40fe35951053162ead6333",
+        "size_in_bytes": 118
+      },
+      {
+        "_path": "lib/python3.12/site-packages/rpds_py-0.26.0.dist-info/licenses/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "314e4e91be3baa93c0fb4bccc9e4e97cd643eb839b065af921782c2175fe9909",
+        "sha256_in_prefix": "314e4e91be3baa93c0fb4bccc9e4e97cd643eb839b065af921782c2175fe9909",
+        "size_in_bytes": 1057
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/rpds-py-0.26.0-py312h680f630_0",
+    "type": 1
+  }
+}
