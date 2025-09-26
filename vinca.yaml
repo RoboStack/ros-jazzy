@@ -133,7 +133,7 @@ packages_select_by_deps:
   - ament_cmake_black
 
   - behaviortree_cpp
-
+  - pinocchio
   - ouster_ros
 
   # cascade lifecycle packages
