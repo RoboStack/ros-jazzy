@@ -1,0 +1,9 @@
+tests:
+  # Regression test for https://github.com/RoboStack/ros-jazzy/pull/105#issuecomment-3338418876
+  - script:
+    - cmake-package-check pinocchio --targets pinocchio::pinocchio
+    requirements:
+      run:
+        - cmake-package-check
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
