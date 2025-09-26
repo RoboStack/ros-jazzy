@@ -1,0 +1,67 @@
+{
+  "arch": "x86_64",
+  "build": "h8f9b012_3",
+  "build_number": 3,
+  "depends": [
+    "__glibc >=2.17,<3.0.a0",
+    "libgcc 15.1.0 h767d61c_3"
+  ],
+  "license": "GPL-3.0-only WITH GCC-exception-3.1",
+  "license_family": "GPL",
+  "md5": "6d11a5edae89fe413c0569f16d308f5a",
+  "name": "libstdcxx",
+  "platform": "linux",
+  "purls": [],
+  "sha256": "7650837344b7850b62fdba02155da0b159cf472b9ab59eb7b472f7bd01dff241",
+  "size": 3896407,
+  "subdir": "linux-64",
+  "timestamp": 1750808251302,
+  "version": "15.1.0",
+  "fn": "libstdcxx-15.1.0-h8f9b012_3.conda",
+  "url": "https://repo.prefix.dev/conda-forge/linux-64/libstdcxx-15.1.0-h8f9b012_3.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/libstdcxx-15.1.0-h8f9b012_3",
+  "files": [
+    "share/licenses/libstdc++/RUNTIME.LIBRARY.EXCEPTION",
+    "lib/libstdc++.so",
+    "lib/libstdc++.so.6",
+    "lib/libstdc++.so.6.0.34"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "share/licenses/libstdc++/RUNTIME.LIBRARY.EXCEPTION",
+        "path_type": "hardlink",
+        "sha256": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74",
+        "sha256_in_prefix": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74",
+        "size_in_bytes": 3324
+      },
+      {
+        "_path": "lib/libstdc++.so",
+        "path_type": "softlink",
+        "sha256": "43df50d580721fe5c0a0def95404157c81765da645900c59bd3cbed1ad9d3930",
+        "sha256_in_prefix": "aec28fad54960fb0bde1900723be926f286e404fce0b97f37467025dade34919",
+        "size_in_bytes": 14140344
+      },
+      {
+        "_path": "lib/libstdc++.so.6",
+        "path_type": "softlink",
+        "sha256": "43df50d580721fe5c0a0def95404157c81765da645900c59bd3cbed1ad9d3930",
+        "sha256_in_prefix": "aec28fad54960fb0bde1900723be926f286e404fce0b97f37467025dade34919",
+        "size_in_bytes": 14140344
+      },
+      {
+        "_path": "lib/libstdc++.so.6.0.34",
+        "path_type": "hardlink",
+        "sha256": "43df50d580721fe5c0a0def95404157c81765da645900c59bd3cbed1ad9d3930",
+        "sha256_in_prefix": "43df50d580721fe5c0a0def95404157c81765da645900c59bd3cbed1ad9d3930",
+        "size_in_bytes": 14140344
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/libstdcxx-15.1.0-h8f9b012_3",
+    "type": 1
+  }
+}
