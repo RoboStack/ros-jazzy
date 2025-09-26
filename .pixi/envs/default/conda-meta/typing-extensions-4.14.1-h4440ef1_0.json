@@ -1,0 +1,56 @@
+{
+  "build": "h4440ef1_0",
+  "build_number": 0,
+  "depends": [
+    "typing_extensions ==4.14.1 pyhe01879c_0"
+  ],
+  "license": "PSF-2.0",
+  "md5": "75be1a943e0a7f99fcf118309092c635",
+  "name": "typing-extensions",
+  "noarch": "generic",
+  "purls": [],
+  "sha256": "349951278fa8d0860ec6b61fcdc1e6f604e6fce74fabf73af2e39a37979d0223",
+  "size": 90486,
+  "subdir": "noarch",
+  "timestamp": 1751643513473,
+  "version": "4.14.1",
+  "fn": "typing-extensions-4.14.1-h4440ef1_0.conda",
+  "url": "https://repo.prefix.dev/conda-forge/noarch/typing-extensions-4.14.1-h4440ef1_0.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/typing-extensions-4.14.1-h4440ef1_0",
+  "files": [
+    "etc/conda/test-files/typing-extensions/1/src/_typed_dict_test_helper.py",
+    "etc/conda/test-files/typing-extensions/1/src/test_typing_extensions.py",
+    "etc/conda/test-files/typing-extensions/1/src/typing_extensions.py"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "etc/conda/test-files/typing-extensions/1/src/_typed_dict_test_helper.py",
+        "path_type": "hardlink",
+        "sha256": "d522d5308180d08c7775347f5cc7c842c52f3791d5b2d3c2ff7664ebc64015e9",
+        "sha256_in_prefix": "d522d5308180d08c7775347f5cc7c842c52f3791d5b2d3c2ff7664ebc64015e9",
+        "size_in_bytes": 564
+      },
+      {
+        "_path": "etc/conda/test-files/typing-extensions/1/src/test_typing_extensions.py",
+        "path_type": "hardlink",
+        "sha256": "5363287249f9ff8ff5d5998a0f0510df76e13c44b07195867f982f82fcda8550",
+        "sha256_in_prefix": "5363287249f9ff8ff5d5998a0f0510df76e13c44b07195867f982f82fcda8550",
+        "size_in_bytes": 331460
+      },
+      {
+        "_path": "etc/conda/test-files/typing-extensions/1/src/typing_extensions.py",
+        "path_type": "hardlink",
+        "sha256": "161d25b79642827ceceedc808473807cbd19afcdbd298531891e78dc2970560c",
+        "sha256_in_prefix": "161d25b79642827ceceedc808473807cbd19afcdbd298531891e78dc2970560c",
+        "size_in_bytes": 157408
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/typing-extensions-4.14.1-h4440ef1_0",
+    "type": 1
+  }
+}
