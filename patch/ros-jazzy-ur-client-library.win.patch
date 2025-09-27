@@ -32,10 +32,10 @@ index 7745da9..ebf128e 100644
  
  namespace urcl
 diff --git a/include/ur_client_library/control/reverse_interface.h b/include/ur_client_library/control/reverse_interface.h
-index e68acd9..aa9d1c1 100644
+index 8220207..4322d02 100644
 --- a/include/ur_client_library/control/reverse_interface.h
 +++ b/include/ur_client_library/control/reverse_interface.h
-@@ -29,13 +29,13 @@
+@@ -29,6 +29,7 @@
  #ifndef UR_CLIENT_LIBRARY_REVERSE_INTERFACE_H_INCLUDED
  #define UR_CLIENT_LIBRARY_REVERSE_INTERFACE_H_INCLUDED
  
@@ -43,122 +43,14 @@ index e68acd9..aa9d1c1 100644
  #include "ur_client_library/comm/tcp_server.h"
  #include "ur_client_library/comm/control_mode.h"
  #include "ur_client_library/types.h"
- #include "ur_client_library/log.h"
+@@ -36,7 +37,6 @@
  #include "ur_client_library/ur/robot_receive_timeout.h"
+ #include "ur_client_library/ur/version_information.h"
  #include <cstring>
 -#include <endian.h>
  #include <condition_variable>
+ #include <list>
  
- namespace urcl
-diff --git a/include/ur_client_library/endian.h b/include/ur_client_library/endian.h
-new file mode 100644
-index 0000000..9c5500b
---- /dev/null
-+++ b/include/ur_client_library/endian.h
-@@ -0,0 +1,103 @@
-+//
-+// endian.h
-+//
-+// https://gist.github.com/panzi/6856583
-+//
-+// I, Mathias Panzenböck, place this file hereby into the public domain. Use
-+// it at your own risk for whatever you like. In case there are
-+// jurisdictions that don't support putting things in the public domain you
-+// can also consider it to be "dual licensed" under the BSD, MIT and Apache
-+// licenses, if you want to. This code is trivial anyway. Consider it an
-+// example on how to get the endian conversion functions on different
-+// platforms.
-+
-+#ifndef PORTABLE_ENDIAN_H__
-+#define PORTABLE_ENDIAN_H__
-+
-+// Byte order
-+#if defined(linux) || defined(__linux) || defined(__linux__) || defined(__CYGWIN__)
-+#  include <endian.h>
-+#elif defined(__APPLE__)
-+#  include <libkern/OSByteOrder.h>
-+
-+#  define htobe16(x) OSSwapHostToBigInt16(x)
-+#  define htole16(x) OSSwapHostToLittleInt16(x)
-+#  define be16toh(x) OSSwapBigToHostInt16(x)
-+#  define le16toh(x) OSSwapLittleToHostInt16(x)
-+
-+#  define htobe32(x) OSSwapHostToBigInt32(x)
-+#  define htole32(x) OSSwapHostToLittleInt32(x)
-+#  define be32toh(x) OSSwapBigToHostInt32(x)
-+#  define le32toh(x) OSSwapLittleToHostInt32(x)
-+
-+#  define htobe64(x) OSSwapHostToBigInt64(x)
-+#  define htole64(x) OSSwapHostToLittleInt64(x)
-+#  define be64toh(x) OSSwapBigToHostInt64(x)
-+#  define le64toh(x) OSSwapLittleToHostInt64(x)
-+
-+#  define __BYTE_ORDER BYTE_ORDER
-+#  define __BIG_ENDIAN BIG_ENDIAN
-+#  define __LITTLE_ENDIAN LITTLE_ENDIAN
-+#  define __PDP_ENDIAN PDP_ENDIAN
-+#elif defined(__OpenBSD__)
-+#  include <sys/endian.h>
-+#elif defined(__NetBSD__) || defined(__FreeBSD__) || defined(__DragonFly__)
-+#  include <sys/endian.h>
-+
-+#  define be16toh(x) betoh16(x)
-+#  define le16toh(x) letoh16(x)
-+
-+#  define be32toh(x) betoh32(x)
-+#  define le32toh(x) letoh32(x)
-+
-+#  define be64toh(x) betoh64(x)
-+#  define le64toh(x) letoh64(x)
-+#elif defined(_WIN32)
-+#  include <stdlib.h>
-+#  if BYTE_ORDER == LITTLE_ENDIAN
-+#    if defined(_MSC_VER)
-+#      define htobe16(x) _byteswap_ushort(x)
-+#      define htole16(x) (x)
-+#      define be16toh(x) _byteswap_ushort(x)
-+#      define le16toh(x) (x)
-+
-+#      define htobe32(x) _byteswap_ulong(x)
-+#      define htole32(x) (x)
-+#      define be32toh(x) _byteswap_ulong(x)
-+#      define le32toh(x) (x)
-+
-+#      define htobe64(x) _byteswap_uint64(x)
-+#      define htole64(x) (x)
-+#      define be64toh(x) _byteswap_uint64(x)
-+#      define le64toh(x) (x)
-+#    elif defined(__GNUC__) || defined(__clang__)
-+#      define htobe16(x) __builtin_bswap16(x)
-+#      define htole16(x) (x)
-+#      define be16toh(x) __builtin_bswap16(x)
-+#      define le16toh(x) (x)
-+
-+#      define htobe32(x) __builtin_bswap32(x)
-+#      define htole32(x) (x)
-+#      define be32toh(x) __builtin_bswap32(x)
-+#      define le32toh(x) (x)
-+
-+#      define htobe64(x) __builtin_bswap64(x)
-+#      define htole64(x) (x)
-+#      define be64toh(x) __builtin_bswap64(x)
-+#      define le64toh(x) (x)
-+#    else
-+#      error Compiler is not supported
-+#    endif
-+#  else
-+#    error Byte order is not supported
-+#  endif
-+
-+#  define __BYTE_ORDER BYTE_ORDER
-+#  define __BIG_ENDIAN BIG_ENDIAN
-+#  define __LITTLE_ENDIAN LITTLE_ENDIAN
-+#  define __PDP_ENDIAN PDP_ENDIAN
-+#else
-+#  error Platform is not supported
-+#endif
-+
-+#endif  // PORTABLE_ENDIAN_H__
 diff --git a/include/ur_client_library/primary/package_header.h b/include/ur_client_library/primary/package_header.h
 index cd64bda..b5c2754 100644
 --- a/include/ur_client_library/primary/package_header.h
@@ -186,7 +78,7 @@ index f910a08..066e004 100644
  #include "ur_client_library/comm/package_serializer.h"
  
 diff --git a/src/comm/tcp_socket.cpp b/src/comm/tcp_socket.cpp
-index 778e5f1..55f60c8 100644
+index de18910..829f619 100644
 --- a/src/comm/tcp_socket.cpp
 +++ b/src/comm/tcp_socket.cpp
 @@ -20,7 +20,6 @@
