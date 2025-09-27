@@ -1,0 +1,20 @@
+diff --git a/src/encoder.cpp b/src/encoder.cpp
+index 80f1de4..fc485b4 100644
+--- a/src/encoder.cpp
++++ b/src/encoder.cpp
+@@ -259,9 +259,15 @@ void Encoder::doOpenCodec(int width, int height, const std::string & origEncodin
+     setAVOption(kv.first, kv.second);
+     ss << " " << kv.first << "=" << kv.second;
+   }
++#ifdef __APPLE__
++  RCLCPP_INFO(
++    logger_, "codec: %10s, bit_rate: %10lld qmax: %2d options: %s", encoder_.c_str(), bitRate_,
++    qmax_, ss.str().c_str());
++#else
+   RCLCPP_INFO(
+     logger_, "codec: %10s, bit_rate: %10ld qmax: %2d options: %s", encoder_.c_str(), bitRate_,
+     qmax_, ss.str().c_str());
++#endif
+   RCLCPP_INFO_STREAM(
+     logger_, "cv_bridge_target_format: "
+                << cvBridgeTargetFormat_
