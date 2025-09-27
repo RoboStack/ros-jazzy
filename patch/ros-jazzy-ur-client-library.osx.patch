@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index dd720dc..d785132 100644
+index 31e09ca..8b3d443 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -79,6 +79,9 @@ endif()
+@@ -92,6 +92,9 @@ endif()
  if(CMAKE_THREAD_LIBS_INIT)
    target_link_libraries(urcl PUBLIC "${CMAKE_THREAD_LIBS_INIT}")
  endif()
@@ -47,15 +47,16 @@ index 7745da9..ded500a 100644
  namespace urcl
  {
 diff --git a/include/ur_client_library/control/reverse_interface.h b/include/ur_client_library/control/reverse_interface.h
-index e68acd9..38e2a27 100644
+index 8220207..665f26d 100644
 --- a/include/ur_client_library/control/reverse_interface.h
 +++ b/include/ur_client_library/control/reverse_interface.h
-@@ -35,8 +35,8 @@
- #include "ur_client_library/log.h"
+@@ -36,9 +36,9 @@
  #include "ur_client_library/ur/robot_receive_timeout.h"
+ #include "ur_client_library/ur/version_information.h"
  #include <cstring>
 -#include <endian.h>
  #include <condition_variable>
+ #include <list>
 +#include "ur_client_library/portable_endian.h"
  
  namespace urcl
@@ -211,7 +212,7 @@ index f910a08..eb509ea 100644
  #include "ur_client_library/comm/package_serializer.h"
  
 diff --git a/src/comm/tcp_socket.cpp b/src/comm/tcp_socket.cpp
-index 778e5f1..1a42c8a 100644
+index de18910..7e3c196 100644
 --- a/src/comm/tcp_socket.cpp
 +++ b/src/comm/tcp_socket.cpp
 @@ -20,7 +20,6 @@

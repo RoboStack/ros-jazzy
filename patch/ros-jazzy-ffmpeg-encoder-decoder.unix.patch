@@ -1,50 +1,20 @@
-diff --git a/include/ffmpeg_encoder_decoder/decoder.hpp b/include/ffmpeg_encoder_decoder/decoder.hpp
-index 0e2521c..94625e5 100644
---- a/include/ffmpeg_encoder_decoder/decoder.hpp
-+++ b/include/ffmpeg_encoder_decoder/decoder.hpp
-@@ -81,7 +81,7 @@ private:
-   AVFrame * colorFrame_{NULL};
-   SwsContext * swsContext_{NULL};
-   enum AVPixelFormat hwPixFormat_;
--  AVPacket packet_;
-+  // AVPacket packet_;
-   AVBufferRef * hwDeviceContext_{NULL};
- };
- }  // namespace ffmpeg_encoder_decoder
-diff --git a/src/decoder.cpp b/src/decoder.cpp
-index 5458f21..a2762aa 100644
---- a/src/decoder.cpp
-+++ b/src/decoder.cpp
-@@ -256,7 +256,7 @@ bool Decoder::decodePacket(
-       image->header.stamp = it->second;
-       ptsToStamp_.erase(it);
- #ifdef USE_AV_FLAGS
--      callback_(image, decodedFrame_->flags || AV_FRAME_FLAG_KEY);  // deliver callback
-+      callback_(image, decodedFrame_->flags | AV_FRAME_FLAG_KEY);  // deliver callback
- #else
-       callback_(image, decodedFrame_->key_frame);  // deliver callback
- #endif
 diff --git a/src/encoder.cpp b/src/encoder.cpp
-index ed6ca85..0aa3412 100644
+index 80f1de4..fc485b4 100644
 --- a/src/encoder.cpp
 +++ b/src/encoder.cpp
-@@ -211,11 +211,19 @@ void Encoder::doOpenCodec(int width, int height)
-   setAVOption("tune", tune_);
-   setAVOption("delay", delay_);
-   setAVOption("crf", crf_);
+@@ -259,9 +259,15 @@ void Encoder::doOpenCodec(int width, int height, const std::string & origEncodin
+     setAVOption(kv.first, kv.second);
+     ss << " " << kv.first << "=" << kv.second;
+   }
 +#ifdef __APPLE__
-+  RCLCPP_DEBUG(
-+    logger_,
-+    "codec: %10s, profile: %10s, preset: %10s,"
-+    " bit_rate: %10lld qmax: %2d",
-+    encoder_.c_str(), profile_.c_str(), preset_.c_str(), bitRate_, qmax_);
++  RCLCPP_INFO(
++    logger_, "codec: %10s, bit_rate: %10lld qmax: %2d options: %s", encoder_.c_str(), bitRate_,
++    qmax_, ss.str().c_str());
 +#else
-   RCLCPP_DEBUG(
-     logger_,
-     "codec: %10s, profile: %10s, preset: %10s,"
-     " bit_rate: %10ld qmax: %2d",
-     encoder_.c_str(), profile_.c_str(), preset_.c_str(), bitRate_, qmax_);
+   RCLCPP_INFO(
+     logger_, "codec: %10s, bit_rate: %10ld qmax: %2d options: %s", encoder_.c_str(), bitRate_,
+     qmax_, ss.str().c_str());
 +#endif
- 
-   err = avcodec_open2(codecContext_, codec, NULL);
-   utils::check_for_err("cannot open codec", err);
+   RCLCPP_INFO_STREAM(
+     logger_, "cv_bridge_target_format: "
+                << cvBridgeTargetFormat_
