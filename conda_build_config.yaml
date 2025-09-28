@@ -1,9 +1,9 @@
 numpy:
-  - 1.26
+  - 2
 libprotobuf:
-  - 5.29.3
+  - 6.31.1
 protobuf:
-  - 5.29.3
+  - 6.31.1
 spdlog:
   - 1.15
 pugixml:
