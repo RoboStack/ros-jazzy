@@ -1,8 +1,61 @@
-diff --git a/include/endian.h b/include/endian.h
+diff --git a/include/ur_client_library/comm/bin_parser.h b/include/ur_client_library/comm/bin_parser.h
+index e13aba6..6de673e 100644
+--- a/include/ur_client_library/comm/bin_parser.h
++++ b/include/ur_client_library/comm/bin_parser.h
+@@ -21,7 +21,6 @@
+ #pragma once
+ 
+ #include <assert.h>
+-#include <endian.h>
+ #include <inttypes.h>
+ #include <array>
+ #include <bitset>
+@@ -29,6 +28,7 @@
+ #include <cstring>
+ #include <string>
+ #include <memory>
++#include "ur_client_library/endian.h"
+ #include "ur_client_library/log.h"
+ #include "ur_client_library/types.h"
+ #include "ur_client_library/exceptions.h"
+diff --git a/include/ur_client_library/comm/package_serializer.h b/include/ur_client_library/comm/package_serializer.h
+index 7745da9..ebf128e 100644
+--- a/include/ur_client_library/comm/package_serializer.h
++++ b/include/ur_client_library/comm/package_serializer.h
+@@ -29,7 +29,7 @@
+ #ifndef UR_CLIENT_LIBRARY_PACKAGE_SERIALIZER_H_INCLUDED
+ #define UR_CLIENT_LIBRARY_PACKAGE_SERIALIZER_H_INCLUDED
+ 
+-#include <endian.h>
++#include "ur_client_library/endian.h"
+ #include <cstring>
+ 
+ namespace urcl
+diff --git a/include/ur_client_library/control/reverse_interface.h b/include/ur_client_library/control/reverse_interface.h
+index 8220207..4322d02 100644
+--- a/include/ur_client_library/control/reverse_interface.h
++++ b/include/ur_client_library/control/reverse_interface.h
+@@ -29,6 +29,7 @@
+ #ifndef UR_CLIENT_LIBRARY_REVERSE_INTERFACE_H_INCLUDED
+ #define UR_CLIENT_LIBRARY_REVERSE_INTERFACE_H_INCLUDED
+ 
++#include "ur_client_library/endian.h"
+ #include "ur_client_library/comm/tcp_server.h"
+ #include "ur_client_library/comm/control_mode.h"
+ #include "ur_client_library/types.h"
+@@ -36,7 +37,6 @@
+ #include "ur_client_library/ur/robot_receive_timeout.h"
+ #include "ur_client_library/ur/version_information.h"
+ #include <cstring>
+-#include <endian.h>
+ #include <condition_variable>
+ #include <list>
+ 
+diff --git a/include/ur_client_library/endian.h b/include/ur_client_library/endian.h
 new file mode 100644
 index 0000000..9c5500b
 --- /dev/null
-+++ b/include/endian.h
++++ b/include/ur_client_library/endian.h
 @@ -0,0 +1,103 @@
 +//
 +// endian.h
@@ -107,59 +160,6 @@ index 0000000..9c5500b
 +#endif
 +
 +#endif  // PORTABLE_ENDIAN_H__
-diff --git a/include/ur_client_library/comm/bin_parser.h b/include/ur_client_library/comm/bin_parser.h
-index e13aba6..6de673e 100644
---- a/include/ur_client_library/comm/bin_parser.h
-+++ b/include/ur_client_library/comm/bin_parser.h
-@@ -21,7 +21,6 @@
- #pragma once
- 
- #include <assert.h>
--#include <endian.h>
- #include <inttypes.h>
- #include <array>
- #include <bitset>
-@@ -29,6 +28,7 @@
- #include <cstring>
- #include <string>
- #include <memory>
-+#include "ur_client_library/endian.h"
- #include "ur_client_library/log.h"
- #include "ur_client_library/types.h"
- #include "ur_client_library/exceptions.h"
-diff --git a/include/ur_client_library/comm/package_serializer.h b/include/ur_client_library/comm/package_serializer.h
-index 7745da9..ebf128e 100644
---- a/include/ur_client_library/comm/package_serializer.h
-+++ b/include/ur_client_library/comm/package_serializer.h
-@@ -29,7 +29,7 @@
- #ifndef UR_CLIENT_LIBRARY_PACKAGE_SERIALIZER_H_INCLUDED
- #define UR_CLIENT_LIBRARY_PACKAGE_SERIALIZER_H_INCLUDED
- 
--#include <endian.h>
-+#include "ur_client_library/endian.h"
- #include <cstring>
- 
- namespace urcl
-diff --git a/include/ur_client_library/control/reverse_interface.h b/include/ur_client_library/control/reverse_interface.h
-index 8220207..4322d02 100644
---- a/include/ur_client_library/control/reverse_interface.h
-+++ b/include/ur_client_library/control/reverse_interface.h
-@@ -29,6 +29,7 @@
- #ifndef UR_CLIENT_LIBRARY_REVERSE_INTERFACE_H_INCLUDED
- #define UR_CLIENT_LIBRARY_REVERSE_INTERFACE_H_INCLUDED
- 
-+#include "ur_client_library/endian.h"
- #include "ur_client_library/comm/tcp_server.h"
- #include "ur_client_library/comm/control_mode.h"
- #include "ur_client_library/types.h"
-@@ -36,7 +37,6 @@
- #include "ur_client_library/ur/robot_receive_timeout.h"
- #include "ur_client_library/ur/version_information.h"
- #include <cstring>
--#include <endian.h>
- #include <condition_variable>
- #include <list>
- 
 diff --git a/include/ur_client_library/primary/package_header.h b/include/ur_client_library/primary/package_header.h
 index cd64bda..b5c2754 100644
 --- a/include/ur_client_library/primary/package_header.h
