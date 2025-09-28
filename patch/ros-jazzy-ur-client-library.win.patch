@@ -77,6 +77,19 @@ index f910a08..066e004 100644
  #include "ur_client_library/types.h"
  #include "ur_client_library/comm/package_serializer.h"
  
+diff --git a/src/comm/tcp_server.cpp b/src/comm/tcp_server.cpp
+index cb58252..ee481be 100644
+--- a/src/comm/tcp_server.cpp
++++ b/src/comm/tcp_server.cpp
+@@ -133,7 +133,7 @@ void TCPServer::bind(const size_t max_num_tries, const std::chrono::milliseconds
+     if (err == -1)
+     {
+       std::ostringstream ss;
+-      ss << "Failed to bind socket for port " << port_ << " to address. Reason: " << strerror(errno);
++      ss << "Failed to bind socket for port " << port_ << " to address. Reason: " << strerror_s(errno);
+ 
+       if (connection_counter++ < max_num_tries || max_num_tries == 0)
+       {
 diff --git a/src/comm/tcp_socket.cpp b/src/comm/tcp_socket.cpp
 index de18910..829f619 100644
 --- a/src/comm/tcp_socket.cpp
@@ -97,3 +110,36 @@ index de18910..829f619 100644
  #include "ur_client_library/log.h"
  #include "ur_client_library/comm/tcp_socket.h"
  
+diff --git a/src/helpers.cpp b/src/helpers.cpp
+index 5e5daf7..9bf04b2 100644
+--- a/src/helpers.cpp
++++ b/src/helpers.cpp
+@@ -68,7 +68,7 @@ bool setFiFoScheduling(pthread_t& thread, const int priority)
+ 
+       {
+         URCL_LOG_ERROR("Unsuccessful in setting thread to FIFO scheduling with priority %i. %s", priority,
+-                       strerror(ret));
++                       strerror_s(ret));
+       }
+     }
+ 
+diff --git a/src/rtde/rtde_client.cpp b/src/rtde/rtde_client.cpp
+index c804041..163bac8 100644
+--- a/src/rtde/rtde_client.cpp
++++ b/src/rtde/rtde_client.cpp
+@@ -644,7 +644,7 @@ std::vector<std::string> RTDEClient::readRecipe(const std::string& recipe_file)
+   if (file.fail())
+   {
+     std::stringstream msg;
+-    msg << "Opening file '" << recipe_file << "' failed with error: " << strerror(errno);
++    msg << "Opening file '" << recipe_file << "' failed with error: " << strerror_s(errno);
+     URCL_LOG_ERROR("%s", msg.str().c_str());
+     throw UrException(msg.str());
+   }
+@@ -717,4 +717,4 @@ std::vector<std::string> RTDEClient::splitVariableTypes(const std::string& varia
+   return result;
+ }
+ }  // namespace rtde_interface
+-}  // namespace urcl
+\ No newline at end of file
++}  // namespace urcl
