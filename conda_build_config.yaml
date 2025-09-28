@@ -9,7 +9,7 @@ spdlog:
 pugixml:
   - '1.15'
 libopencv:
-  - 4.11.0
+  - 4.12.0
 libxml2:
   - 2.13.*
 graphviz:
