@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-urdfdom
+  version: 4.0.1
+
+build:
+  number: 10
+  script: ''
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build: []
+  host:
+    - console_bridge
+    - python
+    - ros-jazzy-console-bridge-vendor
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-tinyxml2-vendor
+    - ros-jazzy-urdfdom-headers
+    - ros2-distro-mutex 0.11.* jazzy_*
+    - tinyxml2
+  run:
+    - console_bridge
+    - python
+    - ros-jazzy-console-bridge-vendor
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-tinyxml2-vendor
+    - ros-jazzy-urdfdom-headers
+    - ros2-distro-mutex 0.11.* jazzy_*
+    - tinyxml2
+    - urdfdom >=4.0.1, <4.1.0a0
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

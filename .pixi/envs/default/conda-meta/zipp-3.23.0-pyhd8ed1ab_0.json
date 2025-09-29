@@ -1,0 +1,155 @@
+{
+  "build": "pyhd8ed1ab_0",
+  "build_number": 0,
+  "depends": [
+    "python >=3.9"
+  ],
+  "license": "MIT",
+  "license_family": "MIT",
+  "md5": "df5e78d904988eb55042c0c97446079f",
+  "name": "zipp",
+  "noarch": "python",
+  "purls": [
+    "pkg:pypi/zipp?source=hash-mapping"
+  ],
+  "sha256": "7560d21e1b021fd40b65bfb72f67945a3fcb83d78ad7ccf37b8b3165ec3b68ad",
+  "size": 22963,
+  "subdir": "noarch",
+  "timestamp": 1749421737203,
+  "version": "3.23.0",
+  "fn": "zipp-3.23.0-pyhd8ed1ab_0.conda",
+  "url": "https://repo.prefix.dev/conda-forge/noarch/zipp-3.23.0-pyhd8ed1ab_0.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/zipp-3.23.0-pyhd8ed1ab_0",
+  "files": [
+    "lib/python3.12/site-packages/zipp/__init__.py",
+    "lib/python3.12/site-packages/zipp/_functools.py",
+    "lib/python3.12/site-packages/zipp/glob.py",
+    "lib/python3.12/site-packages/zipp/compat/__init__.py",
+    "lib/python3.12/site-packages/zipp/compat/overlay.py",
+    "lib/python3.12/site-packages/zipp/compat/py310.py",
+    "lib/python3.12/site-packages/zipp/compat/py313.py",
+    "lib/python3.12/site-packages/zipp-3.23.0.dist-info/INSTALLER",
+    "lib/python3.12/site-packages/zipp-3.23.0.dist-info/METADATA",
+    "lib/python3.12/site-packages/zipp-3.23.0.dist-info/RECORD",
+    "lib/python3.12/site-packages/zipp-3.23.0.dist-info/REQUESTED",
+    "lib/python3.12/site-packages/zipp-3.23.0.dist-info/WHEEL",
+    "lib/python3.12/site-packages/zipp-3.23.0.dist-info/direct_url.json",
+    "lib/python3.12/site-packages/zipp-3.23.0.dist-info/top_level.txt",
+    "lib/python3.12/site-packages/zipp-3.23.0.dist-info/licenses/LICENSE"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "lib/python3.12/site-packages/zipp/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "89e5e1f4620c7400632915ff25426d3fd939c1d04b2b832de57e27b334a49981",
+        "sha256_in_prefix": "89e5e1f4620c7400632915ff25426d3fd939c1d04b2b832de57e27b334a49981",
+        "size_in_bytes": 11976
+      },
+      {
+        "_path": "lib/python3.12/site-packages/zipp/_functools.py",
+        "path_type": "hardlink",
+        "sha256": "7fa2adf4bc59e1313e718d6525575748877799e9925e61fd21d80c6d4fbfc769",
+        "sha256_in_prefix": "7fa2adf4bc59e1313e718d6525575748877799e9925e61fd21d80c6d4fbfc769",
+        "size_in_bytes": 575
+      },
+      {
+        "_path": "lib/python3.12/site-packages/zipp/glob.py",
+        "path_type": "hardlink",
+        "sha256": "0cb57d2c1b03c40e98556f367b7fad92836bbacd61e11fa3dc147a56a4b40331",
+        "sha256_in_prefix": "0cb57d2c1b03c40e98556f367b7fad92836bbacd61e11fa3dc147a56a4b40331",
+        "size_in_bytes": 3382
+      },
+      {
+        "_path": "lib/python3.12/site-packages/zipp/compat/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.12/site-packages/zipp/compat/overlay.py",
+        "path_type": "hardlink",
+        "sha256": "a042060276ebf321a3b8a4eb5523b60727b03ee8bbd6ea696d7d7c04b9d84ca1",
+        "sha256_in_prefix": "a042060276ebf321a3b8a4eb5523b60727b03ee8bbd6ea696d7d7c04b9d84ca1",
+        "size_in_bytes": 783
+      },
+      {
+        "_path": "lib/python3.12/site-packages/zipp/compat/py310.py",
+        "path_type": "hardlink",
+        "sha256": "4bb8ba37d993a049f76ac35bd882f28e7cef213397ac04c3fc9e1e9a3c816c35",
+        "sha256_in_prefix": "4bb8ba37d993a049f76ac35bd882f28e7cef213397ac04c3fc9e1e9a3c816c35",
+        "size_in_bytes": 256
+      },
+      {
+        "_path": "lib/python3.12/site-packages/zipp/compat/py313.py",
+        "path_type": "hardlink",
+        "sha256": "46776f0cdb6e63b1f60fd79c9e7cdc3c1319f2665ce368265c3fc8c100175c01",
+        "sha256_in_prefix": "46776f0cdb6e63b1f60fd79c9e7cdc3c1319f2665ce368265c3fc8c100175c01",
+        "size_in_bytes": 654
+      },
+      {
+        "_path": "lib/python3.12/site-packages/zipp-3.23.0.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "lib/python3.12/site-packages/zipp-3.23.0.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "bdd67d4d16cf0bf3b893e7d18cd3d2d774adb82f37ed985bc7770c607226b35b",
+        "sha256_in_prefix": "bdd67d4d16cf0bf3b893e7d18cd3d2d774adb82f37ed985bc7770c607226b35b",
+        "size_in_bytes": 3563
+      },
+      {
+        "_path": "lib/python3.12/site-packages/zipp-3.23.0.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "2c17d0665f1bd6161af06fd8636bc177000cba8fb50187ea70323eedab6d347b",
+        "sha256_in_prefix": "2c17d0665f1bd6161af06fd8636bc177000cba8fb50187ea70323eedab6d347b",
+        "size_in_bytes": 1513
+      },
+      {
+        "_path": "lib/python3.12/site-packages/zipp-3.23.0.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.12/site-packages/zipp-3.23.0.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "ff309ddcdd65ebd02bc724dbf2bcc4a0ff53a5b61792a44548d383e4ebb19d3b",
+        "sha256_in_prefix": "ff309ddcdd65ebd02bc724dbf2bcc4a0ff53a5b61792a44548d383e4ebb19d3b",
+        "size_in_bytes": 91
+      },
+      {
+        "_path": "lib/python3.12/site-packages/zipp-3.23.0.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "c467fbdc46bd65c42ae6b18d6b75e81998626a87e7aa785e39eec8cba2e0221d",
+        "sha256_in_prefix": "c467fbdc46bd65c42ae6b18d6b75e81998626a87e7aa785e39eec8cba2e0221d",
+        "size_in_bytes": 100
+      },
+      {
+        "_path": "lib/python3.12/site-packages/zipp-3.23.0.dist-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "8806dda121df686a817d56f65ee47d26a4901c2a0eb0eb46eb2f42fcb4a9a85c",
+        "sha256_in_prefix": "8806dda121df686a817d56f65ee47d26a4901c2a0eb0eb46eb2f42fcb4a9a85c",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "lib/python3.12/site-packages/zipp-3.23.0.dist-info/licenses/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "5a57cb4db85e2a2dd88c290628908add57e3451449e0a9a71fdfb38776fd759d",
+        "sha256_in_prefix": "5a57cb4db85e2a2dd88c290628908add57e3451449e0a9a71fdfb38776fd759d",
+        "size_in_bytes": 1076
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/zipp-3.23.0-pyhd8ed1ab_0",
+    "type": 1
+  }
+}

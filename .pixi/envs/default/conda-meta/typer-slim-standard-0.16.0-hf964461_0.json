@@ -1,0 +1,33 @@
+{
+  "build": "hf964461_0",
+  "build_number": 0,
+  "depends": [
+    "typer-slim ==0.16.0 pyhe01879c_0",
+    "rich",
+    "shellingham"
+  ],
+  "license": "MIT",
+  "license_family": "MIT",
+  "md5": "c8fb6ddb4f5eb567d049f85b3f0c8019",
+  "name": "typer-slim-standard",
+  "noarch": "generic",
+  "purls": [],
+  "sha256": "c35a0b232e9751ac871b733d4236eee887f64c3b1539ba86aecf175c3ac3dc02",
+  "size": 5271,
+  "subdir": "noarch",
+  "timestamp": 1748304246569,
+  "version": "0.16.0",
+  "fn": "typer-slim-standard-0.16.0-hf964461_0.conda",
+  "url": "https://repo.prefix.dev/conda-forge/noarch/typer-slim-standard-0.16.0-hf964461_0.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/typer-slim-standard-0.16.0-hf964461_0",
+  "files": [],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": []
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/typer-slim-standard-0.16.0-hf964461_0",
+    "type": 1
+  }
+}

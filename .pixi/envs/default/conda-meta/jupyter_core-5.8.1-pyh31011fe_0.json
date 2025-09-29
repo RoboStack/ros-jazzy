@@ -1,0 +1,211 @@
+{
+  "build": "pyh31011fe_0",
+  "build_number": 0,
+  "depends": [
+    "__unix",
+    "platformdirs >=2.5",
+    "python >=3.8",
+    "traitlets >=5.3"
+  ],
+  "license": "BSD-3-Clause",
+  "license_family": "BSD",
+  "md5": "b7d89d860ebcda28a5303526cdee68ab",
+  "name": "jupyter_core",
+  "noarch": "python",
+  "purls": [
+    "pkg:pypi/jupyter-core?source=compressed-mapping"
+  ],
+  "sha256": "56a7a7e907f15cca8c4f9b0c99488276d4cb10821d2d15df9245662184872e81",
+  "size": 59562,
+  "subdir": "noarch",
+  "timestamp": 1748333186063,
+  "version": "5.8.1",
+  "fn": "jupyter_core-5.8.1-pyh31011fe_0.conda",
+  "url": "https://repo.prefix.dev/conda-forge/noarch/jupyter_core-5.8.1-pyh31011fe_0.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/jupyter_core-5.8.1-pyh31011fe_0",
+  "files": [
+    "lib/python3.12/site-packages/jupyter.py",
+    "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/INSTALLER",
+    "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/METADATA",
+    "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/RECORD",
+    "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/REQUESTED",
+    "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/WHEEL",
+    "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/direct_url.json",
+    "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/entry_points.txt",
+    "lib/python3.12/site-packages/jupyter_core/__init__.py",
+    "lib/python3.12/site-packages/jupyter_core/__main__.py",
+    "lib/python3.12/site-packages/jupyter_core/application.py",
+    "lib/python3.12/site-packages/jupyter_core/command.py",
+    "lib/python3.12/site-packages/jupyter_core/migrate.py",
+    "lib/python3.12/site-packages/jupyter_core/paths.py",
+    "lib/python3.12/site-packages/jupyter_core/py.typed",
+    "lib/python3.12/site-packages/jupyter_core/troubleshoot.py",
+    "lib/python3.12/site-packages/jupyter_core/version.py",
+    "lib/python3.12/site-packages/jupyter_core/utils/__init__.py",
+    "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/licenses/LICENSE",
+    "bin/jupyter",
+    "bin/jupyter-migrate",
+    "bin/jupyter-troubleshoot"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "lib/python3.12/site-packages/jupyter.py",
+        "path_type": "hardlink",
+        "sha256": "90112b889edfd6777c5fa547e9d7eb25e7f2f353d4c915e4dfa68794357de719",
+        "sha256_in_prefix": "90112b889edfd6777c5fa547e9d7eb25e7f2f353d4c915e4dfa68794357de719",
+        "size_in_bytes": 156
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "233d692472beea2130d146ba8527fe0dc7b9b3f1b14f394edf13c32a15c6b327",
+        "sha256_in_prefix": "233d692472beea2130d146ba8527fe0dc7b9b3f1b14f394edf13c32a15c6b327",
+        "size_in_bytes": 1603
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "e91473e73361e211ebadfce7f229fac8f3fd40fc3ad6cd5439aa2828c3d07070",
+        "sha256_in_prefix": "e91473e73361e211ebadfce7f229fac8f3fd40fc3ad6cd5439aa2828c3d07070",
+        "size_in_bytes": 2378
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "aad0b0a12256807936d52d4a6f88a1773236ae527564a688bab4e3fe780e8724",
+        "sha256_in_prefix": "aad0b0a12256807936d52d4a6f88a1773236ae527564a688bab4e3fe780e8724",
+        "size_in_bytes": 87
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "5d7354bb1d76bfd066bf80804f1c048e662d2412b62a17fad89846671c1ba948",
+        "sha256_in_prefix": "5d7354bb1d76bfd066bf80804f1c048e662d2412b62a17fad89846671c1ba948",
+        "size_in_bytes": 108
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/entry_points.txt",
+        "path_type": "hardlink",
+        "sha256": "12224b51b7f966ddb4ed4602b3820bc5803f1336cc4a8f290bdf2793b8087d42",
+        "sha256_in_prefix": "12224b51b7f966ddb4ed4602b3820bc5803f1336cc4a8f290bdf2793b8087d42",
+        "size_in_bytes": 152
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "57597cecf4745449808db9acef8481b0daecbd3ec4a6c83f40b3e48d3f914a34",
+        "sha256_in_prefix": "57597cecf4745449808db9acef8481b0daecbd3ec4a6c83f40b3e48d3f914a34",
+        "size_in_bytes": 97
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core/__main__.py",
+        "path_type": "hardlink",
+        "sha256": "b5d2fc6c653db8b91a317aacbaa2fa575f7d5d444b826b04dc93646be03b459a",
+        "sha256_in_prefix": "b5d2fc6c653db8b91a317aacbaa2fa575f7d5d444b826b04dc93646be03b459a",
+        "size_in_bytes": 109
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core/application.py",
+        "path_type": "hardlink",
+        "sha256": "e5e169968f543d893baf63e118cd386923b95ab3d1780c6558c6addaf6fc79fb",
+        "sha256_in_prefix": "e5e169968f543d893baf63e118cd386923b95ab3d1780c6558c6addaf6fc79fb",
+        "size_in_bytes": 10398
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core/command.py",
+        "path_type": "hardlink",
+        "sha256": "44d9817436f8cac517c574eb6934498a1e189192fad43264ef80a6a2da402c62",
+        "sha256_in_prefix": "44d9817436f8cac517c574eb6934498a1e189192fad43264ef80a6a2da402c62",
+        "size_in_bytes": 15721
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core/migrate.py",
+        "path_type": "hardlink",
+        "sha256": "62193ece13e276b28504feaace87df8943f717d4269d3c03738a3c607957b1d8",
+        "sha256_in_prefix": "62193ece13e276b28504feaace87df8943f717d4269d3c03738a3c607957b1d8",
+        "size_in_bytes": 8696
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core/paths.py",
+        "path_type": "hardlink",
+        "sha256": "07e8a4e8ce753e73d0617f7d84927e1dffef3660cc6443f2e4202f189f54813c",
+        "sha256_in_prefix": "07e8a4e8ce753e73d0617f7d84927e1dffef3660cc6443f2e4202f189f54813c",
+        "size_in_bytes": 38804
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core/py.typed",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core/troubleshoot.py",
+        "path_type": "hardlink",
+        "sha256": "7ca4c309316dba2f64f0421c15f203c15b45715181062364cde9a1adfd3b9345",
+        "sha256_in_prefix": "7ca4c309316dba2f64f0421c15f203c15b45715181062364cde9a1adfd3b9345",
+        "size_in_bytes": 3192
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core/version.py",
+        "path_type": "hardlink",
+        "sha256": "56e42944689eb535dd085f7b3abe797308ebdd533766c07d2b52c15778b76a06",
+        "sha256_in_prefix": "56e42944689eb535dd085f7b3abe797308ebdd533766c07d2b52c15778b76a06",
+        "size_in_bytes": 539
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core/utils/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "f2762b79fb5b3c55d79f477be33dbd1737ff4ad91383a898f870884463176e56",
+        "sha256_in_prefix": "f2762b79fb5b3c55d79f477be33dbd1737ff4ad91383a898f870884463176e56",
+        "size_in_bytes": 7070
+      },
+      {
+        "_path": "lib/python3.12/site-packages/jupyter_core-5.8.1.dist-info/licenses/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "448f1835f5fa08dd075088e46f76f73eb9ac9c2aef0a6c8816be06d30ef592c7",
+        "sha256_in_prefix": "448f1835f5fa08dd075088e46f76f73eb9ac9c2aef0a6c8816be06d30ef592c7",
+        "size_in_bytes": 1536
+      },
+      {
+        "_path": "bin/jupyter",
+        "path_type": "unix_python_entry_point",
+        "sha256": "12e16e9e367bc84122c74f5e9ee08e13bde29fc8563ee43dd602f7c4984d1f9b",
+        "size_in_bytes": 271
+      },
+      {
+        "_path": "bin/jupyter-migrate",
+        "path_type": "unix_python_entry_point",
+        "sha256": "9bbe984e22ea848185f567e3d6f4ce9dcba2c6d3b64f32f0a7736f238724a2e8",
+        "size_in_bytes": 271
+      },
+      {
+        "_path": "bin/jupyter-troubleshoot",
+        "path_type": "unix_python_entry_point",
+        "sha256": "f184af03125da7feb1c4c61bacda333a49be72f3b1d76ddb7b1fd3fe5d54e2bf",
+        "size_in_bytes": 276
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/jupyter_core-5.8.1-pyh31011fe_0",
+    "type": 1
+  }
+}
