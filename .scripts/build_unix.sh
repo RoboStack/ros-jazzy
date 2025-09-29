@@ -21,8 +21,6 @@ export "CONDA_BLD_PATH=$HOME/conda-bld/"
 curl -fsSL https://pixi.sh/install.sh | bash
 export PATH="$HOME/.pixi/bin:$PATH"
 
-pixi global install anaconda-client
-
 if [[ "$target" == *"osx"* ]]; then
     echo "osx"
     export PATH=$(echo $PATH | tr ":" "\n" | grep -v 'homebrew' | xargs | tr ' ' ':')
