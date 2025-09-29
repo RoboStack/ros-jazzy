@@ -32,10 +32,10 @@ index 7745da9..ebf128e 100644
  
  namespace urcl
 diff --git a/include/ur_client_library/control/reverse_interface.h b/include/ur_client_library/control/reverse_interface.h
-index e68acd9..aa9d1c1 100644
+index 8220207..4322d02 100644
 --- a/include/ur_client_library/control/reverse_interface.h
 +++ b/include/ur_client_library/control/reverse_interface.h
-@@ -29,13 +29,13 @@
+@@ -29,6 +29,7 @@
  #ifndef UR_CLIENT_LIBRARY_REVERSE_INTERFACE_H_INCLUDED
  #define UR_CLIENT_LIBRARY_REVERSE_INTERFACE_H_INCLUDED
  
@@ -43,13 +43,14 @@ index e68acd9..aa9d1c1 100644
  #include "ur_client_library/comm/tcp_server.h"
  #include "ur_client_library/comm/control_mode.h"
  #include "ur_client_library/types.h"
- #include "ur_client_library/log.h"
+@@ -36,7 +37,6 @@
  #include "ur_client_library/ur/robot_receive_timeout.h"
+ #include "ur_client_library/ur/version_information.h"
  #include <cstring>
 -#include <endian.h>
  #include <condition_variable>
+ #include <list>
  
- namespace urcl
 diff --git a/include/ur_client_library/endian.h b/include/ur_client_library/endian.h
 new file mode 100644
 index 0000000..9c5500b
@@ -185,8 +186,25 @@ index f910a08..066e004 100644
  #include "ur_client_library/types.h"
  #include "ur_client_library/comm/package_serializer.h"
  
+diff --git a/src/comm/tcp_server.cpp b/src/comm/tcp_server.cpp
+index cb58252..607e220 100644
+--- a/src/comm/tcp_server.cpp
++++ b/src/comm/tcp_server.cpp
+@@ -132,8 +132,11 @@ void TCPServer::bind(const size_t max_num_tries, const std::chrono::milliseconds
+     err = ::bind(listen_fd_, (struct sockaddr*)&server_addr, sizeof(server_addr));
+     if (err == -1)
+     {
++      const int e = errno;
++      const std::error_code ec(e, std::generic_category());
++
+       std::ostringstream ss;
+-      ss << "Failed to bind socket for port " << port_ << " to address. Reason: " << strerror(errno);
++      ss << "Failed to bind socket for port " << port_ << " to address. Reason: " << ec.message();
+ 
+       if (connection_counter++ < max_num_tries || max_num_tries == 0)
+       {
 diff --git a/src/comm/tcp_socket.cpp b/src/comm/tcp_socket.cpp
-index 778e5f1..55f60c8 100644
+index de18910..829f619 100644
 --- a/src/comm/tcp_socket.cpp
 +++ b/src/comm/tcp_socket.cpp
 @@ -20,7 +20,6 @@
@@ -205,3 +223,40 @@ index 778e5f1..55f60c8 100644
  #include "ur_client_library/log.h"
  #include "ur_client_library/comm/tcp_socket.h"
  
+diff --git a/src/helpers.cpp b/src/helpers.cpp
+index 5e5daf7..18684ab 100644
+--- a/src/helpers.cpp
++++ b/src/helpers.cpp
+@@ -67,8 +67,9 @@ bool setFiFoScheduling(pthread_t& thread, const int priority)
+       default:
+ 
+       {
++        std::error_code ec(ret, std::generic_category());
+         URCL_LOG_ERROR("Unsuccessful in setting thread to FIFO scheduling with priority %i. %s", priority,
+-                       strerror(ret));
++                       ec.message().c_str());
+       }
+     }
+ 
+diff --git a/src/rtde/rtde_client.cpp b/src/rtde/rtde_client.cpp
+index c804041..6b6dd25 100644
+--- a/src/rtde/rtde_client.cpp
++++ b/src/rtde/rtde_client.cpp
+@@ -644,7 +644,9 @@ std::vector<std::string> RTDEClient::readRecipe(const std::string& recipe_file)
+   if (file.fail())
+   {
+     std::stringstream msg;
+-    msg << "Opening file '" << recipe_file << "' failed with error: " << strerror(errno);
++    const int e = errno;
++    const std::error_code ec(e, std::generic_category());
++    msg << "Opening file '" << recipe_file << "' failed with error: " << ec.message();
+     URCL_LOG_ERROR("%s", msg.str().c_str());
+     throw UrException(msg.str());
+   }
+@@ -717,4 +719,4 @@ std::vector<std::string> RTDEClient::splitVariableTypes(const std::string& varia
+   return result;
+ }
+ }  // namespace rtde_interface
+-}  // namespace urcl
+\ No newline at end of file
++}  // namespace urcl

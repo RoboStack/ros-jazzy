@@ -7,7 +7,7 @@ env:
   # Change to 'true' to enable the cache upload as artifacts
   SAVE_CACHE_AS_ARTIFACT: 'false'
   # Change to 'true' to ignore cache and force a full rebuild, but please restore to 'false' before merging
-  IGNORE_CACHE_AND_DO_FULL_REBUILD: 'true'
+  IGNORE_CACHE_AND_DO_FULL_REBUILD: 'false'
 jobs:
   build:
     strategy:
@@ -33,7 +33,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
         fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
