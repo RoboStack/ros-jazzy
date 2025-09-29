@@ -1,0 +1,4301 @@
+jobs:
+  stage_0_job_0:
+    name: mutex ament-package ament-cmake-core
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros2-distro-mutex ros-jazzy-ament-package ros-jazzy-ament-cmake-core
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-distro-mutex ros-jazzy-ament-package ros-jazzy-ament-cmake-core
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_1_job_1:
+    name: ros-workspace ros-environment
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ros-workspace ros-jazzy-ros-environment
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ros-workspace ros-jazzy-ros-environment
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_2:
+    name: ament-lint ament-cmake-python gtest-vendor ament-cmake-libraries ament-cmake-include-directories
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-lint ros-jazzy-ament-cmake-python ros-jazzy-gtest-vendor
+        ros-jazzy-ament-cmake-libraries ros-jazzy-ament-cmake-include-directories
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-lint ros-jazzy-ament-cmake-python ros-jazzy-gtest-vendor
+          ros-jazzy-ament-cmake-libraries ros-jazzy-ament-cmake-include-directories
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_3:
+    name: ament-cmake-export-libraries ament-cmake-version ament-cmake-export-link-flags
+      ament-cmake-export-include-directories ament-cmake-export-definitions
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-cmake-export-libraries ros-jazzy-ament-cmake-version
+        ros-jazzy-ament-cmake-export-link-flags ros-jazzy-ament-cmake-export-include-directories
+        ros-jazzy-ament-cmake-export-definitions
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-cmake-export-libraries ros-jazzy-ament-cmake-version
+          ros-jazzy-ament-cmake-export-link-flags ros-jazzy-ament-cmake-export-include-directories
+          ros-jazzy-ament-cmake-export-definitions
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_4:
+    name: ament-pycodestyle osrf-pycommon google-benchmark-vendor osrf-testing-tools-cpp
+      test-interface-files
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-pycodestyle ros-jazzy-osrf-pycommon ros-jazzy-google-benchmark-vendor
+        ros-jazzy-osrf-testing-tools-cpp ros-jazzy-test-interface-files
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-pycodestyle ros-jazzy-osrf-pycommon ros-jazzy-google-benchmark-vendor
+          ros-jazzy-osrf-testing-tools-cpp ros-jazzy-test-interface-files
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_5:
+    name: iceoryx-hoofs urdfdom-headers sdformat-test-files ruckig ros-industrial-cmake-boilerplate
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-iceoryx-hoofs ros-jazzy-urdfdom-headers ros-jazzy-sdformat-test-files
+        ros-jazzy-ruckig ros-jazzy-ros-industrial-cmake-boilerplate
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-iceoryx-hoofs ros-jazzy-urdfdom-headers ros-jazzy-sdformat-test-files
+          ros-jazzy-ruckig ros-jazzy-ros-industrial-cmake-boilerplate
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_6:
+    name: ompl gtsam grid-map-cmake-helpers cartographer eigenpy
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ompl ros-jazzy-gtsam ros-jazzy-grid-map-cmake-helpers
+        ros-jazzy-cartographer ros-jazzy-eigenpy
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ompl ros-jazzy-gtsam ros-jazzy-grid-map-cmake-helpers
+          ros-jazzy-cartographer ros-jazzy-eigenpy
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_7:
+    name: octomap libcamera apriltag apriltag-mit
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-octomap ros-jazzy-libcamera ros-jazzy-apriltag ros-jazzy-apriltag-mit
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-octomap ros-jazzy-libcamera ros-jazzy-apriltag
+          ros-jazzy-apriltag-mit
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_3_job_8:
+    name: ament-flake8 ament-cmake-test ament-cmake-export-dependencies ament-cmake-target-dependencies
+      ament-cmake-export-targets
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_2
+    - stage_2_job_3
+    - stage_2_job_4
+    - stage_2_job_5
+    - stage_2_job_6
+    - stage_2_job_7
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-flake8 ros-jazzy-ament-cmake-test ros-jazzy-ament-cmake-export-dependencies
+        ros-jazzy-ament-cmake-target-dependencies ros-jazzy-ament-cmake-export-targets
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-flake8 ros-jazzy-ament-cmake-test ros-jazzy-ament-cmake-export-dependencies
+          ros-jazzy-ament-cmake-target-dependencies ros-jazzy-ament-cmake-export-targets
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_3_job_9:
+    name: ament-cmake-export-interfaces gmock-vendor iceoryx-posh backward-ros stomp
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_2
+    - stage_2_job_3
+    - stage_2_job_4
+    - stage_2_job_5
+    - stage_2_job_6
+    - stage_2_job_7
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-cmake-export-interfaces ros-jazzy-gmock-vendor ros-jazzy-iceoryx-posh
+        ros-jazzy-backward-ros ros-jazzy-stomp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-cmake-export-interfaces ros-jazzy-gmock-vendor
+          ros-jazzy-iceoryx-posh ros-jazzy-backward-ros ros-jazzy-stomp
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_3_job_10:
+    name: mrt-cmake-modules ament-pyflakes hpp-fcl
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_2
+    - stage_2_job_3
+    - stage_2_job_4
+    - stage_2_job_5
+    - stage_2_job_6
+    - stage_2_job_7
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-mrt-cmake-modules ros-jazzy-ament-pyflakes ros-jazzy-hpp-fcl
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-mrt-cmake-modules ros-jazzy-ament-pyflakes ros-jazzy-hpp-fcl
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_4_job_11:
+    name: ament-pep257 ament-cmake-gtest ament-cmake-vendor-package ament-mypy ament-lint-auto
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_8
+    - stage_3_job_9
+    - stage_3_job_10
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-pep257 ros-jazzy-ament-cmake-gtest ros-jazzy-ament-cmake-vendor-package
+        ros-jazzy-ament-mypy ros-jazzy-ament-lint-auto
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-pep257 ros-jazzy-ament-cmake-gtest ros-jazzy-ament-cmake-vendor-package
+          ros-jazzy-ament-mypy ros-jazzy-ament-lint-auto
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_4_job_12:
+    name: ament-cmake-pytest ament-cmake-google-benchmark iceoryx-binding-c ament-cmake-catch2
+      lanelet2-core
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_8
+    - stage_3_job_9
+    - stage_3_job_10
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-cmake-pytest ros-jazzy-ament-cmake-google-benchmark
+        ros-jazzy-iceoryx-binding-c ros-jazzy-ament-cmake-catch2 ros-jazzy-lanelet2-core
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-cmake-pytest ros-jazzy-ament-cmake-google-benchmark
+          ros-jazzy-iceoryx-binding-c ros-jazzy-ament-cmake-catch2 ros-jazzy-lanelet2-core
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_5_job_13:
+    name: ament-copyright ament-cmake-gen-version-h ament-cmake-gmock cyclonedds lanelet2-io
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_11
+    - stage_4_job_12
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-copyright ros-jazzy-ament-cmake-gen-version-h ros-jazzy-ament-cmake-gmock
+        ros-jazzy-cyclonedds ros-jazzy-lanelet2-io
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-copyright ros-jazzy-ament-cmake-gen-version-h
+          ros-jazzy-ament-cmake-gmock ros-jazzy-cyclonedds ros-jazzy-lanelet2-io
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_5_job_14:
+    name: lanelet2-traffic-rules lanelet2-maps tf-transformations
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_11
+    - stage_4_job_12
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-lanelet2-traffic-rules ros-jazzy-lanelet2-maps ros-jazzy-tf-transformations
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-lanelet2-traffic-rules ros-jazzy-lanelet2-maps
+          ros-jazzy-tf-transformations
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_6_job_15:
+    name: ament-lint-cmake ament-cmake ament-xmllint ament-cpplint ament-cppcheck
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_13
+    - stage_5_job_14
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-lint-cmake ros-jazzy-ament-cmake ros-jazzy-ament-xmllint
+        ros-jazzy-ament-cpplint ros-jazzy-ament-cppcheck
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-lint-cmake ros-jazzy-ament-cmake ros-jazzy-ament-xmllint
+          ros-jazzy-ament-cpplint ros-jazzy-ament-cppcheck
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_6_job_16:
+    name: ament-index-python domain-coordinator generate-parameter-library-py ament-clang-format
+      lanelet2-projection
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_13
+    - stage_5_job_14
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-index-python ros-jazzy-domain-coordinator ros-jazzy-generate-parameter-library-py
+        ros-jazzy-ament-clang-format ros-jazzy-lanelet2-projection
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-index-python ros-jazzy-domain-coordinator
+          ros-jazzy-generate-parameter-library-py ros-jazzy-ament-clang-format ros-jazzy-lanelet2-projection
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_6_job_17:
+    name: lanelet2-routing
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_13
+    - stage_5_job_14
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-lanelet2-routing
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-lanelet2-routing
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_18:
+    name: ament-cmake-lint-cmake uncrustify-vendor launch rosidl-cli fastcdr
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_15
+    - stage_6_job_16
+    - stage_6_job_17
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-cmake-lint-cmake ros-jazzy-uncrustify-vendor ros-jazzy-launch
+        ros-jazzy-rosidl-cli ros-jazzy-fastcdr
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-cmake-lint-cmake ros-jazzy-uncrustify-vendor
+          ros-jazzy-launch ros-jazzy-rosidl-cli ros-jazzy-fastcdr
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_19:
+    name: rpyutils pybind11-vendor tl-expected tcb-span tinyxml2-vendor
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_15
+    - stage_6_job_16
+    - stage_6_job_17
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rpyutils ros-jazzy-pybind11-vendor ros-jazzy-tl-expected
+        ros-jazzy-tcb-span ros-jazzy-tinyxml2-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rpyutils ros-jazzy-pybind11-vendor ros-jazzy-tl-expected
+          ros-jazzy-tcb-span ros-jazzy-tinyxml2-vendor
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_20:
+    name: ament-cmake-auto ros2-control-test-assets libcurl-vendor xacro moveit-resources-panda-description
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_15
+    - stage_6_job_16
+    - stage_6_job_17
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-cmake-auto ros-jazzy-ros2-control-test-assets ros-jazzy-libcurl-vendor
+        ros-jazzy-xacro ros-jazzy-moveit-resources-panda-description
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-cmake-auto ros-jazzy-ros2-control-test-assets
+          ros-jazzy-libcurl-vendor ros-jazzy-xacro ros-jazzy-moveit-resources-panda-description
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_21:
+    name: random-numbers eigen-stl-containers yaml-cpp-vendor zstd-vendor liblz4-vendor
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_15
+    - stage_6_job_16
+    - stage_6_job_17
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-random-numbers ros-jazzy-eigen-stl-containers ros-jazzy-yaml-cpp-vendor
+        ros-jazzy-zstd-vendor ros-jazzy-liblz4-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-random-numbers ros-jazzy-eigen-stl-containers ros-jazzy-yaml-cpp-vendor
+          ros-jazzy-zstd-vendor ros-jazzy-liblz4-vendor
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_22:
+    name: moveit-resources-pr2-description moveit-common angles sqlite3-vendor moveit-resources-fanuc-description
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_15
+    - stage_6_job_16
+    - stage_6_job_17
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-resources-pr2-description ros-jazzy-moveit-common
+        ros-jazzy-angles ros-jazzy-sqlite3-vendor ros-jazzy-moveit-resources-fanuc-description
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-resources-pr2-description ros-jazzy-moveit-common
+          ros-jazzy-angles ros-jazzy-sqlite3-vendor ros-jazzy-moveit-resources-fanuc-description
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_23:
+    name: sdl2-vendor ament-black ur-client-library ublox-serialization dynamixel-sdk
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_15
+    - stage_6_job_16
+    - stage_6_job_17
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-sdl2-vendor ros-jazzy-ament-black ros-jazzy-ur-client-library
+        ros-jazzy-ublox-serialization ros-jazzy-dynamixel-sdk
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-sdl2-vendor ros-jazzy-ament-black ros-jazzy-ur-client-library
+          ros-jazzy-ublox-serialization ros-jazzy-dynamixel-sdk
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_24:
+    name: lanelet2-matching lanelet2-validation zenoh-cpp-vendor
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_15
+    - stage_6_job_16
+    - stage_6_job_17
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-lanelet2-matching ros-jazzy-lanelet2-validation ros-jazzy-zenoh-cpp-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-lanelet2-matching ros-jazzy-lanelet2-validation
+          ros-jazzy-zenoh-cpp-vendor
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_8_job_25:
+    name: ament-cmake-copyright ament-uncrustify launch-yaml launch-xml mcap-vendor
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_7_job_18
+    - stage_7_job_19
+    - stage_7_job_20
+    - stage_7_job_21
+    - stage_7_job_22
+    - stage_7_job_23
+    - stage_7_job_24
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-cmake-copyright ros-jazzy-ament-uncrustify ros-jazzy-launch-yaml
+        ros-jazzy-launch-xml ros-jazzy-mcap-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-cmake-copyright ros-jazzy-ament-uncrustify
+          ros-jazzy-launch-yaml ros-jazzy-launch-xml ros-jazzy-mcap-vendor
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_8_job_26:
+    name: moveit-resources-prbt-support lanelet2-python
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_7_job_18
+    - stage_7_job_19
+    - stage_7_job_20
+    - stage_7_job_21
+    - stage_7_job_22
+    - stage_7_job_23
+    - stage_7_job_24
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-resources-prbt-support ros-jazzy-lanelet2-python
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-resources-prbt-support ros-jazzy-lanelet2-python
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_9_job_27:
+    name: ament-cmake-xmllint ament-cmake-uncrustify ament-cmake-pep257 ament-cmake-flake8
+      ament-cmake-cpplint
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_8_job_25
+    - stage_8_job_26
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-cmake-xmllint ros-jazzy-ament-cmake-uncrustify ros-jazzy-ament-cmake-pep257
+        ros-jazzy-ament-cmake-flake8 ros-jazzy-ament-cmake-cpplint
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-cmake-xmllint ros-jazzy-ament-cmake-uncrustify
+          ros-jazzy-ament-cmake-pep257 ros-jazzy-ament-cmake-flake8 ros-jazzy-ament-cmake-cpplint
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_9_job_28:
+    name: ament-cmake-cppcheck launch-testing eigen3-cmake-module ament-cmake-clang-format
+      ament-cmake-mypy
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_8_job_25
+    - stage_8_job_26
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-cmake-cppcheck ros-jazzy-launch-testing ros-jazzy-eigen3-cmake-module
+        ros-jazzy-ament-cmake-clang-format ros-jazzy-ament-cmake-mypy
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-cmake-cppcheck ros-jazzy-launch-testing ros-jazzy-eigen3-cmake-module
+          ros-jazzy-ament-cmake-clang-format ros-jazzy-ament-cmake-mypy
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_9_job_29:
+    name: ament-cmake-pyflakes
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_8_job_25
+    - stage_8_job_26
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-cmake-pyflakes
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-cmake-pyflakes
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_10_job_30:
+    name: ament-lint-common foonathan-memory-vendor gz-cmake-vendor rviz-ogre-vendor
+      rviz-assimp-vendor
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_9_job_27
+    - stage_9_job_28
+    - stage_9_job_29
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-lint-common ros-jazzy-foonathan-memory-vendor ros-jazzy-gz-cmake-vendor
+        ros-jazzy-rviz-ogre-vendor ros-jazzy-rviz-assimp-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-lint-common ros-jazzy-foonathan-memory-vendor
+          ros-jazzy-gz-cmake-vendor ros-jazzy-rviz-ogre-vendor ros-jazzy-rviz-assimp-vendor
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_10_job_31:
+    name: gz-ogre-next-vendor gz-dartsim-vendor rmf-utils launch-pytest autoware-lint-common
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_9_job_27
+    - stage_9_job_28
+    - stage_9_job_29
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-gz-ogre-next-vendor ros-jazzy-gz-dartsim-vendor ros-jazzy-rmf-utils
+        ros-jazzy-launch-pytest ros-jazzy-autoware-lint-common
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-gz-ogre-next-vendor ros-jazzy-gz-dartsim-vendor
+          ros-jazzy-rmf-utils ros-jazzy-launch-pytest ros-jazzy-autoware-lint-common
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_10_job_32:
+    name: ament-cmake-black
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_9_job_27
+    - stage_9_job_28
+    - stage_9_job_29
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ament-cmake-black
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ament-cmake-black
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_11_job_33:
+    name: python-cmake-module rosidl-adapter performance-test-fixture ament-cmake-ros
+      rosidl-typesupport-interface
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_10_job_30
+    - stage_10_job_31
+    - stage_10_job_32
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-python-cmake-module ros-jazzy-rosidl-adapter ros-jazzy-performance-test-fixture
+        ros-jazzy-ament-cmake-ros ros-jazzy-rosidl-typesupport-interface
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-python-cmake-module ros-jazzy-rosidl-adapter ros-jazzy-performance-test-fixture
+          ros-jazzy-ament-cmake-ros ros-jazzy-rosidl-typesupport-interface
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_11_job_34:
+    name: fastrtps-cmake-module fastrtps rti-connext-dds-cmake-module rmw-implementation-cmake
+      ament-index-cpp
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_10_job_30
+    - stage_10_job_31
+    - stage_10_job_32
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-fastrtps-cmake-module ros-jazzy-fastrtps ros-jazzy-rti-connext-dds-cmake-module
+        ros-jazzy-rmw-implementation-cmake ros-jazzy-ament-index-cpp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-fastrtps-cmake-module ros-jazzy-fastrtps ros-jazzy-rti-connext-dds-cmake-module
+          ros-jazzy-rmw-implementation-cmake ros-jazzy-ament-index-cpp
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_11_job_35:
+    name: spdlog-vendor gz-utils-vendor gz-tools-vendor ros2-control-cmake orocos-kdl-vendor
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_10_job_30
+    - stage_10_job_31
+    - stage_10_job_32
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-spdlog-vendor ros-jazzy-gz-utils-vendor ros-jazzy-gz-tools-vendor
+        ros-jazzy-ros2-control-cmake ros-jazzy-orocos-kdl-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-spdlog-vendor ros-jazzy-gz-utils-vendor ros-jazzy-gz-tools-vendor
+          ros-jazzy-ros2-control-cmake ros-jazzy-orocos-kdl-vendor
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_11_job_36:
+    name: python-qt-binding smclib osqp-vendor tango-icons-vendor keyboard-handler
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_10_job_30
+    - stage_10_job_31
+    - stage_10_job_32
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-python-qt-binding ros-jazzy-smclib ros-jazzy-osqp-vendor
+        ros-jazzy-tango-icons-vendor ros-jazzy-keyboard-handler
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-python-qt-binding ros-jazzy-smclib ros-jazzy-osqp-vendor
+          ros-jazzy-tango-icons-vendor ros-jazzy-keyboard-handler
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_11_job_37:
+    name: grid-map-core autoware-cmake tlsf rttest orbbec-description
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_10_job_30
+    - stage_10_job_31
+    - stage_10_job_32
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-grid-map-core ros-jazzy-autoware-cmake ros-jazzy-tlsf
+        ros-jazzy-rttest ros-jazzy-orbbec-description
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-grid-map-core ros-jazzy-autoware-cmake ros-jazzy-tlsf
+          ros-jazzy-rttest ros-jazzy-orbbec-description
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_11_job_38:
+    name: mimick-vendor
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_10_job_30
+    - stage_10_job_31
+    - stage_10_job_32
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-mimick-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-mimick-vendor
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_12_job_39:
+    name: launch-testing-ament-cmake rosidl-parser tracetools libyaml-vendor console-bridge-vendor
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_33
+    - stage_11_job_34
+    - stage_11_job_35
+    - stage_11_job_36
+    - stage_11_job_37
+    - stage_11_job_38
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-launch-testing-ament-cmake ros-jazzy-rosidl-parser ros-jazzy-tracetools
+        ros-jazzy-libyaml-vendor ros-jazzy-console-bridge-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-launch-testing-ament-cmake ros-jazzy-rosidl-parser
+          ros-jazzy-tracetools ros-jazzy-libyaml-vendor ros-jazzy-console-bridge-vendor
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_12_job_40:
+    name: urdf-parser-plugin gz-math-vendor python-orocos-kdl-vendor resource-retriever
+      gz-plugin-vendor
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_33
+    - stage_11_job_34
+    - stage_11_job_35
+    - stage_11_job_36
+    - stage_11_job_37
+    - stage_11_job_38
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-urdf-parser-plugin ros-jazzy-gz-math-vendor ros-jazzy-python-orocos-kdl-vendor
+        ros-jazzy-resource-retriever ros-jazzy-gz-plugin-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-urdf-parser-plugin ros-jazzy-gz-math-vendor ros-jazzy-python-orocos-kdl-vendor
+          ros-jazzy-resource-retriever ros-jazzy-gz-plugin-vendor
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_12_job_41:
+    name: qt-gui qt-gui-py-common tracetools-image-pipeline qt-dotgraph autoware-utils-math
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_33
+    - stage_11_job_34
+    - stage_11_job_35
+    - stage_11_job_36
+    - stage_11_job_37
+    - stage_11_job_38
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-qt-gui ros-jazzy-qt-gui-py-common ros-jazzy-tracetools-image-pipeline
+        ros-jazzy-qt-dotgraph ros-jazzy-autoware-utils-math
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-qt-gui ros-jazzy-qt-gui-py-common ros-jazzy-tracetools-image-pipeline
+          ros-jazzy-qt-dotgraph ros-jazzy-autoware-utils-math
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_12_job_42:
+    name: async-web-server-cpp grid-map-octomap grid-map-sdf
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_33
+    - stage_11_job_34
+    - stage_11_job_35
+    - stage_11_job_36
+    - stage_11_job_37
+    - stage_11_job_38
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-async-web-server-cpp ros-jazzy-grid-map-octomap ros-jazzy-grid-map-sdf
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-async-web-server-cpp ros-jazzy-grid-map-octomap
+          ros-jazzy-grid-map-sdf
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_13_job_43:
+    name: rcutils rosidl-pycommon rosidl-generator-type-description urdfdom rviz-rendering
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_12_job_39
+    - stage_12_job_40
+    - stage_12_job_41
+    - stage_12_job_42
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rcutils ros-jazzy-rosidl-pycommon ros-jazzy-rosidl-generator-type-description
+        ros-jazzy-urdfdom ros-jazzy-rviz-rendering
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rcutils ros-jazzy-rosidl-pycommon ros-jazzy-rosidl-generator-type-description
+          ros-jazzy-urdfdom ros-jazzy-rviz-rendering
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_13_job_44:
+    name: gz-msgs-vendor gz-common-vendor
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_12_job_39
+    - stage_12_job_40
+    - stage_12_job_41
+    - stage_12_job_42
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-gz-msgs-vendor ros-jazzy-gz-common-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-gz-msgs-vendor ros-jazzy-gz-common-vendor
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_14_job_45:
+    name: rosidl-runtime-c rosidl-cmake rcpputils sdformat-vendor rviz-rendering-tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_13_job_43
+    - stage_13_job_44
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-runtime-c ros-jazzy-rosidl-cmake ros-jazzy-rcpputils
+        ros-jazzy-sdformat-vendor ros-jazzy-rviz-rendering-tests
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-runtime-c ros-jazzy-rosidl-cmake ros-jazzy-rcpputils
+          ros-jazzy-sdformat-vendor ros-jazzy-rviz-rendering-tests
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_14_job_46:
+    name: gz-transport-vendor gz-rendering-vendor gz-fuel-tools-vendor pinocchio
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_13_job_43
+    - stage_13_job_44
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-gz-transport-vendor ros-jazzy-gz-rendering-vendor ros-jazzy-gz-fuel-tools-vendor
+        ros-jazzy-pinocchio
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-gz-transport-vendor ros-jazzy-gz-rendering-vendor
+          ros-jazzy-gz-fuel-tools-vendor ros-jazzy-pinocchio
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_15_job_47:
+    name: rosidl-runtime-cpp rosidl-generator-c rosidl-dynamic-typesupport rcl-logging-interface
+      class-loader
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_14_job_45
+    - stage_14_job_46
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-runtime-cpp ros-jazzy-rosidl-generator-c ros-jazzy-rosidl-dynamic-typesupport
+        ros-jazzy-rcl-logging-interface ros-jazzy-class-loader
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-runtime-cpp ros-jazzy-rosidl-generator-c
+          ros-jazzy-rosidl-dynamic-typesupport ros-jazzy-rcl-logging-interface ros-jazzy-class-loader
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_15_job_48:
+    name: gz-sensors-vendor gz-physics-vendor gz-gui-vendor
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_14_job_45
+    - stage_14_job_46
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-gz-sensors-vendor ros-jazzy-gz-physics-vendor ros-jazzy-gz-gui-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-gz-sensors-vendor ros-jazzy-gz-physics-vendor ros-jazzy-gz-gui-vendor
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_16_job_49:
+    name: rosidl-generator-cpp rmw rosidl-typesupport-introspection-c rosidl-dynamic-typesupport-fastrtps
+      rcl-logging-spdlog
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_15_job_47
+    - stage_15_job_48
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-generator-cpp ros-jazzy-rmw ros-jazzy-rosidl-typesupport-introspection-c
+        ros-jazzy-rosidl-dynamic-typesupport-fastrtps ros-jazzy-rcl-logging-spdlog
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-generator-cpp ros-jazzy-rmw ros-jazzy-rosidl-typesupport-introspection-c
+          ros-jazzy-rosidl-dynamic-typesupport-fastrtps ros-jazzy-rcl-logging-spdlog
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_16_job_50:
+    name: pluginlib gz-sim-vendor
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_15_job_47
+    - stage_15_job_48
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-pluginlib ros-jazzy-gz-sim-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-pluginlib ros-jazzy-gz-sim-vendor
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_17_job_51:
+    name: rosidl-typesupport-fastrtps-cpp rosidl-typesupport-introspection-cpp rcl-yaml-param-parser
+      urdf qt-gui-cpp
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_16_job_49
+    - stage_16_job_50
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-typesupport-fastrtps-cpp ros-jazzy-rosidl-typesupport-introspection-cpp
+        ros-jazzy-rcl-yaml-param-parser ros-jazzy-urdf ros-jazzy-qt-gui-cpp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-typesupport-fastrtps-cpp ros-jazzy-rosidl-typesupport-introspection-cpp
+          ros-jazzy-rcl-yaml-param-parser ros-jazzy-urdf ros-jazzy-qt-gui-cpp
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_18_job_52:
+    name: rosidl-typesupport-fastrtps-c sdformat-urdf kdl-parser turtlebot3-description
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_17_job_51
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-typesupport-fastrtps-c ros-jazzy-sdformat-urdf
+        ros-jazzy-kdl-parser ros-jazzy-turtlebot3-description
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-typesupport-fastrtps-c ros-jazzy-sdformat-urdf
+          ros-jazzy-kdl-parser ros-jazzy-turtlebot3-description
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_19_job_53:
+    name: rosidl-typesupport-c rmw-zenoh-cpp rosidl-typesupport-cpp rosidl-generator-py
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_18_job_52
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-typesupport-c ros-jazzy-rmw-zenoh-cpp ros-jazzy-rosidl-typesupport-cpp
+        ros-jazzy-rosidl-generator-py
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-typesupport-c ros-jazzy-rmw-zenoh-cpp ros-jazzy-rosidl-typesupport-cpp
+          ros-jazzy-rosidl-generator-py
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_20_job_54:
+    name: rosidl-core-runtime rosidl-core-generators builtin-interfaces unique-identifier-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_19_job_53
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-core-runtime ros-jazzy-rosidl-core-generators ros-jazzy-builtin-interfaces
+        ros-jazzy-unique-identifier-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-core-runtime ros-jazzy-rosidl-core-generators
+          ros-jazzy-builtin-interfaces ros-jazzy-unique-identifier-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_21_job_55:
+    name: service-msgs autoware-utils-uuid action-msgs type-description-interfaces
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_20_job_54
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-service-msgs ros-jazzy-autoware-utils-uuid ros-jazzy-action-msgs
+        ros-jazzy-type-description-interfaces
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-service-msgs ros-jazzy-autoware-utils-uuid ros-jazzy-action-msgs
+          ros-jazzy-type-description-interfaces
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_22_job_56:
+    name: rosidl-default-runtime rosidl-default-generators
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_21_job_55
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-default-runtime ros-jazzy-rosidl-default-generators
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-default-runtime ros-jazzy-rosidl-default-generators
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_23_job_57:
+    name: rmw-dds-common test-msgs rcl-interfaces std-msgs statistics-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_22_job_56
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rmw-dds-common ros-jazzy-test-msgs ros-jazzy-rcl-interfaces
+        ros-jazzy-std-msgs ros-jazzy-statistics-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rmw-dds-common ros-jazzy-test-msgs ros-jazzy-rcl-interfaces
+          ros-jazzy-std-msgs ros-jazzy-statistics-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_23_job_58:
+    name: lifecycle-msgs rosgraph-msgs std-srvs example-interfaces ros2cli-test-interfaces
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_22_job_56
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-lifecycle-msgs ros-jazzy-rosgraph-msgs ros-jazzy-std-srvs
+        ros-jazzy-example-interfaces ros-jazzy-ros2cli-test-interfaces
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-lifecycle-msgs ros-jazzy-rosgraph-msgs ros-jazzy-std-srvs
+          ros-jazzy-example-interfaces ros-jazzy-ros2cli-test-interfaces
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_23_job_59:
+    name: topic-tools-interfaces rosbag2-test-msgdefs rosbag2-interfaces twist-mux-msgs
+      autoware-common-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_22_job_56
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-topic-tools-interfaces ros-jazzy-rosbag2-test-msgdefs
+        ros-jazzy-rosbag2-interfaces ros-jazzy-twist-mux-msgs ros-jazzy-autoware-common-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-topic-tools-interfaces ros-jazzy-rosbag2-test-msgdefs
+          ros-jazzy-rosbag2-interfaces ros-jazzy-twist-mux-msgs ros-jazzy-autoware-common-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_23_job_60:
+    name: ur-dashboard-msgs data-tamer-msgs rosbridge-msgs pendulum-msgs action-tutorials-interfaces
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_22_job_56
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ur-dashboard-msgs ros-jazzy-data-tamer-msgs ros-jazzy-rosbridge-msgs
+        ros-jazzy-pendulum-msgs ros-jazzy-action-tutorials-interfaces
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ur-dashboard-msgs ros-jazzy-data-tamer-msgs ros-jazzy-rosbridge-msgs
+          ros-jazzy-pendulum-msgs ros-jazzy-action-tutorials-interfaces
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_23_job_61:
+    name: autoware-internal-metric-msgs autoware-control-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_22_job_56
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-autoware-internal-metric-msgs ros-jazzy-autoware-control-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-autoware-internal-metric-msgs ros-jazzy-autoware-control-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_24_job_62:
+    name: rmw-fastrtps-shared-cpp rmw-connextdds-common rmw-cyclonedds-cpp composition-interfaces
+      geometry-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_23_job_57
+    - stage_23_job_58
+    - stage_23_job_59
+    - stage_23_job_60
+    - stage_23_job_61
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rmw-fastrtps-shared-cpp ros-jazzy-rmw-connextdds-common
+        ros-jazzy-rmw-cyclonedds-cpp ros-jazzy-composition-interfaces ros-jazzy-geometry-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rmw-fastrtps-shared-cpp ros-jazzy-rmw-connextdds-common
+          ros-jazzy-rmw-cyclonedds-cpp ros-jazzy-composition-interfaces ros-jazzy-geometry-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_24_job_63:
+    name: rosidl-runtime-py pal-statistics-msgs controller-manager-msgs actionlib-msgs
+      bond
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_23_job_57
+    - stage_23_job_58
+    - stage_23_job_59
+    - stage_23_job_60
+    - stage_23_job_61
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosidl-runtime-py ros-jazzy-pal-statistics-msgs ros-jazzy-controller-manager-msgs
+        ros-jazzy-actionlib-msgs ros-jazzy-bond
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosidl-runtime-py ros-jazzy-pal-statistics-msgs
+          ros-jazzy-controller-manager-msgs ros-jazzy-actionlib-msgs ros-jazzy-bond
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_24_job_64:
+    name: ackermann-msgs gps-msgs actuator-msgs ffmpeg-image-transport-msgs velodyne-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_23_job_57
+    - stage_23_job_58
+    - stage_23_job_59
+    - stage_23_job_60
+    - stage_23_job_61
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ackermann-msgs ros-jazzy-gps-msgs ros-jazzy-actuator-msgs
+        ros-jazzy-ffmpeg-image-transport-msgs ros-jazzy-velodyne-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ackermann-msgs ros-jazzy-gps-msgs ros-jazzy-actuator-msgs
+          ros-jazzy-ffmpeg-image-transport-msgs ros-jazzy-velodyne-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_24_job_65:
+    name: rosapi-msgs can-msgs apriltag-msgs ros2-socketcan-msgs autoware-internal-debug-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_23_job_57
+    - stage_23_job_58
+    - stage_23_job_59
+    - stage_23_job_60
+    - stage_23_job_61
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosapi-msgs ros-jazzy-can-msgs ros-jazzy-apriltag-msgs
+        ros-jazzy-ros2-socketcan-msgs ros-jazzy-autoware-internal-debug-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosapi-msgs ros-jazzy-can-msgs ros-jazzy-apriltag-msgs
+          ros-jazzy-ros2-socketcan-msgs ros-jazzy-autoware-internal-debug-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_24_job_66:
+    name: rtcm-msgs nmea-msgs plotjuggler-msgs ouster-sensor-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_23_job_57
+    - stage_23_job_58
+    - stage_23_job_59
+    - stage_23_job_60
+    - stage_23_job_61
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rtcm-msgs ros-jazzy-nmea-msgs ros-jazzy-plotjuggler-msgs
+        ros-jazzy-ouster-sensor-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rtcm-msgs ros-jazzy-nmea-msgs ros-jazzy-plotjuggler-msgs
+          ros-jazzy-ouster-sensor-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_25_job_67:
+    name: rmw-fastrtps-dynamic-cpp rmw-fastrtps-cpp rmw-connextdds sensor-msgs trajectory-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_24_job_62
+    - stage_24_job_63
+    - stage_24_job_64
+    - stage_24_job_65
+    - stage_24_job_66
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rmw-fastrtps-dynamic-cpp ros-jazzy-rmw-fastrtps-cpp ros-jazzy-rmw-connextdds
+        ros-jazzy-sensor-msgs ros-jazzy-trajectory-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rmw-fastrtps-dynamic-cpp ros-jazzy-rmw-fastrtps-cpp
+          ros-jazzy-rmw-connextdds ros-jazzy-sensor-msgs ros-jazzy-trajectory-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_25_job_68:
+    name: tf2-msgs tf2 diagnostic-msgs shape-msgs octomap-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_24_job_62
+    - stage_24_job_63
+    - stage_24_job_64
+    - stage_24_job_65
+    - stage_24_job_66
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-tf2-msgs ros-jazzy-tf2 ros-jazzy-diagnostic-msgs ros-jazzy-shape-msgs
+        ros-jazzy-octomap-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-tf2-msgs ros-jazzy-tf2 ros-jazzy-diagnostic-msgs
+          ros-jazzy-shape-msgs ros-jazzy-octomap-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_25_job_69:
+    name: nav-msgs geographic-msgs nav-2d-msgs vision-msgs ros-gz-interfaces
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_24_job_62
+    - stage_24_job_63
+    - stage_24_job_64
+    - stage_24_job_65
+    - stage_24_job_66
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-nav-msgs ros-jazzy-geographic-msgs ros-jazzy-nav-2d-msgs
+        ros-jazzy-vision-msgs ros-jazzy-ros-gz-interfaces
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-nav-msgs ros-jazzy-geographic-msgs ros-jazzy-nav-2d-msgs
+          ros-jazzy-vision-msgs ros-jazzy-ros-gz-interfaces
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_25_job_70:
+    name: autoware-perception-msgs cartographer-ros-msgs turtlebot3-msgs graph-msgs
+      slg-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_24_job_62
+    - stage_24_job_63
+    - stage_24_job_64
+    - stage_24_job_65
+    - stage_24_job_66
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-autoware-perception-msgs ros-jazzy-cartographer-ros-msgs
+        ros-jazzy-turtlebot3-msgs ros-jazzy-graph-msgs ros-jazzy-slg-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-autoware-perception-msgs ros-jazzy-cartographer-ros-msgs
+          ros-jazzy-turtlebot3-msgs ros-jazzy-graph-msgs ros-jazzy-slg-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_25_job_71:
+    name: autoware-v2x-msgs autoware-sensing-msgs autoware-localization-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_24_job_62
+    - stage_24_job_63
+    - stage_24_job_64
+    - stage_24_job_65
+    - stage_24_job_66
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-autoware-v2x-msgs ros-jazzy-autoware-sensing-msgs ros-jazzy-autoware-localization-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-autoware-v2x-msgs ros-jazzy-autoware-sensing-msgs
+          ros-jazzy-autoware-localization-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_26_job_72:
+    name: rmw-implementation control-msgs object-recognition-msgs visualization-msgs
+      stereo-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_25_job_67
+    - stage_25_job_68
+    - stage_25_job_69
+    - stage_25_job_70
+    - stage_25_job_71
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rmw-implementation ros-jazzy-control-msgs ros-jazzy-object-recognition-msgs
+        ros-jazzy-visualization-msgs ros-jazzy-stereo-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rmw-implementation ros-jazzy-control-msgs ros-jazzy-object-recognition-msgs
+          ros-jazzy-visualization-msgs ros-jazzy-stereo-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_26_job_73:
+    name: sensor-msgs-py map-msgs tf2-eigen-kdl dwb-msgs image-geometry
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_25_job_67
+    - stage_25_job_68
+    - stage_25_job_69
+    - stage_25_job_70
+    - stage_25_job_71
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-sensor-msgs-py ros-jazzy-map-msgs ros-jazzy-tf2-eigen-kdl
+        ros-jazzy-dwb-msgs ros-jazzy-image-geometry
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-sensor-msgs-py ros-jazzy-map-msgs ros-jazzy-tf2-eigen-kdl
+          ros-jazzy-dwb-msgs ros-jazzy-image-geometry
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_26_job_74:
+    name: pcl-msgs autoware-planning-msgs octomap-ros autoware-internal-perception-msgs
+      ublox-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_25_job_67
+    - stage_25_job_68
+    - stage_25_job_69
+    - stage_25_job_70
+    - stage_25_job_71
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-pcl-msgs ros-jazzy-autoware-planning-msgs ros-jazzy-octomap-ros
+        ros-jazzy-autoware-internal-perception-msgs ros-jazzy-ublox-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-pcl-msgs ros-jazzy-autoware-planning-msgs ros-jazzy-octomap-ros
+          ros-jazzy-autoware-internal-perception-msgs ros-jazzy-ublox-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_26_job_75:
+    name: autoware-map-msgs orbbec-camera-msgs autoware-system-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_25_job_67
+    - stage_25_job_68
+    - stage_25_job_69
+    - stage_25_job_70
+    - stage_25_job_71
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-autoware-map-msgs ros-jazzy-orbbec-camera-msgs ros-jazzy-autoware-system-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-autoware-map-msgs ros-jazzy-orbbec-camera-msgs
+          ros-jazzy-autoware-system-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_27_job_76:
+    name: rcl moveit-msgs common-interfaces ur-msgs foxglove-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_26_job_72
+    - stage_26_job_73
+    - stage_26_job_74
+    - stage_26_job_75
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rcl ros-jazzy-moveit-msgs ros-jazzy-common-interfaces
+        ros-jazzy-ur-msgs ros-jazzy-foxglove-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rcl ros-jazzy-moveit-msgs ros-jazzy-common-interfaces
+          ros-jazzy-ur-msgs ros-jazzy-foxglove-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_27_job_77:
+    name: autoware-internal-planning-msgs autoware-vehicle-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_26_job_72
+    - stage_26_job_73
+    - stage_26_job_74
+    - stage_26_job_75
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-autoware-internal-planning-msgs ros-jazzy-autoware-vehicle-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-autoware-internal-planning-msgs ros-jazzy-autoware-vehicle-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_28_job_78:
+    name: libstatistics-collector rcl-lifecycle rcl-action moveit-task-constructor-msgs
+      autoware-internal-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_27_job_76
+    - stage_27_job_77
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-libstatistics-collector ros-jazzy-rcl-lifecycle ros-jazzy-rcl-action
+        ros-jazzy-moveit-task-constructor-msgs ros-jazzy-autoware-internal-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-libstatistics-collector ros-jazzy-rcl-lifecycle
+          ros-jazzy-rcl-action ros-jazzy-moveit-task-constructor-msgs ros-jazzy-autoware-internal-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_29_job_79:
+    name: rclcpp rclpy
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_28_job_78
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rclcpp ros-jazzy-rclpy
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rclcpp ros-jazzy-rclpy
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_30_job_80:
+    name: rsl launch-ros rclcpp-lifecycle rclcpp-action ros2cli
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_29_job_79
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rsl ros-jazzy-launch-ros ros-jazzy-rclcpp-lifecycle ros-jazzy-rclcpp-action
+        ros-jazzy-ros2cli
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rsl ros-jazzy-launch-ros ros-jazzy-rclcpp-lifecycle
+          ros-jazzy-rclcpp-action ros-jazzy-ros2cli
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_30_job_81:
+    name: rclcpp-components tf2-py filters urdfdom-py rosbag2-test-common
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_29_job_79
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rclcpp-components ros-jazzy-tf2-py ros-jazzy-filters ros-jazzy-urdfdom-py
+        ros-jazzy-rosbag2-test-common
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rclcpp-components ros-jazzy-tf2-py ros-jazzy-filters
+          ros-jazzy-urdfdom-py ros-jazzy-rosbag2-test-common
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_30_job_82:
+    name: geometric-shapes launch-param-builder laser-geometry behaviortree-cpp cv-bridge
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_29_job_79
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-geometric-shapes ros-jazzy-launch-param-builder ros-jazzy-laser-geometry
+        ros-jazzy-behaviortree-cpp ros-jazzy-cv-bridge
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-geometric-shapes ros-jazzy-launch-param-builder
+          ros-jazzy-laser-geometry ros-jazzy-behaviortree-cpp ros-jazzy-cv-bridge
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_30_job_83:
+    name: rqt-gui rqt-py-common rqt-gui-cpp camera-calibration-parsers rosbridge-test-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_29_job_79
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rqt-gui ros-jazzy-rqt-py-common ros-jazzy-rqt-gui-cpp
+        ros-jazzy-camera-calibration-parsers ros-jazzy-rosbridge-test-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rqt-gui ros-jazzy-rqt-py-common ros-jazzy-rqt-gui-cpp
+          ros-jazzy-camera-calibration-parsers ros-jazzy-rosbridge-test-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_30_job_84:
+    name: hls-lfcd-lds-driver grid-map-msgs autoware-utils-system cascade-lifecycle-msgs
+      teleop-twist-keyboard
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_29_job_79
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-hls-lfcd-lds-driver ros-jazzy-grid-map-msgs ros-jazzy-autoware-utils-system
+        ros-jazzy-cascade-lifecycle-msgs ros-jazzy-teleop-twist-keyboard
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-hls-lfcd-lds-driver ros-jazzy-grid-map-msgs ros-jazzy-autoware-utils-system
+          ros-jazzy-cascade-lifecycle-msgs ros-jazzy-teleop-twist-keyboard
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_30_job_85:
+    name: py-binding-tools tlsf-cpp dummy-sensors dummy-map-server demo-nodes-py
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_29_job_79
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-py-binding-tools ros-jazzy-tlsf-cpp ros-jazzy-dummy-sensors
+        ros-jazzy-dummy-map-server ros-jazzy-demo-nodes-py
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-py-binding-tools ros-jazzy-tlsf-cpp ros-jazzy-dummy-sensors
+          ros-jazzy-dummy-map-server ros-jazzy-demo-nodes-py
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_30_job_86:
+    name: data-tamer-cpp quality-of-service-demo-py intra-process-demo examples-rclpy-minimal-subscriber
+      examples-rclpy-minimal-service
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_29_job_79
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-data-tamer-cpp ros-jazzy-quality-of-service-demo-py ros-jazzy-intra-process-demo
+        ros-jazzy-examples-rclpy-minimal-subscriber ros-jazzy-examples-rclpy-minimal-service
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-data-tamer-cpp ros-jazzy-quality-of-service-demo-py
+          ros-jazzy-intra-process-demo ros-jazzy-examples-rclpy-minimal-subscriber
+          ros-jazzy-examples-rclpy-minimal-service
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_30_job_87:
+    name: examples-rclpy-minimal-publisher examples-rclpy-minimal-client examples-rclpy-minimal-action-server
+      examples-rclpy-minimal-action-client examples-rclpy-executors
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_29_job_79
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-examples-rclpy-minimal-publisher ros-jazzy-examples-rclpy-minimal-client
+        ros-jazzy-examples-rclpy-minimal-action-server ros-jazzy-examples-rclpy-minimal-action-client
+        ros-jazzy-examples-rclpy-executors
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-examples-rclpy-minimal-publisher ros-jazzy-examples-rclpy-minimal-client
+          ros-jazzy-examples-rclpy-minimal-action-server ros-jazzy-examples-rclpy-minimal-action-client
+          ros-jazzy-examples-rclpy-executors
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_30_job_88:
+    name: examples-rclcpp-multithreaded-executor examples-rclcpp-minimal-timer examples-rclcpp-minimal-service
+      examples-rclcpp-minimal-publisher examples-rclcpp-minimal-client
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_29_job_79
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-examples-rclcpp-multithreaded-executor ros-jazzy-examples-rclcpp-minimal-timer
+        ros-jazzy-examples-rclcpp-minimal-service ros-jazzy-examples-rclcpp-minimal-publisher
+        ros-jazzy-examples-rclcpp-minimal-client
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-examples-rclcpp-multithreaded-executor ros-jazzy-examples-rclcpp-minimal-timer
+          ros-jazzy-examples-rclcpp-minimal-service ros-jazzy-examples-rclcpp-minimal-publisher
+          ros-jazzy-examples-rclcpp-minimal-client
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_30_job_89:
+    name: action-tutorials-py turtlebot3-teleop turtlebot3-example autoware-utils-visualization
+      autoware-utils-rclcpp
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_29_job_79
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-action-tutorials-py ros-jazzy-turtlebot3-teleop ros-jazzy-turtlebot3-example
+        ros-jazzy-autoware-utils-visualization ros-jazzy-autoware-utils-rclcpp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-action-tutorials-py ros-jazzy-turtlebot3-teleop
+          ros-jazzy-turtlebot3-example ros-jazzy-autoware-utils-visualization ros-jazzy-autoware-utils-rclcpp
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_30_job_90:
+    name: autoware-utils-diagnostics
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_29_job_79
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-autoware-utils-diagnostics
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-autoware-utils-diagnostics
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_31_job_91:
+    name: parameter-traits launch-testing-ros realtime-tools message-filters pal-statistics
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_30_job_80
+    - stage_30_job_81
+    - stage_30_job_82
+    - stage_30_job_83
+    - stage_30_job_84
+    - stage_30_job_85
+    - stage_30_job_86
+    - stage_30_job_87
+    - stage_30_job_88
+    - stage_30_job_89
+    - stage_30_job_90
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-parameter-traits ros-jazzy-launch-testing-ros ros-jazzy-realtime-tools
+        ros-jazzy-message-filters ros-jazzy-pal-statistics
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-parameter-traits ros-jazzy-launch-testing-ros ros-jazzy-realtime-tools
+          ros-jazzy-message-filters ros-jazzy-pal-statistics
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_31_job_92:
+    name: tf2-ros-py ros2lifecycle-test-fixtures ros2multicast topic-tools nav2-common
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_30_job_80
+    - stage_30_job_81
+    - stage_30_job_82
+    - stage_30_job_83
+    - stage_30_job_84
+    - stage_30_job_85
+    - stage_30_job_86
+    - stage_30_job_87
+    - stage_30_job_88
+    - stage_30_job_89
+    - stage_30_job_90
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-tf2-ros-py ros-jazzy-ros2lifecycle-test-fixtures ros-jazzy-ros2multicast
+        ros-jazzy-topic-tools ros-jazzy-nav2-common
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-tf2-ros-py ros-jazzy-ros2lifecycle-test-fixtures
+          ros-jazzy-ros2multicast ros-jazzy-topic-tools ros-jazzy-nav2-common
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_31_job_93:
+    name: srdfdom rosbag2-storage bondcpp kinematics-interface ros-gz-bridge
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_30_job_80
+    - stage_30_job_81
+    - stage_30_job_82
+    - stage_30_job_83
+    - stage_30_job_84
+    - stage_30_job_85
+    - stage_30_job_86
+    - stage_30_job_87
+    - stage_30_job_88
+    - stage_30_job_89
+    - stage_30_job_90
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-srdfdom ros-jazzy-rosbag2-storage ros-jazzy-bondcpp ros-jazzy-kinematics-interface
+        ros-jazzy-ros-gz-bridge
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-srdfdom ros-jazzy-rosbag2-storage ros-jazzy-bondcpp
+          ros-jazzy-kinematics-interface ros-jazzy-ros-gz-bridge
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_31_job_94:
+    name: rqt-gui-py joy camera-info-manager rosbridge-library grid-map-cv
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_30_job_80
+    - stage_30_job_81
+    - stage_30_job_82
+    - stage_30_job_83
+    - stage_30_job_84
+    - stage_30_job_85
+    - stage_30_job_86
+    - stage_30_job_87
+    - stage_30_job_88
+    - stage_30_job_89
+    - stage_30_job_90
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rqt-gui-py ros-jazzy-joy ros-jazzy-camera-info-manager
+        ros-jazzy-rosbridge-library ros-jazzy-grid-map-cv
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rqt-gui-py ros-jazzy-joy ros-jazzy-camera-info-manager
+          ros-jazzy-rosbridge-library ros-jazzy-grid-map-cv
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_31_job_95:
+    name: velodyne-laserscan rclcpp-cascade-lifecycle vision-opencv turtlesim topic-monitor
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_30_job_80
+    - stage_30_job_81
+    - stage_30_job_82
+    - stage_30_job_83
+    - stage_30_job_84
+    - stage_30_job_85
+    - stage_30_job_86
+    - stage_30_job_87
+    - stage_30_job_88
+    - stage_30_job_89
+    - stage_30_job_90
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-velodyne-laserscan ros-jazzy-rclcpp-cascade-lifecycle
+        ros-jazzy-vision-opencv ros-jazzy-turtlesim ros-jazzy-topic-monitor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-velodyne-laserscan ros-jazzy-rclcpp-cascade-lifecycle
+          ros-jazzy-vision-opencv ros-jazzy-turtlesim ros-jazzy-topic-monitor
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_31_job_96:
+    name: quality-of-service-demo-cpp examples-rclcpp-minimal-subscriber examples-rclcpp-minimal-composition
+      examples-rclcpp-minimal-action-server examples-rclcpp-minimal-action-client
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_30_job_80
+    - stage_30_job_81
+    - stage_30_job_82
+    - stage_30_job_83
+    - stage_30_job_84
+    - stage_30_job_85
+    - stage_30_job_86
+    - stage_30_job_87
+    - stage_30_job_88
+    - stage_30_job_89
+    - stage_30_job_90
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-quality-of-service-demo-cpp ros-jazzy-examples-rclcpp-minimal-subscriber
+        ros-jazzy-examples-rclcpp-minimal-composition ros-jazzy-examples-rclcpp-minimal-action-server
+        ros-jazzy-examples-rclcpp-minimal-action-client
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-quality-of-service-demo-cpp ros-jazzy-examples-rclcpp-minimal-subscriber
+          ros-jazzy-examples-rclcpp-minimal-composition ros-jazzy-examples-rclcpp-minimal-action-server
+          ros-jazzy-examples-rclcpp-minimal-action-client
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_31_job_97:
+    name: depthimage-to-laserscan action-tutorials-cpp plotjuggler lanelet2-examples
+      ffmpeg-encoder-decoder
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_30_job_80
+    - stage_30_job_81
+    - stage_30_job_82
+    - stage_30_job_83
+    - stage_30_job_84
+    - stage_30_job_85
+    - stage_30_job_86
+    - stage_30_job_87
+    - stage_30_job_88
+    - stage_30_job_89
+    - stage_30_job_90
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-depthimage-to-laserscan ros-jazzy-action-tutorials-cpp
+        ros-jazzy-plotjuggler ros-jazzy-lanelet2-examples ros-jazzy-ffmpeg-encoder-decoder
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-depthimage-to-laserscan ros-jazzy-action-tutorials-cpp
+          ros-jazzy-plotjuggler ros-jazzy-lanelet2-examples ros-jazzy-ffmpeg-encoder-decoder
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_31_job_98:
+    name: autoware-utils-debug ros2-socketcan laser-segmentation flex-sync
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_30_job_80
+    - stage_30_job_81
+    - stage_30_job_82
+    - stage_30_job_83
+    - stage_30_job_84
+    - stage_30_job_85
+    - stage_30_job_86
+    - stage_30_job_87
+    - stage_30_job_88
+    - stage_30_job_89
+    - stage_30_job_90
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-autoware-utils-debug ros-jazzy-ros2-socketcan ros-jazzy-laser-segmentation
+        ros-jazzy-flex-sync
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-autoware-utils-debug ros-jazzy-ros2-socketcan ros-jazzy-laser-segmentation
+          ros-jazzy-flex-sync
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_32_job_99:
+    name: generate-parameter-library ros2topic ros2pkg ros2node tf2-ros
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_31_job_91
+    - stage_31_job_92
+    - stage_31_job_93
+    - stage_31_job_94
+    - stage_31_job_95
+    - stage_31_job_96
+    - stage_31_job_97
+    - stage_31_job_98
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-generate-parameter-library ros-jazzy-ros2topic ros-jazzy-ros2pkg
+        ros-jazzy-ros2node ros-jazzy-tf2-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-generate-parameter-library ros-jazzy-ros2topic
+          ros-jazzy-ros2pkg ros-jazzy-ros2node ros-jazzy-tf2-ros
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_32_job_100:
+    name: ros2test diagnostic-updater ros2interface ros2doctor ros2action
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_31_job_91
+    - stage_31_job_92
+    - stage_31_job_93
+    - stage_31_job_94
+    - stage_31_job_95
+    - stage_31_job_96
+    - stage_31_job_97
+    - stage_31_job_98
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ros2test ros-jazzy-diagnostic-updater ros-jazzy-ros2interface
+        ros-jazzy-ros2doctor ros-jazzy-ros2action
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ros2test ros-jazzy-diagnostic-updater ros-jazzy-ros2interface
+          ros-jazzy-ros2doctor ros-jazzy-ros2action
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_32_job_101:
+    name: nav2-msgs rosbag2-storage-sqlite3 rosbag2-storage-mcap moveit-configs-utils
+      nav2-voxel-grid
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_31_job_91
+    - stage_31_job_92
+    - stage_31_job_93
+    - stage_31_job_94
+    - stage_31_job_95
+    - stage_31_job_96
+    - stage_31_job_97
+    - stage_31_job_98
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-nav2-msgs ros-jazzy-rosbag2-storage-sqlite3 ros-jazzy-rosbag2-storage-mcap
+        ros-jazzy-moveit-configs-utils ros-jazzy-nav2-voxel-grid
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-nav2-msgs ros-jazzy-rosbag2-storage-sqlite3 ros-jazzy-rosbag2-storage-mcap
+          ros-jazzy-moveit-configs-utils ros-jazzy-nav2-voxel-grid
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_32_job_102:
+    name: point-cloud-transport image-transport kinematics-interface-kdl rqt-plot
+      pcl-conversions
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_31_job_91
+    - stage_31_job_92
+    - stage_31_job_93
+    - stage_31_job_94
+    - stage_31_job_95
+    - stage_31_job_96
+    - stage_31_job_97
+    - stage_31_job_98
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-point-cloud-transport ros-jazzy-image-transport ros-jazzy-kinematics-interface-kdl
+        ros-jazzy-rqt-plot ros-jazzy-pcl-conversions
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-point-cloud-transport ros-jazzy-image-transport
+          ros-jazzy-kinematics-interface-kdl ros-jazzy-rqt-plot ros-jazzy-pcl-conversions
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_32_job_103:
+    name: rqt-console diagnostic-aggregator teleop-twist-joy camera-calibration tf2-tools
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_31_job_91
+    - stage_31_job_92
+    - stage_31_job_93
+    - stage_31_job_94
+    - stage_31_job_95
+    - stage_31_job_96
+    - stage_31_job_97
+    - stage_31_job_98
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rqt-console ros-jazzy-diagnostic-aggregator ros-jazzy-teleop-twist-joy
+        ros-jazzy-camera-calibration ros-jazzy-tf2-tools
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rqt-console ros-jazzy-diagnostic-aggregator ros-jazzy-teleop-twist-joy
+          ros-jazzy-camera-calibration ros-jazzy-tf2-tools
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_32_job_104:
+    name: ros2-controllers-test-nodes rqt-shell rqt-service-caller rqt-py-console
+      rqt-publisher
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_31_job_91
+    - stage_31_job_92
+    - stage_31_job_93
+    - stage_31_job_94
+    - stage_31_job_95
+    - stage_31_job_96
+    - stage_31_job_97
+    - stage_31_job_98
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ros2-controllers-test-nodes ros-jazzy-rqt-shell ros-jazzy-rqt-service-caller
+        ros-jazzy-rqt-py-console ros-jazzy-rqt-publisher
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ros2-controllers-test-nodes ros-jazzy-rqt-shell
+          ros-jazzy-rqt-service-caller ros-jazzy-rqt-py-console ros-jazzy-rqt-publisher
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_32_job_105:
+    name: rqt-graph logging-demo image-tools demo-nodes-cpp-native demo-nodes-cpp
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_31_job_91
+    - stage_31_job_92
+    - stage_31_job_93
+    - stage_31_job_94
+    - stage_31_job_95
+    - stage_31_job_96
+    - stage_31_job_97
+    - stage_31_job_98
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rqt-graph ros-jazzy-logging-demo ros-jazzy-image-tools
+        ros-jazzy-demo-nodes-cpp-native ros-jazzy-demo-nodes-cpp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rqt-graph ros-jazzy-logging-demo ros-jazzy-image-tools
+          ros-jazzy-demo-nodes-cpp-native ros-jazzy-demo-nodes-cpp
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_32_job_106:
+    name: composition lanelet2
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_31_job_91
+    - stage_31_job_92
+    - stage_31_job_93
+    - stage_31_job_94
+    - stage_31_job_95
+    - stage_31_job_96
+    - stage_31_job_97
+    - stage_31_job_98
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-composition ros-jazzy-lanelet2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-composition ros-jazzy-lanelet2
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_33_job_107:
+    name: joint-limits ros2service ros2run robot-state-publisher ros-testing
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_32_job_99
+    - stage_32_job_100
+    - stage_32_job_101
+    - stage_32_job_102
+    - stage_32_job_103
+    - stage_32_job_104
+    - stage_32_job_105
+    - stage_32_job_106
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-joint-limits ros-jazzy-ros2service ros-jazzy-ros2run ros-jazzy-robot-state-publisher
+        ros-jazzy-ros-testing
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-joint-limits ros-jazzy-ros2service ros-jazzy-ros2run
+          ros-jazzy-robot-state-publisher ros-jazzy-ros-testing
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_33_job_108:
+    name: tf2-geometry-msgs ros2launch joint-state-publisher tf2-kdl tf2-eigen
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_32_job_99
+    - stage_32_job_100
+    - stage_32_job_101
+    - stage_32_job_102
+    - stage_32_job_103
+    - stage_32_job_104
+    - stage_32_job_105
+    - stage_32_job_106
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-tf2-geometry-msgs ros-jazzy-ros2launch ros-jazzy-joint-state-publisher
+        ros-jazzy-tf2-kdl ros-jazzy-tf2-eigen
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-tf2-geometry-msgs ros-jazzy-ros2launch ros-jazzy-joint-state-publisher
+          ros-jazzy-tf2-kdl ros-jazzy-tf2-eigen
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_33_job_109:
+    name: rviz-common rosbag2-storage-default-plugins tf2-sensor-msgs zstd-image-transport
+      theora-image-transport
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_32_job_99
+    - stage_32_job_100
+    - stage_32_job_101
+    - stage_32_job_102
+    - stage_32_job_103
+    - stage_32_job_104
+    - stage_32_job_105
+    - stage_32_job_106
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rviz-common ros-jazzy-rosbag2-storage-default-plugins
+        ros-jazzy-tf2-sensor-msgs ros-jazzy-zstd-image-transport ros-jazzy-theora-image-transport
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rviz-common ros-jazzy-rosbag2-storage-default-plugins
+          ros-jazzy-tf2-sensor-msgs ros-jazzy-zstd-image-transport ros-jazzy-theora-image-transport
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_33_job_110:
+    name: compressed-image-transport compressed-depth-image-transport nav2-simple-commander
+      ros-gz-sim ros-gz-image
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_32_job_99
+    - stage_32_job_100
+    - stage_32_job_101
+    - stage_32_job_102
+    - stage_32_job_103
+    - stage_32_job_104
+    - stage_32_job_105
+    - stage_32_job_106
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-compressed-image-transport ros-jazzy-compressed-depth-image-transport
+        ros-jazzy-nav2-simple-commander ros-jazzy-ros-gz-sim ros-jazzy-ros-gz-image
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-compressed-image-transport ros-jazzy-compressed-depth-image-transport
+          ros-jazzy-nav2-simple-commander ros-jazzy-ros-gz-sim ros-jazzy-ros-gz-image
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_33_job_111:
+    name: twist-mux rqt-topic rqt-image-view image-view image-publisher
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_32_job_99
+    - stage_32_job_100
+    - stage_32_job_101
+    - stage_32_job_102
+    - stage_32_job_103
+    - stage_32_job_104
+    - stage_32_job_105
+    - stage_32_job_106
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-twist-mux ros-jazzy-rqt-topic ros-jazzy-rqt-image-view
+        ros-jazzy-image-view ros-jazzy-image-publisher
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-twist-mux ros-jazzy-rqt-topic ros-jazzy-rqt-image-view
+          ros-jazzy-image-view ros-jazzy-image-publisher
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_33_job_112:
+    name: tf2-bullet rqt-msg velodyne-pointcloud velodyne-driver rqt-reconfigure
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_32_job_99
+    - stage_32_job_100
+    - stage_32_job_101
+    - stage_32_job_102
+    - stage_32_job_103
+    - stage_32_job_104
+    - stage_32_job_105
+    - stage_32_job_106
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-tf2-bullet ros-jazzy-rqt-msg ros-jazzy-velodyne-pointcloud
+        ros-jazzy-velodyne-driver ros-jazzy-rqt-reconfigure
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-tf2-bullet ros-jazzy-rqt-msg ros-jazzy-velodyne-pointcloud
+          ros-jazzy-velodyne-driver ros-jazzy-rqt-reconfigure
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_33_job_113:
+    name: turtlebot3-node web-video-server image-common ublox-gps self-test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_32_job_99
+    - stage_32_job_100
+    - stage_32_job_101
+    - stage_32_job_102
+    - stage_32_job_103
+    - stage_32_job_104
+    - stage_32_job_105
+    - stage_32_job_106
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-turtlebot3-node ros-jazzy-web-video-server ros-jazzy-image-common
+        ros-jazzy-ublox-gps ros-jazzy-self-test
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-turtlebot3-node ros-jazzy-web-video-server ros-jazzy-image-common
+          ros-jazzy-ublox-gps ros-jazzy-self-test
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_33_job_114:
+    name: diagnostic-common-diagnostics autoware-utils-logging apriltag-draw apriltag-detector
+      rqt-tf-tree
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_32_job_99
+    - stage_32_job_100
+    - stage_32_job_101
+    - stage_32_job_102
+    - stage_32_job_103
+    - stage_32_job_104
+    - stage_32_job_105
+    - stage_32_job_106
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-diagnostic-common-diagnostics ros-jazzy-autoware-utils-logging
+        ros-jazzy-apriltag-draw ros-jazzy-apriltag-detector ros-jazzy-rqt-tf-tree
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-diagnostic-common-diagnostics ros-jazzy-autoware-utils-logging
+          ros-jazzy-apriltag-draw ros-jazzy-apriltag-detector ros-jazzy-rqt-tf-tree
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_33_job_115:
+    name: foxglove-compressed-video-transport ffmpeg-image-transport
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_32_job_99
+    - stage_32_job_100
+    - stage_32_job_101
+    - stage_32_job_102
+    - stage_32_job_103
+    - stage_32_job_104
+    - stage_32_job_105
+    - stage_32_job_106
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-foxglove-compressed-video-transport ros-jazzy-ffmpeg-image-transport
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-foxglove-compressed-video-transport ros-jazzy-ffmpeg-image-transport
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_116:
+    name: hardware-interface ros2param sros2 ros2lifecycle control-toolbox
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_107
+    - stage_33_job_108
+    - stage_33_job_109
+    - stage_33_job_110
+    - stage_33_job_111
+    - stage_33_job_112
+    - stage_33_job_113
+    - stage_33_job_114
+    - stage_33_job_115
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-hardware-interface ros-jazzy-ros2param ros-jazzy-sros2
+        ros-jazzy-ros2lifecycle ros-jazzy-control-toolbox
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-hardware-interface ros-jazzy-ros2param ros-jazzy-sros2
+          ros-jazzy-ros2lifecycle ros-jazzy-control-toolbox
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_117:
+    name: joint-state-publisher-gui nav2-util rviz-visual-testing-framework interactive-markers
+      rosbag2-cpp
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_107
+    - stage_33_job_108
+    - stage_33_job_109
+    - stage_33_job_110
+    - stage_33_job_111
+    - stage_33_job_112
+    - stage_33_job_113
+    - stage_33_job_114
+    - stage_33_job_115
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-joint-state-publisher-gui ros-jazzy-nav2-util ros-jazzy-rviz-visual-testing-framework
+        ros-jazzy-interactive-markers ros-jazzy-rosbag2-cpp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-joint-state-publisher-gui ros-jazzy-nav2-util ros-jazzy-rviz-visual-testing-framework
+          ros-jazzy-interactive-markers ros-jazzy-rosbag2-cpp
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_118:
+    name: warehouse-ros robot-localization nav2-minimal-tb4-description image-transport-plugins
+      image-proc
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_107
+    - stage_33_job_108
+    - stage_33_job_109
+    - stage_33_job_110
+    - stage_33_job_111
+    - stage_33_job_112
+    - stage_33_job_113
+    - stage_33_job_114
+    - stage_33_job_115
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-warehouse-ros ros-jazzy-robot-localization ros-jazzy-nav2-minimal-tb4-description
+        ros-jazzy-image-transport-plugins ros-jazzy-image-proc
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-warehouse-ros ros-jazzy-robot-localization ros-jazzy-nav2-minimal-tb4-description
+          ros-jazzy-image-transport-plugins ros-jazzy-image-proc
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_119:
+    name: nav2-minimal-tb3-sim image-rotate pcl-ros laser-filters rviz-marker-tools
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_107
+    - stage_33_job_108
+    - stage_33_job_109
+    - stage_33_job_110
+    - stage_33_job_111
+    - stage_33_job_112
+    - stage_33_job_113
+    - stage_33_job_114
+    - stage_33_job_115
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-nav2-minimal-tb3-sim ros-jazzy-image-rotate ros-jazzy-pcl-ros
+        ros-jazzy-laser-filters ros-jazzy-rviz-marker-tools
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-nav2-minimal-tb3-sim ros-jazzy-image-rotate ros-jazzy-pcl-ros
+          ros-jazzy-laser-filters ros-jazzy-rviz-marker-tools
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_120:
+    name: rosapi geometry2 rqt-srv rqt-action autoware-utils-geometry
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_107
+    - stage_33_job_108
+    - stage_33_job_109
+    - stage_33_job_110
+    - stage_33_job_111
+    - stage_33_job_112
+    - stage_33_job_113
+    - stage_33_job_114
+    - stage_33_job_115
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosapi ros-jazzy-geometry2 ros-jazzy-rqt-srv ros-jazzy-rqt-action
+        ros-jazzy-autoware-utils-geometry
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosapi ros-jazzy-geometry2 ros-jazzy-rqt-srv ros-jazzy-rqt-action
+          ros-jazzy-autoware-utils-geometry
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_121:
+    name: velodyne pendulum-control lifecycle dummy-robot-bringup turtlebot3-gazebo
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_107
+    - stage_33_job_108
+    - stage_33_job_109
+    - stage_33_job_110
+    - stage_33_job_111
+    - stage_33_job_112
+    - stage_33_job_113
+    - stage_33_job_114
+    - stage_33_job_115
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-velodyne ros-jazzy-pendulum-control ros-jazzy-lifecycle
+        ros-jazzy-dummy-robot-bringup ros-jazzy-turtlebot3-gazebo
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-velodyne ros-jazzy-pendulum-control ros-jazzy-lifecycle
+          ros-jazzy-dummy-robot-bringup ros-jazzy-turtlebot3-gazebo
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_122:
+    name: turtlebot3-fake-node camera-ros ublox sbg-driver pointcloud-to-laserscan
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_107
+    - stage_33_job_108
+    - stage_33_job_109
+    - stage_33_job_110
+    - stage_33_job_111
+    - stage_33_job_112
+    - stage_33_job_113
+    - stage_33_job_114
+    - stage_33_job_115
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-turtlebot3-fake-node ros-jazzy-camera-ros ros-jazzy-ublox
+        ros-jazzy-sbg-driver ros-jazzy-pointcloud-to-laserscan
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-turtlebot3-fake-node ros-jazzy-camera-ros ros-jazzy-ublox
+          ros-jazzy-sbg-driver ros-jazzy-pointcloud-to-laserscan
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_123:
+    name: orbbec-camera odom-to-tf-ros2 diagnostics apriltag-detector-umich apriltag-detector-mit
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_107
+    - stage_33_job_108
+    - stage_33_job_109
+    - stage_33_job_110
+    - stage_33_job_111
+    - stage_33_job_112
+    - stage_33_job_113
+    - stage_33_job_114
+    - stage_33_job_115
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-orbbec-camera ros-jazzy-odom-to-tf-ros2 ros-jazzy-diagnostics
+        ros-jazzy-apriltag-detector-umich ros-jazzy-apriltag-detector-mit
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-orbbec-camera ros-jazzy-odom-to-tf-ros2 ros-jazzy-diagnostics
+          ros-jazzy-apriltag-detector-umich ros-jazzy-apriltag-detector-mit
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_124:
+    name: hardware-interface-testing controller-interface ros2component nav2-map-server
+      nav2-lifecycle-manager
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_116
+    - stage_34_job_117
+    - stage_34_job_118
+    - stage_34_job_119
+    - stage_34_job_120
+    - stage_34_job_121
+    - stage_34_job_122
+    - stage_34_job_123
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-hardware-interface-testing ros-jazzy-controller-interface
+        ros-jazzy-ros2component ros-jazzy-nav2-map-server ros-jazzy-nav2-lifecycle-manager
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-hardware-interface-testing ros-jazzy-controller-interface
+          ros-jazzy-ros2component ros-jazzy-nav2-map-server ros-jazzy-nav2-lifecycle-manager
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_125:
+    name: nav2-behavior-tree rviz-default-plugins rosbag2-compression nav-2d-utils
+      opennav-docking-core
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_116
+    - stage_34_job_117
+    - stage_34_job_118
+    - stage_34_job_119
+    - stage_34_job_120
+    - stage_34_job_121
+    - stage_34_job_122
+    - stage_34_job_123
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-nav2-behavior-tree ros-jazzy-rviz-default-plugins ros-jazzy-rosbag2-compression
+        ros-jazzy-nav-2d-utils ros-jazzy-opennav-docking-core
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-nav2-behavior-tree ros-jazzy-rviz-default-plugins
+          ros-jazzy-rosbag2-compression ros-jazzy-nav-2d-utils ros-jazzy-opennav-docking-core
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_126:
+    name: nav2-velocity-smoother nav2-amcl transmission-interface rosx-introspection
+      nav2-minimal-tb4-sim
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_116
+    - stage_34_job_117
+    - stage_34_job_118
+    - stage_34_job_119
+    - stage_34_job_120
+    - stage_34_job_121
+    - stage_34_job_122
+    - stage_34_job_123
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-nav2-velocity-smoother ros-jazzy-nav2-amcl ros-jazzy-transmission-interface
+        ros-jazzy-rosx-introspection ros-jazzy-nav2-minimal-tb4-sim
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-nav2-velocity-smoother ros-jazzy-nav2-amcl ros-jazzy-transmission-interface
+          ros-jazzy-rosx-introspection ros-jazzy-nav2-minimal-tb4-sim
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_127:
+    name: stereo-image-proc depth-image-proc usb-cam sros2-cmake grid-map-ros
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_116
+    - stage_34_job_117
+    - stage_34_job_118
+    - stage_34_job_119
+    - stage_34_job_120
+    - stage_34_job_121
+    - stage_34_job_122
+    - stage_34_job_123
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-stereo-image-proc ros-jazzy-depth-image-proc ros-jazzy-usb-cam
+        ros-jazzy-sros2-cmake ros-jazzy-grid-map-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-stereo-image-proc ros-jazzy-depth-image-proc ros-jazzy-usb-cam
+          ros-jazzy-sros2-cmake ros-jazzy-grid-map-ros
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_128:
+    name: warehouse-ros-sqlite cartographer-ros rosbridge-server octomap-server perception-pcl
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_116
+    - stage_34_job_117
+    - stage_34_job_118
+    - stage_34_job_119
+    - stage_34_job_120
+    - stage_34_job_121
+    - stage_34_job_122
+    - stage_34_job_123
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-warehouse-ros-sqlite ros-jazzy-cartographer-ros ros-jazzy-rosbridge-server
+        ros-jazzy-octomap-server ros-jazzy-perception-pcl
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-warehouse-ros-sqlite ros-jazzy-cartographer-ros
+          ros-jazzy-rosbridge-server ros-jazzy-octomap-server ros-jazzy-perception-pcl
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_129:
+    name: autoware-utils-tf turtlebot3-simulations ouster-ros dual-laser-merger apriltag-ros
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_116
+    - stage_34_job_117
+    - stage_34_job_118
+    - stage_34_job_119
+    - stage_34_job_120
+    - stage_34_job_121
+    - stage_34_job_122
+    - stage_34_job_123
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-autoware-utils-tf ros-jazzy-turtlebot3-simulations ros-jazzy-ouster-ros
+        ros-jazzy-dual-laser-merger ros-jazzy-apriltag-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-autoware-utils-tf ros-jazzy-turtlebot3-simulations
+          ros-jazzy-ouster-ros ros-jazzy-dual-laser-merger ros-jazzy-apriltag-ros
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_36_job_130:
+    name: controller-manager ros2cli-common-extensions nav2-costmap-2d rviz2 rosbag2-compression-zstd
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_35_job_124
+    - stage_35_job_125
+    - stage_35_job_126
+    - stage_35_job_127
+    - stage_35_job_128
+    - stage_35_job_129
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-controller-manager ros-jazzy-ros2cli-common-extensions
+        ros-jazzy-nav2-costmap-2d ros-jazzy-rviz2 ros-jazzy-rosbag2-compression-zstd
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-controller-manager ros-jazzy-ros2cli-common-extensions
+          ros-jazzy-nav2-costmap-2d ros-jazzy-rviz2 ros-jazzy-rosbag2-compression-zstd
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_36_job_131:
+    name: nav2-rviz-plugins slam-toolbox foxglove-bridge image-pipeline picknik-twist-controller
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_35_job_124
+    - stage_35_job_125
+    - stage_35_job_126
+    - stage_35_job_127
+    - stage_35_job_128
+    - stage_35_job_129
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-nav2-rviz-plugins ros-jazzy-slam-toolbox ros-jazzy-foxglove-bridge
+        ros-jazzy-image-pipeline ros-jazzy-picknik-twist-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-nav2-rviz-plugins ros-jazzy-slam-toolbox ros-jazzy-foxglove-bridge
+          ros-jazzy-image-pipeline ros-jazzy-picknik-twist-controller
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_36_job_132:
+    name: picknik-reset-fault-controller octomap-rviz-plugins grid-map-visualization
+      grid-map-rviz-plugin grid-map-loader
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_35_job_124
+    - stage_35_job_125
+    - stage_35_job_126
+    - stage_35_job_127
+    - stage_35_job_128
+    - stage_35_job_129
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-picknik-reset-fault-controller ros-jazzy-octomap-rviz-plugins
+        ros-jazzy-grid-map-visualization ros-jazzy-grid-map-rviz-plugin ros-jazzy-grid-map-loader
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-picknik-reset-fault-controller ros-jazzy-octomap-rviz-plugins
+          ros-jazzy-grid-map-visualization ros-jazzy-grid-map-rviz-plugin ros-jazzy-grid-map-loader
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_36_job_133:
+    name: grid-map-filters turtlebot3-cartographer grid-map-pcl rviz-satellite autoware-utils-pcl
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_35_job_124
+    - stage_35_job_125
+    - stage_35_job_126
+    - stage_35_job_127
+    - stage_35_job_128
+    - stage_35_job_129
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-grid-map-filters ros-jazzy-turtlebot3-cartographer ros-jazzy-grid-map-pcl
+        ros-jazzy-rviz-satellite ros-jazzy-autoware-utils-pcl
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-grid-map-filters ros-jazzy-turtlebot3-cartographer
+          ros-jazzy-grid-map-pcl ros-jazzy-rviz-satellite ros-jazzy-autoware-utils-pcl
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_36_job_134:
+    name: rosbridge-suite
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_35_job_124
+    - stage_35_job_125
+    - stage_35_job_126
+    - stage_35_job_127
+    - stage_35_job_128
+    - stage_35_job_129
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosbridge-suite
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosbridge-suite
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_135:
+    name: forward-command-controller gripper-controllers nav2-core steering-controllers-library
+      costmap-queue
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_130
+    - stage_36_job_131
+    - stage_36_job_132
+    - stage_36_job_133
+    - stage_36_job_134
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-forward-command-controller ros-jazzy-gripper-controllers
+        ros-jazzy-nav2-core ros-jazzy-steering-controllers-library ros-jazzy-costmap-queue
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-forward-command-controller ros-jazzy-gripper-controllers
+          ros-jazzy-nav2-core ros-jazzy-steering-controllers-library ros-jazzy-costmap-queue
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_136:
+    name: rosbag2-transport tricycle-controller range-sensor-broadcaster pose-broadcaster
+      pid-controller
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_130
+    - stage_36_job_131
+    - stage_36_job_132
+    - stage_36_job_133
+    - stage_36_job_134
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-rosbag2-transport ros-jazzy-tricycle-controller ros-jazzy-range-sensor-broadcaster
+        ros-jazzy-pose-broadcaster ros-jazzy-pid-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-rosbag2-transport ros-jazzy-tricycle-controller
+          ros-jazzy-range-sensor-broadcaster ros-jazzy-pose-broadcaster ros-jazzy-pid-controller
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_137:
+    name: parallel-gripper-controller omni-wheel-drive-controller mecanum-drive-controller
+      joint-trajectory-controller joint-state-broadcaster
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_130
+    - stage_36_job_131
+    - stage_36_job_132
+    - stage_36_job_133
+    - stage_36_job_134
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-parallel-gripper-controller ros-jazzy-omni-wheel-drive-controller
+        ros-jazzy-mecanum-drive-controller ros-jazzy-joint-trajectory-controller ros-jazzy-joint-state-broadcaster
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-parallel-gripper-controller ros-jazzy-omni-wheel-drive-controller
+          ros-jazzy-mecanum-drive-controller ros-jazzy-joint-trajectory-controller
+          ros-jazzy-joint-state-broadcaster
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_138:
+    name: imu-sensor-broadcaster gps-sensor-broadcaster gpio-controllers force-torque-sensor-broadcaster
+      diff-drive-controller
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_130
+    - stage_36_job_131
+    - stage_36_job_132
+    - stage_36_job_133
+    - stage_36_job_134
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-imu-sensor-broadcaster ros-jazzy-gps-sensor-broadcaster
+        ros-jazzy-gpio-controllers ros-jazzy-force-torque-sensor-broadcaster ros-jazzy-diff-drive-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-imu-sensor-broadcaster ros-jazzy-gps-sensor-broadcaster
+          ros-jazzy-gpio-controllers ros-jazzy-force-torque-sensor-broadcaster ros-jazzy-diff-drive-controller
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_139:
+    name: chained-filter-controller admittance-controller nav2-collision-monitor ros2controlcli
+      ur-description
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_130
+    - stage_36_job_131
+    - stage_36_job_132
+    - stage_36_job_133
+    - stage_36_job_134
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-chained-filter-controller ros-jazzy-admittance-controller
+        ros-jazzy-nav2-collision-monitor ros-jazzy-ros2controlcli ros-jazzy-ur-description
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-chained-filter-controller ros-jazzy-admittance-controller
+          ros-jazzy-nav2-collision-monitor ros-jazzy-ros2controlcli ros-jazzy-ur-description
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_140:
+    name: robotiq-description ros-gz-sim-demos gz-ros2-control ros-core rviz-visual-tools
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_130
+    - stage_36_job_131
+    - stage_36_job_132
+    - stage_36_job_133
+    - stage_36_job_134
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-robotiq-description ros-jazzy-ros-gz-sim-demos ros-jazzy-gz-ros2-control
+        ros-jazzy-ros-core ros-jazzy-rviz-visual-tools
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-robotiq-description ros-jazzy-ros-gz-sim-demos
+          ros-jazzy-gz-ros2-control ros-jazzy-ros-core ros-jazzy-rviz-visual-tools
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_141:
+    name: turtlebot3-bringup grid-map-demos grid-map-costmap-2d autoware-utils
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_130
+    - stage_36_job_131
+    - stage_36_job_132
+    - stage_36_job_133
+    - stage_36_job_134
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-turtlebot3-bringup ros-jazzy-grid-map-demos ros-jazzy-grid-map-costmap-2d
+        ros-jazzy-autoware-utils
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-turtlebot3-bringup ros-jazzy-grid-map-demos ros-jazzy-grid-map-costmap-2d
+          ros-jazzy-autoware-utils
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_38_job_142:
+    name: position-controllers nav2-controller dwb-core velocity-controllers tricycle-steering-controller
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_37_job_135
+    - stage_37_job_136
+    - stage_37_job_137
+    - stage_37_job_138
+    - stage_37_job_139
+    - stage_37_job_140
+    - stage_37_job_141
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-position-controllers ros-jazzy-nav2-controller ros-jazzy-dwb-core
+        ros-jazzy-velocity-controllers ros-jazzy-tricycle-steering-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-position-controllers ros-jazzy-nav2-controller
+          ros-jazzy-dwb-core ros-jazzy-velocity-controllers ros-jazzy-tricycle-steering-controller
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_38_job_143:
+    name: effort-controllers bicycle-steering-controller ackermann-steering-controller
+      nav2-regulated-pure-pursuit-controller rosbag2-py
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_37_job_135
+    - stage_37_job_136
+    - stage_37_job_137
+    - stage_37_job_138
+    - stage_37_job_139
+    - stage_37_job_140
+    - stage_37_job_141
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-effort-controllers ros-jazzy-bicycle-steering-controller
+        ros-jazzy-ackermann-steering-controller ros-jazzy-nav2-regulated-pure-pursuit-controller
+        ros-jazzy-rosbag2-py
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-effort-controllers ros-jazzy-bicycle-steering-controller
+          ros-jazzy-ackermann-steering-controller ros-jazzy-nav2-regulated-pure-pursuit-controller
+          ros-jazzy-rosbag2-py
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_38_job_144:
+    name: opennav-docking-bt nav2-waypoint-follower nav2-theta-star-planner nav2-smoother
+      nav2-smac-planner
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_37_job_135
+    - stage_37_job_136
+    - stage_37_job_137
+    - stage_37_job_138
+    - stage_37_job_139
+    - stage_37_job_140
+    - stage_37_job_141
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-opennav-docking-bt ros-jazzy-nav2-waypoint-follower ros-jazzy-nav2-theta-star-planner
+        ros-jazzy-nav2-smoother ros-jazzy-nav2-smac-planner
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-opennav-docking-bt ros-jazzy-nav2-waypoint-follower
+          ros-jazzy-nav2-theta-star-planner ros-jazzy-nav2-smoother ros-jazzy-nav2-smac-planner
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_38_job_145:
+    name: nav2-planner nav2-navfn-planner nav2-mppi-controller nav2-constrained-smoother
+      nav2-bt-navigator
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_37_job_135
+    - stage_37_job_136
+    - stage_37_job_137
+    - stage_37_job_138
+    - stage_37_job_139
+    - stage_37_job_140
+    - stage_37_job_141
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-nav2-planner ros-jazzy-nav2-navfn-planner ros-jazzy-nav2-mppi-controller
+        ros-jazzy-nav2-constrained-smoother ros-jazzy-nav2-bt-navigator
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-nav2-planner ros-jazzy-nav2-navfn-planner ros-jazzy-nav2-mppi-controller
+          ros-jazzy-nav2-constrained-smoother ros-jazzy-nav2-bt-navigator
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_38_job_146:
+    name: nav2-behaviors ros2-control ur-controllers ros-gz kortex-description
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_37_job_135
+    - stage_37_job_136
+    - stage_37_job_137
+    - stage_37_job_138
+    - stage_37_job_139
+    - stage_37_job_140
+    - stage_37_job_141
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-nav2-behaviors ros-jazzy-ros2-control ros-jazzy-ur-controllers
+        ros-jazzy-ros-gz ros-jazzy-kortex-description
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-nav2-behaviors ros-jazzy-ros2-control ros-jazzy-ur-controllers
+          ros-jazzy-ros-gz ros-jazzy-kortex-description
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_38_job_147:
+    name: plotjuggler-ros grid-map apriltag-tools
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_37_job_135
+    - stage_37_job_136
+    - stage_37_job_137
+    - stage_37_job_138
+    - stage_37_job_139
+    - stage_37_job_140
+    - stage_37_job_141
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-plotjuggler-ros ros-jazzy-grid-map ros-jazzy-apriltag-tools
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-plotjuggler-ros ros-jazzy-grid-map ros-jazzy-apriltag-tools
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_39_job_148:
+    name: moveit-resources-panda-moveit-config moveit-resources-fanuc-moveit-config
+      nav2-graceful-controller dwb-plugins dwb-critics
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_38_job_142
+    - stage_38_job_143
+    - stage_38_job_144
+    - stage_38_job_145
+    - stage_38_job_146
+    - stage_38_job_147
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-resources-panda-moveit-config ros-jazzy-moveit-resources-fanuc-moveit-config
+        ros-jazzy-nav2-graceful-controller ros-jazzy-dwb-plugins ros-jazzy-dwb-critics
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-resources-panda-moveit-config ros-jazzy-moveit-resources-fanuc-moveit-config
+          ros-jazzy-nav2-graceful-controller ros-jazzy-dwb-plugins ros-jazzy-dwb-critics
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_39_job_149:
+    name: ros2-controllers nav2-rotation-shim-controller ros2bag rqt-bag ur-robot-driver
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_38_job_142
+    - stage_38_job_143
+    - stage_38_job_144
+    - stage_38_job_145
+    - stage_38_job_146
+    - stage_38_job_147
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ros2-controllers ros-jazzy-nav2-rotation-shim-controller
+        ros-jazzy-ros2bag ros-jazzy-rqt-bag ros-jazzy-ur-robot-driver
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ros2-controllers ros-jazzy-nav2-rotation-shim-controller
+          ros-jazzy-ros2bag ros-jazzy-rqt-bag ros-jazzy-ur-robot-driver
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_39_job_150:
+    name: gz-ros2-control-demos
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_38_job_142
+    - stage_38_job_143
+    - stage_38_job_144
+    - stage_38_job_145
+    - stage_38_job_146
+    - stage_38_job_147
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-gz-ros2-control-demos
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-gz-ros2-control-demos
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_40_job_151:
+    name: moveit-core opennav-docking nav2-dwb-controller rosbag2-tests moveit-resources
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_39_job_148
+    - stage_39_job_149
+    - stage_39_job_150
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-core ros-jazzy-opennav-docking ros-jazzy-nav2-dwb-controller
+        ros-jazzy-rosbag2-tests ros-jazzy-moveit-resources
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-core ros-jazzy-opennav-docking ros-jazzy-nav2-dwb-controller
+          ros-jazzy-rosbag2-tests ros-jazzy-moveit-resources
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_40_job_152:
+    name: ur-calibration
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_39_job_148
+    - stage_39_job_149
+    - stage_39_job_150
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ur-calibration
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ur-calibration
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_41_job_153:
+    name: moveit-ros-occupancy-map-monitor moveit-resources-prbt-ikfast-manipulator-plugin
+      moveit-simple-controller-manager pilz-industrial-motion-planner-testutils chomp-motion-planner
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_40_job_151
+    - stage_40_job_152
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-ros-occupancy-map-monitor ros-jazzy-moveit-resources-prbt-ikfast-manipulator-plugin
+        ros-jazzy-moveit-simple-controller-manager ros-jazzy-pilz-industrial-motion-planner-testutils
+        ros-jazzy-chomp-motion-planner
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-ros-occupancy-map-monitor ros-jazzy-moveit-resources-prbt-ikfast-manipulator-plugin
+          ros-jazzy-moveit-simple-controller-manager ros-jazzy-pilz-industrial-motion-planner-testutils
+          ros-jazzy-chomp-motion-planner
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_41_job_154:
+    name: moveit-planners-stomp navigation2 rosbag2
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_40_job_151
+    - stage_40_job_152
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-planners-stomp ros-jazzy-navigation2 ros-jazzy-rosbag2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-planners-stomp ros-jazzy-navigation2 ros-jazzy-rosbag2
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_42_job_155:
+    name: moveit-ros-planning moveit-planners-chomp nav2-bringup rqt-bag-plugins moveit-plugins
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_41_job_153
+    - stage_41_job_154
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-ros-planning ros-jazzy-moveit-planners-chomp ros-jazzy-nav2-bringup
+        ros-jazzy-rqt-bag-plugins ros-jazzy-moveit-plugins
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-ros-planning ros-jazzy-moveit-planners-chomp
+          ros-jazzy-nav2-bringup ros-jazzy-rqt-bag-plugins ros-jazzy-moveit-plugins
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_42_job_156:
+    name: ros-base livox-ros-driver2
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_41_job_153
+    - stage_41_job_154
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-ros-base ros-jazzy-livox-ros-driver2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-ros-base ros-jazzy-livox-ros-driver2
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_43_job_157:
+    name: moveit-kinematics moveit-ros-warehouse moveit-ros-robot-interaction moveit-planners-ompl
+      rqt-common-plugins
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_42_job_155
+    - stage_42_job_156
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-kinematics ros-jazzy-moveit-ros-warehouse ros-jazzy-moveit-ros-robot-interaction
+        ros-jazzy-moveit-planners-ompl ros-jazzy-rqt-common-plugins
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-kinematics ros-jazzy-moveit-ros-warehouse
+          ros-jazzy-moveit-ros-robot-interaction ros-jazzy-moveit-planners-ompl ros-jazzy-rqt-common-plugins
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_43_job_158:
+    name: turtlebot3-navigation2 moveit-ros-perception moveit-visual-tools simulation
+      perception
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_42_job_155
+    - stage_42_job_156
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-turtlebot3-navigation2 ros-jazzy-moveit-ros-perception
+        ros-jazzy-moveit-visual-tools ros-jazzy-simulation ros-jazzy-perception
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-turtlebot3-navigation2 ros-jazzy-moveit-ros-perception
+          ros-jazzy-moveit-visual-tools ros-jazzy-simulation ros-jazzy-perception
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_44_job_159:
+    name: moveit-ros-move-group moveit-ros-benchmarks desktop turtlebot3
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_43_job_157
+    - stage_43_job_158
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-ros-move-group ros-jazzy-moveit-ros-benchmarks
+        ros-jazzy-desktop ros-jazzy-turtlebot3
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-ros-move-group ros-jazzy-moveit-ros-benchmarks
+          ros-jazzy-desktop ros-jazzy-turtlebot3
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_45_job_160:
+    name: moveit-resources-prbt-moveit-config moveit-ros-planning-interface desktop-full
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_44_job_159
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-resources-prbt-moveit-config ros-jazzy-moveit-ros-planning-interface
+        ros-jazzy-desktop-full
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-resources-prbt-moveit-config ros-jazzy-moveit-ros-planning-interface
+          ros-jazzy-desktop-full
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_46_job_161:
+    name: moveit-resources-prbt-pg70-support moveit-ros-visualization moveit-py moveit-hybrid-planning
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_45_job_160
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-resources-prbt-pg70-support ros-jazzy-moveit-ros-visualization
+        ros-jazzy-moveit-py ros-jazzy-moveit-hybrid-planning
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-resources-prbt-pg70-support ros-jazzy-moveit-ros-visualization
+          ros-jazzy-moveit-py ros-jazzy-moveit-hybrid-planning
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_47_job_162:
+    name: pilz-industrial-motion-planner moveit-setup-framework moveit-servo moveit-ros
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_46_job_161
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-pilz-industrial-motion-planner ros-jazzy-moveit-setup-framework
+        ros-jazzy-moveit-servo ros-jazzy-moveit-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-pilz-industrial-motion-planner ros-jazzy-moveit-setup-framework
+          ros-jazzy-moveit-servo ros-jazzy-moveit-ros
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_48_job_163:
+    name: moveit-planners moveit-setup-srdf-plugins moveit-setup-core-plugins moveit-setup-controllers
+      moveit-setup-app-plugins
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_47_job_162
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-planners ros-jazzy-moveit-setup-srdf-plugins ros-jazzy-moveit-setup-core-plugins
+        ros-jazzy-moveit-setup-controllers ros-jazzy-moveit-setup-app-plugins
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-planners ros-jazzy-moveit-setup-srdf-plugins
+          ros-jazzy-moveit-setup-core-plugins ros-jazzy-moveit-setup-controllers ros-jazzy-moveit-setup-app-plugins
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_48_job_164:
+    name: moveit-ros-trajectory-cache
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_47_job_162
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-ros-trajectory-cache
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-ros-trajectory-cache
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_49_job_165:
+    name: moveit-setup-assistant moveit-task-constructor-core ur-moveit-config moveit-runtime
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_48_job_163
+    - stage_48_job_164
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-setup-assistant ros-jazzy-moveit-task-constructor-core
+        ros-jazzy-ur-moveit-config ros-jazzy-moveit-runtime
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-setup-assistant ros-jazzy-moveit-task-constructor-core
+          ros-jazzy-ur-moveit-config ros-jazzy-moveit-runtime
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_50_job_166:
+    name: moveit-task-constructor-capabilities moveit kinova-gen3-7dof-robotiq-2f-85-moveit-config
+      ur-simulation-gz ur
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_49_job_165
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-task-constructor-capabilities ros-jazzy-moveit
+        ros-jazzy-kinova-gen3-7dof-robotiq-2f-85-moveit-config ros-jazzy-ur-simulation-gz
+        ros-jazzy-ur
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-task-constructor-capabilities ros-jazzy-moveit
+          ros-jazzy-kinova-gen3-7dof-robotiq-2f-85-moveit-config ros-jazzy-ur-simulation-gz
+          ros-jazzy-ur
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_51_job_167:
+    name: moveit-task-constructor-demo moveit2-tutorials
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_50_job_166
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-moveit-task-constructor-demo ros-jazzy-moveit2-tutorials
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-moveit-task-constructor-demo ros-jazzy-moveit2-tutorials
+        BUILD_TARGET: ''
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+name: build_unix
+on:
+  push:
+    branches:
+    - buildbranch_linux

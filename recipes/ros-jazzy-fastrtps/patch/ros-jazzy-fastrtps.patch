@@ -1,0 +1,43 @@
+From 72ccfb186d93c3f7ba59c30fa2b05bddd31a3432 Mon Sep 17 00:00:00 2001
+From: Wade Hunkapiller <wade.hunk@gmail.com>
+Date: Fri, 15 Mar 2024 11:11:09 -0500
+Subject: [PATCH] Add gettid() macro to address GLIBC version comptability
+ (#4225)
+
+Signed-off-by: Wade Hunkapiller <wade.hunk@gmail.com>
+---
+ src/cpp/utils/threading/threading_pthread.ipp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/src/cpp/utils/threading/threading_pthread.ipp b/src/cpp/utils/threading/threading_pthread.ipp
+index 75ad33f2d64..252f60c775a 100644
+--- a/src/cpp/utils/threading/threading_pthread.ipp
++++ b/src/cpp/utils/threading/threading_pthread.ipp
+@@ -25,6 +25,14 @@
+ #include <fastdds/dds/log/Log.hpp>
+ #include <fastdds/rtps/attributes/ThreadSettings.hpp>
+ 
++#if defined(__GLIBC__) && ((__GLIBC__ > 2) || ((__GLIBC__ == 2) && (__GLIBC_MINOR__ <= 30)))
++    #include <sys/syscall.h>
++    #ifndef SYS_gettid
++        #error "SYS_gettid unavailable on this system"
++    #endif
++    #define gettid() ((pid_t)syscall(SYS_gettid))
++#endif
++
+ namespace eprosima {
+ 
+ template<typename... Args>
+diff --git a/tools/fds/CMakeLists.txt b/tools/fds/CMakeLists.txt
+index 899fe693..f1e7e37d 100644
+--- a/tools/fds/CMakeLists.txt
++++ b/tools/fds/CMakeLists.txt
+@@ -116,7 +116,7 @@ install(EXPORT ${PROJECT_NAME}-targets
+ if( WIN32 )
+     # Use powershell to generate the link
+     install(
+-      CODE "execute_process( COMMAND PowerShell -Command \"if( test-path ${PROJECT_NAME}.exe -PathType Leaf ) { rm ${PROJECT_NAME}.exe } ; New-Item -ItemType SymbolicLink -Target $<TARGET_FILE_NAME:${PROJECT_NAME}> -Path ${PROJECT_NAME}.exe \" ERROR_QUIET RESULTS_VARIABLE SYMLINK_FAILED WORKING_DIRECTORY \"${CMAKE_INSTALL_PREFIX}/${BIN_INSTALL_DIR}\") \n if( SYMLINK_FAILED ) \n message(STATUS \"Windows requires admin installation rights to create symlinks. A bat script will be provided instead.\") \n set(FAST_SERVER_BINARY_NAME $<TARGET_FILE_NAME:${PROJECT_NAME}>) \n configure_file(${CMAKE_CURRENT_LIST_DIR}/fast-discovery-server.bat.in ${CMAKE_INSTALL_PREFIX}/${BIN_INSTALL_DIR}${MSVCARCH_DIR_EXTENSION}/${PROJECT_NAME}.bat @ONLY) \n endif()"
++      CODE "execute_process( COMMAND PowerShell -Command \"if( test-path ${PROJECT_NAME}.exe -PathType Leaf ) { rm ${PROJECT_NAME}.exe } ; New-Item -ItemType HardLink -Target $<TARGET_FILE_NAME:${PROJECT_NAME}> -Path ${PROJECT_NAME}.exe \" ERROR_QUIET RESULTS_VARIABLE SYMLINK_FAILED WORKING_DIRECTORY \"${CMAKE_INSTALL_PREFIX}/${BIN_INSTALL_DIR}\") \n if( SYMLINK_FAILED ) \n message(STATUS \"Windows requires admin installation rights to create symlinks. A bat script will be provided instead.\") \n set(FAST_SERVER_BINARY_NAME $<TARGET_FILE_NAME:${PROJECT_NAME}>) \n configure_file(${CMAKE_CURRENT_LIST_DIR}/fast-discovery-server.bat.in ${CMAKE_INSTALL_PREFIX}/${BIN_INSTALL_DIR}${MSVCARCH_DIR_EXTENSION}/${PROJECT_NAME}.bat @ONLY) \n endif()"
+       COMPONENT discovery)
+ else()
+     # Use ln to create the symbolic link. We remove the version from the file name but keep the debug suffix
