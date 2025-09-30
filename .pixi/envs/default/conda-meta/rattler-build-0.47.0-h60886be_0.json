@@ -1,0 +1,56 @@
+{
+  "arch": "x86_64",
+  "build": "h60886be_0",
+  "build_number": 0,
+  "constrains": [
+    "__glibc >=2.17"
+  ],
+  "depends": [
+    "patchelf",
+    "libgcc >=14",
+    "__glibc >=2.17,<3.0.a0",
+    "openssl >=3.5.2,<4.0a0"
+  ],
+  "license": "BSD-3-Clause",
+  "license_family": "BSD",
+  "md5": "98366f1ada223a785f0dc24ed211a99c",
+  "name": "rattler-build",
+  "platform": "linux",
+  "purls": [],
+  "sha256": "aa71bcaf81c71da4a9137777249970c426a37afd46b7960b3e8c397f553a7f40",
+  "size": 16827195,
+  "subdir": "linux-64",
+  "timestamp": 1756921257075,
+  "version": "0.47.0",
+  "fn": "rattler-build-0.47.0-h60886be_0.conda",
+  "url": "https://repo.prefix.dev/conda-forge/linux-64/rattler-build-0.47.0-h60886be_0.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/rattler-build-0.47.0-h60886be_0",
+  "files": [
+    "bin/rattler-build",
+    "etc/conda/test-files/rattler-build/0/test-recipe/check.yaml"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "bin/rattler-build",
+        "path_type": "hardlink",
+        "sha256": "89e8799b8cdc7b6b4a3b0c91405ff47ff38444ad98e722473b55ae3be56a4866",
+        "sha256_in_prefix": "89e8799b8cdc7b6b4a3b0c91405ff47ff38444ad98e722473b55ae3be56a4866",
+        "size_in_bytes": 60029072
+      },
+      {
+        "_path": "etc/conda/test-files/rattler-build/0/test-recipe/check.yaml",
+        "path_type": "hardlink",
+        "sha256": "0a8e8547d01aad2e4ee033d36d28e0d950dabc8719467f685fb71d1e644ef5c1",
+        "sha256_in_prefix": "0a8e8547d01aad2e4ee033d36d28e0d950dabc8719467f685fb71d1e644ef5c1",
+        "size_in_bytes": 199
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/rattler-build-0.47.0-h60886be_0",
+    "type": 1
+  }
+}

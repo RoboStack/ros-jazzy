@@ -1,0 +1,58 @@
+{
+  "arch": "x86_64",
+  "build": "h767d61c_5",
+  "build_number": 5,
+  "depends": [
+    "__glibc >=2.17,<3.0.a0"
+  ],
+  "license": "GPL-3.0-only WITH GCC-exception-3.1",
+  "license_family": "GPL",
+  "md5": "dcd5ff1940cd38f6df777cac86819d60",
+  "name": "libgomp",
+  "platform": "linux",
+  "purls": [],
+  "sha256": "125051d51a8c04694d0830f6343af78b556dd88cc249dfec5a97703ebfb1832d",
+  "size": 447215,
+  "subdir": "linux-64",
+  "timestamp": 1757042483384,
+  "version": "15.1.0",
+  "fn": "libgomp-15.1.0-h767d61c_5.conda",
+  "url": "https://repo.prefix.dev/conda-forge/linux-64/libgomp-15.1.0-h767d61c_5.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/libgomp-15.1.0-h767d61c_5",
+  "files": [
+    "share/licenses/gcc-libs/RUNTIME.LIBRARY.EXCEPTION.gomp_copy",
+    "lib/libgomp.so",
+    "lib/libgomp.so.1.0.0"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "share/licenses/gcc-libs/RUNTIME.LIBRARY.EXCEPTION.gomp_copy",
+        "path_type": "hardlink",
+        "sha256": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74",
+        "sha256_in_prefix": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74",
+        "size_in_bytes": 3324
+      },
+      {
+        "_path": "lib/libgomp.so",
+        "path_type": "softlink",
+        "sha256": "5b4f3667439008b505ebbfa7f0289d27be135632919c827c520987c55054ae6f",
+        "sha256_in_prefix": "83b4bd70546567c74bca5c44f4dbebf046e08053f98c26079f1a4b8f5ef07bc1",
+        "size_in_bytes": 1160472
+      },
+      {
+        "_path": "lib/libgomp.so.1.0.0",
+        "path_type": "hardlink",
+        "sha256": "5b4f3667439008b505ebbfa7f0289d27be135632919c827c520987c55054ae6f",
+        "sha256_in_prefix": "5b4f3667439008b505ebbfa7f0289d27be135632919c827c520987c55054ae6f",
+        "size_in_bytes": 1160472
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/libgomp-15.1.0-h767d61c_5",
+    "type": 1
+  }
+}
