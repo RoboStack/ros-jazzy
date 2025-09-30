@@ -1,0 +1,25 @@
+diff --git a/include/ur_robot_driver/hardware_interface.hpp b/include/ur_robot_driver/hardware_interface.hpp
+index e9ea08129..8eba2be91 100644
+--- a/include/ur_robot_driver/hardware_interface.hpp
++++ b/include/ur_robot_driver/hardware_interface.hpp
+@@ -64,6 +64,8 @@
+ #include "geometry_msgs/msg/transform_stamped.hpp"
+ #include "tf2_geometry_msgs/tf2_geometry_msgs.hpp"
+ 
++typedef unsigned int uint;
++
+ namespace ur_robot_driver
+ {
+ enum class PausingState
+diff --git a/src/hardware_interface.cpp b/src/hardware_interface.cpp
+index 5e2e5730d..51d093547 100644
+--- a/src/hardware_interface.cpp
++++ b/src/hardware_interface.cpp
+@@ -42,6 +42,7 @@
+ #include <utility>
+ #include <vector>
+ 
++#include "ur_robot_driver/hardware_interface.hpp"
+ #include "ur_client_library/exceptions.h"
+ #include "ur_client_library/ur/tool_communication.h"
+ #include "ur_client_library/ur/version_information.h"

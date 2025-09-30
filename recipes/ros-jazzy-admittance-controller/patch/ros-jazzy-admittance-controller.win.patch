@@ -1,0 +1,14 @@
+
+diff --git a/admittance_controller/CMakeLists.txt b/admittance_controller/CMakeLists.txt
+index 884513deef..359e55b46d 100644
+--- a/admittance_controller/CMakeLists.txt
++++ b/admittance_controller/CMakeLists.txt
+@@ -7,6 +7,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
+                       -Werror=missing-braces)
+ endif()
+ 
++set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
++
+ set(THIS_PACKAGE_INCLUDE_DEPENDS
+   angles
+   control_msgs

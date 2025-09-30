@@ -1,0 +1,12 @@
+diff --git a/pcl_ros/CMakeLists.txt b/pcl_ros/CMakeLists.txt
+index b45e67f5..c3562dc8 100644
+--- a/pcl_ros/CMakeLists.txt
++++ b/pcl_ros/CMakeLists.txt
+@@ -7,6 +7,7 @@ endif()
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+   add_compile_options(-Wall -Wextra -Wpedantic -fPIC)
+ endif()
++set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+ 
+ ## Find system dependencies
+ find_package(Eigen3 REQUIRED)

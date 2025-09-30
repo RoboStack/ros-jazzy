@@ -1,0 +1,233 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a904707..e6b84cd 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,9 +1,21 @@
+ cmake_minimum_required(VERSION 3.10)
+ project(gz_ogre_next_vendor)
+ 
++# Project-specific settings
++set(LIB_VER_MAJOR 2)
++set(LIB_VER_MINOR 3)
++set(LIB_VER_PATCH 3)
++set(LIB_VER ${LIB_VER_MAJOR}.${LIB_VER_MINOR}.${LIB_VER_PATCH})
++
+ find_package(ament_cmake REQUIRED)
+ find_package(ament_cmake_vendor_package REQUIRED)
+ 
++find_package(OGRE ${LIB_VER})
++message(NOTICE "OGRE_FOUND" = ${OGRE})
++
++# Hack
++set(OGRE_FOUND TRUE)
++
+ set(EXTRA_CMAKE_FLAGS)
+ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(aarch64.*|AARCH64.*|arm64.*|ARM64.*|arm.*|ARM.*)")
+   # Flags for non SIMD architectures
+@@ -12,6 +24,7 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(aarch64.*|AARCH64.*|arm64.*|ARM64.*|arm.*|A
+ endif()
+ 
+ ament_vendor(${PROJECT_NAME}
++  SATISFIED ${OGRE_FOUND}
+   VCS_URL https://github.com/OGRECave/ogre-next.git
+   VCS_VERSION v2.3.3
+   CMAKE_ARGS
+@@ -33,8 +46,7 @@ ament_vendor(${PROJECT_NAME}
+     -DOGRE_VULKAN_WINDOW_XCB:BOOL=ON
+     ${EXTRA_CMAKE_FLAGS}
+   GLOBAL_HOOK
+-  PATCHES
+-    patches/0001-Fix-incomplete-vulkan-linkage.patch
++  PATCHES patches
+ )
+ 
+ if(BUILD_TESTING)
+diff --git a/patches/0002-correct-cmake-vars.patch b/patches/0002-correct-cmake-vars.patch
+new file mode 100644
+index 0000000..357ee82
+--- /dev/null
++++ b/patches/0002-correct-cmake-vars.patch
+@@ -0,0 +1,160 @@
++diff --git a/CMake/Utils/AndroidMacros.cmake b/CMake/Utils/AndroidMacros.cmake
++index d1a3880..e3616fc 100644
++--- a/CMake/Utils/AndroidMacros.cmake
+++++ b/CMake/Utils/AndroidMacros.cmake
++@@ -10,7 +10,7 @@
++ 
++ macro(add_static_libs LIB_DIR)
++     foreach(LIB_NAME ${ARGN})
++-        SET(HEADERS "${HEADERS}# ${LIB_NAME}\n\tinclude $(CLEAR_VARS)\n\tLOCAL_MODULE    := ${LIB_NAME}\n\tLOCAL_SRC_FILES := ${LIB_DIR}/lib${LIB_NAME}.a\n\tinclude $(PREBUILT_STATIC_LIBRARY)\n\n")
+++        SET(HEADERS "${HEADERS}# ${LIB_NAME}\n\tinclude ${CLEAR_VARS}\n\tLOCAL_MODULE    := ${LIB_NAME}\n\tLOCAL_SRC_FILES := ${LIB_DIR}/lib${LIB_NAME}.a\n\tinclude ${PREBUILT_STATIC_LIBRARY}\n\n")
++         SET(SAMPLE_LDLIBS "${SAMPLE_LDLIBS} ${LIB_NAME}")
++     endforeach(LIB_NAME ${ARGN})
++     SET(SAMPLE_LDLIBS "${SAMPLE_LDLIBS}\n    LOCAL_STATIC_LIBRARIES\t+= ")
++@@ -21,7 +21,7 @@ macro(add_static_libs_from_paths)
++         get_filename_component(LIB_NAME ${LIB} NAME_WE)
++         string(SUBSTRING ${LIB_NAME} 3 -1 LIB_NAME) # strip lib prefix
++         
++-        set(HEADERS "${HEADERS}# ${LIB_NAME}\n\tinclude $(CLEAR_VARS)\n\tLOCAL_MODULE    := ${LIB_NAME}\n\tLOCAL_SRC_FILES := ${LIB}\n\tinclude $(PREBUILT_STATIC_LIBRARY)\n\n")
+++        set(HEADERS "${HEADERS}# ${LIB_NAME}\n\tinclude ${CLEAR_VARS}\n\tLOCAL_MODULE    := ${LIB_NAME}\n\tLOCAL_SRC_FILES := ${LIB}\n\tinclude ${PREBUILT_STATIC_LIBRARY}\n\n")
++         set(SAMPLE_LDLIBS "${SAMPLE_LDLIBS} ${LIB_NAME}")
++     endforeach()
++     set(SAMPLE_LDLIBS "${SAMPLE_LDLIBS}\n    LOCAL_STATIC_LIBRARIES\t+= ")
++@@ -135,4 +135,3 @@ macro(create_android_proj ANDROID_PROJECT_TARGET)
++ 	                    WORKING_DIRECTORY ${NDKOUT}
++ 	                  )
++ endmacro(create_android_proj)
++-
++diff --git a/CMake/Utils/OgreConfigTargets.cmake b/CMake/Utils/OgreConfigTargets.cmake
++index d8e0208..28acb8c 100644
++--- a/CMake/Utils/OgreConfigTargets.cmake
+++++ b/CMake/Utils/OgreConfigTargets.cmake
++@@ -18,7 +18,7 @@ if(APPLE)
++   if(NOT OGRE_BUILD_PLATFORM_ANDROID AND NOT OGRE_BUILD_PLATFORM_APPLE_IOS)
++     set(PLATFORM_NAME "macosx")
++   elseif(OGRE_BUILD_PLATFORM_APPLE_IOS)
++-    set(PLATFORM_NAME "$(PLATFORM_NAME)")
+++    set(PLATFORM_NAME "${PLATFORM_NAME}")
++   endif()
++ endif()
++ 
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index 2786e35..9c6de22 100755
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -316,7 +316,7 @@ if (OGRE_BUILD_PLATFORM_APPLE_IOS)
++   set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.yourcompany.\${PRODUCT_NAME:rfc1034identifier}")
++   set( CMAKE_XCODE_ATTRIBUTE_TARGETED_DEVICE_FAMILY "1,2" )
++ 
++-  set(CMAKE_OSX_ARCHITECTURES "$(ARCHS_STANDARD_INCLUDING_64_BIT)")
+++  set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD_INCLUDING_64_BIT}")
++   string (REPLACE "-msse2" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
++   string (REPLACE "-msse" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
++ elseif (ANDROID)
++@@ -363,8 +363,6 @@ elseif (APPLE AND NOT OGRE_BUILD_PLATFORM_APPLE_IOS)
++   if(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
++     execute_process(COMMAND xcodebuild -version -sdk "${XCODE_ATTRIBUTE_SDKROOT}" Path | head -n 1 OUTPUT_VARIABLE CMAKE_OSX_SYSROOT)
++     string(REGEX REPLACE "(\r?\n)+$" "" CMAKE_OSX_SYSROOT "${CMAKE_OSX_SYSROOT}")
++-  else()
++-    set(CMAKE_OSX_SYSROOT macosx)
++   endif()
++ 
++   set( CMAKE_XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_ARC YES )
++@@ -697,4 +695,3 @@ include(Packaging)
++ 
++ # Show feature summary
++ include(FeatureSummary)
++-
++diff --git a/OgreMain/CMakeLists.txt b/OgreMain/CMakeLists.txt
++index b698b84..bd3b21e 100644
++--- a/OgreMain/CMakeLists.txt
+++++ b/OgreMain/CMakeLists.txt
++@@ -439,7 +439,7 @@ if (APPLE)
++         LINK_FLAGS "-framework IOKit -framework Cocoa -framework Carbon -framework OpenGL -framework CoreVideo"
++     )
++ 
++-    set(OGRE_OSX_BUILD_CONFIGURATION "$(PLATFORM_NAME)/$(CONFIGURATION)")
+++    set(OGRE_OSX_BUILD_CONFIGURATION "${PLATFORM_NAME}/${CONFIGURATION}")
++   
++ 	add_custom_command(TARGET ${OGRE_NEXT}Main POST_BUILD
++ 		COMMAND mkdir ARGS -p ${OGRE_BINARY_DIR}/lib/${OGRE_OSX_BUILD_CONFIGURATION}/Ogre.framework/Headers/Threading
++diff --git a/Samples/2.0/Tutorials/EmptyProject/CMake/Dependencies/OGRE.cmake b/Samples/2.0/Tutorials/EmptyProject/CMake/Dependencies/OGRE.cmake
++index 23596b5..b57c2a9 100644
++--- a/Samples/2.0/Tutorials/EmptyProject/CMake/Dependencies/OGRE.cmake
+++++ b/Samples/2.0/Tutorials/EmptyProject/CMake/Dependencies/OGRE.cmake
++@@ -222,10 +222,10 @@ set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/Ogre/CMake/Pack
++ set( OGRE_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/Ogre" CACHE STRING "Path to OGRE source code (see http://www.ogre3d.org/tikiwiki/tiki-index.php?page=CMake+Quick+Start+Guide)" )
++ if( WIN32 )
++ 	set( OGRE_BINARIES "${OGRE_SOURCE}/build" CACHE STRING "Path to OGRE's build folder generated by CMake" )
++-	link_directories( "${OGRE_BINARIES}/lib/$(ConfigurationName)" )
+++	link_directories( "${OGRE_BINARIES}/lib/${ConfigurationName}" )
++ elseif( APPLE )
++ 	set( OGRE_BINARIES "${OGRE_SOURCE}/build" CACHE STRING "Path to OGRE's build folder generated by CMake" )
++-	link_directories( "${OGRE_BINARIES}/lib/$(PLATFORM_NAME)/$(CONFIGURATION)" )
+++	link_directories( "${OGRE_BINARIES}/lib/${PLATFORM_NAME}/${CONFIGURATION}" )
++ elseif( ANDROID )
++ 	set( OGRE_BINARIES "${OGRE_SOURCE}/build/Android/${CMAKE_BUILD_TYPE}" CACHE STRING "Path to OGRE's build folder generated by CMake" )
++ 	link_directories( "${OGRE_BINARIES}/lib" )
++@@ -406,10 +406,10 @@ macro( addStaticDependencies OGRE_SOURCE, OGRE_BINARIES, OGRE_BUILD_SETTINGS_STR
++ 	endif()
++ 
++ 	if( WIN32 )
++-		set( OGRE_DEPENDENCIES "${OGRE_SOURCE}/Dependencies/lib/$(ConfigurationName)" CACHE STRING
+++		set( OGRE_DEPENDENCIES "${OGRE_SOURCE}/Dependencies/lib/${ConfigurationName}" CACHE STRING
++ 			 "Path to OGRE's dependencies folder. Only used in Static Builds" )
++ 	elseif( IOS )
++-		set( OGRE_DEPENDENCIES "${OGRE_SOURCE}/iOSDependencies/lib/$(CONFIGURATION)" CACHE STRING
+++		set( OGRE_DEPENDENCIES "${OGRE_SOURCE}/iOSDependencies/lib/${CONFIGURATION}" CACHE STRING
++ 			 "Path to OGRE's dependencies folder. Only used in Static Builds" )
++ 	elseif( ANDROID )
++ 		set( OGRE_DEPENDENCIES "${OGRE_SOURCE}/DependenciesAndroid/lib" CACHE STRING
++diff --git a/Tests/CMakeLists.txt b/Tests/CMakeLists.txt
++index 5167104..bf8fe80 100644
++--- a/Tests/CMakeLists.txt
+++++ b/Tests/CMakeLists.txt
++@@ -151,8 +151,8 @@ if (OGRE_BUILD_TESTS)
++ 	ogre_config_sample_exe(Test_Ogre)
++ 	target_link_libraries(Test_Ogre ${OGRE_LIBRARIES} ${CppUnit_LIBRARIES})
++ 	if(APPLE AND NOT OGRE_BUILD_PLATFORM_APPLE_IOS)
++-        set(OGRE_BUILT_FRAMEWORK "$(PLATFORM_NAME)/$(CONFIGURATION)")
++-        set(OGRE_TEST_CONTENTS_PATH ${OGRE_BINARY_DIR}/bin/$(CONFIGURATION)/Test_Ogre.app/Contents)
+++        set(OGRE_BUILT_FRAMEWORK "${PLATFORM_NAME}/${CONFIGURATION}")
+++        set(OGRE_TEST_CONTENTS_PATH ${OGRE_BINARY_DIR}/bin/${CONFIGURATION}/Test_Ogre.app/Contents)
++ 		set_target_properties(Test_Ogre PROPERTIES
++ 			LINK_FLAGS "-framework Carbon -framework Cocoa")
++         add_custom_command(TARGET Test_Ogre POST_BUILD
++diff --git a/Tests/VisualTests/Context/CMakeLists.txt b/Tests/VisualTests/Context/CMakeLists.txt
++index 551a8e7..6e0e49b 100644
++--- a/Tests/VisualTests/Context/CMakeLists.txt
+++++ b/Tests/VisualTests/Context/CMakeLists.txt
++@@ -86,18 +86,18 @@ if (APPLE)
++     set_target_properties(TestContext PROPERTIES XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH "NO")
++     set_target_properties(TestContext PROPERTIES XCODE_ATTRIBUTE_TARGETED_DEVICE_FAMILY "1,2")
++ 	set (OGRE_TESTCONTEXT_CONTENTS_PATH
++-		${OGRE_BINARY_DIR}/bin/$(CONFIGURATION)/TestContext.app)
+++		${OGRE_BINARY_DIR}/bin/${CONFIGURATION}/TestContext.app)
++     add_custom_command(TARGET TestContext POST_BUILD
++       COMMAND ditto ${OGRE_SOURCE_DIR}/Samples/Common/misc/*.png ${OGRE_TESTCONTEXT_CONTENTS_PATH}/
++       COMMAND ditto ${OGRE_BINARY_DIR}/bin/*.cfg ${OGRE_TESTCONTEXT_CONTENTS_PATH}/
++     )
++     add_custom_command(TARGET TestContext POST_BUILD
++-      COMMAND mkdir ARGS -p ${OGRE_BINARY_DIR}/lib/$(CONFIGURATION)/
+++      COMMAND mkdir ARGS -p ${OGRE_BINARY_DIR}/lib/${CONFIGURATION}/
++       COMMAND ditto ${OGRE_SOURCE_DIR}/Samples/Media ${OGRE_TESTCONTEXT_CONTENTS_PATH}/Media
++       COMMAND ditto ${OGRE_SOURCE_DIR}/Tests/Media ${OGRE_TESTCONTEXT_CONTENTS_PATH}/Media
++     )
++   else()
++-    set(OGRE_OSX_BUILD_CONFIGURATION "$(PLATFORM_NAME)/$(CONFIGURATION)")
+++    set(OGRE_OSX_BUILD_CONFIGURATION "${PLATFORM_NAME}/${CONFIGURATION}")
++ 	set_property(TARGET TestContext PROPERTY MACOSX_BUNDLE TRUE)
++ 	set_property(TARGET TestContext PROPERTY MACOSX_BUNDLE_ICON_FILE SampleBrowser_OSX.icns)
++ 	set_property(TARGET TestContext PROPERTY MACOSX_BUNDLE_INFO_PLIST ${OGRE_SOURCE_DIR}/Tests/VisualTests/Context/misc/Info.plist)
++@@ -106,7 +106,7 @@ if (APPLE)
++     set_target_properties(TestContext PROPERTIES
++         LINK_FLAGS "-framework IOKit -framework Cocoa -framework Carbon -framework OpenGL -framework CoreVideo")
++ 	set (OGRE_TESTCONTEXT_CONTENTS_PATH
++-		${OGRE_BINARY_DIR}/bin/$(CONFIGURATION)/TestContext.app/Contents)
+++		${OGRE_BINARY_DIR}/bin/${CONFIGURATION}/TestContext.app/Contents)
++ 	add_custom_command(TARGET TestContext POST_BUILD
++ 		COMMAND mkdir ARGS -p ${OGRE_TESTCONTEXT_CONTENTS_PATH}/Frameworks
++ 		COMMAND ln ARGS -s -f ${OGRE_BINARY_DIR}/lib/${OGRE_OSX_BUILD_CONFIGURATION}/Ogre.framework
+diff --git a/patches/0003-fix-string.patch b/patches/0003-fix-string.patch
+new file mode 100644
+index 0000000..82f5dbf
+--- /dev/null
++++ b/patches/0003-fix-string.patch
+@@ -0,0 +1,17 @@
++diff --git a/OgreMain/include/OgreUTFString.h b/OgreMain/include/OgreUTFString.h
++index 0aeab6a..a3be244 100644
++--- a/OgreMain/include/OgreUTFString.h
+++++ b/OgreMain/include/OgreUTFString.h
++@@ -189,10 +189,10 @@ namespace Ogre {
++         static const size_type npos = static_cast<size_type>(~0);
++ 
++         //! a single 32-bit Unicode character
++-        typedef uint32 unicode_char;
+++        typedef char32_t unicode_char;
++ 
++         //! a single UTF-16 code point
++-        typedef uint16 code_point;
+++        typedef char16_t code_point;
++ 
++         //! value type typedef for use in iterators
++         typedef code_point value_type;

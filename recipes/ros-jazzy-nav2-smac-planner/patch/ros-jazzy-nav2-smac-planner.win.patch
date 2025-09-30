@@ -1,0 +1,35 @@
+diff --git a/nav2_smac_planner/CMakeLists.txt b/nav2_smac_planner/CMakeLists.txt
+index d9da9fd147..64c744c311 100644
+--- a/nav2_smac_planner/CMakeLists.txt
++++ b/nav2_smac_planner/CMakeLists.txt
+@@ -23,6 +23,9 @@ find_package(eigen3_cmake_module REQUIRED)
+ find_package(Eigen3 REQUIRED)
+ find_package(angles REQUIRED)
+ find_package(ompl REQUIRED)
++find_package(ode REQUIRED)
++list(REMOVE_ITEM OMPL_LIBRARIES "ode_double")
++list(APPEND OMPL_LIBRARIES "ODE::ODE")
+
+ if(NOT CMAKE_CXX_STANDARD)
+   set(CMAKE_CXX_STANDARD 17)
+
+diff --git a/nav2_smac_planner/include/nav2_smac_planner/a_star.hpp b/nav2_smac_planner/include/nav2_smac_planner/a_star.hpp
+index 8b127960cc..a5dbbc262e 100644
+--- a/nav2_smac_planner/include/nav2_smac_planner/a_star.hpp
++++ b/nav2_smac_planner/include/nav2_smac_planner/a_star.hpp
+@@ -26,7 +26,6 @@
+ #include "nav2_costmap_2d/costmap_2d.hpp"
+ #include "nav2_core/planner_exceptions.hpp"
+ 
+-#include "nav2_smac_planner/thirdparty/robin_hood.h"
+ #include "nav2_smac_planner/analytic_expansion.hpp"
+ #include "nav2_smac_planner/node_2d.hpp"
+ #include "nav2_smac_planner/node_hybrid.hpp"
+@@ -47,7 +46,7 @@ class AStarAlgorithm
+ {
+ public:
+   typedef NodeT * NodePtr;
+-  typedef robin_hood::unordered_node_map<uint64_t, NodeT> Graph;
++  typedef std::unordered_map<uint64_t, NodeT> Graph;
+   typedef std::vector<NodePtr> NodeVector;
+   typedef std::pair<float, NodeBasic<NodeT>> NodeElement;

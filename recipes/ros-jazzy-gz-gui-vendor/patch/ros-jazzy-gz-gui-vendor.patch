@@ -1,0 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 94fd645..2a52f2c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -4,8 +4,8 @@ project(gz_gui_vendor)
+ 
+ # Project-specific settings
+ set(LIB_VER_MAJOR 8)
+-set(LIB_VER_MINOR 4)
+-set(LIB_VER_PATCH 0)
++set(LIB_VER_MINOR 1)
++set(LIB_VER_PATCH 1)
+ set(LIB_VER_SUFFIX "")
+ 
+ # Derived variables

@@ -1,0 +1,180 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5a9fdf1..3d2e2a2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -10,6 +10,8 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+   add_compile_options(-Wall -Wextra -Wpedantic)
+ endif()
+ 
++set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
++
+ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+ 
+ find_package(ament_cmake_ros REQUIRED)
+@@ -64,6 +66,8 @@ target_link_libraries(ublox_gps PUBLIC
+   ublox_serialization::ublox_serialization
+ )
+ 
++target_compile_definitions(ublox_gps PRIVATE _USE_MATH_DEFINES)
++
+ install(TARGETS ublox_gps EXPORT export_${PROJECT_NAME}
+   ARCHIVE DESTINATION lib
+   LIBRARY DESTINATION lib
+diff --git a/include/ublox_gps/ublox_firmware7plus.hpp b/include/ublox_gps/ublox_firmware7plus.hpp
+index 84ffe7a..1b8043d 100644
+--- a/include/ublox_gps/ublox_firmware7plus.hpp
++++ b/include/ublox_gps/ublox_firmware7plus.hpp
+@@ -175,7 +175,17 @@ class UbloxFirmware7Plus : public UbloxFirmware {
+     }
+     // Raise diagnostic level to error if no fix
+     if (last_nav_pvt_.fix_type == ublox_msgs::msg::NavPVT::FIX_TYPE_NO_FIX) {
++#if defined(_WIN32)
++#  if defined(ERROR)
++#    pragma push_macro("ERROR")
++#    undef ERROR
++#  endif
++#endif
+       stat.level = diagnostic_msgs::msg::DiagnosticStatus::ERROR;
++#if defined(_WIN32)
++#  pragma warning(suppress : 4602)
++#  pragma pop_macro("ERROR")
++#endif
+       stat.message = "No fix";
+     }
+ 
+diff --git a/src/gps.cpp b/src/gps.cpp
+index e71377d..9e91478 100644
+--- a/src/gps.cpp
++++ b/src/gps.cpp
+@@ -138,12 +138,6 @@ void Gps::initializeSerial(const std::string & port, unsigned int baudrate,
+ 
+   RCLCPP_INFO(logger_, "U-Blox: Opened serial port %s", port.c_str());
+ 
+-  int fd = serial->native_handle();
+-  termios tio{};
+-  tcgetattr(fd, &tio);
+-  cfmakeraw(&tio);
+-  tcsetattr(fd, TCSANOW, &tio);
+-
+   // Set the I/O worker
+   if (worker_) {
+     return;
+diff --git a/src/hpg_ref_product.cpp b/src/hpg_ref_product.cpp
+index b12caaf..62c61b4 100644
+--- a/src/hpg_ref_product.cpp
++++ b/src/hpg_ref_product.cpp
+@@ -224,7 +224,17 @@ void HpgRefProduct::tmode3Diagnostics(
+     stat.message = "Disabled";
+   } else if (mode_ == SURVEY_IN) {
+     if (!last_nav_svin_.active && !last_nav_svin_.valid) {
++#if defined(_WIN32)
++#  if defined(ERROR)
++#    pragma push_macro("ERROR")
++#    undef ERROR
++#  endif
++#endif
+       stat.level = diagnostic_msgs::msg::DiagnosticStatus::ERROR;
++#if defined(_WIN32)
++#  pragma warning(suppress : 4602)
++#  pragma pop_macro("ERROR")
++#endif
+       stat.message = "Survey-In inactive and invalid";
+     } else if (last_nav_svin_.active && !last_nav_svin_.valid) {
+       stat.level = diagnostic_msgs::msg::DiagnosticStatus::WARN;
+diff --git a/src/hpg_rov_product.cpp b/src/hpg_rov_product.cpp
+index 7b524d5..b08a862 100644
+--- a/src/hpg_rov_product.cpp
++++ b/src/hpg_rov_product.cpp
+@@ -65,7 +65,17 @@ void HpgRovProduct::carrierPhaseDiagnostics(
+   if (carr_soln & ublox_msgs::msg::NavRELPOSNED::FLAGS_CARR_SOLN_NONE ||
+       !(last_rel_pos_.flags & ublox_msgs::msg::NavRELPOSNED::FLAGS_DIFF_SOLN &&
+         last_rel_pos_.flags & ublox_msgs::msg::NavRELPOSNED::FLAGS_REL_POS_VALID)) {
++#if defined(_WIN32)
++#  if defined(ERROR)
++#    pragma push_macro("ERROR")
++#    undef ERROR
++#  endif
++#endif
+     stat.level = diagnostic_msgs::msg::DiagnosticStatus::ERROR;
++#if defined(_WIN32)
++#  pragma warning(suppress : 4602)
++#  pragma pop_macro("ERROR")
++#endif
+     stat.message = "None";
+   } else {
+     if (carr_soln & ublox_msgs::msg::NavRELPOSNED::FLAGS_CARR_SOLN_FLOAT) {
+diff --git a/src/node.cpp b/src/node.cpp
+index 23f5172..0153410 100644
+--- a/src/node.cpp
++++ b/src/node.cpp
+@@ -506,7 +506,17 @@ void UbloxNode::pollMessages() {
+ }
+ 
+ void UbloxNode::printInf(const ublox_msgs::msg::Inf &m, uint8_t id) {
++#if defined(_WIN32)
++#  if defined(ERROR)
++#    pragma push_macro("ERROR")
++#    undef ERROR
++#  endif
++#endif
+   if (id == ublox_msgs::Message::INF::ERROR) {
++#if defined(_WIN32)
++#  pragma warning(suppress : 4602)
++#  pragma pop_macro("ERROR")
++#endif
+     RCLCPP_ERROR(this->get_logger(), "INF: %s", std::string(m.str.begin(), m.str.end()).c_str());
+   } else if (id == ublox_msgs::Message::INF::WARNING) {
+     RCLCPP_WARN(this->get_logger(), "INF: %s", std::string(m.str.begin(), m.str.end()).c_str());
+@@ -546,10 +556,20 @@ void UbloxNode::subscribe() {
+   }
+ 
+   if (getRosBoolean(this, "inf.error")) {
++#if defined(_WIN32)
++#  if defined(ERROR)
++#    pragma push_macro("ERROR")
++#    undef ERROR
++#  endif
++#endif
+     gps_->subscribeId<ublox_msgs::msg::Inf>(
+         std::bind(&UbloxNode::printInf, this, std::placeholders::_1,
+                     ublox_msgs::Message::INF::ERROR),
+         ublox_msgs::Message::INF::ERROR);
++#if defined(_WIN32)
++#  pragma warning(suppress : 4602)
++#  pragma pop_macro("ERROR")
++#endif
+   }
+ 
+   if (getRosBoolean(this, "inf.notice")) {
+@@ -616,8 +636,7 @@ void UbloxNode::processMonVer() {
+     RCLCPP_DEBUG(this->get_logger(), "%s",
+                  std::string(monVer.extension[i].field.begin(), monVer.extension[i].field.end()).c_str());
+     // Find the end of the string (null character)
+-    unsigned char* end = std::find(monVer.extension[i].field.begin(),
+-                                   monVer.extension[i].field.end(), '\0');
++    auto end = std::find(monVer.extension[i].field.begin(), monVer.extension[i].field.end(), '\0');
+     extensions.emplace_back(std::string(monVer.extension[i].field.begin(), end));
+   }
+ 
+diff --git a/src/ublox_firmware6.cpp b/src/ublox_firmware6.cpp
+index 0bb7f3b..24046c5 100644
+--- a/src/ublox_firmware6.cpp
++++ b/src/ublox_firmware6.cpp
+@@ -151,7 +151,17 @@ void UbloxFirmware6::fixDiagnostic(
+   }
+   // Raise diagnostic level to error if no fix
+   if (last_nav_sol_.gps_fix == ublox_msgs::msg::NavSOL::GPS_NO_FIX) {
++#if defined(_WIN32)
++#  if defined(ERROR)
++#    pragma push_macro("ERROR")
++#    undef ERROR
++#  endif
++#endif
+     stat.level = diagnostic_msgs::msg::DiagnosticStatus::ERROR;
++#if defined(_WIN32)
++#  pragma warning(suppress : 4602)
++#  pragma pop_macro("ERROR")
++#endif
+     stat.message = "No fix";
+   }
+ 

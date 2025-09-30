@@ -1,0 +1,11 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3bb5bfd..b9f334b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -23,1 +23,6 @@ ament_auto_add_library(laser_scan_filters SHARED src/laser_scan_filters.cpp)
++find_package(Boost REQUIRED COMPONENTS thread)
++target_link_libraries(laser_scan_filters Boost::thread)
++set_target_properties(laser_scan_filters PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
++set_target_properties(laser_filter_chains PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
++set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
+
