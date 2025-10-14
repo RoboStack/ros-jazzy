@@ -1,12 +1,16 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index f6c0bec..8fef1b8 100644
+index f6c0bec..80fdaaa 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -36,7 +36,22 @@ add_library(${PROJECT_NAME}
+@@ -36,9 +36,32 @@ add_library(${PROJECT_NAME}
    src/manifest.cpp
  )
  
 -target_link_libraries(${PROJECT_NAME} ${DRACO_LIBRARIES})
++target_link_libraries(${PROJECT_NAME} PRIVATE
++  ${dependencies}
++)
++
 +# draco 1.5.3 dropped the DRACO_LIBRARIES variable in favor of
 +# draco::draco imported target, but debian introduced DRACO_LIBRARIES
 +# back, but that is not present in other distributions. For maximum
@@ -24,6 +28,12 @@ index f6c0bec..8fef1b8 100644
 +  )
 +endif()
  
- ament_target_dependencies(${PROJECT_NAME} ${dependencies})
-
+-ament_target_dependencies(${PROJECT_NAME} ${dependencies})
++target_include_directories(${PROJECT_NAME} PRIVATE
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
++  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
++  ${DRACO_INCLUDE_DIR}
++)
  
+ install(TARGETS ${PROJECT_NAME}
+   ARCHIVE DESTINATION lib
