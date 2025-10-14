@@ -145,6 +145,9 @@ packages_select_by_deps:
   # Requested in https://github.com/RoboStack/ros-humble/issues/325
   - data_tamer_cpp
 
+  - point_cloud_transport_py
+  - point_cloud_transport_plugins
+
   # These packages are only built on Windows as they depend on Linux-specific API
   - if: linux
     then:
