@@ -14,7 +14,7 @@ index f6c0bec..ae46334 100644
 +# * https://github.com/google/draco/commit/7109fbee87c6d932cdc0ac7394bc5d485db26d44
 +# * https://sources.debian.org/patches/draco/1.5.6+dfsg-3/0004-Set-DRACO_LIBRARIES-for-backwards-compatibility.patch/
 +if(DEFINED DRACO_LIBRARIES)
-+  target_link_libraries(${PROJECT_NAME} PRIVATE
++  target_link_libraries(${PROJECT_NAME}
 +    ${DRACO_LIBRARIES}
 +  )
 +else()
