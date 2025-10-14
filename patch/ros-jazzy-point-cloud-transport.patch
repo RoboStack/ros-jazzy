@@ -1,0 +1,23 @@
+diff --git a/point_cloud_transport/include/point_cloud_transport/simple_subscriber_plugin.hpp b/point_cloud_transport/include/point_cloud_transport/simple_subscriber_plugin.hpp
+index 014e0a9..6426d9e 100644
+--- a/point_cloud_transport/include/point_cloud_transport/simple_subscriber_plugin.hpp
++++ b/point_cloud_transport/include/point_cloud_transport/simple_subscriber_plugin.hpp
+@@ -93,7 +93,8 @@ class SimpleSubscriberPlugin : public SubscriberPlugin
+   bool getParam(const std::string & parameter_name, T & value) const
+   {
+     if (impl_) {
+-      uint ns_len = strlen(impl_->node_interfaces_.get_node_base_interface()->get_namespace());
++      unsigned int ns_len =
++        strlen(impl_->node_interfaces_.get_node_base_interface()->get_namespace());
+       std::string param_base_name = getTopic().substr(ns_len);
+       std::replace(param_base_name.begin(), param_base_name.end(), '/', '.');
+
+@@ -117,7 +118,8 @@ class SimpleSubscriberPlugin : public SubscriberPlugin
+     rcl_interfaces::msg::ParameterDescriptor())
+   {
+     if (impl_) {
+-      uint ns_len = strlen(impl_->node_interfaces_.get_node_base_interface()->get_namespace());
++      unsigned int ns_len =
++        strlen(impl_->node_interfaces_.get_node_base_interface()->get_namespace());
+       std::string param_base_name = getTopic().substr(ns_len);
+       std::replace(param_base_name.begin(), param_base_name.end(), '/', '.');
