@@ -1,0 +1,515 @@
+{
+  "arch": "x86_64",
+  "build": "hb9d3cd8_0",
+  "build_number": 0,
+  "depends": [
+    "__glibc >=2.17,<3.0.a0",
+    "libgcc >=13"
+  ],
+  "license": "LGPL-2.1-or-later",
+  "md5": "b38117a3c920364aff79f870c984b4a3",
+  "name": "keyutils",
+  "platform": "linux",
+  "purls": [],
+  "sha256": "0960d06048a7185d3542d850986d807c6e37ca2e644342dd0c72feefcf26c2a4",
+  "size": 134088,
+  "subdir": "linux-64",
+  "timestamp": 1754905959823,
+  "version": "1.6.3",
+  "fn": "keyutils-1.6.3-hb9d3cd8_0.conda",
+  "url": "https://repo.prefix.dev/conda-forge/linux-64/keyutils-1.6.3-hb9d3cd8_0.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/keyutils-1.6.3-hb9d3cd8_0",
+  "requested_specs": [],
+  "files": [
+    "share/man/man8/key.dns_resolver.8",
+    "share/man/man8/request-key.8",
+    "etc/request-key.conf",
+    "share/man/man3/find_key_by_type_and_name.3",
+    "share/man/man3/keyctl.3",
+    "share/man/man3/keyctl_assume_authority.3",
+    "share/man/man3/keyctl_capabilities.3",
+    "share/man/man3/keyctl_chown.3",
+    "share/man/man3/keyctl_clear.3",
+    "share/man/man3/keyctl_describe.3",
+    "share/man/man3/keyctl_describe_alloc.3",
+    "share/man/man3/keyctl_dh_compute.3",
+    "share/man/man3/keyctl_dh_compute_alloc.3",
+    "share/man/man3/keyctl_dh_compute_kdf.3",
+    "share/man/man3/keyctl_get_keyring_ID.3",
+    "share/man/man3/keyctl_get_persistent.3",
+    "share/man/man3/keyctl_get_security.3",
+    "share/man/man3/keyctl_get_security_alloc.3",
+    "share/man/man3/keyctl_instantiate.3",
+    "share/man/man3/keyctl_instantiate_iov.3",
+    "share/man/man3/keyctl_invalidate.3",
+    "share/man/man3/keyctl_join_session_keyring.3",
+    "share/man/man3/keyctl_link.3",
+    "share/man/man3/keyctl_move.3",
+    "share/man/man3/keyctl_negate.3",
+    "share/man/man3/keyctl_pkey_decrypt.3",
+    "share/man/man3/keyctl_pkey_encrypt.3",
+    "share/man/man3/keyctl_pkey_query.3",
+    "share/man/man3/keyctl_pkey_sign.3",
+    "share/man/man3/keyctl_pkey_verify.3",
+    "share/man/man3/keyctl_read.3",
+    "share/man/man3/keyctl_read_alloc.3",
+    "share/man/man3/keyctl_reject.3",
+    "share/man/man3/keyctl_restrict_keyring.3",
+    "share/man/man3/keyctl_revoke.3",
+    "share/man/man3/keyctl_search.3",
+    "share/man/man3/keyctl_session_to_parent.3",
+    "share/man/man3/keyctl_set_reqkey_keyring.3",
+    "share/man/man3/keyctl_set_timeout.3",
+    "share/man/man3/keyctl_setperm.3",
+    "share/man/man3/keyctl_unlink.3",
+    "share/man/man3/keyctl_update.3",
+    "share/man/man3/keyctl_watch_key.3",
+    "share/man/man3/recursive_key_scan.3",
+    "share/man/man3/recursive_session_key_scan.3",
+    "include/keyutils.h",
+    "lib/libkeyutils.a",
+    "lib/libkeyutils.so",
+    "lib/libkeyutils.so.1",
+    "lib/libkeyutils.so.1.10",
+    "bin/keyctl",
+    "sbin/key.dns_resolver",
+    "sbin/request-key",
+    "lib/pkgconfig/libkeyutils.pc",
+    "share/man/man5/key.dns_resolver.conf.5",
+    "share/man/man5/request-key.conf.5",
+    "share/keyutils/request-key-debug.sh",
+    "share/man/man1/keyctl.1",
+    "share/man/man7/asymmetric-key.7",
+    "share/man/man7/keyutils.7"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "share/man/man8/key.dns_resolver.8",
+        "path_type": "hardlink",
+        "sha256": "b69d2baf3973996dab323e68a38b63c8386308b287e1c90b00731debcb7d3b0f",
+        "sha256_in_prefix": "b69d2baf3973996dab323e68a38b63c8386308b287e1c90b00731debcb7d3b0f",
+        "size_in_bytes": 1852
+      },
+      {
+        "_path": "share/man/man8/request-key.8",
+        "path_type": "hardlink",
+        "sha256": "71b40485863e97a8515f00dce573f343b769a389f337bd43318bd026bf4ffa44",
+        "sha256_in_prefix": "71b40485863e97a8515f00dce573f343b769a389f337bd43318bd026bf4ffa44",
+        "size_in_bytes": 2175
+      },
+      {
+        "_path": "etc/request-key.conf",
+        "path_type": "hardlink",
+        "sha256": "87f286e86f12eb096e98663649116d375439ea0c689883ce9a3aa3a210b611cc",
+        "sha256_in_prefix": "87f286e86f12eb096e98663649116d375439ea0c689883ce9a3aa3a210b611cc",
+        "size_in_bytes": 1787
+      },
+      {
+        "_path": "share/man/man3/find_key_by_type_and_name.3",
+        "path_type": "hardlink",
+        "sha256": "c13180ff75287699634549edc7999a849f8e62ab01b4caceb13e6668d53b550e",
+        "sha256_in_prefix": "c13180ff75287699634549edc7999a849f8e62ab01b4caceb13e6668d53b550e",
+        "size_in_bytes": 2155
+      },
+      {
+        "_path": "share/man/man3/keyctl.3",
+        "path_type": "hardlink",
+        "sha256": "433ea670043b0667eb8a677b3e59d3977c69df6f2a3592e57aa02396a80a6061",
+        "sha256_in_prefix": "433ea670043b0667eb8a677b3e59d3977c69df6f2a3592e57aa02396a80a6061",
+        "size_in_bytes": 2685
+      },
+      {
+        "_path": "share/man/man3/keyctl_assume_authority.3",
+        "path_type": "softlink",
+        "sha256": "a963d1f233e09f05574155039b9824d67e35f4765682b09b2aba69b290081fe1",
+        "sha256_in_prefix": "52c792efe45d7cf7797b3671ea6fa1768f6efb7d62c44f5b0d3ecf3327d0cd69",
+        "size_in_bytes": 6001
+      },
+      {
+        "_path": "share/man/man3/keyctl_capabilities.3",
+        "path_type": "hardlink",
+        "sha256": "8f2871aa599be66a2c4fa36524c2d231ad9c497ed1db9e2a2d37ee0d3b1d687d",
+        "sha256_in_prefix": "8f2871aa599be66a2c4fa36524c2d231ad9c497ed1db9e2a2d37ee0d3b1d687d",
+        "size_in_bytes": 4246
+      },
+      {
+        "_path": "share/man/man3/keyctl_chown.3",
+        "path_type": "hardlink",
+        "sha256": "de43a1a37980037d430341cc35e29cbb498a80b9f868052ad78e7c0c447717b2",
+        "sha256_in_prefix": "de43a1a37980037d430341cc35e29cbb498a80b9f868052ad78e7c0c447717b2",
+        "size_in_bytes": 2427
+      },
+      {
+        "_path": "share/man/man3/keyctl_clear.3",
+        "path_type": "hardlink",
+        "sha256": "61147f610969bef745eebe8c3051cd0dfd0e9685667f62218730077b3339dd14",
+        "sha256_in_prefix": "61147f610969bef745eebe8c3051cd0dfd0e9685667f62218730077b3339dd14",
+        "size_in_bytes": 2001
+      },
+      {
+        "_path": "share/man/man3/keyctl_describe.3",
+        "path_type": "hardlink",
+        "sha256": "450e0231920ce4d66618df3d3a1906b2e020b6acb4e4d6c6bf6570e45f5e6149",
+        "sha256_in_prefix": "450e0231920ce4d66618df3d3a1906b2e020b6acb4e4d6c6bf6570e45f5e6149",
+        "size_in_bytes": 3463
+      },
+      {
+        "_path": "share/man/man3/keyctl_describe_alloc.3",
+        "path_type": "softlink",
+        "sha256": "450e0231920ce4d66618df3d3a1906b2e020b6acb4e4d6c6bf6570e45f5e6149",
+        "sha256_in_prefix": "3cea16eea5e9334c2571a0be9e1eaf7218a249c428976d8c74c33d49aff600b4",
+        "size_in_bytes": 3463
+      },
+      {
+        "_path": "share/man/man3/keyctl_dh_compute.3",
+        "path_type": "hardlink",
+        "sha256": "aff7c0ef5630df6f643a85067a3698366be78cfbc479b8395dc87a8862d50c0a",
+        "sha256_in_prefix": "aff7c0ef5630df6f643a85067a3698366be78cfbc479b8395dc87a8862d50c0a",
+        "size_in_bytes": 5021
+      },
+      {
+        "_path": "share/man/man3/keyctl_dh_compute_alloc.3",
+        "path_type": "softlink",
+        "sha256": "aff7c0ef5630df6f643a85067a3698366be78cfbc479b8395dc87a8862d50c0a",
+        "sha256_in_prefix": "3c93eb1e92b66173c1c0535d745fc5efc9f010fdcf4745834775ab09281f937b",
+        "size_in_bytes": 5021
+      },
+      {
+        "_path": "share/man/man3/keyctl_dh_compute_kdf.3",
+        "path_type": "softlink",
+        "sha256": "aff7c0ef5630df6f643a85067a3698366be78cfbc479b8395dc87a8862d50c0a",
+        "sha256_in_prefix": "3c93eb1e92b66173c1c0535d745fc5efc9f010fdcf4745834775ab09281f937b",
+        "size_in_bytes": 5021
+      },
+      {
+        "_path": "share/man/man3/keyctl_get_keyring_ID.3",
+        "path_type": "hardlink",
+        "sha256": "f2b3e1afc8d5016a39d50288d70c1dab34169fd37136fdf266dec523da7ecaa8",
+        "sha256_in_prefix": "f2b3e1afc8d5016a39d50288d70c1dab34169fd37136fdf266dec523da7ecaa8",
+        "size_in_bytes": 3039
+      },
+      {
+        "_path": "share/man/man3/keyctl_get_persistent.3",
+        "path_type": "hardlink",
+        "sha256": "c6085e3a3c28867b536e3976df1a829aca8f181088a64cb599b11871ec5ba9e4",
+        "sha256_in_prefix": "c6085e3a3c28867b536e3976df1a829aca8f181088a64cb599b11871ec5ba9e4",
+        "size_in_bytes": 3344
+      },
+      {
+        "_path": "share/man/man3/keyctl_get_security.3",
+        "path_type": "hardlink",
+        "sha256": "06d963538d09cb5b28c960fa8e0319e8b3eac2ae9fd25bb2d2904d6bc912ebf2",
+        "sha256_in_prefix": "06d963538d09cb5b28c960fa8e0319e8b3eac2ae9fd25bb2d2904d6bc912ebf2",
+        "size_in_bytes": 3202
+      },
+      {
+        "_path": "share/man/man3/keyctl_get_security_alloc.3",
+        "path_type": "softlink",
+        "sha256": "06d963538d09cb5b28c960fa8e0319e8b3eac2ae9fd25bb2d2904d6bc912ebf2",
+        "sha256_in_prefix": "f738df5b04b2f0e24a518b2adbfdbf56b66560bbb63c614bf37612a62e3eba6b",
+        "size_in_bytes": 3202
+      },
+      {
+        "_path": "share/man/man3/keyctl_instantiate.3",
+        "path_type": "hardlink",
+        "sha256": "a963d1f233e09f05574155039b9824d67e35f4765682b09b2aba69b290081fe1",
+        "sha256_in_prefix": "a963d1f233e09f05574155039b9824d67e35f4765682b09b2aba69b290081fe1",
+        "size_in_bytes": 6001
+      },
+      {
+        "_path": "share/man/man3/keyctl_instantiate_iov.3",
+        "path_type": "softlink",
+        "sha256": "a963d1f233e09f05574155039b9824d67e35f4765682b09b2aba69b290081fe1",
+        "sha256_in_prefix": "52c792efe45d7cf7797b3671ea6fa1768f6efb7d62c44f5b0d3ecf3327d0cd69",
+        "size_in_bytes": 6001
+      },
+      {
+        "_path": "share/man/man3/keyctl_invalidate.3",
+        "path_type": "hardlink",
+        "sha256": "523dc1e9ae45b27b1509258e0e3f2bdbab5bc53a14ecdba8990a86044c17d07f",
+        "sha256_in_prefix": "523dc1e9ae45b27b1509258e0e3f2bdbab5bc53a14ecdba8990a86044c17d07f",
+        "size_in_bytes": 2222
+      },
+      {
+        "_path": "share/man/man3/keyctl_join_session_keyring.3",
+        "path_type": "hardlink",
+        "sha256": "7dc4b2238e1aebdcb778d24e39e0e08f2fd242feb64657bc1233fe4b520f51fc",
+        "sha256_in_prefix": "7dc4b2238e1aebdcb778d24e39e0e08f2fd242feb64657bc1233fe4b520f51fc",
+        "size_in_bytes": 2644
+      },
+      {
+        "_path": "share/man/man3/keyctl_link.3",
+        "path_type": "hardlink",
+        "sha256": "82ecf1ebbdaa80322cf5b2c7701b7421e0bf619d6bdb37fc0149586b11f75426",
+        "sha256_in_prefix": "82ecf1ebbdaa80322cf5b2c7701b7421e0bf619d6bdb37fc0149586b11f75426",
+        "size_in_bytes": 2724
+      },
+      {
+        "_path": "share/man/man3/keyctl_move.3",
+        "path_type": "hardlink",
+        "sha256": "d073d31e38c394217f93944874b33e88dbfc91e4d589b554fd2bea0caeff3efc",
+        "sha256_in_prefix": "d073d31e38c394217f93944874b33e88dbfc91e4d589b554fd2bea0caeff3efc",
+        "size_in_bytes": 2944
+      },
+      {
+        "_path": "share/man/man3/keyctl_negate.3",
+        "path_type": "softlink",
+        "sha256": "a963d1f233e09f05574155039b9824d67e35f4765682b09b2aba69b290081fe1",
+        "sha256_in_prefix": "52c792efe45d7cf7797b3671ea6fa1768f6efb7d62c44f5b0d3ecf3327d0cd69",
+        "size_in_bytes": 6001
+      },
+      {
+        "_path": "share/man/man3/keyctl_pkey_decrypt.3",
+        "path_type": "hardlink",
+        "sha256": "09e44e0a320551f94bed43b3accefb6b66e3c325296402a566a3d73b24cda1b7",
+        "sha256_in_prefix": "09e44e0a320551f94bed43b3accefb6b66e3c325296402a566a3d73b24cda1b7",
+        "size_in_bytes": 26
+      },
+      {
+        "_path": "share/man/man3/keyctl_pkey_encrypt.3",
+        "path_type": "hardlink",
+        "sha256": "4c23f8a9464e3c7203853a08f956de6e857e43d4493707e35f89c6bb4e5bef0a",
+        "sha256_in_prefix": "4c23f8a9464e3c7203853a08f956de6e857e43d4493707e35f89c6bb4e5bef0a",
+        "size_in_bytes": 4158
+      },
+      {
+        "_path": "share/man/man3/keyctl_pkey_query.3",
+        "path_type": "hardlink",
+        "sha256": "826bda1a97b4ae000d0a49a7607f0df261826faa5a7035831bb7fa22de7fc986",
+        "sha256_in_prefix": "826bda1a97b4ae000d0a49a7607f0df261826faa5a7035831bb7fa22de7fc986",
+        "size_in_bytes": 3897
+      },
+      {
+        "_path": "share/man/man3/keyctl_pkey_sign.3",
+        "path_type": "hardlink",
+        "sha256": "f6d6197d60b4a21c48fbc57cfc40f2d0158d399933a30d1a5f9ff44d5e1e8cc3",
+        "sha256_in_prefix": "f6d6197d60b4a21c48fbc57cfc40f2d0158d399933a30d1a5f9ff44d5e1e8cc3",
+        "size_in_bytes": 4890
+      },
+      {
+        "_path": "share/man/man3/keyctl_pkey_verify.3",
+        "path_type": "hardlink",
+        "sha256": "b47706c08c85bb1e93933cb0298b6e51449f89066246eb325f40c6f9a48d4dc2",
+        "sha256_in_prefix": "b47706c08c85bb1e93933cb0298b6e51449f89066246eb325f40c6f9a48d4dc2",
+        "size_in_bytes": 23
+      },
+      {
+        "_path": "share/man/man3/keyctl_read.3",
+        "path_type": "hardlink",
+        "sha256": "2c33397f50acdde4f82700e83e3a943895eaab4730f14db159ad7f46f0112216",
+        "sha256_in_prefix": "2c33397f50acdde4f82700e83e3a943895eaab4730f14db159ad7f46f0112216",
+        "size_in_bytes": 3601
+      },
+      {
+        "_path": "share/man/man3/keyctl_read_alloc.3",
+        "path_type": "softlink",
+        "sha256": "2c33397f50acdde4f82700e83e3a943895eaab4730f14db159ad7f46f0112216",
+        "sha256_in_prefix": "e05daa6fc414c81a8375e72e4ced30dffa9dbc0c16cd3c726d23b65b796d57fc",
+        "size_in_bytes": 3601
+      },
+      {
+        "_path": "share/man/man3/keyctl_reject.3",
+        "path_type": "softlink",
+        "sha256": "a963d1f233e09f05574155039b9824d67e35f4765682b09b2aba69b290081fe1",
+        "sha256_in_prefix": "52c792efe45d7cf7797b3671ea6fa1768f6efb7d62c44f5b0d3ecf3327d0cd69",
+        "size_in_bytes": 6001
+      },
+      {
+        "_path": "share/man/man3/keyctl_restrict_keyring.3",
+        "path_type": "hardlink",
+        "sha256": "7788219c746c1375da69e046e1f56a067a9ed2a28cbb00b5516a62e630331dd7",
+        "sha256_in_prefix": "7788219c746c1375da69e046e1f56a067a9ed2a28cbb00b5516a62e630331dd7",
+        "size_in_bytes": 2515
+      },
+      {
+        "_path": "share/man/man3/keyctl_revoke.3",
+        "path_type": "hardlink",
+        "sha256": "99305b5adf605fdf2c302ee5eeba6703608c0debe44d2064931c6c6c4778b22a",
+        "sha256_in_prefix": "99305b5adf605fdf2c302ee5eeba6703608c0debe44d2064931c6c6c4778b22a",
+        "size_in_bytes": 2043
+      },
+      {
+        "_path": "share/man/man3/keyctl_search.3",
+        "path_type": "hardlink",
+        "sha256": "3be7299467615fa69dac707b0300cdbc87b9ea47616568ccf95e77185a84c18c",
+        "sha256_in_prefix": "3be7299467615fa69dac707b0300cdbc87b9ea47616568ccf95e77185a84c18c",
+        "size_in_bytes": 4209
+      },
+      {
+        "_path": "share/man/man3/keyctl_session_to_parent.3",
+        "path_type": "hardlink",
+        "sha256": "3544e059023ae1e6f40bf3d33d16258ff41c4334d234793430eb6ed2fd993334",
+        "sha256_in_prefix": "3544e059023ae1e6f40bf3d33d16258ff41c4334d234793430eb6ed2fd993334",
+        "size_in_bytes": 2522
+      },
+      {
+        "_path": "share/man/man3/keyctl_set_reqkey_keyring.3",
+        "path_type": "hardlink",
+        "sha256": "d884ee1d8845108b38bdee6d2263b114e4723e4417d0d4ea4cac54e415e36f2e",
+        "sha256_in_prefix": "d884ee1d8845108b38bdee6d2263b114e4723e4417d0d4ea4cac54e415e36f2e",
+        "size_in_bytes": 3176
+      },
+      {
+        "_path": "share/man/man3/keyctl_set_timeout.3",
+        "path_type": "hardlink",
+        "sha256": "9d09a8010733ff1c669808a17a5a6120488fe973ed804251eb908fa916ec2127",
+        "sha256_in_prefix": "9d09a8010733ff1c669808a17a5a6120488fe973ed804251eb908fa916ec2127",
+        "size_in_bytes": 2330
+      },
+      {
+        "_path": "share/man/man3/keyctl_setperm.3",
+        "path_type": "hardlink",
+        "sha256": "641da5e43ea80051b8c288d892b33ea151e407bbb28943f5948f1cf6bae97386",
+        "sha256_in_prefix": "641da5e43ea80051b8c288d892b33ea151e407bbb28943f5948f1cf6bae97386",
+        "size_in_bytes": 3754
+      },
+      {
+        "_path": "share/man/man3/keyctl_unlink.3",
+        "path_type": "softlink",
+        "sha256": "82ecf1ebbdaa80322cf5b2c7701b7421e0bf619d6bdb37fc0149586b11f75426",
+        "sha256_in_prefix": "3621626627af8bbaaafa48fe85421c2bc1c622c8bc7be3b1746d04af978c3d71",
+        "size_in_bytes": 2724
+      },
+      {
+        "_path": "share/man/man3/keyctl_update.3",
+        "path_type": "hardlink",
+        "sha256": "5b787f40e8b194ec80676eaf64764780814ba84b492d27bb101857d1a3193f36",
+        "sha256_in_prefix": "5b787f40e8b194ec80676eaf64764780814ba84b492d27bb101857d1a3193f36",
+        "size_in_bytes": 2589
+      },
+      {
+        "_path": "share/man/man3/keyctl_watch_key.3",
+        "path_type": "hardlink",
+        "sha256": "080223feb2898f9b22f1fdd6468755cf873d2fe5b5e3503fb1b2f035812b43a1",
+        "sha256_in_prefix": "080223feb2898f9b22f1fdd6468755cf873d2fe5b5e3503fb1b2f035812b43a1",
+        "size_in_bytes": 5452
+      },
+      {
+        "_path": "share/man/man3/recursive_key_scan.3",
+        "path_type": "hardlink",
+        "sha256": "c30fdb91ff1dfa3127cc563c02035eee71f19f2621afbe4e89df68971b73bebd",
+        "sha256_in_prefix": "c30fdb91ff1dfa3127cc563c02035eee71f19f2621afbe4e89df68971b73bebd",
+        "size_in_bytes": 3101
+      },
+      {
+        "_path": "share/man/man3/recursive_session_key_scan.3",
+        "path_type": "softlink",
+        "sha256": "c30fdb91ff1dfa3127cc563c02035eee71f19f2621afbe4e89df68971b73bebd",
+        "sha256_in_prefix": "e55c15c02a3e52bc7e9589ae31cb02dedea10b93a314866b7b4fc05cb331ad15",
+        "size_in_bytes": 3101
+      },
+      {
+        "_path": "include/keyutils.h",
+        "path_type": "hardlink",
+        "sha256": "aa66f40c97fb9db315850e68e002706695571c1ee6ec553569de723e0571fef1",
+        "sha256_in_prefix": "aa66f40c97fb9db315850e68e002706695571c1ee6ec553569de723e0571fef1",
+        "size_in_bytes": 11796
+      },
+      {
+        "_path": "lib/libkeyutils.a",
+        "path_type": "hardlink",
+        "sha256": "b6a2fbe2d833acea086940c4682ed551e31208626027c0ad9744751493a10377",
+        "sha256_in_prefix": "b6a2fbe2d833acea086940c4682ed551e31208626027c0ad9744751493a10377",
+        "size_in_bytes": 31434
+      },
+      {
+        "_path": "lib/libkeyutils.so",
+        "path_type": "softlink",
+        "sha256": "cdae6f9f149f3d9a31f5ac337d940c58313de4a475e757fe31abcb139c2b50e0",
+        "sha256_in_prefix": "a1866178c069ef4ab5ff05ce18b3fac20b09eb4aecfc15054b10a4c988bedd48",
+        "size_in_bytes": 39152
+      },
+      {
+        "_path": "lib/libkeyutils.so.1",
+        "path_type": "softlink",
+        "sha256": "cdae6f9f149f3d9a31f5ac337d940c58313de4a475e757fe31abcb139c2b50e0",
+        "sha256_in_prefix": "a1866178c069ef4ab5ff05ce18b3fac20b09eb4aecfc15054b10a4c988bedd48",
+        "size_in_bytes": 39152
+      },
+      {
+        "_path": "lib/libkeyutils.so.1.10",
+        "path_type": "hardlink",
+        "sha256": "cdae6f9f149f3d9a31f5ac337d940c58313de4a475e757fe31abcb139c2b50e0",
+        "sha256_in_prefix": "cdae6f9f149f3d9a31f5ac337d940c58313de4a475e757fe31abcb139c2b50e0",
+        "size_in_bytes": 39152
+      },
+      {
+        "_path": "bin/keyctl",
+        "path_type": "hardlink",
+        "sha256": "09222975c997be92f8a7e322e46be9f672e6e96fe55c2c32cdfb614213e1fadc",
+        "sha256_in_prefix": "09222975c997be92f8a7e322e46be9f672e6e96fe55c2c32cdfb614213e1fadc",
+        "size_in_bytes": 110856
+      },
+      {
+        "_path": "sbin/key.dns_resolver",
+        "path_type": "hardlink",
+        "sha256": "c0dfc7731fab22dcfbd01f139c2490f0bbb524797fa7fed8d85d360a6dca1c4a",
+        "sha256_in_prefix": "c0dfc7731fab22dcfbd01f139c2490f0bbb524797fa7fed8d85d360a6dca1c4a",
+        "size_in_bytes": 54856
+      },
+      {
+        "_path": "sbin/request-key",
+        "path_type": "hardlink",
+        "sha256": "506afc7de032ae76c4306c451d8ea4d76d729a9976d34329bb0bcb249e57dfde",
+        "sha256_in_prefix": "506afc7de032ae76c4306c451d8ea4d76d729a9976d34329bb0bcb249e57dfde",
+        "size_in_bytes": 44400
+      },
+      {
+        "_path": "lib/pkgconfig/libkeyutils.pc",
+        "path_type": "hardlink",
+        "sha256": "809881506025603b295c94f2a628e703efc64e6439b61a21c7de0603716ed75d",
+        "sha256_in_prefix": "809881506025603b295c94f2a628e703efc64e6439b61a21c7de0603716ed75d",
+        "size_in_bytes": 147
+      },
+      {
+        "_path": "share/man/man5/key.dns_resolver.conf.5",
+        "path_type": "hardlink",
+        "sha256": "d7f4bb4d3ad30e6d4541aba4b03ebe8da35db87874aa2e76dbd60f5241ece37c",
+        "sha256_in_prefix": "d7f4bb4d3ad30e6d4541aba4b03ebe8da35db87874aa2e76dbd60f5241ece37c",
+        "size_in_bytes": 1928
+      },
+      {
+        "_path": "share/man/man5/request-key.conf.5",
+        "path_type": "hardlink",
+        "sha256": "ee27f10ff5cda084d1d49b449fc90abfacf4700fed0d73c89cd889967d872290",
+        "sha256_in_prefix": "ee27f10ff5cda084d1d49b449fc90abfacf4700fed0d73c89cd889967d872290",
+        "size_in_bytes": 4529
+      },
+      {
+        "_path": "share/keyutils/request-key-debug.sh",
+        "path_type": "hardlink",
+        "sha256": "a38d3de7932c6ba13193bd985e0bc9918f8a514fc201fd23de018a172fd5c44c",
+        "sha256_in_prefix": "a38d3de7932c6ba13193bd985e0bc9918f8a514fc201fd23de018a172fd5c44c",
+        "size_in_bytes": 906
+      },
+      {
+        "_path": "share/man/man1/keyctl.1",
+        "path_type": "hardlink",
+        "sha256": "40e7fc0e23ac6dff43e8d35b5de054c719434ee3f93708804a08bbe3aaceb31a",
+        "sha256_in_prefix": "40e7fc0e23ac6dff43e8d35b5de054c719434ee3f93708804a08bbe3aaceb31a",
+        "size_in_bytes": 32145
+      },
+      {
+        "_path": "share/man/man7/asymmetric-key.7",
+        "path_type": "hardlink",
+        "sha256": "042584d8f38ba55bc9dd7b8cc55e51a3e564e8fc75f8d330cc0c4687139d63ae",
+        "sha256_in_prefix": "042584d8f38ba55bc9dd7b8cc55e51a3e564e8fc75f8d330cc0c4687139d63ae",
+        "size_in_bytes": 9416
+      },
+      {
+        "_path": "share/man/man7/keyutils.7",
+        "path_type": "hardlink",
+        "sha256": "2462db85e0a5869d833a9ea2fa1704f33e0b7888403e3ccccab00c4371882fb5",
+        "sha256_in_prefix": "2462db85e0a5869d833a9ea2fa1704f33e0b7888403e3ccccab00c4371882fb5",
+        "size_in_bytes": 2713
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/keyutils-1.6.3-hb9d3cd8_0",
+    "type": 1
+  }
+}
