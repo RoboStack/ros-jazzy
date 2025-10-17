@@ -1,0 +1,68 @@
+jobs:
+  stage_0_job_0:
+    name: point-cloud-transport point-cloud-interfaces
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-point-cloud-transport ros-jazzy-point-cloud-interfaces
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-point-cloud-transport ros-jazzy-point-cloud-interfaces
+        BUILD_TARGET: osx-arm64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_1_job_1:
+    name: zstd-point-cloud-transport zlib-point-cloud-transport draco-point-cloud-transport
+      point-cloud-transport-py
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-zstd-point-cloud-transport ros-jazzy-zlib-point-cloud-transport
+        ros-jazzy-draco-point-cloud-transport ros-jazzy-point-cloud-transport-py
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-zstd-point-cloud-transport ros-jazzy-zlib-point-cloud-transport
+          ros-jazzy-draco-point-cloud-transport ros-jazzy-point-cloud-transport-py
+        BUILD_TARGET: osx-arm64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_2:
+    name: point-cloud-transport-plugins
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-point-cloud-transport-plugins
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-point-cloud-transport-plugins
+        BUILD_TARGET: osx-arm64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+name: build_osx_arm64
+on:
+  push:
+    branches:
+    - buildbranch_osx_arm64
