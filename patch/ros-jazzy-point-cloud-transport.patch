@@ -1,3 +1,25 @@
+diff --git a/include/point_cloud_transport/simple_publisher_plugin.hpp b/include/point_cloud_transport/simple_publisher_plugin.hpp
+index 394fde1..39ab353 100644
+--- a/include/point_cloud_transport/simple_publisher_plugin.hpp
++++ b/include/point_cloud_transport/simple_publisher_plugin.hpp
+@@ -95,7 +95,7 @@ class SimplePublisherPlugin : public point_cloud_transport::PublisherPlugin
+   bool getParam(const std::string & parameter_name, T & value) const
+   {
+     if (simple_impl_) {
+-      uint ns_len = strlen(simple_impl_->node_interfaces_
++      unsigned int ns_len = strlen(simple_impl_->node_interfaces_
+           .get_node_base_interface()->get_namespace());
+       std::string param_base_name = getTopic().substr(ns_len);
+       std::replace(param_base_name.begin(), param_base_name.end(), '/', '.');
+@@ -120,7 +120,7 @@ class SimplePublisherPlugin : public point_cloud_transport::PublisherPlugin
+   {
+     if (simple_impl_) {
+       // Declare Parameters
+-      uint ns_len = strlen(simple_impl_->node_interfaces_
++      unsigned int ns_len = strlen(simple_impl_->node_interfaces_
+           .get_node_base_interface()->get_namespace());
+       std::string param_base_name = getTopic().substr(ns_len);
+       std::replace(param_base_name.begin(), param_base_name.end(), '/', '.');
 diff --git a/include/point_cloud_transport/simple_subscriber_plugin.hpp b/include/point_cloud_transport/simple_subscriber_plugin.hpp
 index 014e0a9..6426d9e 100644
 --- a/include/point_cloud_transport/simple_subscriber_plugin.hpp
