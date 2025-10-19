@@ -198,6 +198,7 @@ packages_select_by_deps:
       # Requested in https://github.com/RoboStack/ros-jazzy/issues/112
       # Error: LINK : fatal error LNK1181: cannot open input file 'zstd.lib' [%SRC_DIR%\build\zstd_point_cloud_transport.vcxproj]
       - point_cloud_transport_plugins
+      - bonxai
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
