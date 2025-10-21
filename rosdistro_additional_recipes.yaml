@@ -87,7 +87,7 @@ orbbec_camera_msgs:
   version: 1.5.13
 
 # TODO: Remove bonxai packages when they are available from ros2-gbp
-bonxai:
+bonxai_ros:
   tag: v0.6.0
   url: https://github.com/facontidavide/Bonxai.git
   version: 0.6.0
