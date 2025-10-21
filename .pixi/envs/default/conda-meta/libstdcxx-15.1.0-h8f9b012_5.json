@@ -1,0 +1,68 @@
+{
+  "arch": "x86_64",
+  "build": "h8f9b012_5",
+  "build_number": 5,
+  "depends": [
+    "__glibc >=2.17,<3.0.a0",
+    "libgcc 15.1.0 h767d61c_5"
+  ],
+  "license": "GPL-3.0-only WITH GCC-exception-3.1",
+  "license_family": "GPL",
+  "md5": "4e02a49aaa9d5190cb630fa43528fbe6",
+  "name": "libstdcxx",
+  "platform": "linux",
+  "purls": [],
+  "sha256": "0f5f61cab229b6043541c13538d75ce11bd96fb2db76f94ecf81997b1fde6408",
+  "size": 3896432,
+  "subdir": "linux-64",
+  "timestamp": 1757042571458,
+  "version": "15.1.0",
+  "fn": "libstdcxx-15.1.0-h8f9b012_5.conda",
+  "url": "https://repo.prefix.dev/conda-forge/linux-64/libstdcxx-15.1.0-h8f9b012_5.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/libstdcxx-15.1.0-h8f9b012_5",
+  "requested_specs": [],
+  "files": [
+    "lib/libstdc++.so",
+    "lib/libstdc++.so.6",
+    "lib/libstdc++.so.6.0.34",
+    "share/licenses/libstdc++/RUNTIME.LIBRARY.EXCEPTION"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "lib/libstdc++.so",
+        "path_type": "softlink",
+        "sha256": "c2dcf94f4495b783f828927fdb9a69f25ca83bf81ed6e707c5c1c401d5e3e1db",
+        "sha256_in_prefix": "aec28fad54960fb0bde1900723be926f286e404fce0b97f37467025dade34919",
+        "size_in_bytes": 14140344
+      },
+      {
+        "_path": "lib/libstdc++.so.6",
+        "path_type": "softlink",
+        "sha256": "c2dcf94f4495b783f828927fdb9a69f25ca83bf81ed6e707c5c1c401d5e3e1db",
+        "sha256_in_prefix": "aec28fad54960fb0bde1900723be926f286e404fce0b97f37467025dade34919",
+        "size_in_bytes": 14140344
+      },
+      {
+        "_path": "lib/libstdc++.so.6.0.34",
+        "path_type": "hardlink",
+        "sha256": "c2dcf94f4495b783f828927fdb9a69f25ca83bf81ed6e707c5c1c401d5e3e1db",
+        "sha256_in_prefix": "c2dcf94f4495b783f828927fdb9a69f25ca83bf81ed6e707c5c1c401d5e3e1db",
+        "size_in_bytes": 14140344
+      },
+      {
+        "_path": "share/licenses/libstdc++/RUNTIME.LIBRARY.EXCEPTION",
+        "path_type": "hardlink",
+        "sha256": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74",
+        "sha256_in_prefix": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74",
+        "size_in_bytes": 3324
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/libstdcxx-15.1.0-h8f9b012_5",
+    "type": 1
+  }
+}
