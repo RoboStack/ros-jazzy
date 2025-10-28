@@ -136,6 +136,8 @@ packages_select_by_deps:
 
   - ouster_ros
 
+  - clearpath_common
+  
   # cascade lifecycle packages
   - cascade-lifecycle-msgs
   - rclcpp-cascade-lifecycle
