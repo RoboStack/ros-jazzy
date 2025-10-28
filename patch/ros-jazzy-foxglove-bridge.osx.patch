@@ -1,0 +1,108 @@
+diff --git a/src/ros2_foxglove_bridge.cpp b/src/ros2_foxglove_bridge.cpp
+index 978c732..4883047 100644
+--- a/src/ros2_foxglove_bridge.cpp
++++ b/src/ros2_foxglove_bridge.cpp
+@@ -282,7 +282,7 @@ void FoxgloveBridge::updateAdvertisedTopics(
+     std::string topic(channel.topic());
+     const TopicAndDatatype topicAndSchemaName = {topic, schemaName};
+     if (latestTopics.find(topicAndSchemaName) == latestTopics.end()) {
+-      RCLCPP_INFO(this->get_logger(), "Removing channel %lu for topic \"%s\" (%s)", channel.id(),
++      RCLCPP_INFO(this->get_logger(), "Removing channel %llu for topic \"%s\" (%s)", channel.id(),
+                   topic.c_str(), schemaName.c_str());
+       channel.close();
+       channelIt = _channels.erase(channelIt);
+@@ -349,7 +349,7 @@ void FoxgloveBridge::updateAdvertisedTopics(
+     }
+ 
+     const ChannelId channelId = channelResult.value().id();
+-    RCLCPP_INFO(this->get_logger(), "Advertising new channel %lu for topic \"%s\"", channelId,
++    RCLCPP_INFO(this->get_logger(), "Advertising new channel %llu for topic \"%s\"", channelId,
+                 topic.c_str());
+     _channels.insert({channelId, std::move(channelResult.value())});
+   }
+@@ -570,14 +570,14 @@ void FoxgloveBridge::subscribeConnectionGraph(bool subscribe) {
+ void FoxgloveBridge::subscribe(ChannelId channelId, const foxglove::ClientMetadata& client) {
+   if (!client.sink_id.has_value()) {
+     RCLCPP_ERROR(this->get_logger(),
+-                 "received subscribe request from client %u for channel %lu but client "
++                 "received subscribe request from client %u for channel %llu but client "
+                  "has no sink ID",
+                  client.id, channelId);
+     return;
+   }
+ 
+   RCLCPP_INFO(this->get_logger(),
+-              "received subscribe request for channel %lu from client %u (sink %lu)", channelId,
++              "received subscribe request for channel %llu from client %u (sink %llu)", channelId,
+               client.id, client.sink_id.value());
+   std::lock_guard<std::mutex> lock(_subscriptionsMutex);
+ 
+@@ -585,7 +585,7 @@ void FoxgloveBridge::subscribe(ChannelId channelId, const foxglove::ClientMetada
+   // calling this callback?
+   auto it = _channels.find(channelId);
+   if (it == _channels.end()) {
+-    RCLCPP_ERROR(this->get_logger(), "received subscribe request for unknown channel: %lu",
++    RCLCPP_ERROR(this->get_logger(), "received subscribe request for unknown channel: %llu",
+                  channelId);
+     return;
+   }
+@@ -615,7 +615,7 @@ void FoxgloveBridge::subscribe(ChannelId channelId, const foxglove::ClientMetada
+ 
+   if (!client.sink_id.has_value()) {
+     RCLCPP_ERROR(this->get_logger(),
+-                 "received subscribe request for channel %lu but client "
++                 "received subscribe request for channel %llu but client "
+                  "has no sink ID",
+                  channelId);
+     return;
+@@ -623,19 +623,19 @@ void FoxgloveBridge::subscribe(ChannelId channelId, const foxglove::ClientMetada
+ 
+   _subscriptions.insert({{channelId, client.id}, subscription});
+   RCLCPP_INFO(this->get_logger(),
+-              "created ROS subscription on %s (%s) successfully for channel %lu (client "
+-              "%u, sink %lu)",
++              "created ROS subscription on %s (%s) successfully for channel %llu (client "
++              "%u, sink %llu)",
+               topic.c_str(), datatype.c_str(), channelId, client.id, client.sink_id.value());
+ }
+ 
+ void FoxgloveBridge::unsubscribe(ChannelId channelId, const foxglove::ClientMetadata& client) {
+   std::lock_guard<std::mutex> lock(_subscriptionsMutex);
+ 
+-  RCLCPP_INFO(this->get_logger(), "received unsubscribe request for channel %lu", channelId);
++  RCLCPP_INFO(this->get_logger(), "received unsubscribe request for channel %llu", channelId);
+ 
+   auto it = _channels.find(channelId);
+   if (it == _channels.end()) {
+-    RCLCPP_ERROR(this->get_logger(), "received unsubscribe request for unknown channel %lu",
++    RCLCPP_ERROR(this->get_logger(), "received unsubscribe request for unknown channel %llu",
+                  channelId);
+     return;
+   }
+@@ -643,7 +643,7 @@ void FoxgloveBridge::unsubscribe(ChannelId channelId, const foxglove::ClientMeta
+   auto subscriptionIt = _subscriptions.find({channelId, client.id});
+   if (subscriptionIt == _subscriptions.end()) {
+     RCLCPP_ERROR(this->get_logger(),
+-                 "Client %u tried unsubscribing from channel %lu but a corresponding ROS "
++                 "Client %u tried unsubscribing from channel %llu but a corresponding ROS "
+                  "subscription doesn't exist",
+                  client.id, channelId);
+     return;
+@@ -651,7 +651,7 @@ void FoxgloveBridge::unsubscribe(ChannelId channelId, const foxglove::ClientMeta
+ 
+   const std::string& topic = subscriptionIt->second->get_topic_name();
+   RCLCPP_INFO(this->get_logger(),
+-              "Cleaned up subscription to topic %s for client %u on channel %lu", topic.c_str(),
++              "Cleaned up subscription to topic %s for client %u on channel %llu", topic.c_str(),
+               client.id, channelId);
+   _subscriptions.erase(subscriptionIt);
+ }
+@@ -755,7 +755,7 @@ void FoxgloveBridge::clientUnadvertise(ClientId clientId, ChannelId clientChanne
+ 
+   const auto& publisher = it->second.publisher;
+   RCLCPP_INFO(this->get_logger(),
+-              "Client ID %u is no longer advertising %s (%zu subscribers) on channel %lu", clientId,
++              "Client ID %u is no longer advertising %s (%zu subscribers) on channel %llu", clientId,
+               publisher->get_topic_name(), publisher->get_subscription_count(), clientChannelId);
+ 
+   _clientAdvertisedTopics.erase(it);
