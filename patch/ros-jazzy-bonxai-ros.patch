@@ -1,0 +1,248 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4e64c99..867e58d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -18,7 +18,7 @@ set(CMAKE_CXX_STANDARD 17)
+ set(CMAKE_CONFIG_PATH ${CMAKE_MODULE_PATH}  "${CMAKE_CURRENT_LIST_DIR}/cmake")
+ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CONFIG_PATH}")
+ 
+-find_package(PCL QUIET COMPONENTS common io)
++find_package(PCL QUIET COMPONENTS common filters io)
+ 
+ find_package(benchmark QUIET)
+ find_package(octomap QUIET)
+@@ -43,7 +43,7 @@ endif()
+ add_subdirectory(bonxai_core)
+ add_subdirectory(examples)
+ 
+-if(Eigen_FOUND AND PCL_FOUND )
++if(Eigen3_FOUND AND PCL_FOUND )
+     add_subdirectory(bonxai_map)
+ endif()
+ 
+@@ -60,6 +60,8 @@ if ( ament_cmake_FOUND )
+     find_package(ament_cmake_auto REQUIRED)
+     ament_auto_find_build_dependencies()
+ 
++    find_package(std_srvs REQUIRED)
++
+     include_directories(bonxai_ros/include 3rdparty)
+ 
+     ament_auto_add_library(bonxai_server SHARED
+@@ -69,6 +71,7 @@ if ( ament_cmake_FOUND )
+     target_link_libraries(bonxai_server
+       bonxai_map
+       ${PCL_LIBRARIES}
++      ${std_srvs_TARGETS}
+     )
+ 
+     rclcpp_components_register_node(bonxai_server
+diff --git a/README.md b/README.md
+index 4c2c193..a17fa46 100644
+--- a/README.md
++++ b/README.md
+@@ -29,7 +29,7 @@ an implementation of the original paper, with a couple of non-trivial changes:
+ 
+ You can read the previous paper [here](http://www.museth.org/Ken/Publications_files/Museth_TOG13.pdf).
+ 
+-There is also some overlap with this other paper, but their implementation is much** simpler,
++There is also some overlap with this other paper, but their implementation is **much** simpler,
+ even if conceptually similar:
+ 
+      Eurico Pedrosa, Artur Pereira, Nuno Lau
+@@ -38,7 +38,7 @@ even if conceptually similar:
+ 
+ 
+ **Bonxai** is currently under development and I am building this mostly for fun and for
+-educational purposes. Don't expect any API stability for the time being.
++educational purposes.
+ 
+ # Benchmark (preliminary)
+ 
+@@ -73,7 +73,7 @@ and include like this:
+ #include "bonxai/bonxai.hpp"
+ ```
+ 
+-To create a VoxelGrid, where each cell contains an integer value and has size 0.05.
++To create a VoxelGrid, where each cell contains an integer value and has a size of 0.05.
+ 
+ ```c++
+ double voxel_resolution = 0.05;
+@@ -94,7 +94,7 @@ Bonxai::VoxelGrid<Foo> foo_grid( voxel_resolution );
+ 
+ To insert values into a cell with coordinates x, y and z, use a
+ `VoxelGrid::Accessor` object.
+-In the next code sample, we will create a dense cube of cells with value 42:
++In the next code sample, we will create a dense cube of cells with the value 42:
+ 
+ ```c++
+ // Each cell will contain a `float` and it will have size 0.05
+@@ -130,8 +130,7 @@ float* value_ptr = accessor.value( coord );
+ `Bonxai::VoxelGrid` is **not** thread-safe, for write operations.
+ 
+ If you want to access the grid in **read-only** mode, you can
+-use multi-threading, but each thread should have its own
+-`accessor`.
++use multi-threading, but each thread should have its own `accessor`.
+ 
+ # Roadmap
+ 
+@@ -141,7 +140,7 @@ use multi-threading, but each thread should have its own
+ - [ ] RViz2 visualization messages.
+ - [ ] integration with [FCL](https://github.com/flexible-collision-library/fcl) for collision detection (?)
+ 
+-# Frequently Asked Question
++# Frequently Asked Questions
+ 
+ **What is the point of reimplementing OpenVDB?**
+ 
+@@ -155,5 +154,5 @@ use multi-threading, but each thread should have its own
+ 
+ It is... complicated.
+ 
+-If you need to store very sparse point clouds, you should expect Bonxai to use more memory (20-40% more).
+-If the point cloud is relatively dense, Bonxai might use less memory than Octomap (less than half).
++If you need to store very sparse point clouds, Bonxai will probably use more memory (20-40% more).
++If the point cloud is relatively dense, Bonxai might use less memory than Octomap (even less than half).
+diff --git a/bonxai_core/include/bonxai/bonxai.hpp b/bonxai_core/include/bonxai/bonxai.hpp
+index 7d360cf..e43771e 100644
+--- a/bonxai_core/include/bonxai/bonxai.hpp
++++ b/bonxai_core/include/bonxai/bonxai.hpp
+@@ -367,7 +367,7 @@ inline size_t Grid<DataT>::memUsage() const {
+ template <typename DataT>
+ inline void VoxelGrid<DataT>::releaseUnusedMemory() {
+   std::vector<CoordT> keys_to_delete;
+-  for (const auto& [key, inner_grid] : root_map) {
++  for (auto& [key, inner_grid] : root_map) {
+     for (auto inner_it = inner_grid.mask().beginOn(); inner_it; ++inner_it) {
+       const int32_t inner_index = *inner_it;
+       auto& leaf_grid = inner_grid.cell(inner_index);
+@@ -404,9 +404,9 @@ inline VoxelGrid<DataT>::VoxelGrid(double voxel_size, uint8_t inner_bits, uint8_
+ template <typename DataT>
+ inline CoordT VoxelGrid<DataT>::posToCoord(double x, double y, double z) const {
+   return {
+-      static_cast<int32_t>(std::nearbyint(x * inv_resolution)),
+-      static_cast<int32_t>(std::nearbyint(y * inv_resolution)),
+-      static_cast<int32_t>(std::nearbyint(z * inv_resolution))};
++      static_cast<int32_t>(std::floor(x * inv_resolution)),
++      static_cast<int32_t>(std::floor(y * inv_resolution)),
++      static_cast<int32_t>(std::floor(z * inv_resolution))};
+ }
+ 
+ template <typename DataT>
+diff --git a/bonxai_core/include/bonxai/grid_allocator.hpp b/bonxai_core/include/bonxai/grid_allocator.hpp
+index 34a3231..5bb8938 100644
+--- a/bonxai_core/include/bonxai/grid_allocator.hpp
++++ b/bonxai_core/include/bonxai/grid_allocator.hpp
+@@ -13,6 +13,7 @@
+ #include <memory>
+ #include <mutex>
+ #include <stdexcept>
++#include <functional>
+ 
+ #include "mask.hpp"
+ 
+diff --git a/bonxai_core/include/bonxai/grid_coord.hpp b/bonxai_core/include/bonxai/grid_coord.hpp
+index da8fb7d..1f9727b 100644
+--- a/bonxai_core/include/bonxai/grid_coord.hpp
++++ b/bonxai_core/include/bonxai/grid_coord.hpp
+@@ -79,9 +79,9 @@ struct CoordT {
+ 
+ [[nodiscard]] inline CoordT PosToCoord(const Point3D& point, double inv_resolution) {
+   return {
+-      static_cast<int32_t>(std::nearbyint(point.x * inv_resolution)),
+-      static_cast<int32_t>(std::nearbyint(point.y * inv_resolution)),
+-      static_cast<int32_t>(std::nearbyint(point.z * inv_resolution))};
++      static_cast<int32_t>(std::floor(point.x * inv_resolution)),
++      static_cast<int32_t>(std::floor(point.y * inv_resolution)),
++      static_cast<int32_t>(std::floor(point.z * inv_resolution))};
+ }
+ 
+ [[nodiscard]] inline Point3D CoordToPos(const CoordT& coord, double resolution) {
+@@ -212,7 +212,7 @@ struct hash<Bonxai::CoordT> {
+   std::size_t operator()(const Bonxai::CoordT& p) const {
+     // same as OpenVDB
+     return ((1 << 20) - 1) & (static_cast<int64_t>(p.x) * 73856093 ^  //
+-                              static_cast<int64_t>(p.y) * 19349663 ^  //
++                              static_cast<int64_t>(p.y) * 19349669 ^  //
+                               static_cast<int64_t>(p.z) * 83492791);
+   }
+ };
+diff --git a/bonxai_ros/include/bonxai_server.hpp b/bonxai_ros/include/bonxai_server.hpp
+index 96de2c0..66058f6 100644
+--- a/bonxai_ros/include/bonxai_server.hpp
++++ b/bonxai_ros/include/bonxai_server.hpp
+@@ -5,7 +5,6 @@
+ #include <pcl/filters/extract_indices.h>
+ #include <pcl/filters/passthrough.h>
+ #include <pcl/io/pcd_io.h>
+-#include <pcl/segmentation/sac_segmentation.h>
+ 
+ #include <algorithm>
+ #include <limits>
+@@ -16,17 +15,17 @@
+ #include "bonxai/bonxai.hpp"
+ #include "bonxai_map/pcl_utils.hpp"
+ #include "bonxai_map/probabilistic_map.hpp"
+-#include "message_filters/subscriber.h"
++#include "message_filters/subscriber.hpp"
+ #include "pcl_conversions/pcl_conversions.h"
+ #include "rclcpp/rclcpp.hpp"
+ #include "sensor_msgs/msg/point_cloud2.hpp"
+ #include "std_msgs/msg/color_rgba.hpp"
+ #include "std_srvs/srv/empty.hpp"
+ #include "tf2_eigen/tf2_eigen.hpp"
+-#include "tf2_ros/buffer.h"
+-#include "tf2_ros/create_timer_ros.h"
+-#include "tf2_ros/message_filter.h"
+-#include "tf2_ros/transform_listener.h"
++#include "tf2_ros/buffer.hpp"
++#include "tf2_ros/create_timer_ros.hpp"
++#include "tf2_ros/message_filter.hpp"
++#include "tf2_ros/transform_listener.hpp"
+ 
+ namespace bonxai_server {
+ 
+diff --git a/bonxai_ros/src/bonxai_server.cpp b/bonxai_ros/src/bonxai_server.cpp
+index 1717d2e..8d8a2f4 100644
+--- a/bonxai_ros/src/bonxai_server.cpp
++++ b/bonxai_ros/src/bonxai_server.cpp
+@@ -144,6 +144,15 @@ void BonxaiServer::insertCloudCallback(const PointCloud2::ConstSharedPtr cloud)
+   PCLPointCloud pc;  // input cloud for filtering and ground-detection
+   pcl::fromROSMsg(*cloud, pc);
+ 
++  // remove NaN and Inf values
++  size_t filtered_index = 0;
++  for (const auto& point : pc.points) {
++    if (std::isfinite(point.x) && std::isfinite(point.y) && std::isfinite(point.z)) {
++      pc.points[filtered_index++] = point;
++    }
++  }
++  pc.resize(filtered_index);
++
+   // Sensor In Global Frames Coordinates
+   geometry_msgs::msg::TransformStamped sensor_to_world_transform_stamped;
+   try {
+diff --git a/package.xml b/package.xml
+index 99be274..35b0e94 100644
+--- a/package.xml
++++ b/package.xml
+@@ -13,6 +13,7 @@
+   <depend>rclcpp</depend>
+   <depend>rclcpp_components</depend>
+   <depend>pcl_conversions</depend>
++  <depend>std_srvs</depend>
+   <depend>sensor_msgs</depend>
+   <depend>tf2</depend>
+   <depend>tf2_eigen</depend>
+@@ -20,7 +21,9 @@
+   <depend>tf2_ros</depend>
+   <depend>visualization_msgs</depend>
+   <depend>message_filters</depend>
+-  <depend>std_srvs</depend>
++  <depend>libpcl-common</depend>
++  <depend>libpcl-io</depend>
++  <depend>libpcl-filters</depend>
+ 
+   <test_depend>ament_lint_auto</test_depend>
+   <test_depend>ament_lint_common</test_depend>

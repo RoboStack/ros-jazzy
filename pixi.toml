@@ -11,7 +11,7 @@ libc = { family="glibc", version="2.17" }
 
 [dependencies]
 python = ">=3.12.0,<3.13"
-rattler-build = ">=0.35.5"
+rattler-build = ">=0.44.0"
 anaconda-client = ">=1.13.0"
 cmake = "<4.0"
 
@@ -23,7 +23,7 @@ git = "*"
 
 [pypi-dependencies]
 # This is tipically the latest commit on main branch
-vinca = { git = "https://github.com/RoboStack/vinca.git", rev = "7d3a05e01d6898201a66ba2cf6ea771250671f58" }
+vinca = { git = "https://github.com/RoboStack/vinca.git", rev = "84494ae511217e1c8267b4d0d458969a53d588f6" }
 # Uncomment this line to work with a local vinca for faster iteration, but remember to comment it back
 # (and regenerate the pixi.lock) once you push the modified commit to the repo
 # vinca = { path = "../vinca", editable = true }
@@ -31,8 +31,10 @@ vinca = { git = "https://github.com/RoboStack/vinca.git", rev = "7d3a05e01d68982
 [tasks]
 remove-recipes = { cmd = "rm -rf recipes_only_patch; rm -rf recipes; mkdir recipes" }
 generate-recipes = { cmd = "vinca -m", depends-on = ["remove-recipes"] }
+generate-gha-workflows = { cmd = "vinca-gha --trigger-branch dummy_build_branch_as_it_is_unused -d ./recipes", depends-on = ["generate-recipes"] }
 check-patches = { cmd = "python check_patches_clean_apply.py", depends-on = ["generate-recipes"] }
 build = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-jazzy -c https://repo.prefix.dev/conda-forge --skip-existing", depends-on = ["generate-recipes"] }
 build_one_package = { cmd = "cp ./patch/$PACKAGE.*patch ./recipes/$PACKAGE/patch/; rattler-build build --recipe ./recipes/$PACKAGE/recipe.yaml -m ./conda_build_config.yaml -c robostack-jazzy -c https://repo.prefix.dev/conda-forge", env = { PACKAGE = "ros-jazzy-ros-workspace" } }
 create_snapshot = { cmd = "vinca-snapshot -d jazzy -o rosdistro_snapshot.yaml" }
-upload = "anaconda -t $ANACONDA_API_TOKEN upload"
+# upload = "anaconda -t $ANACONDA_API_TOKEN upload"
+upload = "rattler-build upload anaconda -o robostack-jazzy -a $ANACONDA_API_TOKEN"

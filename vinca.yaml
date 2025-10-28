@@ -5,12 +5,12 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 10
-build_number: 9
+# Reminder for next full rebuild, the next build number should be 12
+build_number: 10
 
 mutex_package:
   name: "ros2-distro-mutex"
-  version: "0.10.0"
+  version: "0.11.0"
   upper_bound: "x.x"
   run_constraints:
     - libboost 1.86.*
@@ -133,7 +133,6 @@ packages_select_by_deps:
   - ament_cmake_black
 
   - behaviortree_cpp
-
   - ouster_ros
 
   - clearpath_common
@@ -147,6 +146,8 @@ packages_select_by_deps:
 
   # Requested in https://github.com/RoboStack/ros-humble/issues/325
   - data_tamer_cpp
+
+  - point_cloud_transport_py
 
   # These packages are only built on Windows as they depend on Linux-specific API
   - if: linux
@@ -177,6 +178,7 @@ packages_select_by_deps:
       - moveit-runtime
       - moveit-task-constructor-demo
       - moveit2-tutorials
+      - pinocchio
       # todo: switch to dummy vendored package that just depends on the conda-forge's gtsam, so it works also on Windows
       - gtsam
       # TODO on windows: fix iconv link issue
@@ -195,6 +197,10 @@ packages_select_by_deps:
       - web_video_server
       - orbbec_description
       - orbbec_camera_msgs
+      # Requested in https://github.com/RoboStack/ros-jazzy/issues/112
+      # Error: LINK : fatal error LNK1181: cannot open input file 'zstd.lib' [%SRC_DIR%\build\zstd_point_cloud_transport.vcxproj]
+      - point_cloud_transport_plugins
+      - bonxai_ros
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
