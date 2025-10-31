@@ -149,7 +149,10 @@ packages_select_by_deps:
 
   - point_cloud_transport_py
 
-  # These packages are only built on Windows as they depend on Linux-specific API
+  # IntelRealSense
+  - librealsense2
+
+  # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
       # Depends on socketcan
