@@ -96,7 +96,6 @@ packages_select_by_deps:
 
   - rosbridge_suite
 
-  - foxglove_bridge
   - foxglove_msgs
 
   - lanelet2
@@ -201,6 +200,8 @@ packages_select_by_deps:
       # Error: LINK : fatal error LNK1181: cannot open input file 'zstd.lib' [%SRC_DIR%\build\zstd_point_cloud_transport.vcxproj]
       - point_cloud_transport_plugins
       - bonxai_ros
+      # Error: LINK : fatal error LNK1181: cannot open input file '_deps\foxglove_sdk-src\lib\libfoxglove.a'
+      - foxglove_bridge
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
