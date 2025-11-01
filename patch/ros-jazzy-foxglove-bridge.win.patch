@@ -1,0 +1,13 @@
+diff --git a/src/message_definition_cache.cpp b/src/message_definition_cache.cpp
+index f338db9..0341c21 100644
+--- a/src/message_definition_cache.cpp
++++ b/src/message_definition_cache.cpp
+@@ -234,7 +234,7 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
+   }
+ 
+   // Read the file
+-  const std::string full_path = share_dir + std::filesystem::path::preferred_separator + *it;
++  const std::filesystem::path full_path = std::filesystem::path(share_dir) / *it;
+   std::ifstream file{full_path};
+   if (!file.good()) {
+     throw DefinitionNotFoundError(definition_identifier.package_resource_name);
