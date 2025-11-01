@@ -1,5 +1,5 @@
 diff --git a/src/message_definition_cache.cpp b/src/message_definition_cache.cpp
-index f338db9..0341c21 100644
+index f338db9..faabdce 100644
 --- a/src/message_definition_cache.cpp
 +++ b/src/message_definition_cache.cpp
 @@ -234,7 +234,7 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
@@ -11,3 +11,14 @@ index f338db9..0341c21 100644
    std::ifstream file{full_path};
    if (!file.good()) {
      throw DefinitionNotFoundError(definition_identifier.package_resource_name);
+@@ -376,8 +376,8 @@ std::pair<MessageDefinitionFormat, const std::string&> MessageDefinitionCache::g
+     result = delimiter(root_definition_identifier) + append_recursive(root_definition_identifier);
+   }
+ 
+-  auto [it, _] = full_text_cache_.emplace(root_package_resource_name, result);
+-  return {format, it->second};
++  auto [cache_it, _] = full_text_cache_.emplace(root_package_resource_name, result);
++  return {format, cache_it->second};
+ }
+ 
+ }  // namespace foxglove_bridge
