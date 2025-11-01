@@ -1,8 +1,19 @@
 diff --git a/src/message_definition_cache.cpp b/src/message_definition_cache.cpp
-index f338db9..faabdce 100644
+index f338db9..c2ae6d7 100644
 --- a/src/message_definition_cache.cpp
 +++ b/src/message_definition_cache.cpp
-@@ -234,7 +234,7 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
+@@ -225,16 +225,16 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
+ 
+   // Find the first line that ends with the filename we're looking for
+   const auto lines = split_string(index_contents);
+-  const auto it = std::find_if(lines.begin(), lines.end(), [&filename](const std::string& line) {
++  const auto line_it = std::find_if(lines.begin(), lines.end(), [&filename](const std::string& line) {
+     std::filesystem::path filePath(line);
+     return filePath.filename() == filename;
+   });
+-  if (it == lines.end()) {
++  if (line_it == lines.end()) {
+     throw DefinitionNotFoundError(definition_identifier.package_resource_name);
    }
  
    // Read the file
