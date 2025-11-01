@@ -1,4 +1,4 @@
-[project]
+[workspace]
 name = "ros-jazzy"
 description = "RoboStack repo to package ros-jazzy packages as conda packages"
 authors = ["Tobias Fischer <tobias.fischer@qut.edu.au>", "Wolf Vollprecht <w.vollprecht@gmail.com>", "Silvio Traversaro <silvio@traversaro.it>"]
