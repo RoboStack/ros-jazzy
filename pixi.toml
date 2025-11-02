@@ -1,4 +1,4 @@
-[project]
+[workspace]
 name = "ros-jazzy"
 description = "RoboStack repo to package ros-jazzy packages as conda packages"
 authors = ["Tobias Fischer <tobias.fischer@qut.edu.au>", "Wolf Vollprecht <w.vollprecht@gmail.com>", "Silvio Traversaro <silvio@traversaro.it>"]
@@ -14,6 +14,8 @@ python = ">=3.12.0,<3.13"
 rattler-build = ">=0.44.0"
 anaconda-client = ">=1.13.0"
 cmake = "<4.0"
+# Some git repos may need git-lfs, see https://github.com/RoboStack/ros-jazzy/issues/118
+git-lfs = "*"
 
 [target.win-64.dependencies]
 # patch is required by rattler-build

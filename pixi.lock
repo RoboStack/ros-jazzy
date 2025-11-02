@@ -26,6 +26,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/conda-package-handling-2.4.0-pyh7900ff3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/conda-package-streaming-0.12.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/defusedxml-0.7.1-pyhd8ed1ab_0.tar.bz2
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/git-lfs-3.7.1-h6138981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/h2-4.3.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/hpack-4.1.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/hyperframe-6.1.0-pyhd8ed1ab_0.conda
@@ -150,6 +151,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/conda-package-handling-2.4.0-pyh7900ff3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/conda-package-streaming-0.12.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/defusedxml-0.7.1-pyhd8ed1ab_0.tar.bz2
+      - conda: https://repo.prefix.dev/conda-forge/linux-aarch64/git-lfs-3.7.1-h263a83c_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/h2-4.3.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/hpack-4.1.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/hyperframe-6.1.0-pyhd8ed1ab_0.conda
@@ -273,6 +275,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/conda-package-handling-2.4.0-pyh7900ff3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/conda-package-streaming-0.12.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/defusedxml-0.7.1-pyhd8ed1ab_0.tar.bz2
+      - conda: https://repo.prefix.dev/conda-forge/osx-64/git-lfs-3.7.1-h1ecb644_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/h2-4.3.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/hpack-4.1.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/hyperframe-6.1.0-pyhd8ed1ab_0.conda
@@ -386,6 +389,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/conda-package-handling-2.4.0-pyh7900ff3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/conda-package-streaming-0.12.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/defusedxml-0.7.1-pyhd8ed1ab_0.tar.bz2
+      - conda: https://repo.prefix.dev/conda-forge/osx-arm64/git-lfs-3.7.1-h07d3073_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/h2-4.3.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/hpack-4.1.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/hyperframe-6.1.0-pyhd8ed1ab_0.conda
@@ -502,6 +506,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/cpython-3.12.11-py312hd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/defusedxml-0.7.1-pyhd8ed1ab_0.tar.bz2
       - conda: https://repo.prefix.dev/conda-forge/win-64/git-2.51.0-h57928b3_1.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/git-lfs-3.7.1-hb13f615_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/h2-4.3.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/hpack-4.1.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/hyperframe-6.1.0-pyhd8ed1ab_0.conda
@@ -1242,6 +1247,48 @@ packages:
   purls: []
   size: 123093629
   timestamp: 1756811084933
+- conda: https://repo.prefix.dev/conda-forge/linux-64/git-lfs-3.7.1-h6138981_0.conda
+  sha256: 2ec2ae780f2e0d5e6fc2750bf926bbca1d3a9e2c17ab731fa835b1d845143e8b
+  md5: e6b8b2c21c5b70ba9016bb93e59e39ef
+  license: MIT
+  license_family: MIT
+  purls: []
+  size: 4427976
+  timestamp: 1760661549587
+- conda: https://repo.prefix.dev/conda-forge/linux-aarch64/git-lfs-3.7.1-h263a83c_0.conda
+  sha256: 037fbb416e37da38fd08b6191432072b5cf4933c874eb236f8972996e8dc5666
+  md5: cee0491f986dbff21611b1835f473162
+  license: MIT
+  license_family: MIT
+  purls: []
+  size: 3966211
+  timestamp: 1760661591096
+- conda: https://repo.prefix.dev/conda-forge/osx-64/git-lfs-3.7.1-h1ecb644_0.conda
+  sha256: c741870b843017a374d3c5b5a17fb675ba96e901d032b390e294efeecb2b52c0
+  md5: 9c43bbc9582ddaa4551da02511352ca1
+  constrains:
+  - __osx>=10.12
+  license: MIT
+  license_family: MIT
+  purls: []
+  size: 4325407
+  timestamp: 1760662127367
+- conda: https://repo.prefix.dev/conda-forge/osx-arm64/git-lfs-3.7.1-h07d3073_0.conda
+  sha256: 3bf8ece8ba95aa4150d05279cc76790f3f316914e1b5e60934f72f571b3a1210
+  md5: 5756ce274afd8719486dcee6b5cd6e92
+  license: MIT
+  license_family: MIT
+  purls: []
+  size: 3965629
+  timestamp: 1760661795157
+- conda: https://repo.prefix.dev/conda-forge/win-64/git-lfs-3.7.1-hb13f615_0.conda
+  sha256: 655ff3447ab64c479dddc6b7bf081ebc566012812bb929dded170ae30ce4e23c
+  md5: 4aafc226cea346d604750e55f222740d
+  license: MIT
+  license_family: MIT
+  purls: []
+  size: 4143403
+  timestamp: 1760662137408
 - conda: https://repo.prefix.dev/conda-forge/noarch/h2-4.3.0-pyhcf101f3_0.conda
   sha256: 84c64443368f84b600bfecc529a1194a3b14c3656ee2e832d15a20e0329b6da3
   md5: 164fc43f0b53b6e3a7bc7dce5e4f1dc9
