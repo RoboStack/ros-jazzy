@@ -145,6 +145,10 @@ rviz_ogre_vendor:
 # Remove once https://github.com/PickNikRobotics/data_tamer/pull/58 is merged and released
 data_tamer_cpp:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+foxglove_bridge:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+lanelet2_projection:
+  additional_cmake_args: "-DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON -DCMAKE_CXX_EXTENSIONS=OFF"
+lanelet2_python:
+  additional_cmake_args: "-DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON -DCMAKE_CXX_EXTENSIONS=OFF"
 # Everything after this comment needs to be removed on next full rebuild
-point_cloud_transport:
-  build_number: 11
