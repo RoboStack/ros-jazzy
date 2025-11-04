@@ -91,3 +91,9 @@ bonxai_ros:
   tag: v0.6.0
   url: https://github.com/facontidavide/Bonxai.git
   version: 0.6.0
+
+# ros1_bridge is not released for Jazzy, build from source
+ros1_bridge:
+  tag: jazzy
+  url: https://github.com/ros2/ros1_bridge.git
+  version: 0.0.0
