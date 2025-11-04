@@ -77,6 +77,8 @@ packages_select_by_deps:
   - ur
   - ur_simulation_gz
 
+  - ros1_bridge
+
   - ros_gz
   - slam_toolbox
   - turtlebot3
