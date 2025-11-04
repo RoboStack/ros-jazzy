@@ -94,6 +94,6 @@ bonxai_ros:
 
 # ros1_bridge is not released for Jazzy, build from source
 ros1_bridge:
-  tag: jazzy
+  tag: 0.10.3
   url: https://github.com/ros2/ros1_bridge.git
-  version: 0.0.0
+  version: 0.10.3
