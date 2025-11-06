@@ -149,6 +149,9 @@ packages_select_by_deps:
 
   - point_cloud_transport_py
 
+  # SICK LiDAR drivers
+  - sick_scan_xd
+
   # IntelRealSense
   - librealsense2
 
