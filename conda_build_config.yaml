@@ -1,5 +1,5 @@
 numpy:
-  - 1.26
+  - 2
 libprotobuf:
   - 6.31.1
 protobuf:
@@ -14,6 +14,10 @@ libxml2:
   - 2.14.*
 graphviz:
   - 13.*
+# Mitigation for
+# https://github.com/RoboStack/ros-jazzy/pull/126#issuecomment-3515455380
+libcap:
+  - 2.76
 
 tbb:
   - '2021'
@@ -56,9 +60,9 @@ cxx_compiler_version:          # [unix]
   - 18                         # [osx]
 
 libzenohc:
-  - 1.5.1
+  - 1.6.2
 libzenohcxx:
-  - 1.5.1
+  - 1.6.2
 
 libhwloc:
   - 2.11.2
