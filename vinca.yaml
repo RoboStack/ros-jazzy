@@ -5,21 +5,21 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 13
-build_number: 12
+# Reminder for next full rebuild, the next build number should be 14
+build_number: 13
 
 mutex_package:
   name: "ros2-distro-mutex"
-  version: "0.12.0"
+  version: "0.13.0"
   upper_bound: "x.x"
   run_constraints:
-    - libboost 1.86.*
-    - libboost-devel 1.86.*
-    - pcl 1.15.0.*
+    - libboost 1.88.*
+    - libboost-devel 1.88.*
+    - pcl 1.15.1.*
     - gazebo 11.*
-    - libprotobuf 5.29.3.*
-    - libxml2 2.13.*
-    - vtk 9.4.2.*
+    - libprotobuf 6.31.1.*
+    - libxml2 2.14.*
+    - vtk 9.5.1.*
 
 packages_skip_by_deps:
   - if: not linux
