@@ -11,7 +11,7 @@ pugixml:
 libopencv:
   - 4.12.0
 libxml2:
-  - 2.14.*
+  - 2.13.*
 graphviz:
   - 13.*
 # Mitigation for
