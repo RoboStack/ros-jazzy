@@ -155,6 +155,9 @@ packages_select_by_deps:
   # IntelRealSense
   - librealsense2
 
+  # geodesy (required for many outdoors robotics packages)
+  - geodesy
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
