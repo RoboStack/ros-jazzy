@@ -19,6 +19,7 @@ mutex_package:
     - gazebo 11.*
     - libprotobuf 6.31.1.*
     - vtk 9.5.1.*
+    - spdlog 1.16.*
 
 packages_skip_by_deps:
   - if: not linux
