@@ -1,0 +1,33 @@
+{
+  "arch": "x86_64",
+  "build": "h69a702a_5",
+  "build_number": 5,
+  "depends": [
+    "libgcc 15.1.0 h767d61c_5"
+  ],
+  "license": "GPL-3.0-only WITH GCC-exception-3.1",
+  "license_family": "GPL",
+  "md5": "069afdf8ea72504e48d23ae1171d951c",
+  "name": "libgcc-ng",
+  "platform": "linux",
+  "purls": [],
+  "sha256": "f54bb9c3be12b24be327f4c1afccc2969712e0b091cdfbd1d763fb3e61cda03f",
+  "size": 29187,
+  "subdir": "linux-64",
+  "timestamp": 1757042549554,
+  "version": "15.1.0",
+  "fn": "libgcc-ng-15.1.0-h69a702a_5.conda",
+  "url": "https://repo.prefix.dev/conda-forge/linux-64/libgcc-ng-15.1.0-h69a702a_5.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/libgcc-ng-15.1.0-h69a702a_5",
+  "requested_specs": [],
+  "files": [],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": []
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/libgcc-ng-15.1.0-h69a702a_5",
+    "type": 1
+  }
+}

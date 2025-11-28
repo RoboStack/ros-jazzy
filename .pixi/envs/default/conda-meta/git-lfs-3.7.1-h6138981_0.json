@@ -1,0 +1,41 @@
+{
+  "arch": "x86_64",
+  "build": "h6138981_0",
+  "build_number": 0,
+  "depends": [],
+  "license": "MIT",
+  "license_family": "MIT",
+  "md5": "e6b8b2c21c5b70ba9016bb93e59e39ef",
+  "name": "git-lfs",
+  "platform": "linux",
+  "purls": [],
+  "sha256": "2ec2ae780f2e0d5e6fc2750bf926bbca1d3a9e2c17ab731fa835b1d845143e8b",
+  "size": 4427976,
+  "subdir": "linux-64",
+  "timestamp": 1760661549587,
+  "version": "3.7.1",
+  "fn": "git-lfs-3.7.1-h6138981_0.conda",
+  "url": "https://repo.prefix.dev/conda-forge/linux-64/git-lfs-3.7.1-h6138981_0.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/git-lfs-3.7.1-h6138981_0",
+  "requested_specs": [],
+  "files": [
+    "bin/git-lfs"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "bin/git-lfs",
+        "path_type": "hardlink",
+        "sha256": "dd8412f7c37e647c3a2fa7d0953edc5a6a3e43fdbc5f535820649477ef0f3aa7",
+        "sha256_in_prefix": "dd8412f7c37e647c3a2fa7d0953edc5a6a3e43fdbc5f535820649477ef0f3aa7",
+        "size_in_bytes": 14237921
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/git-lfs-3.7.1-h6138981_0",
+    "type": 1
+  }
+}
