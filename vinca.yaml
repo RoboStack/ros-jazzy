@@ -158,11 +158,8 @@ packages_select_by_deps:
   # geodesy (required for many outdoors robotics packages)
   - geodesy
 
-  # These are the packages that are not build on wasm32, but are built on
-  # all the other platforms
-  - if: not wasm32
-    then:
-      - mocap4r2_msgs
+  # mocap related packages
+  - mocap4r2_msgs
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
