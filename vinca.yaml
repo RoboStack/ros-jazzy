@@ -136,7 +136,7 @@ packages_select_by_deps:
   - ouster_ros
 
   - clearpath_common
-  
+
   # cascade lifecycle packages
   - cascade-lifecycle-msgs
   - rclcpp-cascade-lifecycle
@@ -157,6 +157,9 @@ packages_select_by_deps:
 
   # geodesy (required for many outdoors robotics packages)
   - geodesy
+
+  # mocap related packages
+  - mocap4r2_msgs
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
@@ -192,7 +195,7 @@ packages_select_by_deps:
       - gtsam
       # TODO on windows: fix iconv link issue
       - ffmpeg_image_transport
-      # most of the dep of grid_map work on Windows, but there are some rviz linking problems in octomap_rviz_plugins, 
+      # most of the dep of grid_map work on Windows, but there are some rviz linking problems in octomap_rviz_plugins,
       # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
       - grid_map
       - dual-laser-merger
