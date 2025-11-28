@@ -1,0 +1,366 @@
+.TH RHASH 1 "APR 2010" Linux "User Manuals"
+.SH NAME
+rhash \- calculate/check CRC32, MD5, SHA1, GOST, TTH, BTIH or other message digests.
+.SH SYNOPSIS
+.B rhash [
+.I option
+.B ]... [
+.I file
+.B ]...
+.SH DESCRIPTION
+.B RHash
+(Recursive Hasher)
+computes and verifies various message digests and checksums of files.
+Supported hash algorithms include CRC32, CRC32C, MD4, MD5, SHA1,
+SHA256, SHA512, SHA3, Tiger, DC++ TTH, BTIH, AICH, ED2K, GOST R 34.11\-*,
+RIPEMD\-160, HAS\-160, BLAKE2s/BLAKE2b, BLAKE3, EDON\-R 256/512,
+Whirlpool, Snefru\-128/256.
+
+The program can create and verify Magnet links
+and eDonkey ed2k:// links, see \-\-magnet and \-\-ed2k\-link options.
+
+A dash string parameter `\-' is interpreted as the standard input stream
+(stdin).
+
+By default
+.B rhash
+prints sums in SFV format with CRC32 checksum only.
+The format can be changed by options \-\-bsd, \-\-magnet, \-\-simple,
+\-\-printf, \-\-template.
+To output all sums use the `\-a' option.
+
+.SH PROGRAM MODE OPTIONS
+The default mode is to print checksums for all files and directory trees
+specified by command line. The mode can be changed by the following options.
+.IP "\-c, \-\-check"
+Check hash files specified by command line. RHash can verify hash files in
+SFV and BSD formats, MD5 and SHA1 files format and text files
+containing magnet or ed2k links (one link per line).
+Empty lines and lines starting with `;' or `#' are ignored.
+
+RHash can verify hash files generated without \-\-printf and \-\-template
+formatting options.
+
+If the hash algorithm is not specified by command line options
+then RHash tries to detect algorithm from the extension of the hash file.
+If detection fails, then all hash function of the same hash length are calculated,
+and that significally slows down files verification. To speed up verification,
+in such case, explicitly specify the hash algorithm in the command line.
+.IP "\-u, \-\-update=<hash-file>"
+Update the specified hash file by computing message digests for files
+listed in command arguments that aren't present in it.
+New digests are appended in the format specified by formatting options.
+
+With \-\-recursive, updates the hash file using files from entire directory trees.
+With \-\-check, verifies existing digests before updating.
+.IP "\-\-missing=<hash-file>"
+List files from the hash file that are missing or inaccessible in the filesystem.
+.IP "\-\-unverified=<hash-file>"
+List command-line files missing from the given hash file (unverified files).
+With \-\-recursive, checks entire directory trees for unverified files.
+.IP "\-k, \-\-check\-embedded"
+Verify files by crc32 sum embedded in their names.
+.IP "\-\-torrent"
+Create a torrent file for each processed file.
+.IP "\-h, \-\-help"
+Help: print help screen and exit.
+.IP "\-V, \-\-version"
+Version: print version and exit.
+.IP "\-B, \-\-benchmark"
+Run benchmark for the selected hash algorithm(s).
+
+.SH HASH ALGORITHMS OPTIONS
+.IP "\-C, \-\-crc32"
+CRC32: Select CRC32 checksum algorithm.
+.IP "\-\-crc32c"
+CRC32C: Select CRC32C checksum algorithm.
+.IP "\-\-md4"
+MD4: Select MD4 hash function.
+.IP "\-M, \-\-md5"
+MD5: Select MD5 hash function.
+.IP "\-H, \-\-sha1"
+SHA1: Select SHA1 hash function.
+.IP "\-\-sha224, \-\-sha256, \-\-sha384, \-\-sha512"
+Select specified SHA2 hash function.
+.IP "\-\-sha3-224, \-\-sha3-256, \-\-sha3-384, \-\-sha3-512"
+Select specified SHA3 hash function.
+.IP "\-\-tiger"
+Tiger: Select Tiger hash function.
+.IP "\-T, \-\-tth"
+TTH: Select DC++ TTH hash function.
+.IP "\-\-btih"
+BTIH: Select BitTorrent Info Hash.
+.IP "\-A, \-\-aich"
+AICH: Select AICH hash function.
+.IP "\-E, \-\-ed2k"
+ED2K: Select eDonkey 2000 hash function.
+.IP "\-W, \-\-whirlpool"
+Whirlpool: Select Whirlpool hash function.
+.IP "\-G, \-\-gost12-256"
+GOST\-2012: Select 256-bit GOST R 34.11\-2012,
+the Russian GOST standard hash function.
+.IP "\-\-gost12-512"
+GOST\-2012: Select 512-bit GOST R 34.11\-2012,
+the Russian GOST standard hash function.
+.IP "\-\-gost94"
+GOST\-94: Select GOST R 34.11\-94, the deprecated Russian hash function.
+.IP "\-\-gost94\-cryptopro"
+GOST\-94\-CRYPTOPRO: Select the CryptoPro version of
+the deprecated Russian GOST R 34.11\-94 hash function.
+.IP "\-\-ripemd160"
+RIPEMD\-160: Select RIPEMD\-160 hash function.
+.IP "\-\-has160"
+HAS\-160: Select HAS\-160 hash function.
+.IP "\-\-snefru128, \-\-snefru256"
+SNEFRU: Select SNEFRU\-128/256 hash function.
+.IP "\-\-edonr256, \-\-edonr512"
+EDON\-R: Select EDON\-R 256/512 hash function.
+.IP "\-\-blake2b, \-\-blake2s"
+BLAKE2: Select BLAKE2b/BLAKE2s hash function.
+.IP "\-\-blake3"
+BLAKE3: Select BLAKE3 hash function.
+
+.IP "\-a, \-\-all"
+Calculate all supported hash functions.
+.IP "\-\-list\-hashes"
+List names of all supported hash functions, one per line.
+
+.SH MISCELLANEOUS OPTIONS
+.IP "\-r, \-\-recursive"
+Recursively process directories, specified by command line.
+.IP "\-\-follow"
+Follow symbolic links when processing files or directories recursively.
+.IP "\-m, \-\-message=<text>"
+Calculate message digests of the given text message.
+.IP "\-\-file\-list=<file>"
+Process given file as a file-list. Lines of this file are
+interpreted as paths to files to be processed. Multiple
+file lists can be specified at command line.
+.IP "\-v, \-\-verbose"
+Be verbose.
+.IP "\-\-brief"
+Print brief form of verification report (without a header and footer),
+when verifying a hash file.
+.IP "\-P, \-\-percents"
+Show percents, while calculating or checking sums
+.IP "\-\-skip\-ok"
+Don't print OK messages for successfully verified files.
+.IP "\-\-ignore\-missing"
+Ignore missing files, while verifying a hash file.
+.IP "\-i, \-\-ignore\-case"
+Ignore case of filenames when updating crc files.
+.IP "\-\-speed"
+Print per\-file and the total processing speed.
+.IP "\-e, \-\-embed\-crc"
+Rename files by inserting crc32 sum into name.
+.IP "\-\-embed\-crc\-delimiter=<delimiter>"
+Insert specified <delimiter> before a crc sum in the \-\-embed\-crc mode,
+default is white space. The <delimiter> can be a character or empty string.
+.IP "\-\-path\-separator=<separator>"
+Use specified path separator to display paths. Only slash (`/') and
+backslash (`\e') values are accepted.
+.IP "\-q, \-\-accept=<list>"
+Set a comma\(hydelimited list of extensions of the files to process.
+.IP "\-\-exclude=<list>"
+Set a comma\(hydelimited list of extensions of the files to exclude from processing.
+.IP "\-t, \-\-crc\-accept=<list>"
+Set a comma\(hydelimited list of extensions of the hash files to verify.
+.IP "\-\-max\-depth=<levels>"
+Descend at most <levels> (a non\(hynegative integer) levels of directories below
+the command line arguments. `\-\-max\-depth 0' means only apply the tests and
+actions to the command line arguments.
+.IP "\-o, \-\-output=<file\-path>"
+Set the file to output calculated message digests or verification results to.
+.IP "\-l, \-\-log=<file\-path>"
+Set the file to log errors and verbose information to.
+.IP "\-\-openssl=<list>"
+Specify which hash functions should be calculated using the OpenSSL library.
+The <list> is a comma delimited list of hash function names, but only those
+supported by openssl are allowed: md4, md5, sha1, sha2*, ripemd160 and whirlpool.
+.IP "\-\-gost\-reverse"
+Reverse bytes in hexadecimal output of a GOST hash functions.
+The most significant byte of the message digest will be printed first.
+Default order is the least significant byte first.
+.IP "\-\-bt\-batch=<file\-path>"
+Turn on torrent batch mode (implies torrent mode). Calculates batch-torrent
+for the files specified at command line and saves the torrent file to
+the file\-path. The option \-r <directory> can be useful in this mode.
+.IP "\-\-bt\-private"
+Generate torrent file or BTIH for a private BitTorrent tracker.
+.IP "\-\-bt\-transmission"
+Generate torrent file or BTIH compatible with Transmission torrent client.
+.IP "\-\-bt\-piece\-length"
+Set the
+.I "piece length"
+value for torrent file.
+.IP "\-\-bt\-announce=<announce\-url>"
+Add a tracker announce URL to the created torrent file(s).
+Several URLs can be passed by specifying the option mutltiple times.
+This option doesn't change the BTIH message digest.
+.IP "\-\-benchmark\-raw"
+Switch benchmark output format to be a machine\(hyreadable tab\(hydelimited text
+with hash function name, speed, cpu clocks per byte.
+This option works only if the \-\-benchmark option was specified.
+.IP "\-\-no\-detect\-by\-ext"
+Do not detect hash function by an extension of hash file, in the \-\-check mode.
+.IP "\-\-no\-path\-escaping"
+Turn off escape characters in file paths. The option can be specified in the
+default, check or update modes.
+.IP "\-\- (double dash)"
+Mark the end of command line options. All parameters following the
+double dash are interpreted as files or directories. It is typically used
+to process filenames starting with a dash `\-'.
+Alternatively you can specify './' or full path before such files,
+so they will not look like options anymore.
+
+.SH OUTPUT FORMAT OPTIONS
+.IP "\-\-sfv"
+Print message digests in the SFV (Simple File Verification) output format (default).
+But unlike common SFV file, not only CRC32, but any message digests specified
+by options can be printed.
+.IP "\-g, \-\-magnet"
+Print message digests formatted as magnet links.
+.IP "\-\-bsd"
+Use BSD output format. Each message digest is printed on a separate line
+after hash function name and file's path, enclosed in parentheses.
+.IP "\-\-simple"
+Use simple output format. Each line will consist of
+filename and message digests specified by options.
+.IP "\-\-one\-hash"
+Print one message digest per line without additional file information.
+.IP "\-L, \-\-ed2k\-link"
+Print eDonkey link containing file name, file size, ED2K and AICH
+message digests.
+.IP "\-\-hex"
+Print message digests in hexadecimal format.
+.IP "\-\-base32"
+Print message digests in Base32 format.
+.IP "\-b, \-\-base64"
+Print message digests in Base64 format.
+.IP "\-\-uppercase"
+Print message digests in upper case.
+.IP "\-\-lowercase"
+Print message digests in lower case.
+.IP "\-\-template=<file>"
+Read printf\(hylike template from given <file>. See the \-\-printf option.
+.IP "\-p, \-\-printf=<format>"
+Format: print
+.I format
+string the standard output, interpreting `\e'
+escapes and `%' directives. The escapes and directives are:
+.RS
+.IP \en
+Newline.
+.IP \er
+Carriage return.
+.IP \et
+Horizontal tab.
+.IP \e\e
+A literal backslash (`\e').
+.IP \e0
+ASCII NUL.
+.IP \eNNN
+The character which octal ASCII code is NNN.
+.IP \exNN
+The character which hexadecimal ASCII code is NN.
+.PP
+A `\e' character followed by any other character is treated as an
+ordinary character, so they both are printed.
+.IP %%
+A literal percent sign.
+.IP %p
+File's path.
+.IP %f
+File's name.
+.IP %d
+File's directory.
+.IP "%u or %U"
+Prefix used to print a filename, file path or base64/raw message digest as an
+URL\(hyencoded string. For example: `%up', `%ud', `%uf', `%uBm', `%u@h'.
+Use %u for lowercase and %U for uppercase hexadecimal characters.
+.IP %s
+File's size in bytes.
+.IP %{mtime}
+File's last modification time.
+.IP "%a or %A"
+AICH message digest.
+.IP "%c or %C"
+CRC32 checksum.
+Use %c for lowercase and %C for uppercase characters.
+.IP "%g or %G"
+GOST R 34.11\-2012 256-bit message digest.
+.IP "%h or %H"
+SHA1 message digest.
+.IP "%e or %E"
+ED2K message digest.
+.IP "%l or %L"
+EDonkey ed2k://... link.
+.IP "%m or %M"
+MD5 message digest.
+.IP "%r or %R"
+RIPEMD-160 message digest.
+.IP "%t or %T"
+TTH message digest.
+.IP "%w or %W"
+Whirlpool message digest.
+.IP "%{crc32}, %{crc32c}, %{md4}, %{md5}, %{sha1}, %{tiger}, %{tth}, %{btih},\
+ %{ed2k}, %{aich}, %{whirlpool}, %{ripemd160}, %{has160},\
+ %{gost94}, %{gost94\-cryptopro}, %{gost12\-256}, %{gost12\-512},\
+ %{sha\-224}, %{sha\-256}, %{sha\-384}, %{sha\-512},\
+ %{sha3\-224}, %{sha3\-256}, %{sha3\-384}, %{sha3\-512},\
+ %{edon\-r256}, %{edon\-r512}, %{blake2s}, %{blake2b}, %{blake3},\
+ %{snefru128}, %{snefru256}"
+Print the specified message digest. It is printed in uppercase, if the
+hash function name starts with a capital letter, e.g. %{TTH}, %{Sha-512}.
+.IP "%x<hash>, %b<hash>, %B<hash>, %@<hash>"
+Use one of these prefixes to output a message digest in hexadecimal, base32,
+base64 or raw (binary) format respectively, e.g. %b{md4}, %BH or %xT.
+.RE
+
+The default output format can also be changed by renaming the program or
+placing a hardlink/symlink to it with a filename containing strings `crc32',
+`crc32c', `md4', `md5', `sha1', `sha224' `sha256', `sha384' `sha512',
+`sha3\-256', `sha3\-512', `sha3\-224', `sha3\-384', `tiger', `tth',
+`btih', `aich', `ed2k', `ed2k\-link', `gost12\-256', `gost12\-512',
+`gost94', `gost94\-cryptopro', `rmd160', `has160', `whirlpool',
+`edonr256', `edonr512', `blake2s', `blake2b', `blake3',
+`snefru128', `snefru256', `sfv' , `bsd' or `magnet'.
+
+.SH CONFIG FILE
+RHash looks for a config file
+at $XDG_CONFIG_HOME/rhash/rhashrc, $HOME/.config/rhash/rhashrc,
+$XDG_CONFIG_DIRS/rhash/rhashrc, $HOME/.rhashrc and /home/runner/work/ros-jazzy/ros-jazzy/.pixi/envs/default/etc.
+
+The config file consists of lines formatted as
+.RS
+variable = value
+.RE
+
+where the
+.I variable
+can be a name of any command line option, like
+.I magnet,
+.I printf,
+.I percents, etc.
+A boolean variable can be set to true by a value `on', `yes' or `true',
+any other value sets the variable to false.
+
+Empty lines and lines starting with `#' or `;' are ignored.
+
+Example config file:
+.nf
+# This is a comment line
+percents = on
+crc-accept = .sfv,.md5,.sha1,.sha256,.sha512,.tth,.magnet
+.fi
+
+.SH AUTHOR
+Aleksey Kravchenko <rhash.admin@gmail.com>
+.SH "SEE ALSO"
+.BR md5sum (1)
+.BR cksfv (1)
+.BR ed2k_hash (1)
+.SH BUGS
+Bug reports are welcome!
+Post them to the GitHub issues page
+.I https://github.com/rhash/RHash/issues

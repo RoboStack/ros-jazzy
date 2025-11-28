@@ -1,0 +1,11 @@
+prefix=/home/runner/work/ros-jazzy/ros-jazzy/.pixi/envs/default
+exec_prefix=/home/runner/work/ros-jazzy/ros-jazzy/.pixi/envs/default
+libdir=/home/runner/work/ros-jazzy/ros-jazzy/.pixi/envs/default/lib
+includedir=/home/runner/work/ros-jazzy/ros-jazzy/.pixi/envs/default/include
+
+Name: uuid
+Description: Universally unique id library
+Version: 2.41.2
+Cflags: -I${includedir}/uuid
+Libs.private:  -lpthread
+Libs: -L${libdir} -luuid
