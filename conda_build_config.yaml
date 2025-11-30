@@ -18,6 +18,8 @@ graphviz:
 # https://github.com/RoboStack/ros-jazzy/pull/126#issuecomment-3515455380
 libcap:
   - 2.76
+fmt:
+  - 12.*
 
 tbb:
   - '2021'
