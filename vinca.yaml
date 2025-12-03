@@ -18,7 +18,7 @@ mutex_package:
     - pcl 1.15.1.*
     - gazebo 11.*
     - libprotobuf 6.31.1.*
-    - vtk 9.5.1.*
+    - vtk 9.5.2.*
 
 packages_skip_by_deps:
   - if: not linux
