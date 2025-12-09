@@ -22,9 +22,9 @@ fmt:
   - 12.*
 
 tbb:
-  - '2021'
+  - '2022'
 tbb_devel:
-  - '2021'
+  - '2022'
 
 # Workaround for https://github.com/RoboStack/ros-jazzy/pull/40#issuecomment-2782226697
 cmake:
