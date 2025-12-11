@@ -1,0 +1,5 @@
+#!/home/runner/work/ros-jazzy/ros-jazzy/.pixi/envs/default/bin/python3.12
+
+import pydoc
+if __name__ == '__main__':
+    pydoc.cli()

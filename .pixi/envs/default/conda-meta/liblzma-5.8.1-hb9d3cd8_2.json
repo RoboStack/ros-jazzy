@@ -1,0 +1,52 @@
+{
+  "arch": "x86_64",
+  "build": "hb9d3cd8_2",
+  "build_number": 2,
+  "constrains": [
+    "xz 5.8.1.*"
+  ],
+  "depends": [
+    "__glibc >=2.17,<3.0.a0",
+    "libgcc >=13"
+  ],
+  "license": "0BSD",
+  "md5": "1a580f7796c7bf6393fddb8bbbde58dc",
+  "name": "liblzma",
+  "platform": "linux",
+  "purls": [],
+  "sha256": "f2591c0069447bbe28d4d696b7fcb0c5bd0b4ac582769b89addbcf26fb3430d8",
+  "size": 112894,
+  "subdir": "linux-64",
+  "timestamp": 1749230047870,
+  "version": "5.8.1",
+  "fn": "liblzma-5.8.1-hb9d3cd8_2.conda",
+  "url": "https://repo.prefix.dev/conda-forge/linux-64/liblzma-5.8.1-hb9d3cd8_2.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/liblzma-5.8.1-hb9d3cd8_2",
+  "requested_specs": [],
+  "files": [
+    "lib/liblzma.so.5",
+    "lib/liblzma.so.5.8.1"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "lib/liblzma.so.5",
+        "path_type": "hardlink",
+        "sha256": "99dbefdd5ce54e28207037149f3a249960149e39a56572d53be4e62234bdf5ad",
+        "size_in_bytes": 222712
+      },
+      {
+        "_path": "lib/liblzma.so.5.8.1",
+        "path_type": "hardlink",
+        "sha256": "99dbefdd5ce54e28207037149f3a249960149e39a56572d53be4e62234bdf5ad",
+        "size_in_bytes": 222712
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/liblzma-5.8.1-hb9d3cd8_2",
+    "type": 1
+  }
+}
