@@ -1,0 +1,66 @@
+diff --git a/rclpy/src/rclpy/events_executor/events_executor.cpp b/rclpy/src/rclpy/events_executor/events_executor.cpp
+index 526d2ca..99a4e91 100644
+--- a/rclpy/src/rclpy/events_executor/events_executor.cpp
++++ b/rclpy/src/rclpy/events_executor/events_executor.cpp
+@@ -172,7 +172,7 @@ void EventsExecutor::spin(std::optional<double> timeout_sec, bool stop_after_use
+       const auto timeout_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+         std::chrono::duration<double>(*timeout_sec));
+       const auto end = std::chrono::steady_clock::now() + timeout_ns;
+-      events_queue_.RunUntil(end);
++      events_queue_.Run(end);
+     } else {
+       events_queue_.Run();
+     }
+diff --git a/rclpy/src/rclpy/events_executor/events_queue.cpp b/rclpy/src/rclpy/events_executor/events_queue.cpp
+index a65c22b..6fa0aac 100644
+--- a/rclpy/src/rclpy/events_executor/events_queue.cpp
++++ b/rclpy/src/rclpy/events_executor/events_queue.cpp
+@@ -29,15 +29,18 @@ void EventsQueue::Enqueue(std::function<void()> event_handler)
+   cv_.notify_one();
+ }
+ 
+-void EventsQueue::Run() {RunUntil(std::chrono::steady_clock::time_point::max());}
+-
+-void EventsQueue::RunUntil(std::chrono::steady_clock::time_point deadline)
++void EventsQueue::Run(const std::optional<std::chrono::steady_clock::time_point> deadline)
+ {
+   while (true) {
+     std::function<void()> handler;
+     {
+       std::unique_lock<std::mutex> lock(mutex_);
+-      cv_.wait_until(lock, deadline, [this]() {return stopped_ || !queue_.empty();});
++      auto pred = [this]() {return stopped_ || !queue_.empty();};
++      if (deadline) {
++        cv_.wait_until(lock, *deadline, pred);
++      } else {
++        cv_.wait(lock, pred);
++      }
+       if (stopped_ || queue_.empty()) {
+         // We stopped for some reason other than being ready to run something (stopped or timeout)
+         return;
+diff --git a/rclpy/src/rclpy/events_executor/events_queue.hpp b/rclpy/src/rclpy/events_executor/events_queue.hpp
+index a6d7b59..3012313 100644
+--- a/rclpy/src/rclpy/events_executor/events_queue.hpp
++++ b/rclpy/src/rclpy/events_executor/events_queue.hpp
+@@ -20,6 +20,7 @@
+ #include <functional>
+ #include <mutex>
+ #include <queue>
++#include <optional>
+ 
+ namespace rclpy
+ {
+@@ -37,12 +38,9 @@ public:
+   /// Add an event handler to the queue to be dispatched.  Can be invoked by any thread.
+   void Enqueue(std::function<void()>);
+ 
+-  /// Run event handlers indefinitely, until stopped.
+-  void Run();
+-
+   /// Run all ready event handlers, and any that become ready before the given deadline.  Calling
+   /// Stop() will make this return immediately even if ready handlers are enqueued.
+-  void RunUntil(std::chrono::steady_clock::time_point);
++  void Run(const std::optional<std::chrono::steady_clock::time_point> = {});
+ 
+   /// Causes any Run*() methods outstanding to return immediately.  Can be invoked from any thread.
+   /// The stopped condition persists (causing any *subsequent* Run*() calls to also return) until
