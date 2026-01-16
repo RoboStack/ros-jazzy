@@ -102,7 +102,7 @@ jobs:
     - name: Generate GitHub Actions pipelines for win-64
       run: |
         # --batch_size 10 is a workaround for https://github.com/RoboStack/robostack.github.io/issues/105
-        pixi run -v vinca-gha --platform win-64 --trigger-branch buildbranch_win -d ./recipes  --batch_size 10
+        pixi run -v vinca-gha --platform win-64 --trigger-branch buildbranch_win -d ./recipes --batch_size 10
     - name: Commit files for win-64
       run: |
         if [[ -f "win.yml" ]]; then
