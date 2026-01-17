@@ -20,7 +20,8 @@ libcap:
   - 2.76
 fmt:
   - 12.*
-
+lua:
+  - 5.4
 tbb:
   - '2022'
 tbb_devel:
