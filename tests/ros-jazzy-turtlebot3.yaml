@@ -2,3 +2,6 @@ tests:
   # Regression test for https://github.com/RoboStack/ros-jazzy/issues/125
   - script:
     - ros2 pkg prefix turtlebot3
+    requirements:
+      run:
+        - ros-jazzy-ros2pkg
