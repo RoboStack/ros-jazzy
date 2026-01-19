@@ -160,6 +160,10 @@ packages_select_by_deps:
   # mocap related packages
   - mocap4r2_msgs
 
+  - rviz_2d_overlay_msgs
+  - asio_cmake_module
+  - mavros_msgs
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
@@ -169,6 +173,8 @@ packages_select_by_deps:
       - usb_cam
       # Depends (indirectly) on libcamera
       - apriltag_ros
+      # Depends on v4l that is only available on linux
+      - v4l2_camera
 
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
@@ -212,6 +218,9 @@ packages_select_by_deps:
       # Error: LINK : fatal error LNK1181: cannot open input file 'zstd.lib' [%SRC_DIR%\build\zstd_point_cloud_transport.vcxproj]
       - point_cloud_transport_plugins
       - bonxai_ros
+      - mavlink
+      - mavros
+      - mavros_extras
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
