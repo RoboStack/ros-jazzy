@@ -39,7 +39,7 @@ hpp_fcl:
     dep_name: hpp-fcl
     max_pin: 'x.x.x'
     # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '3.0.1'
+    override_version: '3.0.2'
 coal:
   generate_dummy_package_with_run_deps:
     dep_name: coal
