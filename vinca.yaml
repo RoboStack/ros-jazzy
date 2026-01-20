@@ -182,6 +182,8 @@ packages_select_by_deps:
     then:
       - livox_ros_driver2
       - orbbec_camera
+      # on macos it fails with https://github.com/RoboStack/ros-jazzy/pull/135#issuecomment-3772187665
+      - mavros_extras
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
@@ -220,7 +222,6 @@ packages_select_by_deps:
       - bonxai_ros
       - mavlink
       - mavros
-      - mavros_extras
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
