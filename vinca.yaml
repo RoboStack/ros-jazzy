@@ -6,20 +6,19 @@ conda_index:
   - packages-ignore.yaml
 
 # Reminder for next full rebuild, the next build number should be 14
-build_number: 12
+build_number: 14
 
 mutex_package:
   name: "ros2-distro-mutex"
-  version: "0.12.0"
+  version: "0.13.0"
   upper_bound: "x.x"
   run_constraints:
-    - libboost 1.86.*
-    - libboost-devel 1.86.*
-    - pcl 1.15.0.*
+    - libboost 1.88.*
+    - libboost-devel 1.88.*
+    - pcl 1.15.1.*
     - gazebo 11.*
-    - libprotobuf 5.29.3.*
-    - libxml2 2.13.*
-    - vtk 9.4.2.*
+    - libprotobuf 6.31.1.*
+    - vtk 9.5.2.*
 
 packages_skip_by_deps:
   - if: not linux
@@ -161,6 +160,10 @@ packages_select_by_deps:
   # mocap related packages
   - mocap4r2_msgs
 
+  - rviz_2d_overlay_msgs
+  - asio_cmake_module
+  - mavros_msgs
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
@@ -170,6 +173,8 @@ packages_select_by_deps:
       - usb_cam
       # Depends (indirectly) on libcamera
       - apriltag_ros
+      # Depends on v4l that is only available on linux
+      - v4l2_camera
 
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
@@ -177,6 +182,8 @@ packages_select_by_deps:
     then:
       - livox_ros_driver2
       - orbbec_camera
+      # on macos it fails with https://github.com/RoboStack/ros-jazzy/pull/135#issuecomment-3772187665
+      - mavros_extras
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
@@ -213,6 +220,8 @@ packages_select_by_deps:
       # Error: LINK : fatal error LNK1181: cannot open input file 'zstd.lib' [%SRC_DIR%\build\zstd_point_cloud_transport.vcxproj]
       - point_cloud_transport_plugins
       - bonxai_ros
+      - mavlink
+      - mavros
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

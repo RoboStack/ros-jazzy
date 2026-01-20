@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 31e09ca..8b3d443 100644
+index ab44d1c..07e3e9f 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -92,6 +92,9 @@ endif()
+@@ -97,6 +97,9 @@ endif()
  if(CMAKE_THREAD_LIBS_INIT)
    target_link_libraries(urcl PUBLIC "${CMAKE_THREAD_LIBS_INIT}")
  endif()
@@ -33,19 +33,22 @@ index e13aba6..83f8e6c 100644
  #include "ur_client_library/types.h"
  #include "ur_client_library/exceptions.h"
 diff --git a/include/ur_client_library/comm/package_serializer.h b/include/ur_client_library/comm/package_serializer.h
-index 7745da9..ded500a 100644
+index 01fa857..29fb196 100644
 --- a/include/ur_client_library/comm/package_serializer.h
 +++ b/include/ur_client_library/comm/package_serializer.h
-@@ -29,8 +29,8 @@
+@@ -29,11 +29,11 @@
  #ifndef UR_CLIENT_LIBRARY_PACKAGE_SERIALIZER_H_INCLUDED
  #define UR_CLIENT_LIBRARY_PACKAGE_SERIALIZER_H_INCLUDED
  
 -#include <endian.h>
+ #include <cstdint>
  #include <cstring>
+ #include <string>
+ 
 +#include "ur_client_library/portable_endian.h"
+ #include "ur_client_library/types.h"
  
  namespace urcl
- {
 diff --git a/include/ur_client_library/control/reverse_interface.h b/include/ur_client_library/control/reverse_interface.h
 index 8220207..665f26d 100644
 --- a/include/ur_client_library/control/reverse_interface.h
