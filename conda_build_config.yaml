@@ -1,5 +1,7 @@
 numpy:
   - 2
+assimp:
+  - 5
 libprotobuf:
   - 6.31.1
 protobuf:
