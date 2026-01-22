@@ -164,6 +164,8 @@ packages_select_by_deps:
   - asio_cmake_module
   - mavros_msgs
 
+  - picknik_ament_copyright
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
