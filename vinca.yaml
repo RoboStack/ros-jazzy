@@ -166,6 +166,8 @@ packages_select_by_deps:
 
   - picknik_ament_copyright
 
+  - rqt_robot_monitor
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
