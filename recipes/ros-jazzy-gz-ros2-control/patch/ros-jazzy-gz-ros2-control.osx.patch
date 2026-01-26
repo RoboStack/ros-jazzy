@@ -1,0 +1,17 @@
+diff --git a/gz_ros2_control/CMakeLists.txt b/gz_ros2_control/CMakeLists.txt
+index 196f62d5..a7bdfd01 100644
+--- a/gz_ros2_control/CMakeLists.txt
++++ b/gz_ros2_control/CMakeLists.txt
+@@ -24,6 +24,12 @@ find_package(pluginlib REQUIRED)
+ find_package(rclcpp REQUIRED)
+ find_package(yaml_cpp_vendor REQUIRED)
+ 
++# Compatibility with https://github.com/gazebosim/gz-cmake/blob/eb1c510e6278935eb742ed92c6a6d1388439f8bd/cmake/FindTINYXML2.cmake#L4
++if(NOT TARGET TINYXML2::TINYXML2)
++  add_library(TINYXML2::TINYXML2 INTERFACE IMPORTED)
++  set_property(TARGET tinyxml2::tinyxml2 PROPERTY INTERFACE_LINK_LIBRARIES tinyxml2::tinyxml2)
++endif()
++set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+ find_package(gz_sim_vendor REQUIRED)
+ find_package(gz-sim REQUIRED)
+
