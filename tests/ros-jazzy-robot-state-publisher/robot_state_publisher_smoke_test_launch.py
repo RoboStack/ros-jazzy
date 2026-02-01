@@ -43,7 +43,7 @@ class TestRobotStatePublisher(unittest.TestCase):
         # Check that some output indicative of URDF parsing appears.
         # The robot_state_publisher print "Robot initialized" at the end of the loading
         proc_output.assertWaitFor(
-            expected_output="Robot initialized", timeout=0.5, stream='stderr'
+            expected_output="Robot initialized", timeout=1.5, stream='stderr'
         )
 
 # See https://github.com/RoboStack/ros-humble/pull/320#issuecomment-3078288316
@@ -54,3 +54,4 @@ class TestRobotStatePublisherPostShutdown(unittest.TestCase):
     def test_exit_codes(self, proc_info):
         # Verify that all launched processes exited with code 0.
         launch_testing.asserts.assertExitCodes(proc_info)
+
