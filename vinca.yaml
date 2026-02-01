@@ -168,9 +168,6 @@ packages_select_by_deps:
 
   - rqt_robot_monitor
 
-  - cloudini-lib
-  - cloudini-ros
-
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
@@ -229,6 +226,8 @@ packages_select_by_deps:
       - bonxai_ros
       - mavlink
       - mavros
+      - cloudini-lib
+      - cloudini-ros
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
