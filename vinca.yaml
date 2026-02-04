@@ -5,7 +5,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 14
+# Reminder for next full rebuild, the next build number should be 16
 build_number: 14
 
 mutex_package:
@@ -166,7 +166,6 @@ packages_select_by_deps:
 
   - picknik_ament_copyright
 
-  - proto2ros
   - rqt_robot_monitor
 
   # These packages are only built on Linux as they depend on Linux-specific API
@@ -189,6 +188,7 @@ packages_select_by_deps:
       - orbbec_camera
       # on macos it fails with https://github.com/RoboStack/ros-jazzy/pull/135#issuecomment-3772187665
       - mavros_extras
+      - proto2ros
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
