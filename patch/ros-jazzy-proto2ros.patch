@@ -1,0 +1,29 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4af88c6..d5f9939 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -66,11 +66,19 @@ rosidl_get_typesupport_target(${PROJECT_NAME}_cpp_msgs ${PROJECT_NAME} "rosidl_t
+ target_link_libraries(${PROJECT_NAME}_conversions ${${PROJECT_NAME}_cpp_msgs} protobuf::libprotobuf)
+ ament_target_dependencies(${PROJECT_NAME}_conversions builtin_interfaces rclcpp std_msgs)
+ 
+-find_program(CLANG_TIDY_EXECUTABLE NAMES "clang-tidy" REQUIRED)
+-set(CXX_CLANG_TIDY "${CLANG_TIDY_EXECUTABLE}"
+-  "-header-filter=.*proto2ros/.*conversions.hpp"
+-  "-checks=-clang-diagnostic-ignored-optimization-argument")
+-set_target_properties(${PROJECT_NAME}_conversions PROPERTIES CXX_CLANG_TIDY "${CXX_CLANG_TIDY}")
++# Disable clang-tidy in conda / RoboStack builds
++set(PROTO2ROS_ENABLE_CLANG_TIDY ON)
++if(DEFINED ENV{CONDA_BUILD} OR DEFINED ENV{CONDA_PREFIX})
++  message(STATUS "proto2ros: disabling clang-tidy in conda build")
++  set(PROTO2ROS_ENABLE_CLANG_TIDY OFF)
++endif()
++if(PROTO2ROS_ENABLE_CLANG_TIDY)
++  find_program(CLANG_TIDY_EXECUTABLE NAMES "clang-tidy" REQUIRED)
++  set(CXX_CLANG_TIDY "${CLANG_TIDY_EXECUTABLE}"
++    "-header-filter=.*proto2ros/.*conversions.hpp"
++    "-checks=-clang-diagnostic-ignored-optimization-argument")
++  set_target_properties(${PROJECT_NAME}_conversions PROPERTIES CXX_CLANG_TIDY "${CXX_CLANG_TIDY}")
++endif()
+ 
+ include(cmake/rosidl_helpers.cmake)
+ rosidl_generated_python_package_add(

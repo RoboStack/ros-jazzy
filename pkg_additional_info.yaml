@@ -153,3 +153,5 @@ lanelet2_python:
   additional_cmake_args: "-DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON -DCMAKE_CXX_EXTENSIONS=OFF"
 robot_state_publisher:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+ros_jazzy_ur_calibration:
+  build_number: 15
