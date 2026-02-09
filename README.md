@@ -19,10 +19,13 @@
 [__Table with all available packages & architectures__](https://robostack.github.io/jazzy.html)
 
 ## Why ROS and Conda?
+
 Welcome to RoboStack, which tightly couples ROS with Conda, a cross-platform, language-agnostic package manager. We provide ROS binaries for Linux, macOS, Windows and ARM (Linux). Installing other recent packages via conda-forge side-by-side works easily, e.g. you can install TensorFlow/PyTorch in the same environment as ROS jazzy without any issues. As no system libraries are used, you can also easily install ROS jazzy on any recent Linux Distribution - including older versions of Ubuntu. As the packages are pre-built, it saves you from compiling from source, which is especially helpful on macOS and Windows. No root access is required, all packages live in your home directory. We have recently written up a [paper](https://arxiv.org/abs/2104.12910) and [blog post](https://medium.com/robostack/cross-platform-conda-packages-for-ros-fa1974fd1de3) with more information.
 
 ## Attribution
+
 If you use RoboStack in your academic work, please refer to the following paper:
+
 ```bibtex
 @article{FischerRAM2021,
     title={A RoboStack Tutorial: Using the Robot Operating System Alongside the Conda and Jupyter Data Science Ecosystems},
@@ -34,4 +37,40 @@ If you use RoboStack in your academic work, please refer to the following paper:
 ```
 
 ## Installation, FAQ, and Contributing Instructions
+
 Please see our instructions [here](https://robostack.github.io/GettingStarted.html).
+
+## Usage and Development
+
+You can use the `pixi run` commands to interact with the repository.
+
+### Generating recipes
+
+After modifying the configuration files you can regenerate the recipes that you need to rebuild.
+Some example cases:
+
+- Updated/added the packages in `vinca.yaml` and want to regenerate the recipes for all affected packages.
+- Added a new patch for a package and want to regenerate the recipe for that package.
+- Changed the versions in the `rosdistro_snapshot.yaml` and want to regenerate the recipes for all affected packages.
+
+Run:
+
+```bash
+pixi run generate-recipes
+```
+
+### Building packages
+
+To build all recipes you can run:
+
+```bash
+pixi run build
+```
+
+Which will run `rattler-build` for all recipes in the `./recipes` directory. To build a single package, you can run:
+
+```bash
+pixi run build-one <package-name>
+# e.g.
+pixi run build-one ros-jazzy-ros-workspace
+```
