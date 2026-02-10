@@ -106,6 +106,7 @@ packages_select_by_deps:
   - ros2_socketcan_msgs
 
   - nav2_bringup
+  - nav2_loopback_sim
 
   - autoware_internal_msgs
   - autoware_common_msgs
