@@ -35,8 +35,8 @@ intra_process_demo:
   # Depends on opencv with gui support, see https://github.com/ros2/demos/blob/8f361a1ece2daae54016959f3ea9ab2e7692ddbb/intra_process_demo/include/image_pipeline/image_view_node.hpp#L58
   add_run: ["libopencv * *qt6*"]
 rviz_ogre_vendor:
-  add_host: ["zlib", "freeimage", "freetype", "assimp", "zziplib", "pugixml", "${{ 'libglu' if linux }}"]
-  add_build: ["vcstool"]
+  add_host: ["zlib", "freeimage", "freetype", "assimp", "zziplib", "pugixml", "${{ 'libglu' if linux }}", "setuptools <81"]
+  add_build: ["vcstool", "setuptools <81"]
   add_run: ["assimp"]
 pcl_conversions:
   add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "libboost-devel"]
@@ -171,9 +171,11 @@ velodyne_pointcloud:
   add_host: ["libboost-devel"]
 # TODO unvendor?!
 uncrustify_vendor:
-  add_build: ["vcstool"]
+  add_build: ["vcstool", "setuptools <81"]
+  add_host: ["setuptools <81"]
 mimick_vendor:
-  add_build: ["vcstool"]
+  add_build: ["vcstool", "setuptools <81"]
+  add_host: ["setuptools <81"]
 gz_cmake_vendor:
   # https://github.com/gazebo-release/gz_cmake_vendor/blob/jazzy/CMakeLists.txt#L6 for select the right major version
   # (this is true for all gz-* vendor packages) or https://github.com/gazebo-tooling/gazebodistro/blob/master/collection-harmonic.yaml
