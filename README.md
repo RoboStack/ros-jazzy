@@ -39,38 +39,3 @@ If you use RoboStack in your academic work, please refer to the following paper:
 ## Installation, FAQ, and Contributing Instructions
 
 Please see our instructions [here](https://robostack.github.io/GettingStarted.html).
-
-## Usage and Development
-
-You can use the `pixi run` commands to interact with the repository.
-
-### Generating recipes
-
-After modifying the configuration files you can regenerate the recipes that you need to rebuild.
-Some example cases:
-
-- Updated/added the packages in `vinca.yaml` and want to regenerate the recipes for all affected packages.
-- Added a new patch for a package and want to regenerate the recipe for that package.
-- Changed the versions in the `rosdistro_snapshot.yaml` and want to regenerate the recipes for all affected packages.
-
-Run:
-
-```bash
-pixi run generate-recipes
-```
-
-### Building packages
-
-To build all recipes you can run:
-
-```bash
-pixi run build
-```
-
-Which will run `rattler-build` for all recipes in the `./recipes` directory. To build a single package, you can run:
-
-```bash
-pixi run build-one <package-name>
-# e.g.
-pixi run build-one ros-jazzy-ros-workspace
-```
