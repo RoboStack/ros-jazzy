@@ -230,6 +230,7 @@ packages_select_by_deps:
       - mavros
       - cloudini-lib
       - cloudini-ros
+      - spacenav
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
