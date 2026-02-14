@@ -107,6 +107,8 @@ jobs:
       shell: bash -l {0}
       run: |
         ls ${{ matrix.folder_cache }} || true
+        # Temporary workaround for https://github.com/RoboStack/ros-jazzy/pull/161#issuecomment-3901987721
+        rm -rf ${{ matrix.folder_cache }}/ros-jazz-composition-*
 
     - name: Build recipes [non emscripten]
       shell: bash -l {0}
