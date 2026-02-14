@@ -10,7 +10,7 @@ index 611816f..597036e 100644
 +if(APPLE)
 +  find_library(SECURITY_FRAMEWORK Security REQUIRED)
 +  find_library(COREFOUNDATION_FRAMEWORK CoreFoundation REQUIRED)
-+  target_link_libraries(foxglove_bridge_component PRIVATE ${SECURITY_FRAMEWORK} ${COREFOUNDATION_FRAMEWORK})
++  target_link_libraries(foxglove_bridge_component ${SECURITY_FRAMEWORK} ${COREFOUNDATION_FRAMEWORK})
 +endif()
 +
  rclcpp_components_register_nodes(foxglove_bridge_component "foxglove_bridge::FoxgloveBridge")
