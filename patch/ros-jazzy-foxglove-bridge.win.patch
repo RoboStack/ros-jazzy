@@ -1,27 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index a72a85b..8b69dda 100644
+index 611816f..73c9906 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -70,6 +70,18 @@ else()
-   elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
-     set(FOXGLOVE_SDK_PLATFORM "x86_64-unknown-linux-gnu")
-     set(FOXGLOVE_SDK_SHA "574c3ce006d6131d6519b416f25ef37c5b2a0721ef49c894286c79a5a5e0b4fc")
-+  elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
-+    set(FOXGLOVE_SDK_PLATFORM "aarch64-apple-darwin")
-+    set(FOXGLOVE_SDK_SHA "0799fcb999616fe25d16d7e4b2894adb6f7fa97ce9671bd908d8412505887bec")
-+  elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
-+    set(FOXGLOVE_SDK_PLATFORM "x86_64-apple-darwin")
-+    set(FOXGLOVE_SDK_SHA "3e0d7e575e7de9351ae71a0201ede5c00020f2e9d12cc5cd08e2c896033c9fa9")
-+  elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64")
-+    set(FOXGLOVE_SDK_PLATFORM "aarch64-pc-windows-msvc")
-+    set(FOXGLOVE_SDK_SHA "9bb816d97a69bf8f5b81559027955bf9277fcd60204cd11495dff352f49cb35e")
-+  elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64")
-+    set(FOXGLOVE_SDK_PLATFORM "x86_64-pc-windows-msvc")
-+    set(FOXGLOVE_SDK_SHA "219f84aa184eb1224d8ba35bc84412dc253137e65b3d6c5f0ffd80a8b0c2dbd2")
-   else()
-     message(FATAL_ERROR "Unsupported platform/architecture combination: ${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_SYSTEM_NAME}")
-   endif()
-@@ -91,7 +103,16 @@ else()
+@@ -96,7 +96,16 @@ else()
    file(GLOB_RECURSE FOXGLOVE_SDK_SOURCES CONFIGURE_DEPENDS "${foxglove_sdk_SOURCE_DIR}/src/*.cpp")
    target_sources(foxglove_cpp_static PRIVATE ${FOXGLOVE_SDK_SOURCES})
    set_target_properties(foxglove_cpp_static PROPERTIES POSITION_INDEPENDENT_CODE ON)
@@ -40,10 +21,10 @@ index a72a85b..8b69dda 100644
  
  find_program(GIT_SCM git DOC "Git version control")
 diff --git a/src/message_definition_cache.cpp b/src/message_definition_cache.cpp
-index f338db9..d766894 100644
+index 5ed9d12..03bcc42 100644
 --- a/src/message_definition_cache.cpp
 +++ b/src/message_definition_cache.cpp
-@@ -225,16 +225,16 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
+@@ -235,16 +235,16 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
  
    // Find the first line that ends with the filename we're looking for
    const auto lines = split_string(index_contents);
@@ -64,7 +45,7 @@ index f338db9..d766894 100644
    if (!file.good()) {
      throw DefinitionNotFoundError(definition_identifier.package_resource_name);
 diff --git a/src/ros2_foxglove_bridge.cpp b/src/ros2_foxglove_bridge.cpp
-index 978c732..83dce52 100644
+index 299ae62..d9ade46 100644
 --- a/src/ros2_foxglove_bridge.cpp
 +++ b/src/ros2_foxglove_bridge.cpp
 @@ -1,3 +1,4 @@
