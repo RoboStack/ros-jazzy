@@ -143,7 +143,6 @@ packages_select_by_deps:
   - rclpy-cascade-lifecycle
 
   # PlanSys2 packages and dependencies
-  - popf
   - plansys2_bringup
   - plansys2_bt_actions
   - plansys2_core
@@ -159,6 +158,7 @@ packages_select_by_deps:
   - plansys2_terminal
   - plansys2_tests
   - plansys2_tools
+  - popf
 
   - py_binding_tools
 
