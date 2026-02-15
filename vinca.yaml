@@ -189,6 +189,9 @@ packages_select_by_deps:
       # on macos it fails with https://github.com/RoboStack/ros-jazzy/pull/135#issuecomment-3772187665
       - mavros_extras
       - proto2ros
+      # Uses linux-specific flags in  https://github.com/SteveMacenski/spatio_temporal_voxel_layer/blob/e23d730d35407bd8e2bf9c33d10388a6a07c735d/spatio_temporal_voxel_layer/CMakeLists.txt#L124,
+      # but should be easy to fix
+      - spatio_temporal_voxel_layer
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
