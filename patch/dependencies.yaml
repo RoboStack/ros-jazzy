@@ -262,3 +262,7 @@ livox_ros_driver2:
   add_host: ["livox-sdk2"]
 moveit2_tutorials:
   add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
+openvdb_vendor:
+  add_host: ["openvdb"]
+spatio_temporal_voxel_layer:
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
