@@ -1,3 +1,21 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 611816f..597036e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -185,6 +185,13 @@ target_link_libraries(foxglove_bridge_component
+   rosx_introspection::rosx_introspection
+ )
+ 
++# The Foxglove SDK bundles Rust crates that call into system frameworks on macOS.
++if(APPLE)
++  find_library(SECURITY_FRAMEWORK Security REQUIRED)
++  find_library(COREFOUNDATION_FRAMEWORK CoreFoundation REQUIRED)
++  target_link_libraries(foxglove_bridge_component ${SECURITY_FRAMEWORK} ${COREFOUNDATION_FRAMEWORK})
++endif()
++
+ rclcpp_components_register_nodes(foxglove_bridge_component "foxglove_bridge::FoxgloveBridge")
+ enable_strict_compiler_warnings(foxglove_bridge_component)
+ 
 diff --git a/src/ros2_foxglove_bridge.cpp b/src/ros2_foxglove_bridge.cpp
 index 978c732..4883047 100644
 --- a/src/ros2_foxglove_bridge.cpp

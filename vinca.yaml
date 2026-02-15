@@ -5,12 +5,12 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 16
-build_number: 14
+# Reminder for next full rebuild, the next build number should be 17
+build_number: 16
 
 mutex_package:
   name: "ros2-distro-mutex"
-  version: "0.13.0"
+  version: "0.14.0"
   upper_bound: "x.x"
   run_constraints:
     - libboost 1.88.*
@@ -207,6 +207,10 @@ packages_select_by_deps:
       # on macos it fails with https://github.com/RoboStack/ros-jazzy/pull/135#issuecomment-3772187665
       - mavros_extras
       - proto2ros
+      # Uses linux-specific flags in  https://github.com/SteveMacenski/spatio_temporal_voxel_layer/blob/e23d730d35407bd8e2bf9c33d10388a6a07c735d/spatio_temporal_voxel_layer/CMakeLists.txt#L124,
+      # but should be easy to fix
+      # disabled for now, see https://github.com/RoboStack/ros-jazzy/pull/161#issuecomment-3904979905
+      # - spatio_temporal_voxel_layer
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win

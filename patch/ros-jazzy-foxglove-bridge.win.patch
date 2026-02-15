@@ -1,27 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index a72a85b..8b69dda 100644
+index 611816f..73c9906 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -70,6 +70,18 @@ else()
-   elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
-     set(FOXGLOVE_SDK_PLATFORM "x86_64-unknown-linux-gnu")
-     set(FOXGLOVE_SDK_SHA "574c3ce006d6131d6519b416f25ef37c5b2a0721ef49c894286c79a5a5e0b4fc")
-+  elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
-+    set(FOXGLOVE_SDK_PLATFORM "aarch64-apple-darwin")
-+    set(FOXGLOVE_SDK_SHA "015d660ede95ad4d37f84e83e8ebbe81545f1d3c9fea4a24667baf692267f151")
-+  elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
-+    set(FOXGLOVE_SDK_PLATFORM "x86_64-apple-darwin")
-+    set(FOXGLOVE_SDK_SHA "07a1903013639ae872be9fcee8ccf72224a20cc142e642063a226ba2c2b54196")
-+  elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64")
-+    set(FOXGLOVE_SDK_PLATFORM "aarch64-pc-windows-msvc")
-+    set(FOXGLOVE_SDK_SHA "caa797bad483ee2f1013c39a8997a409a45515f15e62ead9011351f12596f57d")
-+  elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64")
-+    set(FOXGLOVE_SDK_PLATFORM "x86_64-pc-windows-msvc")
-+    set(FOXGLOVE_SDK_SHA "906a5658a207dfe929a6b75f39e0064efdb6182d923e695617fcfa10d311f349")
-   else()
-     message(FATAL_ERROR "Unsupported platform/architecture combination: ${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_SYSTEM_NAME}")
-   endif()
-@@ -91,7 +103,16 @@ else()
+@@ -96,7 +96,16 @@ else()
    file(GLOB_RECURSE FOXGLOVE_SDK_SOURCES CONFIGURE_DEPENDS "${foxglove_sdk_SOURCE_DIR}/src/*.cpp")
    target_sources(foxglove_cpp_static PRIVATE ${FOXGLOVE_SDK_SOURCES})
    set_target_properties(foxglove_cpp_static PROPERTIES POSITION_INDEPENDENT_CODE ON)
@@ -40,10 +21,46 @@ index a72a85b..8b69dda 100644
  
  find_program(GIT_SCM git DOC "Git version control")
 diff --git a/src/message_definition_cache.cpp b/src/message_definition_cache.cpp
-index f338db9..d766894 100644
+index 5ed9d12..83d1490 100644
 --- a/src/message_definition_cache.cpp
 +++ b/src/message_definition_cache.cpp
-@@ -225,16 +225,16 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
+@@ -217,34 +217,52 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
+   // Get the package share directory, or throw a PackageNotFoundError
+   // TODO: FLE-167: Remove warning once ament_index_cpp is updated and synced across all current
+   // ROS2 distributions.
++#if defined(__GNUC__) || defined(__clang__)
+ #pragma GCC diagnostic push
+ #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#elif defined(_MSC_VER)
++#pragma warning(push)
++#pragma warning(disable : 4996)
++#endif
+   const std::string share_dir = ament_index_cpp::get_package_share_directory(package);
++#if defined(__GNUC__) || defined(__clang__)
+ #pragma GCC diagnostic pop
++#elif defined(_MSC_VER)
++#pragma warning(pop)
++#endif
+ 
+   // Get the rosidl_interfaces index contents for this package
+   // TODO: FLE-167: Remove warning once ament_index_cpp is updated and synced across all current
+   // ROS2 distributions.
++#if defined(__GNUC__) || defined(__clang__)
+ #pragma GCC diagnostic push
+ #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#elif defined(_MSC_VER)
++#pragma warning(push)
++#pragma warning(disable : 4996)
++#endif
+   std::string index_contents;
+   if (!ament_index_cpp::get_resource("rosidl_interfaces", package, index_contents)) {
+     throw DefinitionNotFoundError(definition_identifier.package_resource_name);
+   }
++#if defined(__GNUC__) || defined(__clang__)
+ #pragma GCC diagnostic pop
++#elif defined(_MSC_VER)
++#pragma warning(pop)
++#endif
  
    // Find the first line that ends with the filename we're looking for
    const auto lines = split_string(index_contents);
@@ -63,19 +80,8 @@ index f338db9..d766894 100644
    std::ifstream file{full_path};
    if (!file.good()) {
      throw DefinitionNotFoundError(definition_identifier.package_resource_name);
-@@ -376,8 +376,8 @@ std::pair<MessageDefinitionFormat, const std::string&> MessageDefinitionCache::g
-     result = delimiter(root_definition_identifier) + append_recursive(root_definition_identifier);
-   }
- 
--  auto [it, _] = full_text_cache_.emplace(root_package_resource_name, result);
--  return {format, it->second};
-+  auto [cache_it, _] = full_text_cache_.emplace(root_package_resource_name, result);
-+  return {format, cache_it->second};
- }
- 
- }  // namespace foxglove_bridge
 diff --git a/src/ros2_foxglove_bridge.cpp b/src/ros2_foxglove_bridge.cpp
-index 978c732..83dce52 100644
+index 299ae62..4e03aef 100644
 --- a/src/ros2_foxglove_bridge.cpp
 +++ b/src/ros2_foxglove_bridge.cpp
 @@ -1,3 +1,4 @@
@@ -83,3 +89,20 @@ index 978c732..83dce52 100644
  #include <filesystem>
  #include <fstream>
  #include <unordered_set>
+@@ -201,7 +202,7 @@ FoxgloveBridge::FoxgloveBridge(const rclcpp::NodeOptions& options)
+     _clientCountPublisher = this->create_publisher<std_msgs::msg::UInt32>(
+       CLIENT_COUNT_TOPIC, rclcpp::QoS{rclcpp::KeepLast(1)}.transient_local());
+     auto init_msg = std_msgs::msg::UInt32();
+-    init_msg.data = _server->clientCount();
++    init_msg.data = static_cast<decltype(init_msg.data)>(_server->clientCount());
+     _clientCountPublisher->publish(
+       init_msg);  // Initialize transient local topic to current connection count
+   }
+@@ -1109,6 +1110,6 @@ void FoxgloveBridge::publishClientCount() {
+   }
+   const auto currentCount = _server->clientCount();
+   auto msg = std_msgs::msg::UInt32{};
+-  msg.data = currentCount;
++  msg.data = static_cast<decltype(msg.data)>(currentCount);
+   _clientCountPublisher->publish(msg);
+ }
