@@ -21,10 +21,46 @@ index 611816f..73c9906 100644
  
  find_program(GIT_SCM git DOC "Git version control")
 diff --git a/src/message_definition_cache.cpp b/src/message_definition_cache.cpp
-index 5ed9d12..03bcc42 100644
+index 5ed9d12..83d1490 100644
 --- a/src/message_definition_cache.cpp
 +++ b/src/message_definition_cache.cpp
-@@ -235,16 +235,16 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
+@@ -217,34 +217,52 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
+   // Get the package share directory, or throw a PackageNotFoundError
+   // TODO: FLE-167: Remove warning once ament_index_cpp is updated and synced across all current
+   // ROS2 distributions.
++#if defined(__GNUC__) || defined(__clang__)
+ #pragma GCC diagnostic push
+ #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#elif defined(_MSC_VER)
++#pragma warning(push)
++#pragma warning(disable : 4996)
++#endif
+   const std::string share_dir = ament_index_cpp::get_package_share_directory(package);
++#if defined(__GNUC__) || defined(__clang__)
+ #pragma GCC diagnostic pop
++#elif defined(_MSC_VER)
++#pragma warning(pop)
++#endif
+ 
+   // Get the rosidl_interfaces index contents for this package
+   // TODO: FLE-167: Remove warning once ament_index_cpp is updated and synced across all current
+   // ROS2 distributions.
++#if defined(__GNUC__) || defined(__clang__)
+ #pragma GCC diagnostic push
+ #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#elif defined(_MSC_VER)
++#pragma warning(push)
++#pragma warning(disable : 4996)
++#endif
+   std::string index_contents;
+   if (!ament_index_cpp::get_resource("rosidl_interfaces", package, index_contents)) {
+     throw DefinitionNotFoundError(definition_identifier.package_resource_name);
+   }
++#if defined(__GNUC__) || defined(__clang__)
+ #pragma GCC diagnostic pop
++#elif defined(_MSC_VER)
++#pragma warning(pop)
++#endif
  
    // Find the first line that ends with the filename we're looking for
    const auto lines = split_string(index_contents);
@@ -45,7 +81,7 @@ index 5ed9d12..03bcc42 100644
    if (!file.good()) {
      throw DefinitionNotFoundError(definition_identifier.package_resource_name);
 diff --git a/src/ros2_foxglove_bridge.cpp b/src/ros2_foxglove_bridge.cpp
-index 299ae62..d9ade46 100644
+index 299ae62..4e03aef 100644
 --- a/src/ros2_foxglove_bridge.cpp
 +++ b/src/ros2_foxglove_bridge.cpp
 @@ -1,3 +1,4 @@
@@ -53,3 +89,20 @@ index 299ae62..d9ade46 100644
  #include <filesystem>
  #include <fstream>
  #include <unordered_set>
+@@ -201,7 +202,7 @@ FoxgloveBridge::FoxgloveBridge(const rclcpp::NodeOptions& options)
+     _clientCountPublisher = this->create_publisher<std_msgs::msg::UInt32>(
+       CLIENT_COUNT_TOPIC, rclcpp::QoS{rclcpp::KeepLast(1)}.transient_local());
+     auto init_msg = std_msgs::msg::UInt32();
+-    init_msg.data = _server->clientCount();
++    init_msg.data = static_cast<decltype(init_msg.data)>(_server->clientCount());
+     _clientCountPublisher->publish(
+       init_msg);  // Initialize transient local topic to current connection count
+   }
+@@ -1109,6 +1110,6 @@ void FoxgloveBridge::publishClientCount() {
+   }
+   const auto currentCount = _server->clientCount();
+   auto msg = std_msgs::msg::UInt32{};
+-  msg.data = currentCount;
++  msg.data = static_cast<decltype(msg.data)>(currentCount);
+   _clientCountPublisher->publish(msg);
+ }
