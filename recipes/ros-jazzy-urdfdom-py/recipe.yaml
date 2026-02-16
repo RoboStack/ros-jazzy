@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-urdfdom-py
+  version: 1.2.1
+
+build:
+  number: 16
+  script: ''
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: http://wiki.ros.org/urdfdom_py
+  repository: https://github.com/ros/urdf_parser_py
+  license: BSD-3-Clause
+  summary: Python implementation of the URDF parser.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build: []
+  host:
+    - python
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros2-distro-mutex 0.14.* jazzy_*
+  run:
+    - lxml
+    - python
+    - pyyaml
+    - ros-jazzy-rclpy
+    - ros-jazzy-ros-workspace
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - urdfdom-py >=1.2.1, <1.3.0a0
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

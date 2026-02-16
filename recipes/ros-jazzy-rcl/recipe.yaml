@@ -1,0 +1,126 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-rcl
+  version: 9.2.9
+source:
+  git: https://github.com/ros2-gbp/rcl-release.git
+  tag: release/jazzy/rcl/9.2.9-1
+  target_directory: ros-jazzy-rcl/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  license: Apache-2.0
+  summary: The ROS client library common implementation. This package contains an API which builds on the ROS middleware API and is optionally built upon by the other ROS client libraries.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - if: target_platform != 'emscripten-wasm32'
+      then:
+        - ros-jazzy-mimick-vendor
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros-jazzy-ament-cmake-gen-version-h
+    - ros-jazzy-ament-cmake-gtest
+    - ros-jazzy-ament-cmake-ros
+    - ros-jazzy-ament-lint-auto
+    - ros-jazzy-ament-lint-common
+    - ros-jazzy-launch
+    - ros-jazzy-launch-testing
+    - ros-jazzy-launch-testing-ament-cmake
+    - ros-jazzy-libyaml-vendor
+    - ros-jazzy-osrf-testing-tools-cpp
+    - ros-jazzy-rcl-interfaces
+    - ros-jazzy-rcl-logging-interface
+    - ros-jazzy-rcl-logging-spdlog
+    - ros-jazzy-rcl-yaml-param-parser
+    - ros-jazzy-rcutils
+    - ros-jazzy-rmw
+    - ros-jazzy-rmw-implementation
+    - ros-jazzy-rmw-implementation-cmake
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rosidl-runtime-c
+    - ros-jazzy-rosidl-runtime-cpp
+    - ros-jazzy-service-msgs
+    - ros-jazzy-test-msgs
+    - ros-jazzy-tracetools
+    - ros-jazzy-type-description-interfaces
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - yaml
+    - yaml-cpp
+  run:
+    - python
+    - ros-jazzy-libyaml-vendor
+    - ros-jazzy-rcl-interfaces
+    - ros-jazzy-rcl-logging-interface
+    - ros-jazzy-rcl-logging-spdlog
+    - ros-jazzy-rcl-yaml-param-parser
+    - ros-jazzy-rcutils
+    - ros-jazzy-rmw
+    - ros-jazzy-rmw-implementation
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rosidl-runtime-c
+    - ros-jazzy-service-msgs
+    - ros-jazzy-tracetools
+    - ros-jazzy-type-description-interfaces
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - yaml
+    - yaml-cpp
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

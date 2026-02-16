@@ -1,0 +1,99 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-rqt-robot-monitor
+  version: 1.0.6
+source:
+  git: https://github.com/ros2-gbp/rqt_robot_monitor-release.git
+  tag: release/jazzy/rqt_robot_monitor/1.0.6-1
+  target_directory: ros-jazzy-rqt-robot-monitor/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_python.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_python.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: http://wiki.ros.org/rqt_robot_monitor
+  repository: https://github.com/ros-visualization/rqt_robot_monitor
+  license: BSD-3-Clause
+  summary: rqt_robot_monitor displays diagnostics_agg topics messages that are published by<a href="http://www.ros.org/wiki/diagnostic_aggregator">diagnostic_aggregator</a>. rqt_robot_monitor is a direct port to rqt of<a href="http://www.ros.org/wiki/robot_monitor">robot_monitor</a>. All diagnostics are fall into one of three tree panes depending on the status of diagnostics (normal, warning, error/stale). Status are shown in trees to represent their hierarchy. Worse status dominates the higher level status.<br/><ul>Ex. 'Computer' category has 3 sub devices. 2 are green but 1 is error. Then 'Computer' becomes error.</ul>You can look at the detail of each status by double-clicking the tree nodes.<br/>Currently re-usable API to other pkgs are not explicitly provided.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - if: target_platform == 'emscripten-wasm32'
+      then:
+        - ros-jazzy-rosidl-default-generators
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rosidl-default-generators
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - setuptools
+  run:
+    - python
+    - ros-jazzy-diagnostic-msgs
+    - ros-jazzy-python-qt-binding
+    - ros-jazzy-qt-gui
+    - ros-jazzy-qt-gui-py-common
+    - ros-jazzy-rclpy
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rqt-gui
+    - ros-jazzy-rqt-gui-py
+    - ros-jazzy-rqt-py-common
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - rospkg
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

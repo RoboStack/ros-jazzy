@@ -1,0 +1,102 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-rqt-common-plugins
+  version: 1.2.0
+source:
+  git: https://github.com/ros2-gbp/rqt_common_plugins-release.git
+  tag: release/jazzy/rqt_common_plugins/1.2.0-4
+  target_directory: ros-jazzy-rqt-common-plugins/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: http://ros.org/wiki/rqt_common_plugins
+  repository: https://github.com/ros-visualization/rqt_common_plugins
+  license: BSD-3-Clause
+  summary: rqt_common_plugins metapackage provides ROS backend graphical tools suite that can be used on/off of robot runtime.<br/><br/>To run any rqt plugins, just type in a single command &quot;rqt&quot;, then select any plugins you want from the GUI that launches afterwards.<br/><br/>rqt consists of three following metapackages:<br/><ul><li><a href="http://ros.org/wiki/rqt">rqt</a>- core modules of rqt (ROS GUI) framework. rqt plugin developers barely needs to pay attention to this metapackage.</li><li>rqt_common_plugins (you're here!)</li><li><a href="http://ros.org/wiki/rqt_robot_plugins">rqt_robot_plugins</a>- rqt plugins that are particularly used with robots during their runtime.</li><br/></ul><br/>
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros-jazzy-ament-cmake
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros2-distro-mutex 0.14.* jazzy_*
+  run:
+    - python
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rqt-action
+    - ros-jazzy-rqt-bag
+    - ros-jazzy-rqt-bag-plugins
+    - ros-jazzy-rqt-console
+    - ros-jazzy-rqt-graph
+    - ros-jazzy-rqt-image-view
+    - ros-jazzy-rqt-msg
+    - ros-jazzy-rqt-plot
+    - ros-jazzy-rqt-publisher
+    - ros-jazzy-rqt-py-common
+    - ros-jazzy-rqt-py-console
+    - ros-jazzy-rqt-reconfigure
+    - ros-jazzy-rqt-service-caller
+    - ros-jazzy-rqt-shell
+    - ros-jazzy-rqt-srv
+    - ros-jazzy-rqt-topic
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

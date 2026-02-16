@@ -1,0 +1,166 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-slam-toolbox
+  version: 2.8.4
+source:
+  git: https://github.com/SteveMacenski/slam_toolbox-release.git
+  tag: release/jazzy/slam_toolbox/2.8.4-1
+  target_directory: ros-jazzy-slam-toolbox/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  license: LGPL-2.1-or-later
+  summary: This package provides a sped up improved slam karto with updated SDK and visualization and modification toolsets
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - ${{ 'qt-main' if (build_platform != target_platform) }}
+    - if: target_platform == 'emscripten-wasm32'
+      then:
+        - ros-jazzy-rosidl-default-generators
+    - if: build_platform != target_platform
+      then:
+        - qt-main
+  host:
+    - ${{ 'libgl-devel' if linux }}
+    - ${{ 'libopengl-devel' if linux }}
+    - blas-devel
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - ceres-solver
+    - eigen
+    - libboost-devel
+    - libboost-python-devel
+    - liblapack
+    - numpy
+    - pip
+    - python
+    - qt-main
+    - ros-jazzy-ament-cmake
+    - ros-jazzy-ament-cmake-cpplint
+    - ros-jazzy-ament-cmake-flake8
+    - ros-jazzy-ament-cmake-gtest
+    - ros-jazzy-ament-cmake-uncrustify
+    - ros-jazzy-ament-lint-auto
+    - ros-jazzy-bond
+    - ros-jazzy-bondcpp
+    - ros-jazzy-builtin-interfaces
+    - ros-jazzy-interactive-markers
+    - ros-jazzy-launch
+    - ros-jazzy-launch-testing
+    - ros-jazzy-lifecycle-msgs
+    - ros-jazzy-message-filters
+    - ros-jazzy-nav-msgs
+    - ros-jazzy-pluginlib
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-lifecycle
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rosidl-default-generators
+    - ros-jazzy-rviz-common
+    - ros-jazzy-rviz-default-plugins
+    - ros-jazzy-rviz-ogre-vendor
+    - ros-jazzy-rviz-rendering
+    - ros-jazzy-sensor-msgs
+    - ros-jazzy-std-msgs
+    - ros-jazzy-std-srvs
+    - ros-jazzy-tf2
+    - ros-jazzy-tf2-geometry-msgs
+    - ros-jazzy-tf2-ros
+    - ros-jazzy-tf2-sensor-msgs
+    - ros-jazzy-visualization-msgs
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - suitesparse
+    - tbb
+    - tbb-devel
+  run:
+    - blas-devel
+    - ceres-solver
+    - eigen
+    - libboost-devel
+    - libboost-python-devel
+    - liblapack
+    - python
+    - qt-main
+    - ros-jazzy-bond
+    - ros-jazzy-bondcpp
+    - ros-jazzy-builtin-interfaces
+    - ros-jazzy-interactive-markers
+    - ros-jazzy-lifecycle-msgs
+    - ros-jazzy-message-filters
+    - ros-jazzy-nav-msgs
+    - ros-jazzy-pluginlib
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-lifecycle
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rosidl-default-generators
+    - ros-jazzy-rviz-common
+    - ros-jazzy-rviz-default-plugins
+    - ros-jazzy-rviz-ogre-vendor
+    - ros-jazzy-rviz-rendering
+    - ros-jazzy-sensor-msgs
+    - ros-jazzy-std-msgs
+    - ros-jazzy-std-srvs
+    - ros-jazzy-tf2
+    - ros-jazzy-tf2-geometry-msgs
+    - ros-jazzy-tf2-ros
+    - ros-jazzy-tf2-sensor-msgs
+    - ros-jazzy-visualization-msgs
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - suitesparse
+    - tbb
+    - tbb-devel
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

@@ -1,0 +1,26 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 21b03dfb1..5a76c1683 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,8 @@
+ cmake_minimum_required(VERSION 3.22)
+ project(moveit_kinematics LANGUAGES CXX)
+ 
++add_definitions(-DNOMINMAX)
++
+ # Common cmake code applied to all moveit packages
+ find_package(moveit_common REQUIRED)
+ moveit_package()
+diff --git a/cached_ik_kinematics_plugin/include/moveit/cached_ik_kinematics_plugin/detail/GreedyKCenters.hpp b/cached_ik_kinematics_plugin/include/moveit/cached_ik_kinematics_plugin/detail/GreedyKCenters.hpp
+index 173471c7e..47e47e2db 100644
+--- a/cached_ik_kinematics_plugin/include/moveit/cached_ik_kinematics_plugin/detail/GreedyKCenters.hpp
++++ b/cached_ik_kinematics_plugin/include/moveit/cached_ik_kinematics_plugin/detail/GreedyKCenters.hpp
+@@ -92,7 +92,7 @@ public:
+     centers.clear();
+     centers.reserve(k);
+     if (static_cast<long unsigned int>(dists.rows()) < data.size() || static_cast<long unsigned int>(dists.cols()) < k)
+-      dists.resize(std::max(2 * static_cast<long unsigned int>(dists.rows()) + 1, data.size()), k);
++      dists.resize(std::max(2 * ((long unsigned int)dists.rows()) + 1, (long unsigned int)data.size()), k);
+     // first center is picked randomly
+     centers.push_back(std::uniform_int_distribution<size_t>{ 0, data.size() - 1 }(rsl::rng()));
+     for (unsigned i = 1; i < k; ++i)

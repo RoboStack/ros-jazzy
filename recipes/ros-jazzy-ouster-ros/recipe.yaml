@@ -1,0 +1,131 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-ouster-ros
+  version: 0.13.15
+source:
+  git: https://github.com/ros2-gbp/ouster-ros-release.git
+  tag: release/jazzy/ouster_ros/0.13.15-1
+  target_directory: ros-jazzy-ouster-ros/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  license: BSD-3-Clause
+  summary: Ouster ROS2 driver
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - if: target_platform == 'emscripten-wasm32'
+      then:
+        - ros-jazzy-rosidl-default-generators
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - eigen
+    - fmt
+    - gtest
+    - jsoncpp
+    - libboost-devel
+    - libcurl
+    - libtins
+    - numpy
+    - pcl
+    - pip
+    - python
+    - ros-jazzy-ament-cmake
+    - ros-jazzy-cv-bridge
+    - ros-jazzy-geometry-msgs
+    - ros-jazzy-ouster-sensor-msgs
+    - ros-jazzy-pcl-conversions
+    - ros-jazzy-pcl-ros
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-components
+    - ros-jazzy-rclcpp-lifecycle
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rosidl-default-generators
+    - ros-jazzy-sensor-msgs
+    - ros-jazzy-std-msgs
+    - ros-jazzy-std-srvs
+    - ros-jazzy-tf2-eigen
+    - ros-jazzy-tf2-ros
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - spdlog
+    - vtk-base
+  run:
+    - fmt
+    - jsoncpp
+    - libcurl
+    - libtins
+    - python
+    - ros-jazzy-cv-bridge
+    - ros-jazzy-geometry-msgs
+    - ros-jazzy-launch
+    - ros-jazzy-launch-ros
+    - ros-jazzy-ouster-sensor-msgs
+    - ros-jazzy-pcl-conversions
+    - ros-jazzy-pcl-ros
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-components
+    - ros-jazzy-rclcpp-lifecycle
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rosidl-default-runtime
+    - ros-jazzy-sensor-msgs
+    - ros-jazzy-std-msgs
+    - ros-jazzy-std-srvs
+    - ros-jazzy-tf2-ros
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - spdlog
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

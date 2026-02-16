@@ -1,0 +1,143 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-moveit2-tutorials
+  version: 0.1.0
+source:
+  git: https://github.com/moveit/moveit2_tutorials.git
+  rev: 27b5ed0232cd08de9631d26e823dccc6e8766513
+  target_directory: ros-jazzy-moveit2-tutorials/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://moveit.picknik.ai
+  repository: https://github.com/moveit/moveit2_tutorials
+  license: BSD-3-Clause
+  summary: The moveit2_tutorials package
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - ${{ 'libgl-devel' if linux }}
+    - ${{ 'libopengl-devel' if linux }}
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - eigen
+    - numpy
+    - pip
+    - python
+    - ros-jazzy-ament-cmake
+    - ros-jazzy-ament-cmake-gtest
+    - ros-jazzy-control-msgs
+    - ros-jazzy-geometric-shapes
+    - ros-jazzy-interactive-markers
+    - ros-jazzy-moveit-common
+    - ros-jazzy-moveit-core
+    - ros-jazzy-moveit-hybrid-planning
+    - ros-jazzy-moveit-msgs
+    - ros-jazzy-moveit-ros-perception
+    - ros-jazzy-moveit-ros-planning
+    - ros-jazzy-moveit-ros-planning-interface
+    - ros-jazzy-moveit-ros-trajectory-cache
+    - ros-jazzy-moveit-servo
+    - ros-jazzy-moveit-task-constructor-core
+    - ros-jazzy-moveit-visual-tools
+    - ros-jazzy-pluginlib
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-testing
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rviz-visual-tools
+    - ros-jazzy-tf2-eigen
+    - ros-jazzy-tf2-geometry-msgs
+    - ros-jazzy-tf2-ros
+    - ros-jazzy-warehouse-ros-sqlite
+    - ros2-distro-mutex 0.14.* jazzy_*
+  run:
+    - notebook
+    - python
+    - ros-jazzy-control-msgs
+    - ros-jazzy-controller-manager
+    - ros-jazzy-interactive-markers
+    - ros-jazzy-joint-state-broadcaster
+    - ros-jazzy-joint-state-publisher
+    - ros-jazzy-joint-trajectory-controller
+    - ros-jazzy-joy
+    - ros-jazzy-kinova-gen3-7dof-robotiq-2f-85-moveit-config
+    - ros-jazzy-moveit
+    - ros-jazzy-moveit-configs-utils
+    - ros-jazzy-moveit-core
+    - ros-jazzy-moveit-hybrid-planning
+    - ros-jazzy-moveit-msgs
+    - ros-jazzy-moveit-py
+    - ros-jazzy-moveit-resources-panda-moveit-config
+    - ros-jazzy-moveit-ros-perception
+    - ros-jazzy-moveit-ros-planning-interface
+    - ros-jazzy-moveit-ros-trajectory-cache
+    - ros-jazzy-moveit-servo
+    - ros-jazzy-moveit-task-constructor-core
+    - ros-jazzy-moveit-visual-tools
+    - ros-jazzy-pluginlib
+    - ros-jazzy-robot-state-publisher
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-ros2-control
+    - ros-jazzy-rviz-visual-tools
+    - ros-jazzy-rviz2
+    - ros-jazzy-tf2-eigen
+    - ros-jazzy-tf2-geometry-msgs
+    - ros-jazzy-tf2-ros
+    - ros-jazzy-warehouse-ros-sqlite
+    - ros-jazzy-xacro
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

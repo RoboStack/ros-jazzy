@@ -1,0 +1,108 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-camera-calibration
+  version: 5.0.11
+source:
+  git: https://github.com/ros2-gbp/image_pipeline-release.git
+  tag: release/jazzy/camera_calibration/5.0.11-1
+  target_directory: ros-jazzy-camera-calibration/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_python.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_python.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://index.ros.org/p/camera_calibration/github-ros-perception-image_pipeline/
+  repository: https://github.com/ros-perception/image_pipeline
+  license: BSD-3-Clause
+  summary: camera_calibration allows easy calibration of monocular or stereo cameras using a checkerboard calibration target.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - libopencv
+    - numpy
+    - pip
+    - py-opencv
+    - pytest
+    - python
+    - requests
+    - ros-jazzy-ament-copyright
+    - ros-jazzy-ament-flake8
+    - ros-jazzy-ament-pep257
+    - ros-jazzy-cv-bridge
+    - ros-jazzy-image-geometry
+    - ros-jazzy-message-filters
+    - ros-jazzy-rclpy
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-sensor-msgs
+    - ros-jazzy-std-srvs
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - setuptools
+  run:
+    - libopencv
+    - libopencv * *qt6*
+    - py-opencv
+    - python
+    - ros-jazzy-cv-bridge
+    - ros-jazzy-image-geometry
+    - ros-jazzy-message-filters
+    - ros-jazzy-rclpy
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-sensor-msgs
+    - ros-jazzy-std-srvs
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
