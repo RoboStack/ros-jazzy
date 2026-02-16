@@ -1,0 +1,112 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-pointcloud-to-laserscan
+  version: 2.0.2
+source:
+  git: https://github.com/ros2-gbp/pointcloud_to_laserscan-release.git
+  tag: release/jazzy/pointcloud_to_laserscan/2.0.2-3
+  target_directory: ros-jazzy-pointcloud-to-laserscan/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: http://ros.org/wiki/perception_pcl
+  repository: https://github.com/ros-perception/perception_pcl
+  license: BSD-3-Clause
+  summary: Converts a 3D Point Cloud into a 2D laser scan. This is useful for making devices like the Kinect appear like a laser scanner for 2D-based algorithms (e.g. laser-based SLAM).
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros-jazzy-ament-cmake
+    - ros-jazzy-ament-cmake-cppcheck
+    - ros-jazzy-ament-cmake-cpplint
+    - ros-jazzy-ament-cmake-flake8
+    - ros-jazzy-ament-cmake-lint-cmake
+    - ros-jazzy-ament-cmake-pep257
+    - ros-jazzy-ament-cmake-uncrustify
+    - ros-jazzy-ament-cmake-xmllint
+    - ros-jazzy-ament-lint-auto
+    - ros-jazzy-laser-geometry
+    - ros-jazzy-message-filters
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-components
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-sensor-msgs
+    - ros-jazzy-tf2
+    - ros-jazzy-tf2-ros
+    - ros-jazzy-tf2-sensor-msgs
+    - ros2-distro-mutex 0.14.* jazzy_*
+  run:
+    - python
+    - ros-jazzy-laser-geometry
+    - ros-jazzy-launch
+    - ros-jazzy-launch-ros
+    - ros-jazzy-message-filters
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-components
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-sensor-msgs
+    - ros-jazzy-tf2
+    - ros-jazzy-tf2-ros
+    - ros-jazzy-tf2-sensor-msgs
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

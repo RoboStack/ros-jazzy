@@ -1,0 +1,128 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-octomap-server
+  version: 2.3.1
+source:
+  git: https://github.com/ros2-gbp/octomap_mapping-release.git
+  tag: release/jazzy/octomap_server/2.3.1-1
+  target_directory: ros-jazzy-octomap-server/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: http://www.ros.org/wiki/octomap_server
+  repository: https://github.com/OctoMap/octomap_mapping
+  license: BSD-3-Clause
+  summary: octomap_server loads a 3D map (as Octree-based OctoMap) and distributes it to other nodes in a compact binary format. It also allows to incrementally build 3D OctoMaps, and provides map saving in the node octomap_saver.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - libboost-devel
+    - numpy
+    - pcl
+    - pip
+    - python
+    - ros-jazzy-ament-cmake-auto
+    - ros-jazzy-ament-lint-auto
+    - ros-jazzy-ament-lint-common
+    - ros-jazzy-geometry-msgs
+    - ros-jazzy-message-filters
+    - ros-jazzy-nav-msgs
+    - ros-jazzy-octomap-msgs
+    - ros-jazzy-octomap-ros
+    - ros-jazzy-pcl-conversions
+    - ros-jazzy-pcl-ros
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-components
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-sensor-msgs
+    - ros-jazzy-std-msgs
+    - ros-jazzy-std-srvs
+    - ros-jazzy-tf2
+    - ros-jazzy-tf2-eigen
+    - ros-jazzy-tf2-geometry-msgs
+    - ros-jazzy-tf2-ros
+    - ros-jazzy-visualization-msgs
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - vtk-base
+  run:
+    - libboost-devel
+    - pcl
+    - python
+    - ros-jazzy-geometry-msgs
+    - ros-jazzy-message-filters
+    - ros-jazzy-nav-msgs
+    - ros-jazzy-octomap-msgs
+    - ros-jazzy-octomap-ros
+    - ros-jazzy-pcl-conversions
+    - ros-jazzy-pcl-ros
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-components
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-sensor-msgs
+    - ros-jazzy-std-msgs
+    - ros-jazzy-std-srvs
+    - ros-jazzy-tf2
+    - ros-jazzy-tf2-eigen
+    - ros-jazzy-tf2-geometry-msgs
+    - ros-jazzy-tf2-ros
+    - ros-jazzy-visualization-msgs
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - vtk-base
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

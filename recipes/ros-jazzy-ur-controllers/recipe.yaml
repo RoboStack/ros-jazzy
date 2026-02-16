@@ -1,0 +1,129 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-ur-controllers
+  version: 3.7.0
+source:
+  git: https://github.com/ros2-gbp/Universal_Robots_ROS2_Driver-release.git
+  tag: release/jazzy/ur_controllers/3.7.0-1
+  target_directory: ros-jazzy-ur-controllers/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  repository: https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver
+  homepage: https://docs.universal-robots.com/Universal_Robots_ROS_Documentation/
+  license: BSD-3-Clause
+  summary: Provides controllers that use the speed scaling interface of Universal Robots.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros-jazzy-action-msgs
+    - ros-jazzy-ament-cmake
+    - ros-jazzy-angles
+    - ros-jazzy-control-msgs
+    - ros-jazzy-controller-interface
+    - ros-jazzy-controller-manager
+    - ros-jazzy-generate-parameter-library
+    - ros-jazzy-geometry-msgs
+    - ros-jazzy-hardware-interface
+    - ros-jazzy-hardware-interface-testing
+    - ros-jazzy-joint-trajectory-controller
+    - ros-jazzy-lifecycle-msgs
+    - ros-jazzy-pluginlib
+    - ros-jazzy-rclcpp-lifecycle
+    - ros-jazzy-rcutils
+    - ros-jazzy-realtime-tools
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-ros2-control-test-assets
+    - ros-jazzy-std-msgs
+    - ros-jazzy-std-srvs
+    - ros-jazzy-tf2-geometry-msgs
+    - ros-jazzy-tf2-ros
+    - ros-jazzy-trajectory-msgs
+    - ros-jazzy-ur-dashboard-msgs
+    - ros-jazzy-ur-msgs
+    - ros2-distro-mutex 0.14.* jazzy_*
+  run:
+    - python
+    - ros-jazzy-action-msgs
+    - ros-jazzy-angles
+    - ros-jazzy-control-msgs
+    - ros-jazzy-controller-interface
+    - ros-jazzy-generate-parameter-library
+    - ros-jazzy-geometry-msgs
+    - ros-jazzy-hardware-interface
+    - ros-jazzy-joint-trajectory-controller
+    - ros-jazzy-lifecycle-msgs
+    - ros-jazzy-pluginlib
+    - ros-jazzy-rclcpp-lifecycle
+    - ros-jazzy-rcutils
+    - ros-jazzy-realtime-tools
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-std-msgs
+    - ros-jazzy-std-srvs
+    - ros-jazzy-tf2-geometry-msgs
+    - ros-jazzy-tf2-ros
+    - ros-jazzy-trajectory-msgs
+    - ros-jazzy-ur-dashboard-msgs
+    - ros-jazzy-ur-msgs
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

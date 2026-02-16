@@ -1,0 +1,101 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-ros2controlcli
+  version: 4.43.0
+source:
+  git: https://github.com/ros2-gbp/ros2_control-release.git
+  tag: release/jazzy/ros2controlcli/4.43.0-1
+  target_directory: ros-jazzy-ros2controlcli/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_python.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_python.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  license: Apache-2.0
+  summary: The ROS 2 command line tools for ros2_control.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros-jazzy-controller-manager
+    - ros-jazzy-controller-manager-msgs
+    - ros-jazzy-rcl-interfaces
+    - ros-jazzy-rclpy
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-ros2cli
+    - ros-jazzy-ros2node
+    - ros-jazzy-ros2param
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - setuptools
+  run:
+    - graphviz
+    - pygraphviz
+    - python
+    - ros-jazzy-controller-manager
+    - ros-jazzy-controller-manager-msgs
+    - ros-jazzy-rcl-interfaces
+    - ros-jazzy-rclpy
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-ros2cli
+    - ros-jazzy-ros2node
+    - ros-jazzy-ros2param
+    - ros-jazzy-rosidl-runtime-py
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

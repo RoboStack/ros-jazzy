@@ -1,0 +1,109 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-foxglove-bridge
+  version: 3.2.4
+source:
+  git: https://github.com/ros2-gbp/foxglove_bridge-release.git
+  tag: release/jazzy/foxglove_bridge/3.2.4-1
+  target_directory: ros-jazzy-foxglove-bridge/src/work
+  patches:
+    - patch/ros-jazzy-foxglove-bridge.patch
+    - patch/ros-jazzy-foxglove-bridge.osx.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://github.com/foxglove/foxglove-sdk
+  license: MIT
+  summary: ROS Foxglove Bridge
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - asio
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - nlohmann_json
+    - numpy
+    - openssl
+    - pip
+    - python
+    - ros-jazzy-ament-cmake
+    - ros-jazzy-ament-cmake-gtest
+    - ros-jazzy-ament-index-cpp
+    - ros-jazzy-ament-lint-auto
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-components
+    - ros-jazzy-resource-retriever
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rosgraph-msgs
+    - ros-jazzy-rosx-introspection
+    - ros-jazzy-std-msgs
+    - ros-jazzy-std-srvs
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - websocketpp
+  run:
+    - python
+    - ros-jazzy-ament-index-cpp
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-components
+    - ros-jazzy-resource-retriever
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rosgraph-msgs
+    - ros-jazzy-rosx-introspection
+    - ros-jazzy-std-msgs
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
