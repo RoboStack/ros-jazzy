@@ -503,11 +503,11 @@ libudev-dev:
     osx: [libusb]
     win64: [libusb]
 liburdfdom-dev:
-  robostack: [urdfdom]
+  robostack: [ros-jazzy-urdfdom]
 liburdfdom-headers-dev:
-  robostack: [urdfdom_headers]
+  robostack: [ros-jazzy-urdfdom-headers]
 liburdfdom-tools:
-  robostack: [urdfdom]
+  robostack: [ros-jazzy-urdfdom]
 libusb-1.0:
   robostack:
     linux: [libusb, libudev]

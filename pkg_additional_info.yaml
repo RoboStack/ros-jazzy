@@ -28,6 +28,8 @@ urdfdom:
     # jazzy is on 4.0.2, but we stick to 4.0.1 for compat
     # with the rest of conda-forge
     override_version: '4.0.1'
+ur_description:
+  build_number: 17
 cartographer:
   generate_dummy_package_with_run_deps:
     dep_name: cartographer
