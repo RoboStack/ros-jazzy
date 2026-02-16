@@ -1,0 +1,13 @@
+diff --git a/include/moveit_simple_controller_manager/action_based_controller_handle.hpp b/include/moveit_simple_controller_manager/action_based_controller_handle.hpp
+index cce6cc991a..7087a88949 100644
+--- a/include/moveit_simple_controller_manager/action_based_controller_handle.hpp
++++ b/include/moveit_simple_controller_manager/action_based_controller_handle.hpp
+@@ -145,7 +145,7 @@ class ActionBasedControllerHandle : public ActionBasedControllerHandleBase
+         do
+         {
+           status = result_future.wait_for(50ms);
+-          if ((status == std::future_status::timeout) and ((node_->now() - start) > timeout))
++          if ((status == std::future_status::timeout) && ((node_->now() - start) > timeout))
+           {
+             RCLCPP_WARN(logger_, "waitForExecution timed out");
+             return false;

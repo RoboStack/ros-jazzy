@@ -1,0 +1,116 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-navigation2
+  version: 1.3.11
+source:
+  git: https://github.com/SteveMacenski/navigation2-release.git
+  tag: release/jazzy/navigation2/1.3.11-1
+  target_directory: ros-jazzy-navigation2/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  license: Apache-2.0
+  summary: ROS2 Navigation Stack
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros-jazzy-ament-cmake
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros2-distro-mutex 0.14.* jazzy_*
+  run:
+    - python
+    - ros-jazzy-nav2-amcl
+    - ros-jazzy-nav2-behavior-tree
+    - ros-jazzy-nav2-behaviors
+    - ros-jazzy-nav2-bt-navigator
+    - ros-jazzy-nav2-collision-monitor
+    - ros-jazzy-nav2-constrained-smoother
+    - ros-jazzy-nav2-controller
+    - ros-jazzy-nav2-core
+    - ros-jazzy-nav2-costmap-2d
+    - ros-jazzy-nav2-dwb-controller
+    - ros-jazzy-nav2-graceful-controller
+    - ros-jazzy-nav2-lifecycle-manager
+    - ros-jazzy-nav2-map-server
+    - ros-jazzy-nav2-mppi-controller
+    - ros-jazzy-nav2-msgs
+    - ros-jazzy-nav2-navfn-planner
+    - ros-jazzy-nav2-planner
+    - ros-jazzy-nav2-regulated-pure-pursuit-controller
+    - ros-jazzy-nav2-rotation-shim-controller
+    - ros-jazzy-nav2-route
+    - ros-jazzy-nav2-rviz-plugins
+    - ros-jazzy-nav2-simple-commander
+    - ros-jazzy-nav2-smac-planner
+    - ros-jazzy-nav2-smoother
+    - ros-jazzy-nav2-theta-star-planner
+    - ros-jazzy-nav2-util
+    - ros-jazzy-nav2-velocity-smoother
+    - ros-jazzy-nav2-voxel-grid
+    - ros-jazzy-nav2-waypoint-follower
+    - ros-jazzy-opennav-docking
+    - ros-jazzy-opennav-docking-bt
+    - ros-jazzy-opennav-docking-core
+    - ros-jazzy-ros-workspace
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

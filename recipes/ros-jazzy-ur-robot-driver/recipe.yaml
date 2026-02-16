@@ -1,0 +1,140 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-ur-robot-driver
+  version: 3.7.0
+source:
+  git: https://github.com/ros2-gbp/Universal_Robots_ROS2_Driver-release.git
+  tag: release/jazzy/ur_robot_driver/3.7.0-1
+  target_directory: ros-jazzy-ur-robot-driver/src/work
+  patches:
+    - patch/ros-jazzy-ur-robot-driver.win.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  repository: https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver
+  homepage: https://docs.universal-robots.com/Universal_Robots_ROS_Documentation/
+  license: BSD-3-Clause
+  summary: The ROS 2 driver for Universal Robots manipulators. This driver supports all robot models as listed in the documentation. For robot controllers, PolyScope X, PolyScope 5 and CB3 controllers are supported.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros-jazzy-ament-cmake
+    - ros-jazzy-ament-cmake-python
+    - ros-jazzy-backward-ros
+    - ros-jazzy-controller-manager
+    - ros-jazzy-controller-manager-msgs
+    - ros-jazzy-geometry-msgs
+    - ros-jazzy-hardware-interface
+    - ros-jazzy-launch-testing-ament-cmake
+    - ros-jazzy-pluginlib
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-lifecycle
+    - ros-jazzy-rclpy
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-ros2run
+    - ros-jazzy-std-msgs
+    - ros-jazzy-std-srvs
+    - ros-jazzy-tf2-geometry-msgs
+    - ros-jazzy-ur-client-library
+    - ros-jazzy-ur-controllers
+    - ros-jazzy-ur-dashboard-msgs
+    - ros-jazzy-ur-description
+    - ros-jazzy-ur-msgs
+    - ros2-distro-mutex 0.14.* jazzy_*
+  run:
+    - python
+    - ros-jazzy-backward-ros
+    - ros-jazzy-controller-manager
+    - ros-jazzy-controller-manager-msgs
+    - ros-jazzy-effort-controllers
+    - ros-jazzy-force-torque-sensor-broadcaster
+    - ros-jazzy-geometry-msgs
+    - ros-jazzy-hardware-interface
+    - ros-jazzy-joint-state-broadcaster
+    - ros-jazzy-joint-state-publisher
+    - ros-jazzy-joint-trajectory-controller
+    - ros-jazzy-launch
+    - ros-jazzy-launch-ros
+    - ros-jazzy-pluginlib
+    - ros-jazzy-pose-broadcaster
+    - ros-jazzy-position-controllers
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-lifecycle
+    - ros-jazzy-rclpy
+    - ros-jazzy-robot-state-publisher
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-ros2-controllers-test-nodes
+    - ros-jazzy-rviz2
+    - ros-jazzy-std-msgs
+    - ros-jazzy-std-srvs
+    - ros-jazzy-tf2-geometry-msgs
+    - ros-jazzy-ur-client-library
+    - ros-jazzy-ur-controllers
+    - ros-jazzy-ur-dashboard-msgs
+    - ros-jazzy-ur-description
+    - ros-jazzy-ur-msgs
+    - ros-jazzy-urdf
+    - ros-jazzy-velocity-controllers
+    - ros-jazzy-xacro
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

@@ -1,0 +1,122 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-gz-ros2-control-demos
+  version: 1.2.17
+source:
+  git: https://github.com/ros2-gbp/ign_ros2_control-release.git
+  tag: release/jazzy/gz_ros2_control_demos/1.2.17-1
+  target_directory: ros-jazzy-gz-ros2-control-demos/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 16
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://github.com/ros-controls/gz_ros2_control/blob/master/README.md
+  repository: https://github.com/ros-controls/gz_ros2_control
+  license: Apache-2.0
+  summary: gz_ros2_control_demos
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - ${{ 'libgl-devel' if linux }}
+    - ${{ 'libopengl-devel' if linux }}
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros-jazzy-ament-cmake
+    - ros-jazzy-ament-lint-auto
+    - ros-jazzy-ament-lint-common
+    - ros-jazzy-control-msgs
+    - ros-jazzy-geometry-msgs
+    - ros-jazzy-rclcpp
+    - ros-jazzy-rclcpp-action
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-ros2-control-cmake
+    - ros-jazzy-std-msgs
+    - ros2-distro-mutex 0.14.* jazzy_*
+  run:
+    - python
+    - ros-jazzy-ackermann-steering-controller
+    - ros-jazzy-ament-index-python
+    - ros-jazzy-control-msgs
+    - ros-jazzy-diff-drive-controller
+    - ros-jazzy-effort-controllers
+    - ros-jazzy-force-torque-sensor-broadcaster
+    - ros-jazzy-geometry-msgs
+    - ros-jazzy-gz-ros2-control
+    - ros-jazzy-hardware-interface
+    - ros-jazzy-imu-sensor-broadcaster
+    - ros-jazzy-joint-state-broadcaster
+    - ros-jazzy-joint-trajectory-controller
+    - ros-jazzy-launch
+    - ros-jazzy-launch-ros
+    - ros-jazzy-mecanum-drive-controller
+    - ros-jazzy-rclcpp
+    - ros-jazzy-robot-state-publisher
+    - ros-jazzy-ros-gz-bridge
+    - ros-jazzy-ros-gz-sim
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-ros2-control-cmake
+    - ros-jazzy-ros2controlcli
+    - ros-jazzy-ros2launch
+    - ros-jazzy-std-msgs
+    - ros-jazzy-tricycle-steering-controller
+    - ros-jazzy-velocity-controllers
+    - ros-jazzy-xacro
+    - ros2-distro-mutex 0.14.* jazzy_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
