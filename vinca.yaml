@@ -169,6 +169,8 @@ packages_select_by_deps:
 
   - rqt_robot_monitor
 
+  - canopen
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
