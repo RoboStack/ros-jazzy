@@ -197,6 +197,7 @@ packages_select_by_deps:
       - plansys2_tests
       - plansys2_tools
       - popf
+      - canopen
   
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
