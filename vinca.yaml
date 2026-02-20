@@ -169,6 +169,10 @@ packages_select_by_deps:
 
   - rqt_robot_monitor
 
+  - io_context
+  - serial_driver
+  - udp_driver
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
