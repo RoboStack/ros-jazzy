@@ -169,10 +169,6 @@ packages_select_by_deps:
 
   - rqt_robot_monitor
 
-  - io_context
-  - serial_driver
-  - udp_driver
-
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
@@ -215,6 +211,9 @@ packages_select_by_deps:
       # but should be easy to fix
       # disabled for now, see https://github.com/RoboStack/ros-jazzy/pull/161#issuecomment-3904979905
       # - spatio_temporal_voxel_layer
+      - io_context
+      - serial_driver
+      - udp_driver
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
