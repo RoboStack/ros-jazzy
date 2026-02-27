@@ -5,9 +5,9 @@ on:
 env:
   ROS_VERSION: 2
   # Change to 'true' to enable the cache upload as artifacts
-  SAVE_CACHE_AS_ARTIFACT: 'false'
+  SAVE_CACHE_AS_ARTIFACT: 'true'
   # Change to 'true' to ignore cache and force a full rebuild, but please restore to 'false' before merging
-  IGNORE_CACHE_AND_DO_FULL_REBUILD: 'true'
+  IGNORE_CACHE_AND_DO_FULL_REBUILD: 'false'
 jobs:
   build:
     strategy:
@@ -20,7 +20,7 @@ jobs:
           - os: ubuntu-24.04-arm
             platform: linux-aarch64
             folder_cache: 'output/linux-aarch64'
-          - os: macos-13
+          - os: macos-15-intel
             platform: osx-64
             folder_cache: 'output/osx-64'
           - os: macos-14
@@ -33,12 +33,12 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
         fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
-    - uses: prefix-dev/setup-pixi@v0.8.10
+    - uses: prefix-dev/setup-pixi@v0.9.4
       with:
         frozen: true
 
@@ -108,8 +108,9 @@ jobs:
       run: |
         ls ${{ matrix.folder_cache }} || true
 
-    - name: Build recipes
+    - name: Build recipes [non emscripten]
       shell: bash -l {0}
+      if: matrix.platform != 'emscripten-wasm32'
       run: |
         pixi run rattler-build build --recipe-dir recipes --target-platform ${{ matrix.platform }} -m ./conda_build_config.yaml -c conda-forge -c robostack-jazzy --skip-existing
 

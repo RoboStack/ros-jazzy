@@ -5,21 +5,20 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 12
-build_number: 10
+# Reminder for next full rebuild, the next build number should be 18
+build_number: 16
 
 mutex_package:
   name: "ros2-distro-mutex"
-  version: "0.11.0"
+  version: "0.14.0"
   upper_bound: "x.x"
   run_constraints:
-    - libboost 1.86.*
-    - libboost-devel 1.86.*
-    - pcl 1.15.0.*
+    - libboost 1.88.*
+    - libboost-devel 1.88.*
+    - pcl 1.15.1.*
     - gazebo 11.*
-    - libprotobuf 5.29.3.*
-    - libxml2 2.13.*
-    - vtk 9.4.2.*
+    - libprotobuf 6.31.1.*
+    - vtk 9.5.2.*
 
 packages_skip_by_deps:
   - if: not linux
@@ -107,6 +106,7 @@ packages_select_by_deps:
   - ros2_socketcan_msgs
 
   - nav2_bringup
+  - nav2_loopback_sim
 
   - autoware_internal_msgs
   - autoware_common_msgs
@@ -136,7 +136,7 @@ packages_select_by_deps:
   - ouster_ros
 
   - clearpath_common
-  
+
   # cascade lifecycle packages
   - cascade-lifecycle-msgs
   - rclcpp-cascade-lifecycle
@@ -149,8 +149,25 @@ packages_select_by_deps:
 
   - point_cloud_transport_py
 
+  # SICK LiDAR drivers
+  - sick_scan_xd
+
   # IntelRealSense
   - librealsense2
+
+  # geodesy (required for many outdoors robotics packages)
+  - geodesy
+
+  # mocap related packages
+  - mocap4r2_msgs
+
+  - rviz_2d_overlay_msgs
+  - asio_cmake_module
+  - mavros_msgs
+
+  - picknik_ament_copyright
+
+  - rqt_robot_monitor
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
@@ -161,13 +178,42 @@ packages_select_by_deps:
       - usb_cam
       # Depends (indirectly) on libcamera
       - apriltag_ros
-
+      # Depends on v4l that is only available on linux
+      - v4l2_camera
+      # PlanSys2 packages and dependencies
+      - plansys2_bringup
+      - plansys2_bt_actions
+      - plansys2_core
+      - plansys2_domain_expert
+      - plansys2_executor
+      - plansys2_lifecycle_manager
+      - plansys2_msgs
+      - plansys2_pddl_parser
+      - plansys2_planner
+      - plansys2_popf_plan_solver
+      - plansys2_problem_expert
+      - plansys2_support_py
+      - plansys2_terminal
+      - plansys2_tests
+      - plansys2_tools
+      - popf
+  
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
   - if: linux
     then:
       - livox_ros_driver2
       - orbbec_camera
+      # on macos it fails with https://github.com/RoboStack/ros-jazzy/pull/135#issuecomment-3772187665
+      - mavros_extras
+      - proto2ros
+      # Uses linux-specific flags in  https://github.com/SteveMacenski/spatio_temporal_voxel_layer/blob/e23d730d35407bd8e2bf9c33d10388a6a07c735d/spatio_temporal_voxel_layer/CMakeLists.txt#L124,
+      # but should be easy to fix
+      # disabled for now, see https://github.com/RoboStack/ros-jazzy/pull/161#issuecomment-3904979905
+      # - spatio_temporal_voxel_layer
+      - io_context
+      - serial_driver
+      - udp_driver
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
@@ -186,7 +232,7 @@ packages_select_by_deps:
       - gtsam
       # TODO on windows: fix iconv link issue
       - ffmpeg_image_transport
-      # most of the dep of grid_map work on Windows, but there are some rviz linking problems in octomap_rviz_plugins, 
+      # most of the dep of grid_map work on Windows, but there are some rviz linking problems in octomap_rviz_plugins,
       # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
       - grid_map
       - dual-laser-merger
@@ -204,6 +250,11 @@ packages_select_by_deps:
       # Error: LINK : fatal error LNK1181: cannot open input file 'zstd.lib' [%SRC_DIR%\build\zstd_point_cloud_transport.vcxproj]
       - point_cloud_transport_plugins
       - bonxai_ros
+      - mavlink
+      - mavros
+      - cloudini-lib
+      - cloudini-ros
+      - spacenav
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

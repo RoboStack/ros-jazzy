@@ -91,3 +91,15 @@ bonxai_ros:
   tag: v0.6.0
   url: https://github.com/facontidavide/Bonxai.git
   version: 0.6.0
+
+# TODO: remove cloudini packages when they are available from ros2-gbp
+cloudini_lib:
+  url: https://github.com/facontidavide/cloudini.git
+  tag: 0.11.1
+  version: 0.11.1
+  additional_folder: cloudini_lib
+cloudini_ros:
+  url: https://github.com/facontidavide/cloudini.git
+  tag: 0.11.1
+  version: 0.11.1
+  additional_folder: cloudini_ros

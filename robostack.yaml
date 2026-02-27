@@ -1040,7 +1040,7 @@ socat:
 spacenavd:
   robostack: [libspnav]
 spdlog:
-  robostack: [spdlog]
+  robostack: [spdlog, fmt]
 sshpass:
   robostack: [sshpass]
 subversion:

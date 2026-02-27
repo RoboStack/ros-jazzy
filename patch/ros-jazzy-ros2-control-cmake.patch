@@ -1,24 +1,44 @@
-diff --git a/ros2_control_cmake/cmake/ros2_control.cmake b/ros2_control_cmake/cmake/ros2_control.cmake
-index 9d74527..c267128 100644
---- a/ros2_control_cmake/cmake/ros2_control.cmake
-+++ b/ros2_control_cmake/cmake/ros2_control.cmake
-@@ -34,10 +34,10 @@ endmacro()
+diff --git a/cmake/ros2_control.cmake b/cmake/ros2_control.cmake
+index 4f9f757..6269a9b 100644
+--- a/cmake/ros2_control.cmake
++++ b/cmake/ros2_control.cmake
+@@ -34,20 +34,20 @@ endmacro()
  # set compiler options depending on detected compiler
  macro(set_compiler_options)
    if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
--    add_compile_options(-Wall -Wextra -Wpedantic -Werror=conversion -Werror=unused-but-set-variable
--                        -Werror=return-type -Werror=shadow -Werror=format
--                        -Werror=missing-braces)
+-    add_compile_options(
+-      -Wall -Wextra -Wpedantic
+-      -Wshadow -Wconversion -Wold-style-cast
+-      -Werror=conversion
+-      -Werror=format
+-      -Werror=missing-braces
+-      -Werror=overflow
+-      -Werror=return-type
+-      -Werror=shadow
+-      -Werror=sign-compare
+-      -Werror=unused-but-set-variable
+-      -Werror=unused-variable
+-    )
 -    message(STATUS "Compiler warnings enabled for ${CMAKE_CXX_COMPILER_ID}")
-+    # add_compile_options(-Wall -Wextra -Wpedantic -Werror=conversion -Werror=unused-but-set-variable
-+    #                     -Werror=return-type -Werror=shadow -Werror=format
-+    #                     -Werror=missing-braces)
++    # add_compile_options(
++    #   -Wall -Wextra -Wpedantic
++    #   -Wshadow -Wconversion -Wold-style-cast
++    #   -Werror=conversion
++    #   -Werror=format
++    #   -Werror=missing-braces
++    #   -Werror=overflow
++    #   -Werror=return-type
++    #   -Werror=shadow
++    #   -Werror=sign-compare
++    #   -Werror=unused-but-set-variable
++    #   -Werror=unused-variable
++    # )
 +    # message(STATUS "Compiler warnings enabled for ${CMAKE_CXX_COMPILER_ID}")
  
      # https://docs.ros.org/en/rolling/How-To-Guides/Ament-CMake-Documentation.html#compiler-and-linker-options
      if(NOT CMAKE_C_STANDARD)
-@@ -48,13 +48,13 @@ macro(set_compiler_options)
-     endif()
+@@ -60,13 +60,13 @@ macro(set_compiler_options)
+     set(CMAKE_CXX_STANDARD_REQUIRED ON)
  
      # Extract major version if g++ is used
 -    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -35,6 +55,6 @@ index 9d74527..c267128 100644
 +    #     add_compile_options(-Werror=range-loop-construct)
 +    #   endif()
 +    # endif()
-   endif()
- endmacro()
  
+     if(CMAKE_CXX_COMPILER_ID MATCHES "(Clang)")
+       add_compile_options(

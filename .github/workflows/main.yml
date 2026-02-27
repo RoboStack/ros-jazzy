@@ -16,7 +16,7 @@ jobs:
         persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
         fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
-    - uses: prefix-dev/setup-pixi@v0.8.10
+    - uses: prefix-dev/setup-pixi@v0.9.4
       with:
         frozen: true
 
@@ -33,7 +33,7 @@ jobs:
             mv linux.yml .github/workflows/
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
-            git add . -f
+            git add -f . ':!.pixi'
             git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
             remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
             git push "${remote_repo}" HEAD:buildbranch_linux --follow-tags --force
@@ -58,7 +58,7 @@ jobs:
             mv osx.yml .github/workflows/
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
-            git add . -f
+            git add -f . ':!.pixi'
             git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
             remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
             git push "${remote_repo}" HEAD:buildbranch_osx --follow-tags --force
@@ -83,7 +83,7 @@ jobs:
             mv osx_arm64.yml .github/workflows/
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
-            git add . -f
+            git add -f . ':!.pixi'
             git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
             remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
             git push "${remote_repo}" HEAD:buildbranch_osx_arm64 --follow-tags --force
@@ -102,14 +102,14 @@ jobs:
     - name: Generate GitHub Actions pipelines for win-64
       run: |
         # --batch_size 10 is a workaround for https://github.com/RoboStack/robostack.github.io/issues/105
-        pixi run -v vinca-gha --platform win-64 --trigger-branch buildbranch_win -d ./recipes  --batch_size 10
+        pixi run -v vinca-gha --platform win-64 --trigger-branch buildbranch_win -d ./recipes --batch_size 10
     - name: Commit files for win-64
       run: |
         if [[ -f "win.yml" ]]; then
             mv win.yml .github/workflows/
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
-            git add . -f
+            git add -f . ':!.pixi'
             git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
             remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
             git push "${remote_repo}" HEAD:buildbranch_win --follow-tags --force
@@ -134,7 +134,7 @@ jobs:
             mv linux_aarch64.yml .github/workflows/build_linux_aarch64.yml
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
-            git add . -f
+            git add -f . ':!.pixi'
             git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
             remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
             git push "${remote_repo}" HEAD:buildbranch_linux_aarch64 --follow-tags --force

@@ -1,0 +1,30 @@
+diff --git a/ament_clang_format/ament_clang_format/main.py b/ament_clang_format/ament_clang_format/main.py
+index 871206289..eb579572f 100755
+--- a/ament_clang_format/ament_clang_format/main.py
++++ b/ament_clang_format/ament_clang_format/main.py
+@@ -25,6 +25,8 @@
+ 
+ import yaml
+ 
++from ament_lint.filesystem_helpers import find_executable
++
+ 
+ def main(argv=sys.argv[1:]):
+     config_file = os.path.join(
+@@ -245,16 +247,6 @@ def main(argv=sys.argv[1:]):
+     return rc
+ 
+ 
+-def find_executable(file_names):
+-    paths = os.getenv('PATH').split(os.path.pathsep)
+-    for file_name in file_names:
+-        for path in paths:
+-            file_path = os.path.join(path, file_name)
+-            if os.path.isfile(file_path) and os.access(file_path, os.X_OK):
+-                return file_path
+-    return None
+-
+-
+ def get_files(paths, extensions):
+     files = []
+     for path in paths:

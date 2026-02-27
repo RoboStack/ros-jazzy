@@ -1,4 +1,4 @@
-[project]
+[workspace]
 name = "ros-jazzy"
 description = "RoboStack repo to package ros-jazzy packages as conda packages"
 authors = ["Tobias Fischer <tobias.fischer@qut.edu.au>", "Wolf Vollprecht <w.vollprecht@gmail.com>", "Silvio Traversaro <silvio@traversaro.it>"]
@@ -14,6 +14,8 @@ python = ">=3.12.0,<3.13"
 rattler-build = ">=0.44.0"
 anaconda-client = ">=1.13.0"
 cmake = "<4.0"
+# Some git repos may need git-lfs, see https://github.com/RoboStack/ros-jazzy/issues/118
+git-lfs = "*"
 
 [target.win-64.dependencies]
 # patch is required by rattler-build
@@ -23,18 +25,29 @@ git = "*"
 
 [pypi-dependencies]
 # This is tipically the latest commit on main branch
-vinca = { git = "https://github.com/RoboStack/vinca.git", rev = "84494ae511217e1c8267b4d0d458969a53d588f6" }
+vinca = { git = "https://github.com/RoboStack/vinca.git", rev = "7c7eae932c4e2e1baca94540a079723c7c5ac217" }
 # Uncomment this line to work with a local vinca for faster iteration, but remember to comment it back
 # (and regenerate the pixi.lock) once you push the modified commit to the repo
 # vinca = { path = "../vinca", editable = true }
 
 [tasks]
-remove-recipes = { cmd = "rm -rf recipes_only_patch; rm -rf recipes; mkdir recipes" }
 generate-recipes = { cmd = "vinca -m", depends-on = ["remove-recipes"] }
 generate-gha-workflows = { cmd = "vinca-gha --trigger-branch dummy_build_branch_as_it_is_unused -d ./recipes", depends-on = ["generate-recipes"] }
 check-patches = { cmd = "python check_patches_clean_apply.py", depends-on = ["generate-recipes"] }
-build = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-jazzy -c https://repo.prefix.dev/conda-forge --skip-existing", depends-on = ["generate-recipes"] }
-build_one_package = { cmd = "cp ./patch/$PACKAGE.*patch ./recipes/$PACKAGE/patch/; rattler-build build --recipe ./recipes/$PACKAGE/recipe.yaml -m ./conda_build_config.yaml -c robostack-jazzy -c https://repo.prefix.dev/conda-forge", env = { PACKAGE = "ros-jazzy-ros-workspace" } }
 create_snapshot = { cmd = "vinca-snapshot -d jazzy -o rosdistro_snapshot.yaml" }
-# upload = "anaconda -t $ANACONDA_API_TOKEN upload"
 upload = "rattler-build upload anaconda -o robostack-jazzy -a $ANACONDA_API_TOKEN"
+
+[tasks.build]
+cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c https://prefix.dev/robostack-jazzy -c https://prefix.dev/conda-forge --skip-existing"
+depends-on = ["generate-recipes"]
+description = "Build all packages, from the ./recipes dir. This will skip already existing packages, so it can be used to build only a subset of packages by first removing the recipes of the packages you want to rebuild (see `pixi remove-recipes`)."
+
+[tasks.remove-recipes]
+cmd = "rm -rf recipes_only_patch; rm -rf recipes; mkdir recipes"
+description = "Remove all generated recipes, before regenerating them."
+
+[tasks.build-one]
+cmd = "cp ./patch/{{ PACKAGE }}.*patch ./recipes/{{ PACKAGE }}/patch/; rattler-build build --recipe ./recipes/{{ PACKAGE }}/recipe.yaml -m ./conda_build_config.yaml -c https://prefix.dev/robostack-jazzy -c https://prefix.dev/conda-forge"
+args = [{ arg = "PACKAGE", default = "ros-jazzy-ros-workspace" }]
+description = "Build a single package, from the ./recipes dir. Add the `ros-jazzy-` prefix to the package name, e.g. `pixi build-one --package ros-jazzy-ros-workspace`"
+
