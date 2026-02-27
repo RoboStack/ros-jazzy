@@ -602,6 +602,8 @@ mosquitto:
   robostack: [paho-mqtt]
 msgpack:
   robostack: [msgpack-python]
+mujoco:
+  robostack: [libmujoco]
 muparser:
   robostack: [muparser]
 netpbm:
