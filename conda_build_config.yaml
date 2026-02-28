@@ -75,3 +75,5 @@ libhwloc:
 urdfdom:
   - '4.0'
 
+libmujoco:
+  - 3.5.0

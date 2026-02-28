@@ -3831,6 +3831,18 @@ multisensor_calibration_interface:
   tag: release/jazzy/multisensor_calibration_interface/2.0.4-1
   url: https://github.com/ros2-gbp/multisensor_calibration-release.git
   version: 2.0.4
+mujoco_ros2_control:
+  tag: release/jazzy/mujoco_ros2_control/0.0.1-1
+  url: https://github.com/ros2-gbp/mujoco_ros2_control-release.git
+  version: 0.0.1
+mujoco_ros2_control_demos:
+  tag: release/jazzy/mujoco_ros2_control_demos/0.0.1-1
+  url: https://github.com/ros2-gbp/mujoco_ros2_control-release.git
+  version: 0.0.1
+mujoco_ros2_control_msgs:
+  tag: release/jazzy/mujoco_ros2_control_msgs/0.0.1-1
+  url: https://github.com/ros2-gbp/mujoco_ros2_control-release.git
+  version: 0.0.1
 mvsim:
   tag: release/jazzy/mvsim/1.0.0-1
   url: https://github.com/ros2-gbp/mvsim-release.git

@@ -169,6 +169,10 @@ packages_select_by_deps:
 
   - rqt_robot_monitor
 
+  # mujoco
+  - mujoco_vendor
+  - mujoco_ros2_control_msgs
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
@@ -198,6 +202,10 @@ packages_select_by_deps:
       - plansys2_tools
       - popf
   
+      # Use readlink and access at runtime linux-specific file
+      - mujoco_ros2_control
+      - mujoco_ros2_control_demos
+
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
   - if: linux
