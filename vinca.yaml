@@ -173,6 +173,8 @@ packages_select_by_deps:
   - mujoco_vendor
   - mujoco_ros2_control_msgs
 
+  - rviz_2d_overlay_plugins
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
