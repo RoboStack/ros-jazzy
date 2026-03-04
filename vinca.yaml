@@ -263,6 +263,7 @@ packages_select_by_deps:
       - cloudini-lib
       - cloudini-ros
       - spacenav
+      - rviz_2d_overlay_plugins
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
