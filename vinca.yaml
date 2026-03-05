@@ -201,6 +201,7 @@ packages_select_by_deps:
       - plansys2_tests
       - plansys2_tools
       - popf
+      - canopen
   
       # Use readlink and access at runtime linux-specific file
       - mujoco_ros2_control
