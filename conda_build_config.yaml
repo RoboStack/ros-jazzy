@@ -73,7 +73,7 @@ libhwloc:
   - 2.12.2
 
 urdfdom:
-  - '4.0'
+  - '5.1.0'
 
 libmujoco:
   - 3.5.0
