@@ -65,6 +65,7 @@ packages_select_by_deps:
   - moveit-ros-trajectory-cache
   - moveit-servo
   - moveit-visual-tools
+  - moveit-ros-control-interface
 
   - ros2_control
   - ros2_controllers
@@ -201,7 +202,7 @@ packages_select_by_deps:
       - plansys2_tests
       - plansys2_tools
       - popf
-  
+
       # Use readlink and access at runtime linux-specific file
       - mujoco_ros2_control
       - mujoco_ros2_control_demos
