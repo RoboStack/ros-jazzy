@@ -207,6 +207,10 @@ packages_select_by_deps:
       - mujoco_ros2_control
       - mujoco_ros2_control_demos
 
+      # IntelRealSense
+      - realsense2-camera
+      - realsense2-description
+
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
   - if: linux
