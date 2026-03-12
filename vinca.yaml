@@ -101,6 +101,8 @@ packages_select_by_deps:
 
   - lanelet2
 
+  - imu_tools
+  
   - ublox
 
   - can_msgs
