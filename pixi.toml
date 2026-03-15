@@ -11,11 +11,12 @@ libc = { family="glibc", version="2.17" }
 
 [dependencies]
 python = ">=3.12.0,<3.13"
-rattler-build = ">=0.44.0"
+rattler-build = ">=0.57.0,<0.58"
 anaconda-client = ">=1.13.0"
 cmake = "<4.0"
 # Some git repos may need git-lfs, see https://github.com/RoboStack/ros-jazzy/issues/118
 git-lfs = "*"
+rattler-index = ">=0.27.16"
 
 [target.win-64.dependencies]
 # patch is required by rattler-build
@@ -36,6 +37,7 @@ generate-gha-workflows = { cmd = "vinca-gha --trigger-branch dummy_build_branch_
 check-patches = { cmd = "python check_patches_clean_apply.py", depends-on = ["generate-recipes"] }
 create_snapshot = { cmd = "vinca-snapshot -d jazzy -o rosdistro_snapshot.yaml" }
 upload = "rattler-build upload anaconda -o robostack-jazzy -a $ANACONDA_API_TOKEN"
+build_continue_on_failure = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c https://prefix.dev/robostack-jazzy -c https://prefix.dev/conda-forge --continue-on-failure --skip-existing", depends-on = ["generate-recipes"] }
 
 [tasks.build]
 cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c https://prefix.dev/robostack-jazzy -c https://prefix.dev/conda-forge --skip-existing"
