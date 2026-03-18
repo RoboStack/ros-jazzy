@@ -43,6 +43,11 @@ ca-certificates:
   robostack: [ca-certificates]
 cargo:
   robostack: [rust]
+chrony:
+  robostack:
+    linux: [chrony]
+    osx: [chrony]
+    win64: []
 clang-format:
   robostack: [clang-format]
 clang-tidy:
@@ -72,6 +77,8 @@ cppzmq:
   robostack: [cppzmq]
 curl:
   robostack: [libcurl]
+curlpp-dev:
+  robostack: [curlpp]
 cython:
   robostack: [cython]
 doxygen:
@@ -489,6 +496,8 @@ libsqlite3-dev:
   robostack: [sqlite 3.*]
 libssl-dev:
   robostack: [openssl]
+libsystemd-dev:
+  robostack: [libsystemd]
 libtheora:
   robostack: [libtheora]
 libtool:
@@ -533,7 +542,7 @@ libvtk:
 libvtk-qt:
   robostack: [vtk]
 libvulkan-dev:
-  robostack: 
+  robostack:
     linux: [libvulkan-headers, libvulkan-loader]
     osx: []
     win64: [libvulkan-headers, libvulkan-loader]
@@ -773,6 +782,8 @@ python3-catkin-pkg-modules:
   robostack: [catkin_pkg]
 python3-catkin-tools:
   robostack: [catkin_tools]
+python3-cantools-pip:
+  robostack: [cantools]
 python3-cherrypy3:
   robostack: [cherrypy]
 python3-click:
@@ -968,6 +979,8 @@ python3-unidiff:
   robostack: [unidiff]
 python3-usb:
   robostack: [pyusb]
+python3-utm:
+  robostack: [utm]
 python3-vcstool:
   robostack: [vcstool]
 python3-flake8-docstrings:
@@ -1030,6 +1043,8 @@ sdl-image:
   robostack: [sdl_image]
 sdl2:
   robostack: [sdl2]
+smartmontools:
+  robostack: [smartmontools]
 socat:
   robostack:
     linux: [socat]
