@@ -901,6 +901,8 @@ python3-pycodestyle:
   robostack: [pycodestyle]
 python3-pycryptodome:
   robostack: [pycryptodome, pycryptodomex]
+python3-pydantic:
+  robostack: [pydantic]
 python3-pydot:
   robostack: [pydot]
 python3-pygraphviz:
@@ -981,6 +983,8 @@ python3-unidiff:
   robostack: [unidiff]
 python3-usb:
   robostack: [pyusb]
+python3-uvicorn:
+  robostack: [uvicorn]
 python3-utm:
   robostack: [utm]
 python3-vcstool:
@@ -1052,6 +1056,8 @@ socat:
     linux: [socat]
     osx: [socat]
     win64: []
+sophus:
+  robostack: [sophus]
 spacenavd:
   robostack: [libspnav]
 spdlog:
