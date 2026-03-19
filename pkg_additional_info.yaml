@@ -165,5 +165,18 @@ ur_description:
 
 apriltag:
   generate_dummy_package_with_run_deps:
+    build_number: 17
     dep_name: apriltag
     max_pin: 'x.x.x'
+apriltag_ros:
+  build_number: 17
+apriltag_draw:
+  build_number: 17
+apriltag_tools:
+  build_number: 17
+apriltag_detector_umich:
+  build_number: 17
+apriltag_detector_mit:
+  build_number: 17
+apriltag_detector:
+  build_number: 17
