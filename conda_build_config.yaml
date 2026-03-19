@@ -72,6 +72,9 @@ libzenohcxx:
 libhwloc:
   - 2.12.2
 
+eigen_abi_devel:
+  - '3.4.0'
+
 urdfdom:
   - '4.0'
 
