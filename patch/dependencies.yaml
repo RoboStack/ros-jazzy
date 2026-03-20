@@ -268,3 +268,6 @@ spatio_temporal_voxel_layer:
   add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 mujoco_vendor:
   add_host: ["libmujoco"]
+lbr_ros2_control:
+  add_host: ["ros-humble-kinematics-interface"]
+  add_run: ["ros-humble-kinematics-interface"]

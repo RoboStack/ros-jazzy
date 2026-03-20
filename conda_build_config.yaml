@@ -64,6 +64,13 @@ cxx_compiler_version:          # [unix]
   - 14                         # [linux]
   - 18                         # [osx]
 
+lbr_fri_client_sdk:
+  - '1.11'
+  - '1.14'
+  - '1.15'
+  - '1.16'
+  - '1.17'
+
 libzenohc:
   - 1.7.2
 libzenohcxx:
