@@ -103,3 +103,83 @@ cloudini_ros:
   tag: 0.11.1
   version: 0.11.1
   additional_folder: cloudini_ros
+
+lbr_demos_advanced_cpp:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 2.4.3
+  additional_folder: lbr_demos/lbr_demos_advanced_cpp
+lbr_demos_advanced_py:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 2.4.3
+  additional_folder: lbr_demos/lbr_demos_advanced_py
+lbr_demos_cpp:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 2.4.3
+  additional_folder: lbr_demos/lbr_demos_cpp
+lbr_demos_py:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 2.4.3
+  additional_folder: lbr_demos/lbr_demos_py
+lbr_moveit:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 2.4.3
+  additional_folder: lbr_demos/lbr_moveit
+lbr_moveit_cpp:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 2.4.3
+  additional_folder: lbr_demos/lbr_moveit_cpp
+lbr_bringup:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 2.4.3
+  additional_folder: lbr_bringup
+lbr_description:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 2.4.3
+  additional_folder: lbr_description
+lbr_fri_ros2:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 2.4.3
+  additional_folder: lbr_fri_ros2
+lbr_fri_ros2_stack:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 2.4.3
+  additional_folder: lbr_fri_ros2_stack
+lbr_ros2_control:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 2.4.3
+  additional_folder: lbr_ros2_control
+iiwa14_moveit_config:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 0.3.0
+  additional_folder: lbr_moveit_config/iiwa14_moveit_config
+iiwa7_moveit_config:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 0.3.0
+  additional_folder: lbr_moveit_config/iiwa7_moveit_config
+med14_moveit_config:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 0.3.0
+  additional_folder: lbr_moveit_config/med14_moveit_config
+med7_moveit_config:
+  url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  version: 0.3.0
+  additional_folder: lbr_moveit_config/med7_moveit_config
+lbr_fri_idl:
+  url: https://github.com/lbr-stack/lbr_fri_idl.git
+  rev: e422bff2b3d70ec47853145b35645980df623a60
+  version: 1.5.0
