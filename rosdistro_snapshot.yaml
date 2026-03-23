@@ -7483,3 +7483,11 @@ rtest:
   tag: release/jazzy/rtest/0.2.1-1
   url: https://github.com/ros2-gbp/rtest-release.git
   version: 0.2.1
+cloudini_lib:
+  tag: release/jazzy/cloudini_lib/1.0.2-1
+  url: https://github.com/facontidavide/cloudini-release.git
+  version: 1.0.2
+cloudini_ros:
+  tag: release/jazzy/cloudini_ros/1.0.2-1
+  url: https://github.com/facontidavide/cloudini-release.git
+  version: 1.0.2

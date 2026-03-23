@@ -180,3 +180,8 @@ apriltag_detector_mit:
   build_number: 17
 apriltag_detector:
   build_number: 17
+  
+cloudini_lib:
+  build_number: 17 
+cloudini_ros:
+  build_number: 17
