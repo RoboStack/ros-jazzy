@@ -291,6 +291,7 @@ packages_select_by_deps:
       - lbr_fri_idl
       - kinematics_interface
       - kinematics_interface_kdl
+      - libg2o
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
