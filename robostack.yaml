@@ -86,7 +86,7 @@ doxygen:
 draco:
   robostack: [draco]
 eigen:
-  robostack: [eigen]
+  robostack: [eigen, eigen-abi-devel]
 emacs:
   robostack: [emacs]
 festival:
@@ -113,6 +113,8 @@ flex:
   robostack: [flex]
 fmt:
   robostack: [fmt]
+fri_client_sdk:
+  robostack: [lbr-fri-client-sdk]
 g++-static:
   robostack: []
 gawk:
