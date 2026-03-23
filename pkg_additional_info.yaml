@@ -162,3 +162,7 @@ imu_complementary_filter:
 # Remove everything after this line on a full rebuild
 ur_description:
   build_number: 17
+cloudini_lib:
+  build_number: 17 
+cloudini_ros:
+  build_number: 17
