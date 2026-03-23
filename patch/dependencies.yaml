@@ -271,3 +271,7 @@ mujoco_vendor:
 lbr_ros2_control:
   add_host: ["ros-jazzy-kinematics-interface"]
   add_run: ["ros-jazzy-kinematics-interface"]
+cloudini_lib:
+  add_host: ["eigen 3.4.*"]
+cloudini_ros:
+  add_host: ["eigen 3.4.*"]
