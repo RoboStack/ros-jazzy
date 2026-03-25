@@ -229,6 +229,236 @@ packages_select_by_deps:
       - io_context
       - serial_driver
       - udp_driver
+      # # isaac_ros_apriltag
+      # - isaac_ros_apriltag
+
+      # # isaac_ros_benchmark
+      # - isaac_ros_apriltag_benchmark
+      # - isaac_ros_benchmark
+      # - isaac_ros_centerpose_benchmark
+      # - isaac_ros_detectnet_benchmark
+      # - isaac_ros_dnn_image_encoder_benchmark
+      # - isaac_ros_dope_benchmark
+      # - isaac_ros_ess_benchmark
+      # - isaac_ros_foundationpose_benchmark
+      # - isaac_ros_foundationstereo_benchmark
+      # - isaac_ros_franka_cumotion_benchmark
+      # - isaac_ros_franka_ompl_benchmark
+      # - isaac_ros_grounding_dino_benchmark
+      # - isaac_ros_h264_decoder_benchmark
+      # - isaac_ros_h264_encoder_benchmark
+      # - isaac_ros_image_proc_benchmark
+      # - isaac_ros_moveit_benchmark
+      # - isaac_ros_nitros_bridge_benchmark
+      # - isaac_ros_nvblox_benchmark
+      # - isaac_ros_occupancy_grid_localizer_benchmark
+      # - isaac_ros_pynitros_benchmark
+      # - isaac_ros_rtdetr_benchmark
+      # - isaac_ros_segformer_benchmark
+      # - isaac_ros_segment_anything2_benchmark
+      # - isaac_ros_segment_anything_benchmark
+      # - isaac_ros_stereo_image_proc_benchmark
+      # - isaac_ros_tensor_rt_benchmark
+      # - isaac_ros_triton_benchmark
+      # - isaac_ros_unet_benchmark
+      # - isaac_ros_ur5_cumotion_benchmark
+      # - isaac_ros_ur5_ompl_benchmark
+      # - isaac_ros_visual_slam_benchmark
+      # - ur5_gripper_moveit_config
+      # - ur5_robotiq_85_description
+
+      # isaac_ros_common
+      - isaac_common
+      - isaac_common_py
+      - isaac_ros_apriltag_interfaces
+      - isaac_ros_common
+      - isaac_ros_launch_utils
+      - isaac_ros_nitros_bridge_interfaces
+      - isaac_ros_nova_interfaces
+      - isaac_ros_pointcloud_interfaces
+      - isaac_ros_r2b_galileo
+      - isaac_ros_tensor_list_interfaces
+      - isaac_ros_test
+      - isaac_ros_test_cmake
+
+      # # isaac_ros_cloud_control
+      # - isaac_ros_cloud_control_interface
+      # - isaac_ros_json_info_generator
+      # - isaac_ros_mega_controller
+      # - isaac_ros_mega_node_monitor
+      # - isaac_ros_mission_client
+      # - isaac_ros_mqtt_bridge
+      # - isaac_ros_scene_recorder
+      # - isaac_ros_scene_recorder_interface
+      # - isaac_ros_vda5050_client
+      # - isaac_ros_vda5050_client_bringup
+      # - vda5050_action_handler
+      # - vda5050_action_handler_plugins
+      # - vda5050_msgs
+
+      # # isaac_ros_compression
+      # - isaac_ros_h264_decoder
+      # - isaac_ros_h264_encoder
+
+      # # isaac_ros_cumotion
+      # - curobo_core
+      # - isaac_ros_cumotion
+      # - isaac_ros_cumotion_examples
+      # - isaac_ros_cumotion_interfaces
+      # - isaac_ros_cumotion_moveit
+      # - isaac_ros_cumotion_object_attachment
+      # - isaac_ros_cumotion_python_utils
+      # - isaac_ros_cumotion_robot_description
+      # - isaac_ros_esdf_visualizer
+      # - isaac_ros_goal_setter_interfaces
+      # - isaac_ros_moveit_goal_setter
+
+      # # isaac_ros_dnn_inference
+      # - gxf_isaac_tensor_rt
+      # - gxf_isaac_triton
+      # - isaac_ros_dnn_image_encoder
+      # - isaac_ros_tensor_proc
+      # - isaac_ros_tensor_rt
+      # - isaac_ros_triton
+
+      # isaac_ros_dnn_stereo_depth
+      - gxf_isaac_ess
+      - gxf_isaac_video_buffer_utils
+      - isaac_ros_ess
+      - isaac_ros_ess_models_install
+      - isaac_ros_foundationstereo
+      - isaac_ros_foundationstereo_models_install
+
+      # isaac_ros_image_pipeline
+      - gxf_isaac_depth_image_proc
+      - gxf_isaac_image_flip
+      - gxf_isaac_rectify
+      - gxf_isaac_sgm
+      - gxf_isaac_tensorops
+      - isaac_ros_depth_image_proc
+      - isaac_ros_image_pipeline
+      - isaac_ros_image_proc
+      - isaac_ros_stereo_image_proc
+      - isaac_ros_vpi_utils
+
+      # # isaac_ros_image_segmentation
+      # - gxf_isaac_ros_segment_anything
+      # - gxf_isaac_ros_unet
+      # - isaac_ros_peoplesemseg_models_install
+      # - isaac_ros_segformer
+      # - isaac_ros_segment_anything
+      # - isaac_ros_segment_anything2
+      # - isaac_ros_segment_anything2_interfaces
+      # - isaac_ros_unet
+
+      # # isaac_ros_jetson
+      # - isaac_ros_jetson_stats
+      # - isaac_ros_jetson_stats_services
+
+      # isaac_ros_mapping_and_localization
+      - isaac_mapping_ros
+      - isaac_ros_occupancy_grid_localizer
+      - isaac_ros_pointcloud_utils
+      - isaac_ros_visual_global_localization
+
+      # isaac_ros_nitros
+      - custom_nitros_dnn_image_encoder
+      - custom_nitros_image
+      - custom_nitros_message_filter
+      - custom_nitros_message_filter_interfaces
+      - custom_nitros_string
+      - gxf_isaac_argus
+      - gxf_isaac_atlas
+      - gxf_isaac_camera_utils
+      - gxf_isaac_cuda
+      - gxf_isaac_flatscan_localization
+      - gxf_isaac_gems
+      - gxf_isaac_gxf_helpers
+      - gxf_isaac_hesai
+      - gxf_isaac_localization
+      - gxf_isaac_message_compositor
+      - gxf_isaac_messages
+      - gxf_isaac_messages_throttler
+      - gxf_isaac_optimizer
+      - gxf_isaac_point_cloud
+      - gxf_isaac_range_scan_processing
+      - gxf_isaac_ros_cuda
+      - gxf_isaac_ros_messages
+      - gxf_isaac_segway
+      - gxf_isaac_sight
+      - gxf_isaac_timestamp_correlator
+      - gxf_isaac_utils
+      - isaac_ros_gxf
+      - isaac_ros_managed_nitros
+      - isaac_ros_nitros
+      - isaac_ros_nitros_battery_state_type
+      - isaac_ros_nitros_bridge_ros2
+      - isaac_ros_nitros_camera_info_type
+      - isaac_ros_nitros_compressed_image_type
+      - isaac_ros_nitros_compressed_video_type
+      - isaac_ros_nitros_correlated_timestamp_type
+      - isaac_ros_nitros_detection2_d_array_type
+      - isaac_ros_nitros_detection3_d_array_type
+      - isaac_ros_nitros_disparity_image_type
+      - isaac_ros_nitros_encoder_ticks_type
+      - isaac_ros_nitros_flat_scan_type
+      - isaac_ros_nitros_image_type
+      - isaac_ros_nitros_imu_type
+      - isaac_ros_nitros_occupancy_grid_type
+      - isaac_ros_nitros_odometry_type
+      - isaac_ros_nitros_point_cloud_type
+      - isaac_ros_nitros_pose_array_type
+      - isaac_ros_nitros_pose_cov_stamped_type
+      - isaac_ros_nitros_std_msg_type
+      - isaac_ros_nitros_tensor_list_type
+      - isaac_ros_nitros_topic_tools
+      - isaac_ros_nitros_twist_type
+      - isaac_ros_pynitros
+
+      # isaac_ros_nvblox
+      - isaac_ros_nvblox
+      - multi_realsense_emitter_synchronizer
+      - nvblox_examples_bringup
+      - nvblox_image_padding
+      - nvblox_message_adapters
+      - nvblox_msgs
+      - nvblox_nav2
+      - nvblox_ros
+      - nvblox_ros_common
+      - nvblox_ros_python_utils
+      - nvblox_rviz_plugin
+      - nvblox_test
+      - nvblox_test_data
+      - realsense_splitter
+      - semantic_label_conversion
+
+      # # isaac_ros_object_detection
+      # - gxf_isaac_detectnet
+      # - isaac_ros_detectnet
+      # - isaac_ros_grounding_dino
+      # - isaac_ros_grounding_dino_interfaces
+      # - isaac_ros_grounding_dino_models_install
+      # - isaac_ros_peoplenet_models_install
+      # - isaac_ros_rtdetr
+      # - isaac_ros_rtdetr_models_install
+      # - isaac_ros_yolov8
+
+      # isaac_ros_pose_estimation
+      - gxf_isaac_centerpose
+      - gxf_isaac_dope
+      - gxf_isaac_foundationpose
+      - isaac_ros_centerpose
+      - isaac_ros_dope
+      - isaac_ros_foundationpose
+      - isaac_ros_foundationpose_models_install
+      - isaac_ros_pose_proc
+
+      # isaac_ros_sipl_camera
+      - isaac_ros_sipl_camera
+
+      # isaac_ros_visual_slam
+      - isaac_ros_visual_slam
+      - isaac_ros_visual_slam_interfaces
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win

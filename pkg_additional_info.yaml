@@ -185,3 +185,5 @@ cloudini_lib:
   build_number: 17 
 cloudini_ros:
   build_number: 17
+isaac_ros_gxf:
+  additional_cmake_args: "-DCMAKE_DEVICE=sbsa"
