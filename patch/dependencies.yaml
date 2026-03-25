@@ -275,5 +275,3 @@ cloudini_lib:
   add_host: ["eigen-abi-devel"]
 cloudini_ros:
   add_host: ["eigen-abi-devel"]
-isaac_ros_gxf:
-  add_host: ["ros-jazzy-ament-cmake-auto"]
