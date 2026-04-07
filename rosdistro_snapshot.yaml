@@ -7479,6 +7479,10 @@ zstd_vendor:
   tag: release/jazzy/zstd_vendor/0.26.9-1
   url: https://github.com/ros2-gbp/rosbag2-release.git
   version: 0.26.9
+rtest:
+  tag: release/jazzy/rtest/0.2.1-1
+  url: https://github.com/ros2-gbp/rtest-release.git
+  version: 0.2.1
 cloudini_lib:
   tag: release/jazzy/cloudini_lib/1.0.2-1
   url: https://github.com/facontidavide/cloudini-release.git

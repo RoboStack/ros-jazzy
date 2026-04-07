@@ -176,6 +176,8 @@ packages_select_by_deps:
   - mujoco_vendor
   - mujoco_ros2_control_msgs
 
+  - rtest
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
