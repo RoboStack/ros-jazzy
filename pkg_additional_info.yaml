@@ -185,3 +185,6 @@ cloudini_lib:
   build_number: 17 
 cloudini_ros:
   build_number: 17
+
+mavros_extras:
+  build_number: 17
