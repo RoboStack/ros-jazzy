@@ -155,6 +155,8 @@ packages_select_by_deps:
   # SICK LiDAR drivers
   - sick_scan_xd
 
+  - libfranka
+
   # IntelRealSense
   - librealsense2
 
