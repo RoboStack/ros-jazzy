@@ -1,19 +1,19 @@
---- /tmp/graph_monitor-release/CMakeLists.txt	2026-04-13 22:15:15
-+++ /tmp/CMakeLists.rmw_stats_shim.modified.txt	2026-04-13 22:15:07
-@@ -21,9 +21,15 @@
- 
- if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-   add_compile_options(-Wall -Wextra -Wpedantic)
--  add_link_options("-Wl,--no-undefined")
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2d6e10f..7360c4e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -19,9 +19,11 @@ if(NOT CMAKE_CXX_STANDARD)
+   set(CMAKE_CXX_STANDARD 17)
  endif()
  
+-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-  add_compile_options(-Wall -Wextra -Wpedantic)
+-  add_link_options("-Wl,--no-undefined")
 +include(CheckLinkerFlag)
 +check_linker_flag(CXX "LINKER:--no-undefined" HAVE_LINKER_NO_UNDEFINED)
 +
 +if(HAVE_LINKER_NO_UNDEFINED)
 +  add_link_options("LINKER:--no-undefined")
-+endif()
-+
- find_package(ament_cmake REQUIRED)
+ endif()
  
- find_package(rcpputils REQUIRED)
+ find_package(ament_cmake REQUIRED)
