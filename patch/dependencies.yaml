@@ -275,3 +275,6 @@ cloudini_lib:
   add_host: ["eigen-abi-devel"]
 cloudini_ros:
   add_host: ["eigen-abi-devel"]
+swri_console:
+  add_host: ["libboost-devel"]
+  add_run: ["libboost"]
