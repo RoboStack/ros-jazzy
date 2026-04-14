@@ -1,19 +1,37 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 2d6e10f..7360c4e 100644
+index 2d6e10f..66ada90 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -19,9 +19,11 @@ if(NOT CMAKE_CXX_STANDARD)
+@@ -19,9 +19,15 @@ if(NOT CMAKE_CXX_STANDARD)
    set(CMAKE_CXX_STANDARD 17)
  endif()
  
--if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
--  add_compile_options(-Wall -Wextra -Wpedantic)
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+   add_compile_options(-Wall -Wextra -Wpedantic)
 -  add_link_options("-Wl,--no-undefined")
+ endif()
++
 +include(CheckLinkerFlag)
 +check_linker_flag(CXX "LINKER:--no-undefined" HAVE_LINKER_NO_UNDEFINED)
 +
 +if(HAVE_LINKER_NO_UNDEFINED)
 +  add_link_options("LINKER:--no-undefined")
- endif()
++endif()
  
  find_package(ament_cmake REQUIRED)
+@@ -32,6 +38,8 @@ find_package(rosgraph_monitor_msgs REQUIRED)
+ find_package(rosidl_runtime_cpp REQUIRED)
+ find_package(rosidl_typesupport_cpp REQUIRED)
+ 
++find_package(Threads REQUIRED)
++
+ add_library(${PROJECT_NAME} SHARED
+   src/shim.cpp
+   src/stat_collector.cpp
+@@ -45,6 +53,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
+   rmw::rmw
+   rosidl_runtime_cpp::rosidl_runtime_cpp
+   rosidl_typesupport_cpp::rosidl_typesupport_cpp
++  Threads::Threads
+   ${rosgraph_monitor_msgs_TARGETS}
+ )
