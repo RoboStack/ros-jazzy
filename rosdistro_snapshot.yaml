@@ -4092,9 +4092,9 @@ nmea_navsat_driver:
   url: https://github.com/ros2-gbp/nmea_navsat_driver-release.git
   version: 2.0.1
 nobleo_socketcan_bridge:
-  tag: release/jazzy/nobleo_socketcan_bridge/1.0.2-1
+  tag: release/jazzy/nobleo_socketcan_bridge/1.0.4-1
   url: https://github.com/ros2-gbp/nobleo_socketcan_bridge-release.git
-  version: 1.0.2
+  version: 1.0.4
 nodl_python:
   tag: release/jazzy/nodl_python/0.3.1-5
   url: https://github.com/ros2-gbp/nodl-release.git

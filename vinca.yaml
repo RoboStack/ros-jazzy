@@ -166,6 +166,9 @@ packages_select_by_deps:
 
   - rviz_2d_overlay_msgs
   - asio_cmake_module
+  - battery_state_broadcaster
+  - polygon_msgs
+  - ros2_fmt_logger
   - mavros_msgs
 
   - picknik_ament_copyright
@@ -182,6 +185,7 @@ packages_select_by_deps:
   - if: linux
     then:
       # Depends on socketcan
+      - nobleo_socketcan_bridge
       - ros2_socketcan
       # Depends on v4l
       - usb_cam
@@ -229,7 +233,9 @@ packages_select_by_deps:
       # disabled for now, see https://github.com/RoboStack/ros-jazzy/pull/161#issuecomment-3904979905
       # - spatio_temporal_voxel_layer
       - io_context
+      # Serial communication only implemented for linux
       - serial_driver
+      - swri_serial_util
       - udp_driver
 
   # These packages are currently not build on Windows, but they be with some work
@@ -237,11 +243,13 @@ packages_select_by_deps:
     then:
       - plotjuggler-ros
       - foxglove_compressed_video_transport
+      - rplidar_ros
       - velodyne
       - moveit-py
       - moveit-ros-perception
       - moveit-ros-occupancy-map-monitor
       - moveit-runtime
+      - swri_console  # Until sync of: https://github.com/ros/rosdistro/pull/49750
       - moveit-task-constructor-demo
       - moveit2-tutorials
       - pinocchio
