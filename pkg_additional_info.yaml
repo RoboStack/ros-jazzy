@@ -188,3 +188,5 @@ cloudini_ros:
 
 mavros_extras:
   build_number: 17
+uncrustify_vendor:
+  build_number: 17
