@@ -182,6 +182,8 @@ packages_select_by_deps:
   - mujoco_ros2_control_msgs
 
   - rtest
+  
+  - nmea-navsat-driver
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
@@ -243,6 +245,7 @@ packages_select_by_deps:
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
     then:
+      - diagnostic-remote-logging
       - plotjuggler-ros
       - foxglove_compressed_video_transport
       - rplidar_ros
