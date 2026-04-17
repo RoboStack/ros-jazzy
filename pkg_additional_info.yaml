@@ -193,3 +193,5 @@ mavros_extras:
 uncrustify_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
   build_number: 17
+ament_xmllint:
+  build_number: 17
