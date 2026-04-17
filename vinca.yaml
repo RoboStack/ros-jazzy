@@ -180,6 +180,9 @@ packages_select_by_deps:
   - mujoco_ros2_control_msgs
 
   - rtest
+  
+  - nmea-navsat-driver
+  - diagnostic-remote-logging
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
