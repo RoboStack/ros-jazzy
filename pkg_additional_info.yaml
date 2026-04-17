@@ -188,3 +188,6 @@ cloudini_ros:
 
 mavros_extras:
   build_number: 17
+
+ament_xmllint:
+  build_number: 17
