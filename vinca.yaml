@@ -169,7 +169,9 @@ packages_select_by_deps:
   - battery_state_broadcaster
   - polygon_msgs
   - ros2_fmt_logger
+  - magic_enum
   - mavros_msgs
+
 
   - picknik_ament_copyright
 
