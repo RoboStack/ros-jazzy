@@ -173,6 +173,8 @@ velodyne_pointcloud:
 uncrustify_vendor:
   add_build: ["vcstool", "setuptools <81"]
   add_host: ["setuptools <81"]
+  # See https://github.com/ament/uncrustify_vendor/blob/jazzy/CMakeLists.txt#L19
+  add_run: ["uncrustify >=0.78"]
 mimick_vendor:
   add_build: ["vcstool", "setuptools <81"]
   add_host: ["setuptools <81"]
