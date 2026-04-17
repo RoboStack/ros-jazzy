@@ -289,6 +289,8 @@ libdw-dev:
     linux: [elfutils]
     osx: []
     win64: []
+libexpected-dev:
+  robostack: [cpp-expected]
 libfcl-dev:
   robostack: [fcl]
 libffi-dev:
@@ -786,6 +788,8 @@ python3-catkin-tools:
   robostack: [catkin_tools]
 python3-cantools-pip:
   robostack: [cantools]
+python3-cbor2:
+  robostack: [cbor2]
 python3-cherrypy3:
   robostack: [cherrypy]
 python3-click:
@@ -977,6 +981,8 @@ python3-tk:
   robostack: [tk]
 python3-tornado:
   robostack: [tornado]
+python3-transforms3d:
+  robostack: [transforms3d]
 python3-twisted:
   robostack: [twisted]
 python3-typeguard:
