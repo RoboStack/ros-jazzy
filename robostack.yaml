@@ -816,6 +816,8 @@ python3-empy:
   robostack: [empy]
 python3-fastapi:
   robostack: [fastapi]
+python3-filelock:
+  robostack: [filelock]
 python3-flake8:
   robostack: [flake8]
 python3-flake8-comprehensions:
