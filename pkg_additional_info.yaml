@@ -182,9 +182,9 @@ apriltag_detector_mit:
   build_number: 17
 apriltag_detector:
   build_number: 17
-  
+
 cloudini_lib:
-  build_number: 17 
+  build_number: 17
 cloudini_ros:
   build_number: 17
 
@@ -194,4 +194,6 @@ uncrustify_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
   build_number: 17
 ament_xmllint:
+  build_number: 17
+tf_transformations:
   build_number: 17
