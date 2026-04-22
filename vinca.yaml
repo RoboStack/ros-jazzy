@@ -151,6 +151,7 @@ packages_select_by_deps:
   - data_tamer_cpp
 
   - point_cloud_transport_py
+  - pointcloud_to_laserscan
 
   # SICK LiDAR drivers
   - sick_scan_xd
@@ -267,7 +268,6 @@ packages_select_by_deps:
       # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
       - grid_map
       - dual-laser-merger
-      - pointcloud-to-laserscan
       - laser-segmentation
       - rqt_tf_tree
       - rviz_satellite
