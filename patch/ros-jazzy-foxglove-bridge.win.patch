@@ -1,108 +1,17 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 611816f..73c9906 100644
+index 71deedd..c470d9a 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -96,7 +96,16 @@ else()
-   file(GLOB_RECURSE FOXGLOVE_SDK_SOURCES CONFIGURE_DEPENDS "${foxglove_sdk_SOURCE_DIR}/src/*.cpp")
-   target_sources(foxglove_cpp_static PRIVATE ${FOXGLOVE_SDK_SOURCES})
-   set_target_properties(foxglove_cpp_static PROPERTIES POSITION_INDEPENDENT_CODE ON)
--  target_link_libraries(foxglove_cpp_static PRIVATE ${foxglove_sdk_SOURCE_DIR}/lib/libfoxglove.a)
-+  if(MSVC)
-+    target_link_libraries(foxglove_cpp_static PRIVATE
-+      ${foxglove_sdk_SOURCE_DIR}/lib/foxglove.lib
-+      Ws2_32.lib
-+      Userenv.lib
-+      Ntdll.lib
-+    )
-+  else()
-+    target_link_libraries(foxglove_cpp_static PRIVATE ${foxglove_sdk_SOURCE_DIR}/lib/libfoxglove.a)
-+  endif()
- endif()
- 
- find_program(GIT_SCM git DOC "Git version control")
-diff --git a/src/message_definition_cache.cpp b/src/message_definition_cache.cpp
-index 5ed9d12..83d1490 100644
---- a/src/message_definition_cache.cpp
-+++ b/src/message_definition_cache.cpp
-@@ -217,34 +217,52 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
-   // Get the package share directory, or throw a PackageNotFoundError
-   // TODO: FLE-167: Remove warning once ament_index_cpp is updated and synced across all current
-   // ROS2 distributions.
-+#if defined(__GNUC__) || defined(__clang__)
- #pragma GCC diagnostic push
- #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-+#elif defined(_MSC_VER)
-+#pragma warning(push)
-+#pragma warning(disable : 4996)
-+#endif
-   const std::string share_dir = ament_index_cpp::get_package_share_directory(package);
-+#if defined(__GNUC__) || defined(__clang__)
- #pragma GCC diagnostic pop
-+#elif defined(_MSC_VER)
-+#pragma warning(pop)
-+#endif
- 
-   // Get the rosidl_interfaces index contents for this package
-   // TODO: FLE-167: Remove warning once ament_index_cpp is updated and synced across all current
-   // ROS2 distributions.
-+#if defined(__GNUC__) || defined(__clang__)
- #pragma GCC diagnostic push
- #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-+#elif defined(_MSC_VER)
-+#pragma warning(push)
-+#pragma warning(disable : 4996)
-+#endif
-   std::string index_contents;
-   if (!ament_index_cpp::get_resource("rosidl_interfaces", package, index_contents)) {
-     throw DefinitionNotFoundError(definition_identifier.package_resource_name);
-   }
-+#if defined(__GNUC__) || defined(__clang__)
- #pragma GCC diagnostic pop
-+#elif defined(_MSC_VER)
-+#pragma warning(pop)
-+#endif
- 
-   // Find the first line that ends with the filename we're looking for
-   const auto lines = split_string(index_contents);
--  const auto it = std::find_if(lines.begin(), lines.end(), [&filename](const std::string& line) {
-+  const auto line_it = std::find_if(lines.begin(), lines.end(), [&filename](const std::string& line) {
-     std::filesystem::path filePath(line);
-     return filePath.filename() == filename;
-   });
--  if (it == lines.end()) {
-+  if (line_it == lines.end()) {
-     throw DefinitionNotFoundError(definition_identifier.package_resource_name);
-   }
- 
-   // Read the file
--  const std::string full_path = share_dir + std::filesystem::path::preferred_separator + *it;
-+  const std::filesystem::path full_path = std::filesystem::path(share_dir) / *line_it;
-   std::ifstream file{full_path};
-   if (!file.good()) {
-     throw DefinitionNotFoundError(definition_identifier.package_resource_name);
-diff --git a/src/ros2_foxglove_bridge.cpp b/src/ros2_foxglove_bridge.cpp
-index 299ae62..4e03aef 100644
---- a/src/ros2_foxglove_bridge.cpp
-+++ b/src/ros2_foxglove_bridge.cpp
-@@ -1,3 +1,4 @@
-+#define _CRT_SECURE_NO_WARNINGS
- #include <filesystem>
- #include <fstream>
- #include <unordered_set>
-@@ -201,7 +202,7 @@ FoxgloveBridge::FoxgloveBridge(const rclcpp::NodeOptions& options)
-     _clientCountPublisher = this->create_publisher<std_msgs::msg::UInt32>(
-       CLIENT_COUNT_TOPIC, rclcpp::QoS{rclcpp::KeepLast(1)}.transient_local());
-     auto init_msg = std_msgs::msg::UInt32();
--    init_msg.data = _server->clientCount();
-+    init_msg.data = static_cast<decltype(init_msg.data)>(_server->clientCount());
-     _clientCountPublisher->publish(
-       init_msg);  // Initialize transient local topic to current connection count
-   }
-@@ -1109,6 +1110,6 @@ void FoxgloveBridge::publishClientCount() {
-   }
-   const auto currentCount = _server->clientCount();
-   auto msg = std_msgs::msg::UInt32{};
--  msg.data = currentCount;
-+  msg.data = static_cast<decltype(msg.data)>(currentCount);
-   _clientCountPublisher->publish(msg);
- }
+@@ -87,9 +87,10 @@ target_sources(foxglove_cpp_shared PRIVATE ${FOXGLOVE_SDK_SOURCES})
+ # Import the prebuilt C shared library from the fetched SDK
+ add_library(foxglove-shared SHARED IMPORTED)
+ set_target_properties(foxglove-shared PROPERTIES
+-  IMPORTED_LOCATION ${foxglove_sdk_SOURCE_DIR}/lib/libfoxglove.so
++  IMPORTED_LOCATION ${foxglove_sdk_SOURCE_DIR}/lib/foxglove.dll
++  IMPORTED_IMPLIB ${foxglove_sdk_SOURCE_DIR}/lib/foxglove.dll.lib
+ )
+-target_link_libraries(foxglove_cpp_shared PRIVATE foxglove-shared)
++target_link_libraries(foxglove_cpp_shared PRIVATE foxglove-shared Ws2_32 Userenv Ntdll)
+ set_target_properties(foxglove_cpp_shared PROPERTIES
+   INSTALL_RPATH "$ORIGIN"
+   BUILD_WITH_INSTALL_RPATH TRUE
