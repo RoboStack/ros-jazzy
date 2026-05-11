@@ -3,9 +3,9 @@ numpy:
 assimp:
   - 6
 libprotobuf:
-  - 6.31.1
+  - 6.33.5
 protobuf:
-  - 6.31.1
+  - 6.33.5
 spdlog:
   - 1.17
 pugixml:

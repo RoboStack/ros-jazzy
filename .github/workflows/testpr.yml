@@ -108,6 +108,19 @@ jobs:
       shell: bash -l {0}
       run: |
         # rm -rf ${{ matrix.folder_cache }}/ros-jazzy-<pkg>* || true
+        # Stale libprotobuf 6.31.1 pins across the cache.
+        # - ros2-distro-mutex's run_constraints were tightened to
+        #   libprotobuf 6.33.* in vinca.yaml (commit 4ed9a38).
+        # - conda_build_config.yaml's libprotobuf pin was bumped from
+        #   6.31.1 to 6.33.5 to match.
+        # The previously cached _18 builds were produced before those
+        # changes, so they still pin libprotobuf 6.31.1.* in run deps,
+        # which conflicts with conda-forge ffmpeg 8.x (libprotobuf 6.33.5).
+        # Delete the affected cached packages so they rebuild against
+        # libprotobuf 6.33.5.
+        rm -rf ${{ matrix.folder_cache }}/ros2-distro-mutex-* || true
+        rm -rf ${{ matrix.folder_cache }}/ros-jazzy-gz-msgs-vendor-* || true
+        rm -rf ${{ matrix.folder_cache }}/ros-jazzy-gz-transport-vendor-* || true
         pixi run rattler-index fs output --force
         exit 0
 
