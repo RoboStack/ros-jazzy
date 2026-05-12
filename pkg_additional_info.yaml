@@ -25,13 +25,16 @@ urdfdom_headers:
   generate_dummy_package_with_run_deps:
     dep_name: urdfdom_headers
     max_pin: 'x.x'
+    # we stick to 2.1.0 for compat
+    # with the rest of conda-forge
+    override_version: '2.1.0'
 urdfdom:
   generate_dummy_package_with_run_deps:
     dep_name: urdfdom
     max_pin: 'x.x'
     # jazzy is on 4.0.2, but we stick to 4.0.1 for compat
     # with the rest of conda-forge
-    override_version: '4.0.1'
+    override_version: '5.1.0'
 cartographer:
   generate_dummy_package_with_run_deps:
     dep_name: cartographer
@@ -57,11 +60,13 @@ pinocchio:
     dep_name: pinocchio
     max_pin: 'x.x.x'
     # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '3.9.0'
+    override_version: '4.0.0'
 gtsam:
   generate_dummy_package_with_run_deps:
     dep_name: gtsam
     max_pin: 'x.x'
+    # jazzy is on 4.2.0, but we stick to 4.2.1 for compat with the rest of conda-forge
+    override_version: '4.2.1'
 librealsense2:
   generate_dummy_package_with_run_deps:
     dep_name: librealsense
