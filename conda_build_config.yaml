@@ -16,8 +16,6 @@ libxml2:
   - 2.14.*
 graphviz:
   - 14.*
-# Mitigation for
-# https://github.com/RoboStack/ros-jazzy/pull/126#issuecomment-3515455380
 libcap:
   - 2.77
 fmt:
@@ -72,10 +70,9 @@ lbr_fri_client_sdk:
   - '1.17'
 
 libzenohc:
-  - 1.7.2
+  - 1.9.0
 libzenohcxx:
-  - 1.7.2
-
+  - 1.9.0
 libhwloc:
   - 2.12.2
 
@@ -83,7 +80,10 @@ eigen_abi_devel:
   - '3.4.0'
 
 urdfdom:
-  - '4.0'
+  - '5.1'
 
 libmujoco:
-  - 3.5.0
+  - 3.8.1
+
+vtk:
+  - 9.6.0
