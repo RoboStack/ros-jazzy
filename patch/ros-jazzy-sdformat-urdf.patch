@@ -10,7 +10,7 @@ Subject: [PATCH] Relax urdfdom_headers version pin
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -15,7 +15,7 @@ find_package(ament_cmake_ros REQUIRED)
+@@ -15,6 +15,6 @@ find_package(ament_cmake_ros REQUIRED)
  find_package(pluginlib REQUIRED)
  find_package(rcutils REQUIRED)
 -find_package(urdfdom_headers 1.0.6 REQUIRED)
