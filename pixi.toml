@@ -42,7 +42,7 @@ build_continue_on_failure = { cmd = "rattler-build build --recipe-dir ./recipes 
 [tasks.build]
 cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c https://prefix.dev/robostack-jazzy -c https://prefix.dev/conda-forge --skip-existing"
 depends-on = ["generate-recipes"]
-description = "Build all packages, from the ./recipes dir. This will skip already existing packages, so it can be used to build only a subset of packages by first removing the recipes of the packages you want to rebuild (see `pixi remove-recipes`)."
+description = "Build all packages, from the ./recipes dir. This will skip already existing packages, so it can be used to build only a subset of packages by first removing the recipes of the packages you want to rebuild (see `pixi run remove-recipes`)."
 
 [tasks.remove-recipes]
 cmd = "rm -rf recipes_only_patch; rm -rf recipes; mkdir recipes"
@@ -51,5 +51,5 @@ description = "Remove all generated recipes, before regenerating them."
 [tasks.build-one]
 cmd = "cp ./patch/{{ PACKAGE }}.*patch ./recipes/{{ PACKAGE }}/patch/; rattler-build build --recipe ./recipes/{{ PACKAGE }}/recipe.yaml -m ./conda_build_config.yaml -c https://prefix.dev/robostack-jazzy -c https://prefix.dev/conda-forge"
 args = [{ arg = "PACKAGE", default = "ros-jazzy-ros-workspace" }]
-description = "Build a single package, from the ./recipes dir. Add the `ros-jazzy-` prefix to the package name, e.g. `pixi build-one --package ros-jazzy-ros-workspace`"
+description = "Build a single package, from the ./recipes dir. Add the `ros-jazzy-` prefix to the package name, e.g. `pixi build-one ros-jazzy-ros-workspace`"
 
