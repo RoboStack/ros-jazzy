@@ -321,6 +321,11 @@ libgeos++-dev:
   robostack: [geos]
 libgflags-dev:
   robostack: [gflags]
+libgpiod-dev:
+  robostack:
+    linux: [libgpiod]
+    osx: []
+    win64: []
 libglew-dev:
   robostack: [glew]
 libglfw3-dev:
@@ -1015,6 +1020,11 @@ python3-yaml:
   robostack: [pyyaml]
 python3-zmq:
   robostack: [pyzmq]
+qml-module-qtquick-extras:
+  robostack:
+    linux: [qt-main, libopengl-devel, libgl-devel]
+    osx: [qt-main]
+    win64: [qt-main]
 qt5-image-formats-plugins:
   robostack:
     linux: [qt-main, libopengl-devel, libgl-devel]
