@@ -1,0 +1,129 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: RoboStack <maintainers@robostack.org>
+Date: Wed, 13 May 2026 23:30:00 +0000
+Subject: [PATCH] Migrate to asio::io_context for asio 1.36
+
+asio 1.36 removed the asio::io_service typedef and the io_service_->post()
+member; migrate to asio::io_context and the free-function asio::post().
+---
+--- a/include/ublox_gps/async_worker.hpp	2026-05-13 23:38:13.637845344 -0700
++++ b/include/ublox_gps/async_worker.hpp	2026-05-13 23:38:42.265270562 -0700
+@@ -39,8 +39,9 @@
+ 
+ #include <asio/buffer.hpp>
+ #include <asio/error_code.hpp>
+-#include <asio/io_service.hpp>
++#include <asio/io_context.hpp>
+ #include <asio/placeholders.hpp>
++#include <asio/post.hpp>
+ #include <asio/write.hpp>
+ #include <asio/ip/udp.hpp>
+ 
+@@ -63,7 +64,7 @@
+    * @param buffer_size the size of the input and output buffers
+    */
+   explicit AsyncWorker(std::shared_ptr<StreamT> stream,
+-                       std::shared_ptr<asio::io_service> io_service,
++                       std::shared_ptr<asio::io_context> io_service,
+                        std::size_t buffer_size,
+                        int debug,
+                        const rclcpp::Logger& logger);
+@@ -124,7 +125,7 @@
+   void doClose();
+ 
+   std::shared_ptr<StreamT> stream_; //!< The I/O stream
+-  std::shared_ptr<asio::io_service> io_service_; //!< The I/O service
++  std::shared_ptr<asio::io_context> io_service_; //!< The I/O service
+ 
+   std::mutex read_mutex_; //!< Lock for the input buffer
+   std::condition_variable read_condition_;
+@@ -150,7 +151,7 @@
+ 
+ template <typename StreamT>
+ AsyncWorker<StreamT>::AsyncWorker(std::shared_ptr<StreamT> stream,
+-        std::shared_ptr<asio::io_service> io_service,
++        std::shared_ptr<asio::io_context> io_service,
+         std::size_t buffer_size,
+         int debug,
+         const rclcpp::Logger& logger)
+@@ -159,13 +160,13 @@
+ 
+   out_.reserve(buffer_size);
+ 
+-  io_service_->post(std::bind(&AsyncWorker<StreamT>::doRead, this));
++  asio::post(*io_service_, std::bind(&AsyncWorker<StreamT>::doRead, this));
+   background_thread_ = std::make_shared<std::thread>([this]{ io_service_->run(); });
+ }
+ 
+ template <typename StreamT>
+ AsyncWorker<StreamT>::~AsyncWorker() {
+-  io_service_->post(std::bind(&AsyncWorker<StreamT>::doClose, this));
++  asio::post(*io_service_, std::bind(&AsyncWorker<StreamT>::doClose, this));
+   background_thread_->join();
+   //io_service_->reset();
+ }
+@@ -185,7 +186,7 @@
+   }
+   out_.insert(out_.end(), data, data + size);
+ 
+-  io_service_->post(std::bind(&AsyncWorker<StreamT>::doWrite, this));
++  asio::post(*io_service_, std::bind(&AsyncWorker<StreamT>::doWrite, this));
+   return true;
+ }
+ 
+@@ -314,7 +315,7 @@
+   }
+ 
+   if (!stopping_) {
+-    io_service_->post(std::bind(&AsyncWorker<StreamT>::doRead, this));
++    asio::post(*io_service_, std::bind(&AsyncWorker<StreamT>::doRead, this));
+   }
+ }
+ 
+--- a/src/gps.cpp	2026-05-13 23:38:13.638735716 -0700
++++ b/src/gps.cpp	2026-05-13 23:38:58.467501142 -0700
+@@ -33,7 +33,7 @@
+ #include <stdexcept>
+ #include <thread>
+ 
+-#include <asio/io_service.hpp>
++#include <asio/io_context.hpp>
+ #include <asio/serial_port.hpp>
+ #include <asio/serial_port_base.hpp>
+ #include <asio/ip/tcp.hpp>
+@@ -125,7 +125,7 @@
+ void Gps::initializeSerial(const std::string & port, unsigned int baudrate,
+                            uint16_t uart_in, uint16_t uart_out) {
+   port_ = port;
+-  auto io_service = std::make_shared<asio::io_service>();
++  auto io_service = std::make_shared<asio::io_context>();
+   auto serial = std::make_shared<asio::serial_port>(*io_service);
+ 
+   // open serial port
+@@ -181,7 +181,7 @@
+ }
+ 
+ void Gps::resetSerial(const std::string & port) {
+-  auto io_service = std::make_shared<asio::io_service>();
++  auto io_service = std::make_shared<asio::io_context>();
+   auto serial = std::make_shared<asio::serial_port>(*io_service);
+ 
+   // open serial port
+@@ -223,7 +223,7 @@
+ void Gps::initializeTcp(const std::string & host, const std::string & port) {
+   host_ = host;
+   port_ = port;
+-  auto io_service = std::make_shared<asio::io_service>();
++  auto io_service = std::make_shared<asio::io_context>();
+   asio::ip::tcp::resolver::iterator endpoint;
+ 
+   try {
+@@ -257,7 +257,7 @@
+ void Gps::initializeUdp(const std::string & host, const std::string & port) {
+   host_ = host;
+   port_ = port;
+-  auto io_service = std::make_shared<asio::io_service>();
++  auto io_service = std::make_shared<asio::io_context>();
+   asio::ip::udp::resolver::iterator endpoint;
+ 
+   try {

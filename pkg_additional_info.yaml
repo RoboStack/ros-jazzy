@@ -25,13 +25,16 @@ urdfdom_headers:
   generate_dummy_package_with_run_deps:
     dep_name: urdfdom_headers
     max_pin: 'x.x'
+    # we stick to 2.1.0 for compat
+    # with the rest of conda-forge
+    override_version: '2.1.0'
 urdfdom:
   generate_dummy_package_with_run_deps:
     dep_name: urdfdom
     max_pin: 'x.x'
     # jazzy is on 4.0.2, but we stick to 4.0.1 for compat
     # with the rest of conda-forge
-    override_version: '4.0.1'
+    override_version: '5.1.0'
 cartographer:
   generate_dummy_package_with_run_deps:
     dep_name: cartographer
@@ -57,11 +60,13 @@ pinocchio:
     dep_name: pinocchio
     max_pin: 'x.x.x'
     # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '3.9.0'
+    override_version: '4.0.0'
 gtsam:
   generate_dummy_package_with_run_deps:
     dep_name: gtsam
     max_pin: 'x.x'
+    # jazzy is on 4.2.0, but we stick to 4.2.1 for compat with the rest of conda-forge
+    override_version: '4.2.1'
 librealsense2:
   generate_dummy_package_with_run_deps:
     dep_name: librealsense
@@ -161,39 +166,10 @@ imu_tools:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 imu_complementary_filter:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
-# Remove everything after this line on a full rebuild
-ur_description:
-  build_number: 17
-
-apriltag:
-  generate_dummy_package_with_run_deps:
-    build_number: 17
-    dep_name: apriltag
-    max_pin: 'x.x.x'
-apriltag_ros:
-  build_number: 17
-apriltag_draw:
-  build_number: 17
-apriltag_tools:
-  build_number: 17
-apriltag_detector_umich:
-  build_number: 17
-apriltag_detector_mit:
-  build_number: 17
-apriltag_detector:
-  build_number: 17
-
-cloudini_lib:
-  build_number: 17
-cloudini_ros:
-  build_number: 17
-
-mavros_extras:
-  build_number: 17
 uncrustify_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
-  build_number: 17
-ament_xmllint:
-  build_number: 17
-tf_transformations:
-  build_number: 17
+apriltag:
+  generate_dummy_package_with_run_deps:
+    dep_name: apriltag
+    max_pin: 'x.x.x'
+# Remove everything after this line on a full rebuild
