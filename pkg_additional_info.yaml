@@ -195,5 +195,10 @@ uncrustify_vendor:
   build_number: 17
 ament_xmllint:
   build_number: 17
+
+rosidl_cli:
+  build_number: 17
+ros2cli:
+  build_number: 17
 tf_transformations:
   build_number: 17
