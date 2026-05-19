@@ -1,10 +1,11 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: RoboStack <maintainers@robostack.org>
 Date: Wed, 13 May 2026 23:30:00 +0000
-Subject: [PATCH] Migrate to asio::io_context for asio 1.36
+Subject: [PATCH] Migrate to asio::io_context and modern resolver API
 
-asio 1.36 removed the asio::io_service typedef and the io_service_->post()
-member; migrate to asio::io_context and the free-function asio::post().
+asio 1.36 removed the asio::io_service typedef, io_service_->post(),
+and the legacy resolver::iterator / resolver::query API. Migrate to
+asio::io_context, asio::post(), and resolver.resolve(host, port).
 ---
 --- a/include/ublox_gps/async_worker.hpp	2026-05-13 23:38:13.637845344 -0700
 +++ b/include/ublox_gps/async_worker.hpp	2026-05-13 23:38:42.265270562 -0700
@@ -109,21 +110,79 @@ member; migrate to asio::io_context and the free-function asio::post().
    auto serial = std::make_shared<asio::serial_port>(*io_service);
  
    // open serial port
-@@ -223,7 +223,7 @@
+@@ -223,30 +223,28 @@
  void Gps::initializeTcp(const std::string & host, const std::string & port) {
    host_ = host;
    port_ = port;
 -  auto io_service = std::make_shared<asio::io_service>();
+-  asio::ip::tcp::resolver::iterator endpoint;
 +  auto io_service = std::make_shared<asio::io_context>();
-   asio::ip::tcp::resolver::iterator endpoint;
++  asio::ip::tcp::endpoint endpoint;
  
    try {
-@@ -257,7 +257,7 @@
+     asio::ip::tcp::resolver resolver(*io_service);
+-    endpoint =
+-        resolver.resolve(asio::ip::tcp::resolver::query(host, port));
++    endpoint = *resolver.resolve(host, port).begin();
+   } catch (const std::runtime_error& e) {
+     throw std::runtime_error("U-Blox: Could not resolve" + host + " " +
+                              port + " " + e.what());
+   }
+ 
+   auto socket = std::make_shared<asio::ip::tcp::socket>(*io_service);
+ 
+   try {
+-    socket->connect(*endpoint);
++    socket->connect(endpoint);
+   } catch (const std::runtime_error& e) {
+     throw std::runtime_error("U-Blox: Could not connect to " +
+-                             endpoint->host_name() + ":" +
+-                             endpoint->service_name() + ": " + e.what());
++                             host + ":" + port + ": " + e.what());
+   }
+ 
+-  RCLCPP_INFO(logger_, "U-Blox: Connected to %s:%s.", endpoint->host_name().c_str(),
+-              endpoint->service_name().c_str());
++  RCLCPP_INFO(logger_, "U-Blox: Connected to %s:%s.", host.c_str(),
++              port.c_str());
+ 
+   if (worker_) {
+     return;
+@@ -257,30 +255,28 @@
  void Gps::initializeUdp(const std::string & host, const std::string & port) {
    host_ = host;
    port_ = port;
 -  auto io_service = std::make_shared<asio::io_service>();
+-  asio::ip::udp::resolver::iterator endpoint;
 +  auto io_service = std::make_shared<asio::io_context>();
-   asio::ip::udp::resolver::iterator endpoint;
++  asio::ip::udp::endpoint endpoint;
  
    try {
+     asio::ip::udp::resolver resolver(*io_service);
+-    endpoint =
+-        resolver.resolve(asio::ip::udp::resolver::query(host, port));
++    endpoint = *resolver.resolve(host, port).begin();
+   } catch (const std::runtime_error& e) {
+     throw std::runtime_error("U-Blox: Could not resolve" + host + " " +
+                              port + " " + e.what());
+   }
+ 
+   auto socket = std::make_shared<asio::ip::udp::socket>(*io_service);
+ 
+   try {
+-    socket->connect(*endpoint);
++    socket->connect(endpoint);
+   } catch (const std::runtime_error& e) {
+     throw std::runtime_error("U-Blox: Could not connect to " +
+-                             endpoint->host_name() + ":" +
+-                             endpoint->service_name() + ": " + e.what());
++                             host + ":" + port + ": " + e.what());
+   }
+ 
+-  RCLCPP_INFO(logger_, "U-Blox: Connected to %s:%s.", endpoint->host_name().c_str(),
+-              endpoint->service_name().c_str());
++  RCLCPP_INFO(logger_, "U-Blox: Connected to %s:%s.", host.c_str(),
++              port.c_str());
+ 
+   if (worker_) {
+     return;
