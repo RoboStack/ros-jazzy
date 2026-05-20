@@ -20,3 +20,14 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
  else()
    message(FATAL_ERROR "Unsupported platform/architecture combination: ${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_SYSTEM_NAME}")
  endif()
+diff --git a/src/message_definition_cache.cpp b/src/message_definition_cache.cpp
+--- a/src/message_definition_cache.cpp
++++ b/src/message_definition_cache.cpp
+@@ -3,6 +3,7 @@
+ #include <filesystem>
+ #include <fstream>
+ #include <functional>
++#include <map>
+ #include <optional>
+ #include <regex>
+ #include <set>
