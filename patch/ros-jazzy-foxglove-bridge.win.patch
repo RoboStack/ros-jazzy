@@ -1,7 +1,15 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 71deedd..c470d9a 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
+@@ -23,7 +23,7 @@
+
+ macro(enable_strict_compiler_warnings target)
+   if (MSVC)
+-    target_compile_options(${target} PRIVATE /WX /W4)
++    target_compile_options(${target} PRIVATE /W4)
+   elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+     target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -Wold-style-cast -Wfloat-equal -Wmost -Wunused-exception-parameter)
+   else()
 @@ -87,9 +87,10 @@ target_sources(foxglove_cpp_shared PRIVATE ${FOXGLOVE_SDK_SOURCES})
  # Import the prebuilt C shared library from the fetched SDK
  add_library(foxglove-shared SHARED IMPORTED)
