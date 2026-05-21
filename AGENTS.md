@@ -17,7 +17,7 @@ Working notes for future coding agents in a RoboStack repo. Replace $DISTRO with
 
 ```bash
 # single package (preferred for debugging)
-pixi run build-one --package ros-jazzy-<pkg>
+pixi run build-one ros-jazzy-<pkg>
 
 # broad pass when needed
 pixi run build_continue_on_failure
@@ -91,7 +91,7 @@ bash -x conda_build.sh 2>&1 | less
 ### 7. Rebuild package
 
 ```bash
-pixi run build-one --package ros-jazzy-<pkg>
+pixi run build-one ros-jazzy-<pkg>
 ```
 
 ## Create a patch from build-directory edits
