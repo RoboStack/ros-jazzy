@@ -197,3 +197,5 @@ ament_xmllint:
   build_number: 17
 tf_transformations:
   build_number: 17
+rcutils:
+  build_number: 17
