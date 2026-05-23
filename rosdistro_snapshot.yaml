@@ -7316,9 +7316,9 @@ warehouse_ros_sqlite:
   url: https://github.com/ros2-gbp/warehouse_ros_sqlite-release.git
   version: 1.0.5
 web_video_server:
-  tag: release/jazzy/web_video_server/3.0.0-1
+  tag: release/jazzy/web_video_server/3.1.0-1
   url: https://github.com/ros2-gbp/web_video_server-release.git
-  version: 3.0.0
+  version: 3.1.0
 webots_ros2:
   tag: release/jazzy/webots_ros2/2025.0.0-1
   url: https://github.com/ros2-gbp/webots_ros2-release.git
