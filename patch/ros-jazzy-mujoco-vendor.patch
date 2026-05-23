@@ -1,0 +1,32 @@
+From f43d54c7dd1e19c1e117641ac36ba37b81851af0 Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio@traversaro.it>
+Date: Sat, 23 May 2026 17:07:07 +0200
+Subject: [PATCH] Add support for the AMENT_VENDOR_POLICY variable to support
+ unvendoring
+
+---
+ CMakeLists.txt | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5e58f23..ae23d6e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,6 +7,17 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+ endif()
+ 
+ find_package(ament_cmake REQUIRED)
++
++# Handle the case in which mujoco should not vendored, for example in conda-forge/robostack where a recent enough
++# mujoco package is available in the distribution, and there is no need to vendor it
++# We use the AMENT_VENDOR_POLICY option proposed in https://github.com/ament/ament_cmake/pull/592 and that will
++# be introduced at some point in ament_vendor for this purpouse
++if(DEFINED AMENT_VENDOR_POLICY AND (AMENT_VENDOR_POLICY STREQUAL "NEVER_VENDOR" OR AMENT_VENDOR_POLICY STREQUAL "NEVER_VENDOR_IGNORE_SATISFIED_CHECK"))
++  ament_export_dependencies(mujoco)
++  ament_package()
++  return()
++endif()
++
+ include(FetchContent)
+ 
+ set(MUJOCO_VERSION "3.4.0")
