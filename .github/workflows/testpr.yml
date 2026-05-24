@@ -108,8 +108,6 @@ jobs:
       shell: bash -l {0}
       run: |
         # rm -rf ${{ matrix.folder_cache }}/ros-jazzy-<pkg>* || true
-        rm -rf ${{ matrix.folder_cache }}/ros-jazzy-tinyxml2-vendor* || true
-        rm -rf ${{ matrix.folder_cache }}/ros-jazzy-mujoco* || true
         pixi run rattler-index fs output --force
         exit 0
 
