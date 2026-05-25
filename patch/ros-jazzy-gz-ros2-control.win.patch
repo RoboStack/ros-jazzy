@@ -1,22 +1,3 @@
-diff --git a/gz_ros2_control_demos/CMakeLists.txt b/gz_ros2_control_demos/CMakeLists.txt
-index 90c677c9..fdfb43dd 100644
---- a/gz_ros2_control_demos/CMakeLists.txt
-+++ b/gz_ros2_control_demos/CMakeLists.txt
-@@ -7,6 +7,14 @@ export_windows_symbols()
- 
- if(NOT WIN32)
-   add_compile_options(-Wall -Wextra -Wpedantic)
-+  add_compile_definitions(
-+    # For math constants
-+    # https://docs.microsoft.com/en-us/cpp/c-runtime-library/math-constants?view=vs-2019
-+    _USE_MATH_DEFINES
-+    # Minimize Windows namespace collision
-+    NOMINMAX
-+    WIN32_LEAN_AND_MEAN
-+  )
- endif()
- 
- find_package(ament_cmake REQUIRED)
 diff --git a/src/gz_system.cpp b/src/gz_system.cpp
 index 7d9eab3..92c6f5c 100644
 --- a/src/gz_system.cpp
