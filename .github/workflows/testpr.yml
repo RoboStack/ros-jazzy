@@ -82,6 +82,11 @@ jobs:
         mkdir -p recipes
         pixi run -v vinca --platform ${{ matrix.platform }} -m -n
 
+    - name: List packages to be built
+      shell: bash -l {0}
+      run: |
+        ls recipes
+
     - name: Check patches
       shell: bash -l {0}
       run: |
