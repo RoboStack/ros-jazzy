@@ -173,8 +173,15 @@ packages_select_by_deps:
   - magic_enum
   - mavros_msgs
 
-
   - picknik_ament_copyright
+  - picknik_twist_controller
+  - picknik_reset_fault_controller
+  - launch_param_builder
+  - moveit_visual_tools
+
+  - robotiq_controllers
+  - robotic_drivers
+  - robotiq_hardware_tests
 
   - rqt_robot_monitor
 
@@ -185,6 +192,7 @@ packages_select_by_deps:
   - rtest
   
   - nmea-navsat-driver
+
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
@@ -223,6 +231,18 @@ packages_select_by_deps:
       # IntelRealSense
       - realsense2-camera
       - realsense2-description
+
+  - if: linux and aarch64
+    then:
+      # Kinova
+      # Hardcoded linux only: https://github.com/Kinovarobotics/ros2_kortex/blob/1fdbef345954b326627dc3792981e18e2221450b/kortex_api/CMakeLists.txt#L22
+      - kortex_api
+      - kortex_bringup
+      - kortex_driver
+      - kortex_gen3_7dof_robotiq_2f_85_moveit_config
+      - kortex_gen3_6dof_2f_85_moveit_config
+      - kortex_gen3_lite_moveit_config
+
 
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
