@@ -232,7 +232,7 @@ packages_select_by_deps:
       - realsense2-camera
       - realsense2-description
 
-  - if: linux and aarch64
+  - if: linux-64
     then:
       # Kinova
       # Hardcoded linux only: https://github.com/Kinovarobotics/ros2_kortex/blob/1fdbef345954b326627dc3792981e18e2221450b/kortex_api/CMakeLists.txt#L22
