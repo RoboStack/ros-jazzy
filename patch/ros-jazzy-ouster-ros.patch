@@ -47,3 +47,17 @@ index c46f0f08..9d3741b8 100644
    message(STATUS "Using VCPKG_TARGET_TRIPLET from env: $ENV{VCPKG_TARGET_TRIPLET}")
    set(VCPKG_TARGET_TRIPLET "$ENV{VCPKG_TARGET_TRIPLET}"
      CACHE STRING "Triplet used for vcpkg build")
+
+diff --git a/ouster-sdk/cmake/Findlibzip.cmake b/ouster-sdk/cmake/Findlibzip.cmake
+index 0de2ad53..388f145e 100644
+--- a/ouster-sdk/cmake/Findlibzip.cmake
++++ b/ouster-sdk/cmake/Findlibzip.cmake
+@@ -39,7 +39,7 @@ mark_as_advanced(libzip_INCLUDE_DIRS)
+ 
+ # Linux/macos only
+ find_library(libzip_LIBRARIES NAMES
+-  libzip libzip.so libzip.dylib
++  libzip libzip.so libzip.dylib zip
+   HINTS ${pkg_libzip_LIBRARY_DIRS})
+ mark_as_advanced(libzip_LIBRARIES)
+ 
