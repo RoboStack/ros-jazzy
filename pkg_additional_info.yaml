@@ -172,4 +172,6 @@ apriltag:
   generate_dummy_package_with_run_deps:
     dep_name: apriltag
     max_pin: 'x.x.x'
+ouster_ros:
+  additional_cmake_args: "-DOUSTER_USE_VCPKG_IF_AVAILABLE=OFF"
 # Remove everything after this line on a full rebuild
