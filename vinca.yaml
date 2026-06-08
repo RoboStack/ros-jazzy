@@ -124,6 +124,7 @@ packages_select_by_deps:
   - imu_tools
 
   - ublox
+  - septentrio_gnss_driver
 
   - can_msgs
   - ros2_socketcan_msgs
