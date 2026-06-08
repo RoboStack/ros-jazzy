@@ -11,3 +11,39 @@ index 7867e3a..ef4539f 100644
 
      /**
       * Return the version as a string formatted as
+
+diff --git a/ouster-sdk/CMakeLists.txt b/ouster-sdk/CMakeLists.txt
+index 4c6e3ac2..5d17a199 100644
+--- a/ouster-sdk/CMakeLists.txt
++++ b/ouster-sdk/CMakeLists.txt
+@@ -51,6 +51,7 @@ option(BUILD_EXAMPLES "Build C++ examples" OFF)
+ option(OUSTER_USE_EIGEN_MAX_ALIGN_BYTES_32 "Eigen max aligned bytes." OFF)
+ option(BUILD_SHARED_LIBRARY "Build shared Library." OFF)
+ option(BUILD_DEBIAN_FOR_GITHUB "Build debian for github ci" OFF)
++option(OUSTER_USE_VCPKG_IF_AVAILABLE "Use VCPKG_ROOT env variable if available" ON)
+ # when building as a top-level project
+ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+   set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+diff --git a/ouster-sdk/cmake/VcpkgEnv.cmake b/ouster-sdk/cmake/VcpkgEnv.cmake
+index c46f0f08..9d3741b8 100644
+--- a/ouster-sdk/cmake/VcpkgEnv.cmake
++++ b/ouster-sdk/cmake/VcpkgEnv.cmake
+@@ -2,15 +2,15 @@
+ # - must include() this before project() in CMakeLists.txt
+ # https://vcpkg.readthedocs.io/en/latest/users/integration/
+ 
+-# set toolchain file if VCPKG_ROOT is defind
+-if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
++# set toolchain file if VCPKG_ROOT is defined, and OUSTER_USE_VCPKG_IF_AVAILABLE is ON
++if(OUSTER_USE_VCPKG_IF_AVAILABLE AND DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+   message(STATUS "Using CMAKE_TOOLCHAIN_FILE from env VCPKG_ROOT: $ENV{VCPKG_ROOT}")
+   set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+     CACHE STRING "The CMake toolchain file")
+ endif()
+ 
+ # set VCPKG_TARGET_TRIPLET from corresponding env variable
+-if(DEFINED ENV{VCPKG_TARGET_TRIPLET} AND NOT DEFINED VCPKG_TARGET_TRIPLET)
++if(OUSTER_USE_VCPKG_IF_AVAILABLE AND DEFINED ENV{VCPKG_TARGET_TRIPLET} AND NOT DEFINED VCPKG_TARGET_TRIPLET)
+   message(STATUS "Using VCPKG_TARGET_TRIPLET from env: $ENV{VCPKG_TARGET_TRIPLET}")
+   set(VCPKG_TARGET_TRIPLET "$ENV{VCPKG_TARGET_TRIPLET}"
+     CACHE STRING "Triplet used for vcpkg build")
