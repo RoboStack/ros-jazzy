@@ -109,7 +109,6 @@ jobs:
       shell: bash -l {0}
       run: |
         # rm -rf ${{ matrix.folder_cache }}/ros-jazzy-<pkg>* || true
-        rm -rf ${{ matrix.folder_cache }}/ros-jazzy-control-toolbox* || true
         pixi run rattler-index fs ${CONDA_BLD_PATH:-output} --force
         exit 0
 
