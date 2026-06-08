@@ -5,7 +5,6 @@ echo "PATH is %PATH%"
 
 rmdir /Q/S C:\Strawberry\
 rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
-rmdir /Q/S "%VCPKG_ROOT%"
 
 set "FEEDSTOCK_ROOT=%cd%"
 
