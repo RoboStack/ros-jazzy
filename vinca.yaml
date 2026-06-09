@@ -124,7 +124,6 @@ packages_select_by_deps:
   - imu_tools
 
   - ublox
-  - septentrio_gnss_driver
 
   - can_msgs
   - ros2_socketcan_msgs
@@ -244,6 +243,8 @@ packages_select_by_deps:
       # IntelRealSense
       - realsense2-camera
       - realsense2-description
+
+      - septentrio_gnss_driver
 
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
