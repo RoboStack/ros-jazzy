@@ -1,9 +1,9 @@
-diff --git a/ouster-ros/CMakeLists.txt b/ouster-ros/CMakeLists.txt
-index 19832e56..f26cb751 100644
---- a/ouster-ros/CMakeLists.txt
-+++ b/ouster-ros/CMakeLists.txt
-@@ -30,13 +30,20 @@ if(NOT OpenCV_LIBS)
- endif()
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index aa0f0b2..0724118 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -24,13 +24,20 @@ find_package(tf2_eigen REQUIRED)
+ find_package(OpenCV REQUIRED)
  
  # ==== Options ====
 -add_compile_options(-Wall -Wextra)
@@ -22,8 +22,8 @@ index 19832e56..f26cb751 100644
 +set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 +
  set(_ouster_ros_INCLUDE_DIRS
-   include
-   ouster-sdk/ouster_sensor/include
+   "include;"
+   "ouster-sdk/ouster_sensor/include;"
 diff --git a/ouster-sdk/CMakeLists.txt b/ouster-sdk/CMakeLists.txt
 index 4c6e3ac..5d17a19 100644
 --- a/ouster-sdk/CMakeLists.txt
