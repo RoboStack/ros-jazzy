@@ -92,6 +92,8 @@ backward_ros:
   # binutils is added only on linux to avoid the -liberty library not found in macos
   # see https://github.com/RoboStack/ros-jazzy/pull/95#issuecomment-3113166166
   add_host: ["${{ 'binutils' if linux }}", "${{ 'elfutils' if linux }}", "ros-jazzy-ament-cmake-libraries"]
+depthai:
+  add_host: ["${{ 'elfutils' if linux }}"]
 nav2_smac_planner:
   add_build: ["${{ 'llvm-openmp' if osx }}"]
   add_host: ["${{ 'llvm-openmp' if osx }}", "ompl", "libode"]
@@ -173,6 +175,8 @@ velodyne_pointcloud:
 uncrustify_vendor:
   add_build: ["vcstool", "setuptools <81"]
   add_host: ["setuptools <81"]
+  # See https://github.com/ament/uncrustify_vendor/blob/jazzy/CMakeLists.txt#L19
+  add_run: ["uncrustify >=0.78"]
 mimick_vendor:
   add_build: ["vcstool", "setuptools <81"]
   add_host: ["setuptools <81"]
@@ -275,3 +279,6 @@ cloudini_lib:
   add_host: ["eigen-abi-devel"]
 cloudini_ros:
   add_host: ["eigen-abi-devel"]
+swri_console:
+  add_host: ["libboost-devel"]
+  add_run: ["libboost"]

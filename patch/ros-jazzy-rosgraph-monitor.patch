@@ -1,0 +1,19 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 39e863d..df1df78 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -21,7 +21,13 @@ endif()
+ 
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+   add_compile_options(-Wall -Wextra -Wpedantic -Werror=switch)
+-  add_link_options("-Wl,--no-undefined")
++endif()
++
++include(CheckLinkerFlag)
++check_linker_flag(CXX "LINKER:--no-undefined" HAVE_LINKER_NO_UNDEFINED)
++
++if(HAVE_LINKER_NO_UNDEFINED)
++  add_link_options("LINKER:--no-undefined")
+ endif()
+ 
+ find_package(ament_cmake REQUIRED)
