@@ -244,6 +244,8 @@ packages_select_by_deps:
       - realsense2-camera
       - realsense2-description
 
+      - septentrio_gnss_driver
+
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
   - if: linux
