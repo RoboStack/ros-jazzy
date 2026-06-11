@@ -1,0 +1,19 @@
+diff --git a/ros2cli/setup.py b/ros2cli/setup.py
+index 232c5bc..d774f33 100644
+--- a/ros2cli/setup.py
++++ b/ros2cli/setup.py
+@@ -20,6 +20,14 @@ setup(
+             'completion/ros2-argcomplete.bash',
+             'completion/ros2-argcomplete.zsh'
+         ]),
++
++        # [pixi] install autocompletion scripts
++        ('share/bash-completion/completions', [
++            'completion/ros2-argcomplete.bash',
++        ]),
++        ('share/zsh/site-functions', [
++            'completion/ros2-argcomplete.zsh'
++        ]),
+     ],
+     zip_safe=False,
+     author='Dirk Thomas',
