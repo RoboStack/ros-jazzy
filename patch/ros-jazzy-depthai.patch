@@ -1,0 +1,133 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Esteve Fernandez <esteve@apache.org>
+Date: Tue, 12 May 2026 14:01:42 +0100
+Subject: [PATCH] fix(depthai): make conda builds use bundled release sources
+
+Signed-off-by: Esteve Fernandez <esteve@apache.org>
+
+---
+ CMakeLists.txt                         |  2 ++
+ shared/depthai-bootloader-shared.cmake | 37 ++++++++++++++++++----------------
+ shared/depthai-shared.cmake            | 35 +++++++++++++++++---------------
+ 3 files changed, 41 insertions(+), 33 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 109d9da..24d9aff 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -60,6 +60,8 @@ else()
+     message(STATUS "Using toolchain file: ${CMAKE_TOOLCHAIN_FILE}")
+ endif()
+ 
++set(HUNTER_ROOT "${CMAKE_BINARY_DIR}/.hunter" CACHE PATH "Hunter package cache")
++set(DEPTHAI_ENABLE_CURL OFF CACHE BOOL "Enable CURL support" FORCE)
+ include("cmake/HunterGate.cmake")
+ HunterGate(
+     URL "https://github.com/cpp-pm/hunter/archive/9d9242b60d5236269f894efd3ddd60a9ca83dd7f.tar.gz"
+diff --git a/shared/depthai-bootloader-shared.cmake b/shared/depthai-bootloader-shared.cmake
+index d0db905..3bdb1b0 100644
+--- a/shared/depthai-bootloader-shared.cmake
++++ b/shared/depthai-bootloader-shared.cmake
+@@ -29,25 +29,28 @@ if(GIT_FOUND AND NOT DEPTHAI_DOWNLOADED_SOURCES)
+             OUTPUT_VARIABLE statusCommit
+             ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE
+         )
+-        string(SUBSTRING ${statusCommit} 0 1 status)
+-        if("${status}" STREQUAL "-")
+-            message(FATAL_ERROR "Submodule 'depthai-bootloader-shared' not initialized/updated. Run 'git submodule update --init --recursive' first")
++        if(statusCommit)
++            string(SUBSTRING "${statusCommit}" 0 1 status)
++            if("${status}" STREQUAL "-")
++                message(FATAL_ERROR "Submodule 'depthai-bootloader-shared' not initialized/updated. Run 'git submodule update --init --recursive' first")
++            endif()
+         endif()
+     endif()
+ 
+-    # Get depthai-bootloader-shared current commit
+-    execute_process(
+-        COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+-        WORKING_DIRECTORY ${DEPTHAI_BOOTLOADER_SHARED_FOLDER}
+-        RESULT_VARIABLE DEPTHAI_BOOTLOADER_SHARED_COMMIT_RESULT
+-        OUTPUT_VARIABLE DEPTHAI_BOOTLOADER_SHARED_COMMIT_HASH
+-        ERROR_QUIET
+-        OUTPUT_STRIP_TRAILING_WHITESPACE
+-    )
+-    if(${DEPTHAI_BOOTLOADER_SHARED_COMMIT_RESULT} EQUAL 0)
+-        set(DEPTHAI_BOOTLOADER_SHARED_COMMIT_FOUND TRUE)
+-    else()
+-        set(DEPTHAI_BOOTLOADER_SHARED_COMMIT_FOUND FALSE)
++    set(DEPTHAI_BOOTLOADER_SHARED_COMMIT_FOUND FALSE)
++    if(EXISTS "${DEPTHAI_BOOTLOADER_SHARED_FOLDER}/.git")
++        # Release archives include shared sources without a nested Git checkout.
++        execute_process(
++            COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
++            WORKING_DIRECTORY ${DEPTHAI_BOOTLOADER_SHARED_FOLDER}
++            RESULT_VARIABLE DEPTHAI_BOOTLOADER_SHARED_COMMIT_RESULT
++            OUTPUT_VARIABLE DEPTHAI_BOOTLOADER_SHARED_COMMIT_HASH
++            ERROR_QUIET
++            OUTPUT_STRIP_TRAILING_WHITESPACE
++        )
++        if(DEPTHAI_BOOTLOADER_SHARED_COMMIT_RESULT EQUAL 0)
++            set(DEPTHAI_BOOTLOADER_SHARED_COMMIT_FOUND TRUE)
++        endif()
+     endif()
+ endif()
+ 
+@@ -56,4 +59,4 @@ foreach(source_file ${DEPTHAI_BOOTLOADER_SHARED_SOURCES})
+     if(NOT EXISTS ${source_file})
+         message(FATAL_ERROR "depthai-bootloader-shared submodule files missing. Make sure to download prepackaged release instead of \"Source code\" on GitHub. Example: depthai-core-vX.Y.Z.tar.gz")
+     endif()
+-endforeach()
+\ No newline at end of file
++endforeach()
+diff --git a/shared/depthai-shared.cmake b/shared/depthai-shared.cmake
+index 414e1eb..94a007d 100644
+--- a/shared/depthai-shared.cmake
++++ b/shared/depthai-shared.cmake
+@@ -35,25 +35,28 @@ if(GIT_FOUND AND NOT DEPTHAI_DOWNLOADED_SOURCES)
+             OUTPUT_VARIABLE statusCommit
+             ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE
+         )
+-        string(SUBSTRING ${statusCommit} 0 1 status)
+-        if("${status}" STREQUAL "-")
+-            message(FATAL_ERROR "Submodule 'depthai-shared' not initialized/updated. Run 'git submodule update --init --recursive' first")
++        if(statusCommit)
++            string(SUBSTRING "${statusCommit}" 0 1 status)
++            if("${status}" STREQUAL "-")
++                message(FATAL_ERROR "Submodule 'depthai-shared' not initialized/updated. Run 'git submodule update --init --recursive' first")
++            endif()
+         endif()
+     endif()
+ 
+-    # Get depthai-shared current commit
+-    execute_process(
+-        COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+-        WORKING_DIRECTORY ${DEPTHAI_SHARED_FOLDER}
+-        RESULT_VARIABLE DEPTHAI_SHARED_COMMIT_RESULT
+-        OUTPUT_VARIABLE DEPTHAI_SHARED_COMMIT_HASH
+-        ERROR_QUIET
+-        OUTPUT_STRIP_TRAILING_WHITESPACE
+-    )
+-    if(${DEPTHAI_SHARED_COMMIT_RESULT} EQUAL 0)
+-        set(DEPTHAI_SHARED_COMMIT_FOUND TRUE)
+-    else()
+-        set(DEPTHAI_SHARED_COMMIT_FOUND FALSE)
++    set(DEPTHAI_SHARED_COMMIT_FOUND FALSE)
++    if(EXISTS "${DEPTHAI_SHARED_FOLDER}/.git")
++        # Release archives include shared sources without a nested Git checkout.
++        execute_process(
++            COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
++            WORKING_DIRECTORY ${DEPTHAI_SHARED_FOLDER}
++            RESULT_VARIABLE DEPTHAI_SHARED_COMMIT_RESULT
++            OUTPUT_VARIABLE DEPTHAI_SHARED_COMMIT_HASH
++            ERROR_QUIET
++            OUTPUT_STRIP_TRAILING_WHITESPACE
++        )
++        if(DEPTHAI_SHARED_COMMIT_RESULT EQUAL 0)
++            set(DEPTHAI_SHARED_COMMIT_FOUND TRUE)
++        endif()
+     endif()
+ endif()
+ 
+--
+2.54.0

@@ -82,6 +82,26 @@ packages_select_by_deps:
   - turtlebot3
   - turtlebot3_simulations
 
+  # TurtleBot 4 officially supports Linux only.
+  - if: linux
+    then:
+      - turtlebot4_base
+      - turtlebot4_bringup
+      - turtlebot4_description
+      - turtlebot4_desktop
+      - turtlebot4_diagnostics
+      - turtlebot4_gz_bringup
+      - turtlebot4_gz_gui_plugins
+      - turtlebot4_gz_toolbox
+      - turtlebot4_msgs
+      - turtlebot4_navigation
+      - turtlebot4_node
+      - turtlebot4_robot
+      - turtlebot4_setup
+      - turtlebot4_simulator
+      - turtlebot4_tests
+      - turtlebot4_viz
+
   - ackermann-msgs
   - sbg_driver
 
@@ -232,6 +252,8 @@ packages_select_by_deps:
       - realsense2-camera
       - realsense2-description
 
+      - septentrio_gnss_driver
+
   - if: linux-64
     then:
       # Kinova
@@ -242,7 +264,6 @@ packages_select_by_deps:
       - kortex_gen3_7dof_robotiq_2f_85_moveit_config
       - kortex_gen3_6dof_2f_85_moveit_config
       - kortex_gen3_lite_moveit_config
-
 
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
