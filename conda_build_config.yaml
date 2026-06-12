@@ -54,7 +54,7 @@ c_stdlib:
   - vs                         # [win]
 c_stdlib_version:              # [unix]
   - 2.28                       # [linux]
-  - 10.13                      # [osx and x86_64]
+  - 11.0                       # [osx and x86_64]
   - 11.0                       # [osx and arm64]
 cxx_compiler:
   - gxx                        # [linux]
@@ -64,6 +64,13 @@ cxx_compiler_version:          # [unix]
   - 14                         # [linux]
   - 18                         # [osx]
 
+lbr_fri_client_sdk:
+  - '1.11'
+  - '1.14'
+  - '1.15'
+  - '1.16'
+  - '1.17'
+
 libzenohc:
   - 1.7.2
 libzenohcxx:
@@ -72,6 +79,11 @@ libzenohcxx:
 libhwloc:
   - 2.12.2
 
+eigen_abi_devel:
+  - '3.4.0'
+
 urdfdom:
   - '4.0'
 
+libmujoco:
+  - 3.5.0

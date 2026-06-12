@@ -1,0 +1,12 @@
+diff --git a/rtest/CMakeLists.txt b/rtest/CMakeLists.txt
+index 5d3673c..c699084 100644
+--- a/rtest/CMakeLists.txt
++++ b/rtest/CMakeLists.txt
+@@ -89,6 +89,7 @@ target_link_libraries(rtest_common PUBLIC
+   rcl_action::rcl_action
+   rclcpp::rclcpp
+   rclcpp_action::rclcpp_action
++  GTest::gmock
+ )
+ 
+ ament_export_dependencies(

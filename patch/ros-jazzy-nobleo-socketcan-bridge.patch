@@ -1,0 +1,22 @@
+diff --git a/src/socketcan_bridge.cpp b/src/socketcan_bridge.cpp
+index 8a4dab0..1f40924 100644
+--- a/src/socketcan_bridge.cpp
++++ b/src/socketcan_bridge.cpp
+@@ -199,7 +200,7 @@ can_frame from_msg(const can_msgs::msg::Frame & msg)
+
+   can_frame frame;
+   frame.can_id = id;
+-  frame.len = msg.dlc;
++  frame.can_dlc = msg.dlc;  // Conda defaults to ancient 4.18 kernel headers
+   std::ranges::copy(msg.data, frame.data);
+   return frame;
+ }
+@@ -211,7 +212,7 @@ can_msgs::msg::Frame to_msg(const can_frame & frame)
+   msg.is_extended = (frame.can_id & CAN_EFF_FLAG) == CAN_EFF_FLAG;
+   msg.is_error = (frame.can_id & CAN_ERR_FLAG) == CAN_ERR_FLAG;
+   msg.id = frame.can_id & (msg.is_extended ? CAN_EFF_MASK : CAN_SFF_MASK);
+-  msg.dlc = frame.len;
++  msg.dlc = frame.can_dlc;
+   std::copy_n(frame.data, sizeof(frame.data), msg.data.begin());
+   return msg;
+ }

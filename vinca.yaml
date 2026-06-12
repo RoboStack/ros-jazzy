@@ -65,6 +65,7 @@ packages_select_by_deps:
   - moveit-ros-trajectory-cache
   - moveit-servo
   - moveit-visual-tools
+  - moveit-ros-control-interface
 
   - ros2_control
   - ros2_controllers
@@ -80,6 +81,26 @@ packages_select_by_deps:
   - slam_toolbox
   - turtlebot3
   - turtlebot3_simulations
+
+  # TurtleBot 4 officially supports Linux only.
+  - if: linux
+    then:
+      - turtlebot4_base
+      - turtlebot4_bringup
+      - turtlebot4_description
+      - turtlebot4_desktop
+      - turtlebot4_diagnostics
+      - turtlebot4_gz_bringup
+      - turtlebot4_gz_gui_plugins
+      - turtlebot4_gz_toolbox
+      - turtlebot4_msgs
+      - turtlebot4_navigation
+      - turtlebot4_node
+      - turtlebot4_robot
+      - turtlebot4_setup
+      - turtlebot4_simulator
+      - turtlebot4_tests
+      - turtlebot4_viz
 
   - ackermann-msgs
   - sbg_driver
@@ -99,6 +120,8 @@ packages_select_by_deps:
   - foxglove_msgs
 
   - lanelet2
+
+  - imu_tools
 
   - ublox
 
@@ -148,6 +171,7 @@ packages_select_by_deps:
   - data_tamer_cpp
 
   - point_cloud_transport_py
+  - pointcloud_to_laserscan
 
   # SICK LiDAR drivers
   - sick_scan_xd
@@ -163,16 +187,30 @@ packages_select_by_deps:
 
   - rviz_2d_overlay_msgs
   - asio_cmake_module
+  - battery_state_broadcaster
+  - polygon_msgs
+  - ros2_fmt_logger
+  - magic_enum
   - mavros_msgs
+
 
   - picknik_ament_copyright
 
   - rqt_robot_monitor
 
+  # mujoco
+  - mujoco_vendor
+  - mujoco_ros2_control_msgs
+
+  - rtest
+  
+  - nmea-navsat-driver
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
       # Depends on socketcan
+      - nobleo_socketcan_bridge
       - ros2_socketcan
       # Depends on v4l
       - usb_cam
@@ -202,8 +240,18 @@ packages_select_by_deps:
       - canopen-ros2-controllers
       - canopen-master-driver
       - canopen-fake-slaves
-      - canopen-utils
-  
+      - canopen-utils  
+
+      # Use readlink and access at runtime linux-specific file
+      - mujoco_ros2_control
+      - mujoco_ros2_control_demos
+
+      # IntelRealSense
+      - realsense2-camera
+      - realsense2-description
+
+      - septentrio_gnss_driver
+
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
   - if: linux
@@ -217,20 +265,29 @@ packages_select_by_deps:
       # but should be easy to fix
       # disabled for now, see https://github.com/RoboStack/ros-jazzy/pull/161#issuecomment-3904979905
       # - spatio_temporal_voxel_layer
+      - io_context
+      # Serial communication only implemented for linux
+      - serial_driver
+      - swri_serial_util
+      - udp_driver
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
     then:
+      - diagnostic-remote-logging
       - plotjuggler-ros
       - foxglove_compressed_video_transport
+      - rplidar_ros
       - velodyne
       - moveit-py
       - moveit-ros-perception
       - moveit-ros-occupancy-map-monitor
       - moveit-runtime
+      - swri_console  # Until sync of: https://github.com/ros/rosdistro/pull/49750
       - moveit-task-constructor-demo
       - moveit2-tutorials
       - pinocchio
+      - trac_ik
       # todo: switch to dummy vendored package that just depends on the conda-forge's gtsam, so it works also on Windows
       - gtsam
       # TODO on windows: fix iconv link issue
@@ -239,7 +296,6 @@ packages_select_by_deps:
       # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
       - grid_map
       - dual-laser-merger
-      - pointcloud-to-laserscan
       - laser-segmentation
       - rqt_tf_tree
       - rviz_satellite
@@ -258,6 +314,33 @@ packages_select_by_deps:
       - cloudini-lib
       - cloudini-ros
       - spacenav
+      - rviz_2d_overlay_plugins
+
+      # lbr_fri_ros2_stack
+      - lbr_bringup
+      - lbr_demos_advanced_cpp
+      - lbr_demos_advanced_py
+      - lbr_demos_cpp
+      - lbr_demos_py
+      - lbr_moveit
+      - lbr_moveit_cpp
+      - lbr_description
+      - lbr_fri_ros2
+      - lbr_fri_ros2_stack
+      - iiwa14_moveit_config
+      - iiwa7_moveit_config
+      - med14_moveit_config
+      - med7_moveit_config
+      - lbr_ros2_control
+      - lbr_fri_idl
+      - kinematics_interface
+      - kinematics_interface_kdl
+      - libg2o
+      
+      # graph-monitor related packages
+      - rmw_stats_shim
+      - rosgraph_monitor_msgs
+      - rosgraph_monitor
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

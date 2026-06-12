@@ -1,0 +1,87 @@
+diff --git a/mujoco_ros2_control/CMakeLists.txt b/mujoco_ros2_control/CMakeLists.txt
+index cd99b4c..c3d2cd2 100644
+--- a/mujoco_ros2_control/CMakeLists.txt
++++ b/mujoco_ros2_control/CMakeLists.txt
+@@ -41,7 +41,8 @@ else()
+   include(DownloadMujoco)
+ endif()
+ 
+-# Fetch lodepng dependency.
++# Fetch lodepng dependency, if not available
++find_package(lodepng QUIET)
+ if(NOT TARGET lodepng)
+   include(FetchContent)
+   FetchContent_Declare(
+@@ -62,6 +63,10 @@ if(NOT TARGET lodepng)
+     target_link_options(lodepng PRIVATE ${MUJOCO_MACOS_LINK_OPTIONS})
+     target_include_directories(lodepng PUBLIC ${lodepng_SOURCE_DIR})
+   endif()
++  install(TARGETS lodepng
++    LIBRARY DESTINATION lib
++    ARCHIVE DESTINATION lib
++  )
+ endif()
+ 
+ # We don't care about warnings from the external sources
+@@ -73,6 +78,7 @@ set(MUJOCO_SILENCE_COMPILER_WARNINGS
+ )
+ 
+ # Build MuJoCo's simulate application and make it available for linking
++if(NOT TARGET mujoco::libmujoco_simulate)
+ add_library(platform_ui_adapter OBJECT)
+ set_target_properties(platform_ui_adapter PROPERTIES
+   POSITION_INDEPENDENT_CODE ON
+@@ -88,7 +94,7 @@ target_compile_options(platform_ui_adapter PRIVATE ${MUJOCO_SILENCE_COMPILER_WAR
+ add_library(mujoco::platform_ui_adapter ALIAS platform_ui_adapter)
+ 
+ add_library(libsimulate STATIC $<TARGET_OBJECTS:platform_ui_adapter>)
+-add_library(mujoco::libsimulate ALIAS libsimulate)
++add_library(mujoco::libmujoco_simulate ALIAS libsimulate)
+ set_target_properties(libsimulate PROPERTIES
+   OUTPUT_NAME simulate
+   POSITION_INDEPENDENT_CODE ON
+@@ -105,6 +111,11 @@ target_compile_options(libsimulate PRIVATE ${MUJOCO_SILENCE_COMPILER_WARNINGS})
+ # We set these after creating the targets to avoid propagating them to other third-party targets
+ set_compiler_options()
+ export_windows_symbols()
++install(TARGETS libsimulate
++  LIBRARY DESTINATION lib
++  ARCHIVE DESTINATION lib
++)
++endif()
+ 
+ # MuJoCo ROS 2 control system interface (this package)
+ add_library(mujoco_ros2_control SHARED
+@@ -142,7 +153,7 @@ PUBLIC
+   control_toolbox::control_toolbox
+   Eigen3::Eigen
+ PRIVATE
+-  mujoco::libsimulate
++  mujoco::libmujoco_simulate
+   Threads::Threads
+   lodepng
+   glfw
+@@ -167,11 +178,6 @@ install(TARGETS mujoco_ros2_control ${MUJOCO_EXPORT_TARGETS}
+   RUNTIME DESTINATION bin
+ )
+ 
+-# Install runtime deps
+-install(TARGETS libsimulate lodepng
+-  LIBRARY DESTINATION lib
+-  ARCHIVE DESTINATION lib
+-)
+ install(DIRECTORY include/ DESTINATION include)
+ 
+ # Install the ROS 2 control node
+diff --git a/mujoco_ros2_control/src/mujoco_system_interface.cpp b/mujoco_ros2_control/src/mujoco_system_interface.cpp
+index 934866e..b5d11b5 100644
+--- a/mujoco_ros2_control/src/mujoco_system_interface.cpp
++++ b/mujoco_ros2_control/src/mujoco_system_interface.cpp
+@@ -37,6 +37,7 @@
+ #include <stdexcept>
+ #include <string>
+ #include <thread>
++#include <unistd.h>
+ 
+ #include <tinyxml2.h>
+ #include <std_msgs/msg/string.hpp>

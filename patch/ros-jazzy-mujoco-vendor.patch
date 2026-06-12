@@ -1,0 +1,31 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index afa064a..81afd5d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -20,12 +20,19 @@ ament_vendor(mujoco_vendor
+     "-DCMAKE_C_FLAGS=-flto=auto"
+     GLOBAL_HOOK
+ )
+-ExternalProject_Get_Property(mujoco_vendor SOURCE_DIR)
+ 
+-install(DIRECTORY ${SOURCE_DIR}/simulate/
+-  DESTINATION opt/${PROJECT_NAME}/simulate
+-)
++# If the target is not defined,ament_vendor did not vendored the project with ExternalProject
++if(TARGET mujoco_vendor)
++  ExternalProject_Get_Property(mujoco_vendor SOURCE_DIR)
+ 
+-ament_package(
+-  CONFIG_EXTRAS_POST "mujoco_vendor-extra.cmake.in"
+-)
++  install(DIRECTORY ${SOURCE_DIR}/simulate/
++    DESTINATION opt/${PROJECT_NAME}/simulate
++  )
++
++  ament_package(
++    CONFIG_EXTRAS_POST "mujoco_vendor-extra.cmake.in"
++  )
++else()
++  ament_export_dependencies(mujoco)
++  ament_package()
++endif()

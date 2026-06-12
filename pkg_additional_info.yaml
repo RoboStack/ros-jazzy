@@ -9,6 +9,10 @@ octomap:
   generate_dummy_package_with_run_deps:
     dep_name: octomap
     max_pin: 'x.x'
+magic_enum:
+  generate_dummy_package_with_run_deps:
+    dep_name: magic_enum
+    max_pin: 'x.x'
 ompl:
   generate_dummy_package_with_run_deps:
     dep_name: ompl
@@ -104,8 +108,6 @@ spdlog_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 console_bridge_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
-uncrustify_vendor:
-  additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 zenoh_cpp_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 openvdb_vendor:
@@ -124,6 +126,8 @@ pybind11_json_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR"
 sick_scan_xd:
   additional_cmake_args: "-DBUILD_DEBUG_TARGET:BOOL=OFF -DROS_VERSION=2"
+mujoco_vendor:
+  additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 visp:
   generate_dummy_package_with_run_deps:
     dep_name: visp
@@ -153,6 +157,45 @@ lanelet2_python:
   additional_cmake_args: "-DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON -DCMAKE_CXX_EXTENSIONS=OFF"
 robot_state_publisher:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+imu_tools:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+imu_complementary_filter:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 # Remove everything after this line on a full rebuild
 ur_description:
+  build_number: 17
+
+apriltag:
+  generate_dummy_package_with_run_deps:
+    build_number: 17
+    dep_name: apriltag
+    max_pin: 'x.x.x'
+apriltag_ros:
+  build_number: 17
+apriltag_draw:
+  build_number: 17
+apriltag_tools:
+  build_number: 17
+apriltag_detector_umich:
+  build_number: 17
+apriltag_detector_mit:
+  build_number: 17
+apriltag_detector:
+  build_number: 17
+
+cloudini_lib:
+  build_number: 17
+cloudini_ros:
+  build_number: 17
+
+mavros_extras:
+  build_number: 17
+uncrustify_vendor:
+  additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
+  build_number: 17
+ament_xmllint:
+  build_number: 17
+tf_transformations:
+  build_number: 17
+rcutils:
   build_number: 17
