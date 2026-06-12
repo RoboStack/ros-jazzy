@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: RoboStack <maintainers@robostack.org>
+Date: Wed, 13 May 2026 23:30:00 +0000
+Subject: [PATCH] Undef glibc major/minor macros before Version class
+
+glibc's <sys/sysmacros.h> (pulled in transitively on aarch64) defines
+major()/minor() as macros that expand to gnu_dev_major/gnu_dev_minor,
+colliding with clearpath::Version's int members.
+---
+--- a/include/clearpath_diagnostics/clearpath_diagnostic_updater.hpp	2026-05-13 23:40:50.389941101 -0700
++++ b/include/clearpath_diagnostics/clearpath_diagnostic_updater.hpp	2026-05-13 23:43:40.451520115 -0700
+@@ -47,6 +47,16 @@
+ #include "clearpath_platform_msgs/msg/status.hpp"
+ #include "clearpath_platform_msgs/msg/stop_status.hpp"
+ 
++// glibc's <sys/sysmacros.h> defines major/minor as macros that expand to
++// gnu_dev_major/gnu_dev_minor, which collides with clearpath::Version's
++// member names. Undefine them before declaring the class.
++#ifdef major
++#undef major
++#endif
++#ifdef minor
++#undef minor
++#endif
++
+ namespace clearpath
+ {
+ 

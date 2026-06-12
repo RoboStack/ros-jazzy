@@ -1,0 +1,58 @@
+diff --git a/rviz_2d_overlay_plugins/CMakeLists.txt b/rviz_2d_overlay_plugins/CMakeLists.txt
+index 3eccae7..f71db73 100644
+--- a/rviz_2d_overlay_plugins/CMakeLists.txt
++++ b/rviz_2d_overlay_plugins/CMakeLists.txt
+@@ -6,6 +6,11 @@ find_package(ament_cmake REQUIRED)
+ 
+ find_package(rviz_2d_overlay_msgs REQUIRED)
+ 
++find_package(Qt6 COMPONENTS Widgets)
++if (NOT QT6_FOUND)
++    find_package(Qt5 REQUIRED COMPONENTS Widgets)
++endif()
++
+ find_package(rviz_common REQUIRED)
+ find_package(rviz_rendering REQUIRED)
+ find_package(rviz_ogre_vendor REQUIRED)
+@@ -18,6 +23,8 @@ set(
+         src/overlay_text_display.cpp
+         src/overlay_utils.cpp
+         src/pie_chart_display.cpp
++        include/rviz_2d_overlay_plugins/overlay_text_display.hpp
++        include/rviz_2d_overlay_plugins/pie_chart_display.h
+ )
+ 
+ add_executable(string_to_overlay_text src/string_to_overlay_text.cpp)
+@@ -29,7 +36,6 @@ target_link_libraries(string_to_overlay_text
+ 
+ add_library(
+         ${PROJECT_NAME} SHARED
+-        ${display_moc_files}
+         ${display_source_files}
+ )
+ 
+@@ -40,7 +46,6 @@ target_include_directories(
+         ${PROJECT_NAME} PUBLIC
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+         $<INSTALL_INTERFACE:include>
+-        ${Qt5Widgets_INCLUDE_DIRS}
+         ${OpenCV_INCLUDE_DIRS}
+ )
+ 
+diff --git a/rviz_2d_overlay_plugins/rviz_2d_overlay_plugins-extras.cmake b/rviz_2d_overlay_plugins/rviz_2d_overlay_plugins-extras.cmake
+index eeeaa41..13c0ac6 100644
+--- a/rviz_2d_overlay_plugins/rviz_2d_overlay_plugins-extras.cmake
++++ b/rviz_2d_overlay_plugins/rviz_2d_overlay_plugins-extras.cmake
+@@ -25,6 +27,8 @@
+ # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ # POSSIBILITY OF SUCH DAMAGE.
+ 
+-# find package Qt5 because otherwise using the rviz_default_plugins::rviz_default_plugins
++
++# find package Qt5 because otherwise using the rviz_common::rviz_common
+ # exported target will complain that the Qt5::Widgets target does not exist
+-find_package(Qt5 REQUIRED QUIET COMPONENTS Widgets)
+\ No newline at end of file
++find_package(QT NAMES Qt6 Qt5 QUIET COMPONENTS Widgets)
++find_package(Qt${QT_VERSION_MAJOR} QUIET COMPONENTS Widgets)
+\ No newline at end of file
