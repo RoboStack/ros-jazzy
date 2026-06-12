@@ -23,11 +23,16 @@ index cfc424a..cddd23d 100644
  target_include_directories(${_target_name_lib}
    PRIVATE
    ${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_c
-@@ -162,8 +158,10 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+@@ -162,8 +158,15 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
    set(_extension_compile_flags -Wall -Wextra)
  endif()
  
-+target_link_libraries(${_target_name_lib} PRIVATE Python3::NumPy Python3::Python)
++if(APPLE)
++  target_link_libraries(${_target_name_lib} PRIVATE Python3::NumPy Python3::Module)
++  target_include_directories(${_target_name_lib} PRIVATE ${Python3_INCLUDE_DIRS} ${Python3_NumPy_INCLUDE_DIRS})
++else()
++  target_link_libraries(${_target_name_lib} PUBLIC Python3::NumPy Python3::Python)
++endif()
 +
  rosidl_get_typesupport_target(c_typesupport_target "${rosidl_generate_interfaces_TARGET}" "rosidl_typesupport_c")
 -target_link_libraries(${_target_name_lib} PRIVATE ${c_typesupport_target})
