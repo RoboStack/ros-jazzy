@@ -198,6 +198,11 @@ packages_select_by_deps:
       - plansys2_tools
       - popf
       - canopen
+      - canopen-ros2-control
+      - canopen-ros2-controllers
+      - canopen-master-driver
+      - canopen-fake-slaves
+      - canopen-utils
   
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
