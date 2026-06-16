@@ -6,10 +6,8 @@ assimp:
 # Workaround for https://github.com/RoboStack/ros-jazzy/pull/40#issuecomment-2782226697
 cmake:
   - 3.*
-# as of early April 2026 key robotics packages like pinocchio still required eigen 3.4.0.*,
-# see https://github.com/conda-forge/eigenpy-feedstock/pull/184
 eigen_abi_devel:
-  - '3.4.0'
+  - '5.0.1'
 libprotobuf:
   - 6.33.5
 protobuf:
