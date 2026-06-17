@@ -1,13 +1,25 @@
 From ab7d2f4dee299563c6313336c070ed99635aba3f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Martin=20=C5=A0koudlil?= <skoudmar@cvut.cz>
 Date: Fri, 16 May 2025 14:40:54 +0200
-Subject: [PATCH] Fix compilation with Boost 1.87
+Subject: [PATCH] Fix compatibility with newer Boost and Eigen
 
 Boost 1.87 removed deprecated rescaling code
 which was deprecated since Boost 1.79.
 ---
+ CMakeLists.txt                          | 2 ++
  include/lanelet2_core/geometry/Point.h | 2 ++
- 1 file changed, 2 insertions(+)
+ 2 files changed, 4 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index aef062c..3900f42 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -21,1 +21,2 @@
++find_package(Eigen3 REQUIRED CONFIG)
+ find_package(AutoDeps REQUIRED COMPONENTS ${DEPENDEND_PACKAGES})
+@@ -48,1 +49,2 @@
+     )
++target_link_libraries(${PROJECT_NAME} PUBLIC Eigen3::Eigen)
 
 diff --git a/include/lanelet2_core/geometry/Point.h b/include/lanelet2_core/geometry/Point.h
 index 080539ed..a37da11f 100644
