@@ -49,7 +49,7 @@ tbb_devel:
 urdfdom:
   - '5.1'
 vtk:
-  - 9.6.1
+  - 9.6.2
 
 
 cdt_name:  # [linux]
