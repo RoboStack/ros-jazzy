@@ -11,6 +11,15 @@ index 608babbeb..a006b45fc 100644
  find_package(octomap_msgs REQUIRED)
  find_package(osqp REQUIRED)
  find_package(pluginlib REQUIRED)
+diff --git a/ConfigExtras.cmake b/ConfigExtras.cmake
+--- a/ConfigExtras.cmake
++++ b/ConfigExtras.cmake
+@@ -10,5 +10,4 @@ find_package(
+   program_options
+   regex
+   serialization
+-  system
+   thread)
 diff --git a/collision_detection/include/moveit/collision_detection/collision_common.hpp b/collision_detection/include/moveit/collision_detection/collision_common.hpp
 index 19777a044..af3a89442 100644
 --- a/collision_detection/include/moveit/collision_detection/collision_common.hpp
