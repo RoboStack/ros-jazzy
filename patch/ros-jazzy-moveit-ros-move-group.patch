@@ -11,3 +11,14 @@ index 2cdebb6ee9..ee4cc0abad 100644
  
  install(TARGETS move_group list_move_group_capabilities
          RUNTIME DESTINATION lib/moveit_ros_move_group)
+diff --git a/ConfigExtras.cmake b/ConfigExtras.cmake
+--- a/ConfigExtras.cmake
++++ b/ConfigExtras.cmake
+@@ -3,7 +3,6 @@ find_package(
+ find_package(
+   Boost
+   REQUIRED
+-  system
+   filesystem
+   date_time
+   program_options
