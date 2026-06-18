@@ -985,10 +985,7 @@ python3-termcolor:
 python3-texttable:
   robostack: [texttable]
 python3-textual:
-  robostack:
-    linux: [textual]
-    osx: [textual]
-    win64: []
+  robostack: [textual]
 python3-tk:
   robostack: [tk]
 python3-tornado:
