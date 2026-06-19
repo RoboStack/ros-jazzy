@@ -19,7 +19,8 @@ index a620bfd2e..196aab5d7 100644
  add_library(kartoSlamToolbox SHARED src/Karto.cpp src/Mapper.cpp)
 +target_compile_definitions(kartoSlamToolbox PRIVATE KARTO_DYNAMIC)
  ament_target_dependencies(kartoSlamToolbox ${dependencies})
- target_link_libraries(kartoSlamToolbox ${Boost_LIBRARIES} TBB::tbb)
+-target_link_libraries(kartoSlamToolbox ${Boost_LIBRARIES} TBB::tbb)
++target_link_libraries(kartoSlamToolbox Eigen3::Eigen ${Boost_LIBRARIES} TBB::tbb)
  
 diff --git a/lib/karto_sdk/src/Mapper.cpp b/lib/karto_sdk/src/Mapper.cpp
 index 83e2af2ca..19d056dfb 100644

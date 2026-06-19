@@ -20,3 +20,15 @@ index 8c46189..277356c 100644
  find_package(QHULL REQUIRED)
  find_package(random_numbers REQUIRED)
  find_package(rclcpp REQUIRED)
+diff --git a/src/aabb.cpp b/src/aabb.cpp
+index 8443335..a870f61 100644
+--- a/src/aabb.cpp
++++ b/src/aabb.cpp
+@@ -29,6 +29,7 @@
+ /* Author: Martin Pecka */
+ 
+ #include <geometric_shapes/aabb.h>
++#include <cassert>
+ 
+ #include <fcl/geometry/shape/utility.h>
+ 

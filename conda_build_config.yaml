@@ -47,9 +47,9 @@ tbb:
 tbb_devel:
   - '2022'
 urdfdom:
-  - '5.1'
+  - '6.0'
 urdfdom_headers:
-  - '2.1.2'
+  - '3.0'
 vtk:
   - 9.6.2
 
