@@ -212,6 +212,8 @@ libabsl-dev:
   robostack: [libabseil]
 libblas-dev:
   robostack: [libblas, libcblas]
+libblosc-dev:
+  robostack: [blosc]
 libboost:
   robostack: [libboost]
 libboost-chrono-dev:
@@ -415,8 +417,12 @@ libopencv-imgproc-dev:
     linux: [py-opencv, libopencv, libopengl-devel, libgl-devel]
     osx: [py-opencv, libopencv]
     win64: [py-opencv, libopencv]
+libopenexr-dev:
+  robostack: [openexr]
 libopenni-dev:
   robostack: []
+libopenvdb-dev:
+  robostack: [openvdb]
 liborocos-kdl:
   robostack: [orocos-kdl]
 liborocos-kdl-dev:
