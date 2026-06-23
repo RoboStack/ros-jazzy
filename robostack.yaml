@@ -210,10 +210,7 @@ ipython3:
 kitchen:
   robostack: [kitchen]
 konsole:
-  robostack:
-    linux: [konsole]
-    osx: [konsole]
-    win64: []
+  robostack: [konsole]
 lcov:
   robostack: [lcov]
 leveldb:
