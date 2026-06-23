@@ -235,6 +235,12 @@ packages_select_by_deps:
       - plansys2_tests
       - plansys2_tools
       - popf
+      - canopen
+      - canopen-ros2-control
+      - canopen-ros2-controllers
+      - canopen-master-driver
+      - canopen-fake-slaves
+      - canopen-utils  
 
       # Use readlink and access at runtime linux-specific file
       - mujoco_ros2_control
