@@ -352,7 +352,10 @@ libhdf5-dev:
 libi2c-dev:
   robostack: [libi2c]
 liblttng-ust-dev:
-  robostack: ["${{ \"lttng-ust\" if linux }}"]
+  robostack:
+    linux: [lttng-ust]
+    osx: []
+    win64: []
 libjpeg:
   robostack: [libjpeg-turbo]
 libjsoncpp:
