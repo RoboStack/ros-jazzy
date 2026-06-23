@@ -1,0 +1,19 @@
+diff --git a/rosidl_cli/setup.py b/rosidl_cli/setup.py
+index bacc9e8..b4fd32c 100644
+--- a/rosidl_cli/setup.py
++++ b/rosidl_cli/setup.py
+@@ -20,6 +20,14 @@ setup(
+             'completion/rosidl-argcomplete.bash',
+             'completion/rosidl-argcomplete.zsh'
+         ]),
++
++        # [pixi] install autocompletion scripts
++        ('share/bash-completion/completions', [
++            'completion/rosidl-argcomplete.bash',
++        ]),
++        ('share/zsh/site-functions', [
++            'completion/rosidl-argcomplete.zsh'
++        ]),
+     ],
+     zip_safe=False,
+     author='Michel Hidalgo',
