@@ -262,8 +262,7 @@ packages_select_by_deps:
       - proto2ros
       # Uses linux-specific flags in  https://github.com/SteveMacenski/spatio_temporal_voxel_layer/blob/e23d730d35407bd8e2bf9c33d10388a6a07c735d/spatio_temporal_voxel_layer/CMakeLists.txt#L124,
       # but should be easy to fix
-      # disabled for now, see https://github.com/RoboStack/ros-jazzy/pull/161#issuecomment-3904979905
-      # - spatio_temporal_voxel_layer
+      - spatio_temporal_voxel_layer
       - io_context
       # Serial communication only implemented for linux
       - serial_driver
