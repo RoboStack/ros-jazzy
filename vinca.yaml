@@ -199,6 +199,7 @@ packages_select_by_deps:
   - picknik_ament_copyright
 
   - rqt_robot_monitor
+  - rqt_runtime_monitor
 
   # mujoco
   - mujoco_vendor
