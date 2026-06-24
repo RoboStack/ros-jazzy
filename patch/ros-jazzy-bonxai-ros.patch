@@ -142,6 +142,48 @@ index 34a3231..5bb8938 100644
  
  #include "mask.hpp"
  
+diff --git a/bonxai_core/include/bonxai/mask.hpp b/bonxai_core/include/bonxai/mask.hpp
+index 0000000..0000001 100644
+--- a/bonxai_core/include/bonxai/mask.hpp
++++ b/bonxai_core/include/bonxai/mask.hpp
+@@ -30,6 +30,7 @@ class Mask {
+ 
+   Mask(const Mask& other);
+   Mask(Mask&& other);
++  Mask& operator=(Mask&& other);
+ 
+   ~Mask();
+ 
+@@ -294,6 +295,27 @@ inline Mask::Mask(Mask&& other)
+   } else {
+     std::swap(words_, other.words_);
+   }
+ }
+ 
++inline Mask& Mask::operator=(Mask&& other) {
++  if (this == &other) {
++    return *this;
++  }
++  if (WORD_COUNT > 8) {
++    delete[] words_;
++  }
++  SIZE = other.SIZE;
++  WORD_COUNT = other.WORD_COUNT;
++  if (WORD_COUNT <= 8) {
++    words_ = static_words_;
++    for (uint32_t i = 0; i < WORD_COUNT; ++i) {
++      words_[i] = other.words_[i];
++    }
++  } else {
++    words_ = other.words_;
++    other.words_ = nullptr;
++  }
++  return *this;
++}
++
+ inline Mask::~Mask() {
+   if (WORD_COUNT > 8) {
+     delete[] words_;
 diff --git a/bonxai_core/include/bonxai/grid_coord.hpp b/bonxai_core/include/bonxai/grid_coord.hpp
 index da8fb7d..1f9727b 100644
 --- a/bonxai_core/include/bonxai/grid_coord.hpp

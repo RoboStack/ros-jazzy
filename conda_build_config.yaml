@@ -1,37 +1,58 @@
 numpy:
   - 2
+
 assimp:
-  - 5
+  - 6
+# Workaround for https://github.com/RoboStack/ros-jazzy/pull/40#issuecomment-2782226697
+cmake:
+  - 3.*
+eigen_abi_devel:
+  - '5.0.1'
 libprotobuf:
-  - 6.31.1
+  - 6.33.5
 protobuf:
-  - 6.31.1
-spdlog:
-  - 1.17
-pugixml:
-  - '1.15'
-libopencv:
-  - 4.12.0
-libxml2:
-  - 2.14.*
+  - 6.33.5
+fmt:
+  - '12.1'
 graphviz:
-  - 14.*
+  - '14'
+jsoncpp:
+  - 1.9.7
+libopencv:
+  - 4.13.0
+libmujoco:
+  - 3.8.1
 # Mitigation for
 # https://github.com/RoboStack/ros-jazzy/pull/126#issuecomment-3515455380
 libcap:
   - 2.77
-fmt:
-  - 12.1
+libhwloc:
+  - 2.12.2
+libxml2:
+  - '2.14'
+libzenohc:
+  - 1.9.0
+libzenohcxx:
+  - 1.9.0
 lua:
   - 5.4
+pugixml:
+  - '1.15'
+shaderc:
+  - '2026.2'
+spdlog:
+  - 1.17
 tbb:
   - '2022'
 tbb_devel:
   - '2022'
+urdfdom:
+  - '6.0'
+urdfdom_headers:
+  - '3.0'
+vtk:
+  - 9.6.2
 
-# Workaround for https://github.com/RoboStack/ros-jazzy/pull/40#issuecomment-2782226697
-cmake:
-  - 3.*
 
 cdt_name:  # [linux]
   - conda  # [linux]
@@ -47,7 +68,7 @@ c_compiler:
   - vs2022                     # [win]
 c_compiler_version:            # [unix]
   - 14                         # [linux]
-  - 18                         # [osx]
+  - 19                         # [osx]
 c_stdlib:
   - sysroot                    # [linux]
   - macosx_deployment_target   # [osx]
@@ -62,7 +83,7 @@ cxx_compiler:
   - vs2022                     # [win]
 cxx_compiler_version:          # [unix]
   - 14                         # [linux]
-  - 18                         # [osx]
+  - 19                         # [osx]
 
 lbr_fri_client_sdk:
   - '1.11'
@@ -70,20 +91,3 @@ lbr_fri_client_sdk:
   - '1.15'
   - '1.16'
   - '1.17'
-
-libzenohc:
-  - 1.7.2
-libzenohcxx:
-  - 1.7.2
-
-libhwloc:
-  - 2.12.2
-
-eigen_abi_devel:
-  - '3.4.0'
-
-urdfdom:
-  - '4.0'
-
-libmujoco:
-  - 3.5.0

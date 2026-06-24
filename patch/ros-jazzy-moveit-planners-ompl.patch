@@ -1,3 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 91329a1e8..5b4c45bc3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -8,7 +8,6 @@ moveit_package()
+ find_package(
+   Boost
+   REQUIRED
+-  system
+   filesystem
+   date_time
+   thread
 diff --git a/ompl_interface/CMakeLists.txt b/ompl_interface/CMakeLists.txt
 index e22c868ae4..c7647bcb38 100644
 --- a/ompl_interface/CMakeLists.txt

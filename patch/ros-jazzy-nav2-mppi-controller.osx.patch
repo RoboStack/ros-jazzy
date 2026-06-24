@@ -1,0 +1,230 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 391923eaf..0cb848aeb 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,19 +1,24 @@
+ cmake_minimum_required(VERSION 3.5)
+ project(nav2_mppi_controller)
+ 
+-add_definitions(-DXTENSOR_ENABLE_XSIMD)
+-add_definitions(-DXTENSOR_USE_XSIMD)
+-
+ set(XTENSOR_USE_TBB 0)
+ set(XTENSOR_USE_OPENMP 0)
+-set(XTENSOR_USE_XSIMD 1)
++set(XTENSOR_USE_XSIMD 0)
++
++if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
++  add_definitions(-DXTENSOR_ENABLE_XSIMD)
++  add_definitions(-DXTENSOR_USE_XSIMD)
++  set(XTENSOR_USE_XSIMD 1)
++endif()
+ 
+ # set(XTENSOR_DEFAULT_LAYOUT column_major)  # row_major, column_major
+ # set(XTENSOR_DEFAULT_TRAVERSAL row_major)  # row_major, column_major
+ 
+ find_package(ament_cmake REQUIRED)
+-find_package(xsimd REQUIRED)
+ find_package(xtensor REQUIRED)
++if(XTENSOR_USE_XSIMD)
++  find_package(xsimd REQUIRED)
++endif()
+ 
+ include_directories(
+   include
+@@ -52,7 +57,7 @@ if(COMPILER_SUPPORTS_AVX512)
+   add_compile_options(-mno-avx512f)
+ endif()
+
+-if(COMPILER_SUPPORTS_SSE4)
++if(COMPILER_SUPPORTS_SSE4 AND NOT APPLE)
+   add_compile_options(-msse4.2)
+ endif()
+
+@@ -65,7 +70,11 @@ if(COMPILER_SUPPORTS_FMA)
+ endif()
+
+ # If building one the same hardware to be deployed on, try `-march=native`!
+-add_compile_options(-O3 -finline-limit=10000000 -ffp-contract=fast -ffast-math -mtune=generic)
++if(APPLE)
++  add_compile_options(-O3 -ffp-contract=fast -ffast-math -mtune=generic)
++else()
++  add_compile_options(-O3 -finline-limit=10000000 -ffp-contract=fast -ffast-math -mtune=generic)
++endif()
+
+ add_library(mppi_controller SHARED
+   src/controller.cpp
+@@ -95,12 +104,15 @@ set(libraries mppi_controller mppi_critics)
+ 
+ foreach(lib IN LISTS libraries)
+   if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+-    # Clang: use C++20 and optimization, omit -fconcepts
+-    target_compile_features(${lib} PUBLIC cxx_std_20)
++    # Clang: use C++17 and omit GCC's -fconcepts flag.
++    target_compile_features(${lib} PUBLIC cxx_std_17)
+   else()
+     target_compile_options(${lib} PUBLIC -fconcepts)
+   endif()
+-  target_include_directories(${lib} PUBLIC ${xsimd_INCLUDE_DIRS})  #  ${OpenMP_INCLUDE_DIRS}
+-  target_link_libraries(${lib} xtensor xtensor::optimize xtensor::use_xsimd)
++  target_link_libraries(${lib} xtensor xtensor::optimize)
++  if(XTENSOR_USE_XSIMD)
++    target_include_directories(${lib} PUBLIC ${xsimd_INCLUDE_DIRS})  #  ${OpenMP_INCLUDE_DIRS}
++    target_link_libraries(${lib} xtensor::use_xsimd)
++  endif()
+   ament_target_dependencies(${lib} ${dependencies_pkgs})
+ endforeach()
+diff --git a/include/nav2_mppi_controller/motion_models.hpp b/include/nav2_mppi_controller/motion_models.hpp
+index 93fe070bb..4937a12ef 100644
+--- a/include/nav2_mppi_controller/motion_models.hpp
++++ b/include/nav2_mppi_controller/motion_models.hpp
+@@ -13,6 +13,8 @@
+ #ifndef NAV2_MPPI_CONTROLLER__MOTION_MODELS_HPP_
+ #define NAV2_MPPI_CONTROLLER__MOTION_MODELS_HPP_
+ 
++#include <cmath>
++#include <cstddef>
+ #include <cstdint>
+ #include <string>
+ 
+@@ -173,8 +175,11 @@ public:
+     auto & vx = control_sequence.vx;
+     auto & wz = control_sequence.wz;
+ 
+-    auto view = xt::masked_view(wz, (xt::fabs(vx) / xt::fabs(wz)) < min_turning_r_);
+-    view = xt::sign(wz) * xt::fabs(vx) / min_turning_r_;
++    for (std::size_t i = 0; i != wz.size(); ++i) {
++      if (std::fabs(vx(i)) / std::fabs(wz(i)) < min_turning_r_) {
++        wz(i) = std::copysign(std::fabs(vx(i)) / min_turning_r_, wz(i));
++      }
++    }
+   }
+ 
+   /**
+diff --git a/include/nav2_mppi_controller/tools/utils.hpp b/include/nav2_mppi_controller/tools/utils.hpp
+index 9f3c6bbe6..aa01d18b9 100644
+--- a/include/nav2_mppi_controller/tools/utils.hpp
++++ b/include/nav2_mppi_controller/tools/utils.hpp
+@@ -17,6 +17,7 @@
+ #define NAV2_MPPI_CONTROLLER__TOOLS__UTILS_HPP_
+ 
+ #include <algorithm>
++#include <array>
+ #include <chrono>
+ #include <string>
+ #include <limits>
+@@ -60,7 +61,6 @@
+ 
+ namespace mppi::utils
+ {
+-using xt::evaluation_strategy::immediate;
+ 
+ /**
+  * @brief Convert data into pose
+@@ -449,8 +449,10 @@ inline void savitskyGolayFilter(
+   const models::OptimizerSettings & settings)
+ {
+   // Savitzky-Golay Quadratic, 9-point Coefficients
+-  xt::xarray<float> filter = {-21.0, 14.0, 39.0, 54.0, 59.0, 54.0, 39.0, 14.0, -21.0};
+-  filter /= 231.0;
++  const std::array<float, 9> filter = {
++    -21.0f / 231.0f, 14.0f / 231.0f, 39.0f / 231.0f,
++    54.0f / 231.0f, 59.0f / 231.0f, 54.0f / 231.0f,
++    39.0f / 231.0f, 14.0f / 231.0f, -21.0f / 231.0f};
+ 
+   // Too short to smooth meaningfully
+   const unsigned int num_sequences = control_sequence.vx.shape(0) - 1;
+@@ -458,8 +460,12 @@ inline void savitskyGolayFilter(
+     return;
+   }
+ 
+-  auto applyFilter = [&](const xt::xarray<float> & data) -> float {
+-      return xt::sum(data * filter, {0}, immediate)();
++  auto applyFilter = [&](const std::array<float, 9> & data) -> float {
++      float sum = 0.0f;
++      for (std::size_t i = 0; i != data.size(); ++i) {
++        sum += data[i] * filter[i];
++      }
++      return sum;
+     };
+ 
+   auto applyFilterOverAxis =
+diff --git a/src/optimizer.cpp b/src/optimizer.cpp
+index 5a5723824..24f849779 100644
+--- a/src/optimizer.cpp
++++ b/src/optimizer.cpp
+@@ -20,6 +20,7 @@
+ #include <string>
+ #include <vector>
+ #include <cmath>
++#include <cstddef>
+ #include <xtensor/xmath.hpp>
+ #include <xtensor/xrandom.hpp>
+ #include <xtensor/xnoalias.hpp>
+@@ -344,7 +345,11 @@ void Optimizer::integrateStateVelocities(
+   auto traj_y = xt::view(trajectory, xt::all(), 1);
+   auto traj_yaws = xt::view(trajectory, xt::all(), 2);
+ 
+-  xt::noalias(traj_yaws) = xt::cumsum(wz * settings_.model_dt, 0) + initial_yaw;
++  float yaw = initial_yaw;
++  for (std::size_t idx = 0; idx != traj_yaws.size(); ++idx) {
++    yaw += wz(idx) * settings_.model_dt;
++    traj_yaws(idx) = yaw;
++  }
+ 
+   auto yaw_cos = xt::roll(xt::eval(xt::cos(traj_yaws)), 1);
+   auto yaw_sin = xt::roll(xt::eval(xt::sin(traj_yaws)), 1);
+@@ -360,8 +365,14 @@ void Optimizer::integrateStateVelocities(
+     dy = dy + vy * yaw_cos;
+   }
+ 
+-  xt::noalias(traj_x) = state_.pose.pose.position.x + xt::cumsum(dx * settings_.model_dt, 0);
+-  xt::noalias(traj_y) = state_.pose.pose.position.y + xt::cumsum(dy * settings_.model_dt, 0);
++  float x = static_cast<float>(state_.pose.pose.position.x);
++  float y = static_cast<float>(state_.pose.pose.position.y);
++  for (std::size_t idx = 0; idx != traj_x.size(); ++idx) {
++    x += dx(idx) * settings_.model_dt;
++    y += dy(idx) * settings_.model_dt;
++    traj_x(idx) = x;
++    traj_y(idx) = y;
++  }
+ }
+ 
+ void Optimizer::integrateStateVelocities(
+@@ -370,8 +381,13 @@ void Optimizer::integrateStateVelocities(
+ {
+   const float initial_yaw = static_cast<float>(tf2::getYaw(state.pose.pose.orientation));
+ 
+-  xt::noalias(trajectories.yaws) =
+-    xt::cumsum(state.wz * settings_.model_dt, {1}) + initial_yaw;
++  for (std::size_t batch = 0; batch != trajectories.yaws.shape(0); ++batch) {
++    float yaw = initial_yaw;
++    for (std::size_t idx = 0; idx != trajectories.yaws.shape(1); ++idx) {
++      yaw += state.wz(batch, idx) * settings_.model_dt;
++      trajectories.yaws(batch, idx) = yaw;
++    }
++  }
+ 
+   auto yaw_cos = xt::roll(xt::eval(xt::cos(trajectories.yaws)), 1, 1);
+   auto yaw_sin = xt::roll(xt::eval(xt::sin(trajectories.yaws)), 1, 1);
+@@ -386,10 +402,16 @@ void Optimizer::integrateStateVelocities(
+     dy = dy + state.vy * yaw_cos;
+   }
+ 
+-  xt::noalias(trajectories.x) = state.pose.pose.position.x +
+-    xt::cumsum(dx * settings_.model_dt, {1});
+-  xt::noalias(trajectories.y) = state.pose.pose.position.y +
+-    xt::cumsum(dy * settings_.model_dt, {1});
++  for (std::size_t batch = 0; batch != trajectories.x.shape(0); ++batch) {
++    float x = static_cast<float>(state.pose.pose.position.x);
++    float y = static_cast<float>(state.pose.pose.position.y);
++    for (std::size_t idx = 0; idx != trajectories.x.shape(1); ++idx) {
++      x += dx(batch, idx) * settings_.model_dt;
++      y += dy(batch, idx) * settings_.model_dt;
++      trajectories.x(batch, idx) = x;
++      trajectories.y(batch, idx) = y;
++    }
++  }
+ }
+ 
+ xt::xtensor<float, 2> Optimizer::getOptimizedTrajectory()

@@ -1,17 +1,18 @@
 diff --git a/cmake/Modules/FindTinyXML2.cmake b/cmake/Modules/FindTinyXML2.cmake
-index 87991be..5436d86 100644
+index 87991be..ddf647d 100644
 --- a/cmake/Modules/FindTinyXML2.cmake
 +++ b/cmake/Modules/FindTinyXML2.cmake
-@@ -67,6 +67,12 @@ else()
-     set_property(TARGET tinyxml2::tinyxml2 PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${TINYXML2_INCLUDE_DIR})
-     list(APPEND TinyXML2_TARGETS tinyxml2::tinyxml2)
-   endif()
-+
-+  # Compatibility with https://github.com/gazebosim/gz-cmake/blob/eb1c510e6278935eb742ed92c6a6d1388439f8bd/cmake/FindTINYXML2.cmake#L4
-+  if(NOT TARGET TINYXML2::TINYXML2)
-+      add_library(TINYXML2::TINYXML2 INTERFACE IMPORTED)
-+      set_property(TARGET TINYXML2::TINYXML2 PROPERTY INTERFACE_LINK_LIBRARIES tinyxml2::tinyxml2)
-+  endif()
+@@ -76,3 +76,13 @@ endif()
+ if(NOT TinyXML2_LIBRARIES)
+   set(TinyXML2_LIBRARIES ${TINYXML2_LIBRARY})
  endif()
- 
- # Set mixed case INCLUDE_DIRS and LIBRARY variables from upper case ones.
++
++# On case-insensitive filesystem, it is possible that FindTinyXML2.cmake is used if the caller
++# invoked find_package(TINYXML2), that is the signature used by gz-cmake, see
++# https://github.com/gazebosim/gz-cmake/blob/gz-cmake4_4.1.0/cmake/FindTINYXML2.cmake
++# If that is the case (and we detect it by checking the value of CMAKE_FIND_PACKAGE_NAME)
++# we also define a TINYXML2::TINYXML2 target for gz-cmake compatibility
++if(TARGET tinyxml2::tinyxml2 AND CMAKE_FIND_PACKAGE_NAME STREQUAL "TINYXML2" AND NOT TARGET TINYXML2::TINYXML2)
++  add_library(TINYXML2::TINYXML2 INTERFACE IMPORTED)
++  set_property(TARGET tinyxml2::tinyxml2 PROPERTY INTERFACE_LINK_LIBRARIES tinyxml2::tinyxml2)
++endif()
