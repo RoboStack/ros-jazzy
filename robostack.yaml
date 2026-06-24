@@ -204,6 +204,8 @@ ipython3:
   robostack: [ipython]
 kitchen:
   robostack: [kitchen]
+konsole:
+  robostack: [konsole]
 lcov:
   robostack: [lcov]
 leveldb:
