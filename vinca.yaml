@@ -269,6 +269,7 @@ packages_select_by_deps:
       - serial_driver
       - swri_serial_util
       - udp_driver
+      - smacc2
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
@@ -340,8 +341,6 @@ packages_select_by_deps:
       - rmw_stats_shim
       - rosgraph_monitor_msgs
       - rosgraph_monitor
-
-      - smacc2
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
