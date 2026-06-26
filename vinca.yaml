@@ -206,8 +206,12 @@ packages_select_by_deps:
   - mujoco_ros2_control_msgs
 
   - rtest
-  
+
   - nmea-navsat-driver
+
+  - tracetools
+  - tracetools-launch
+  - tracetools-trace
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
@@ -333,7 +337,7 @@ packages_select_by_deps:
       - kinematics_interface
       - kinematics_interface_kdl
       - libg2o
-      
+
       # graph-monitor related packages
       - rmw_stats_shim
       - rosgraph_monitor_msgs
