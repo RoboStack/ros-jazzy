@@ -1,0 +1,47 @@
+jobs:
+  stage_0_job_0:
+    name: lttngpy smacc2-msgs tracetools-trace tracetools-launch
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-lttngpy ros-jazzy-smacc2-msgs ros-jazzy-tracetools-trace
+        ros-jazzy-tracetools-launch
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-lttngpy ros-jazzy-smacc2-msgs ros-jazzy-tracetools-trace
+          ros-jazzy-tracetools-launch
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_1_job_1:
+    name: smacc2
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-jazzy-smacc2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-smacc2
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+name: build_linux_aarch64
+on:
+  push:
+    branches:
+    - buildbranch_linux_aarch64
