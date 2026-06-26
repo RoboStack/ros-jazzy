@@ -173,3 +173,5 @@ apriltag:
 ouster_ros:
   additional_cmake_args: "-DOUSTER_USE_VCPKG_IF_AVAILABLE=OFF"
 # Remove everything after this line on a full rebuild
+realtime_tools:
+  build_number: 19
