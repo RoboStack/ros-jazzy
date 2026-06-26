@@ -206,8 +206,10 @@ packages_select_by_deps:
   - mujoco_ros2_control_msgs
 
   - rtest
-  
+
   - nmea-navsat-driver
+
+  - smacc2_msgs
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
@@ -267,6 +269,7 @@ packages_select_by_deps:
       - serial_driver
       - swri_serial_util
       - udp_driver
+      - smacc2
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
@@ -333,7 +336,7 @@ packages_select_by_deps:
       - kinematics_interface
       - kinematics_interface_kdl
       - libg2o
-      
+
       # graph-monitor related packages
       - rmw_stats_shim
       - rosgraph_monitor_msgs
