@@ -267,7 +267,7 @@ moveit2_tutorials:
 openvdb_vendor:
   add_host: ["openvdb"]
 spatio_temporal_voxel_layer:
-  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
+  add_host: [libgl-devel, libopengl-devel, openvdb]
 mujoco_vendor:
   add_host: ["libmujoco"]
 lbr_ros2_control:
