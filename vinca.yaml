@@ -209,6 +209,10 @@ packages_select_by_deps:
 
   - nmea-navsat-driver
 
+  - tracetools
+  - tracetools-launch
+  - tracetools-trace
+
   - smacc2_msgs
 
   - urdf_tutorial
