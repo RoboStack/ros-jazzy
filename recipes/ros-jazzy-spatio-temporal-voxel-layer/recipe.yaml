@@ -1,0 +1,137 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-jazzy-spatio-temporal-voxel-layer
+  version: 2.5.5
+source:
+  git: https://github.com/SteveMacenski/spatio_temporal_voxel_layer-release.git
+  tag: release/jazzy/spatio_temporal_voxel_layer/2.5.5-1
+  target_directory: ros-jazzy-spatio-temporal-voxel-layer/src/work
+  patches:
+    - patch/ros-jazzy-spatio-temporal-voxel-layer.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 18
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  license: LGPL-2.1-or-later
+  summary: The spatio-temporal 3D obstacle costmap package
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - if: target_platform == 'emscripten-wasm32'
+      then:
+        - ros-jazzy-rosidl-default-generators
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - libboost-devel
+    - libgl-devel
+    - libopengl-devel
+    - numpy
+    - openexr
+    - openvdb
+    - pcl
+    - pip
+    - python
+    - ros-jazzy-ament-cmake
+    - ros-jazzy-ament-lint-auto
+    - ros-jazzy-builtin-interfaces
+    - ros-jazzy-geometry-msgs
+    - ros-jazzy-laser-geometry
+    - ros-jazzy-message-filters
+    - ros-jazzy-nav2-costmap-2d
+    - ros-jazzy-openvdb-vendor
+    - ros-jazzy-pcl-conversions
+    - ros-jazzy-pluginlib
+    - ros-jazzy-rclcpp
+    - ros-jazzy-ros-environment
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rosidl-default-generators
+    - ros-jazzy-sensor-msgs
+    - ros-jazzy-std-msgs
+    - ros-jazzy-std-srvs
+    - ros-jazzy-tf2-geometry-msgs
+    - ros-jazzy-tf2-ros
+    - ros-jazzy-tf2-sensor-msgs
+    - ros-jazzy-visualization-msgs
+    - ros2-distro-mutex 0.15.* jazzy_*
+    - vtk-base
+  run:
+    - libboost-devel
+    - libgl-devel
+    - libopengl-devel
+    - openexr
+    - pcl
+    - python
+    - ros-jazzy-builtin-interfaces
+    - ros-jazzy-geometry-msgs
+    - ros-jazzy-laser-geometry
+    - ros-jazzy-message-filters
+    - ros-jazzy-nav2-costmap-2d
+    - ros-jazzy-openvdb-vendor
+    - ros-jazzy-pcl-conversions
+    - ros-jazzy-pluginlib
+    - ros-jazzy-rclcpp
+    - ros-jazzy-ros-workspace
+    - ros-jazzy-rosidl-default-runtime
+    - ros-jazzy-sensor-msgs
+    - ros-jazzy-std-msgs
+    - ros-jazzy-std-srvs
+    - ros-jazzy-tf2-geometry-msgs
+    - ros-jazzy-tf2-ros
+    - ros-jazzy-tf2-sensor-msgs
+    - ros-jazzy-visualization-msgs
+    - ros2-distro-mutex 0.15.* jazzy_*
+    - vtk-base
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
