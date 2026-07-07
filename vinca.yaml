@@ -214,6 +214,7 @@ packages_select_by_deps:
   - tracetools-trace
 
   - smacc2_msgs
+  - cl_ros2_timer
 
   - urdf_tutorial
 
