@@ -994,6 +994,8 @@ python3-texttable:
   robostack: [texttable]
 python3-textual:
   robostack: [textual]
+python3-torchvision:
+  robostack: [torchvision]
 python3-tk:
   robostack: [tk]
 python3-tornado:
@@ -1008,6 +1010,8 @@ python3-unidiff:
   robostack: [unidiff]
 python3-usb:
   robostack: [pyusb]
+python3-ultralytics-pip:
+  robostack: [ultralytics]
 python3-uvicorn:
   robostack: [uvicorn]
 python3-utm:
