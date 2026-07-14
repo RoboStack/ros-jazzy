@@ -1,0 +1,207 @@
+diff --git a/include/rviz_default_plugins/displays/camera/camera_display.hpp b/include/rviz_default_plugins/displays/camera/camera_display.hpp
+index 2722e929a..f2aa38479 100644
+--- a/include/rviz_default_plugins/displays/camera/camera_display.hpp
++++ b/include/rviz_default_plugins/displays/camera/camera_display.hpp
+@@ -144,6 +144,10 @@ private:
+ 
+   void unsubscribe() override;
+ 
++  void teardown() noexcept;
++
++  void removeRenderTargetListener();
++
+   void createCameraInfoSubscription();
+ 
+   bool updateCamera();
+@@ -207,6 +211,8 @@ private:
+   bool new_caminfo_;
+   bool caminfo_ok_;
+   bool force_render_;
++  bool render_target_listener_added_;
++  bool visibility_bit_allocated_;
+ 
+   uint32_t vis_bit_;
+ 
+diff --git a/include/rviz_default_plugins/displays/image/image_transport_display.hpp b/include/rviz_default_plugins/displays/image/image_transport_display.hpp
+index f1a193c94..e54aa1595 100644
+--- a/include/rviz_default_plugins/displays/image/image_transport_display.hpp
++++ b/include/rviz_default_plugins/displays/image/image_transport_display.hpp
+@@ -34,11 +34,14 @@
+ #ifndef RVIZ_DEFAULT_PLUGINS__DISPLAYS__IMAGE__IMAGE_TRANSPORT_DISPLAY_HPP_
+ #define RVIZ_DEFAULT_PLUGINS__DISPLAYS__IMAGE__IMAGE_TRANSPORT_DISPLAY_HPP_
+ 
++#include <exception>
+ #include <memory>
++#include <utility>
+ 
+ #include "get_transport_from_topic.hpp"
+ #include "image_transport/image_transport.hpp"
+ #include "image_transport/subscriber_filter.hpp"
++#include "rviz_common/logging.hpp"
+ #include "rviz_common/ros_topic_display.hpp"
+ 
+ namespace rviz_default_plugins
+@@ -148,7 +151,33 @@ protected:
+ 
+   virtual void unsubscribe()
+   {
+-    subscription_.reset();
++    message_filters::Connection subscription_callback;
++    std::swap(subscription_callback, subscription_callback_);
++
++    try {
++      subscription_callback.disconnect();
++    } catch (const std::exception & exception) {
++      RVIZ_COMMON_LOG_ERROR_STREAM(
++        "Failed to disconnect image transport callback during unsubscribe: " <<
++          exception.what());
++    } catch (...) {
++      RVIZ_COMMON_LOG_ERROR_STREAM(
++        "Failed to disconnect image transport callback during unsubscribe: unknown exception");
++    }
++
++    if (subscription_) {
++      try {
++        subscription_->unsubscribe();
++      } catch (const std::exception & exception) {
++        RVIZ_COMMON_LOG_ERROR_STREAM(
++          "Failed to shut down image transport subscription during unsubscribe: " <<
++            exception.what());
++      } catch (...) {
++        RVIZ_COMMON_LOG_ERROR_STREAM(
++          "Failed to shut down image transport subscription during unsubscribe: unknown exception");
++      }
++      subscription_.reset();
++    }
+   }
+ 
+   void onEnable() override
+diff --git a/src/rviz_default_plugins/displays/camera/camera_display.cpp b/src/rviz_default_plugins/displays/camera/camera_display.cpp
+index f075a7a5d..916748473 100644
+--- a/src/rviz_default_plugins/displays/camera/camera_display.cpp
++++ b/src/rviz_default_plugins/displays/camera/camera_display.cpp
+@@ -31,6 +31,7 @@
+ 
+ #include "rviz_default_plugins/displays/camera/camera_display.hpp"
+ 
++#include <exception>
+ #include <memory>
+ #include <string>
+ #include <sstream>
+@@ -85,6 +86,23 @@ const QString CameraDisplay::BACKGROUND("background");
+ const QString CameraDisplay::OVERLAY("overlay");
+ const QString CameraDisplay::BOTH("background and overlay");
+ 
++namespace
++{
++
++void log_teardown_exception(const char * action, const std::exception & exception)
++{
++  RVIZ_COMMON_LOG_ERROR_STREAM(
++    "Failed to " << action << " while tearing down Camera display: " << exception.what());
++}
++
++void log_unknown_teardown_exception(const char * action)
++{
++  RVIZ_COMMON_LOG_ERROR_STREAM(
++    "Failed to " << action << " while tearing down Camera display: unknown exception");
++}
++
++}  // namespace
++
+ bool validateFloats(const sensor_msgs::msg::CameraInfo & msg)
+ {
+   bool valid = true;
+@@ -122,7 +140,9 @@ CameraDisplay::CameraDisplay()
+   texture_(std::make_unique<ROSImageTexture>()),
+   new_caminfo_(false),
+   caminfo_ok_(false),
+-  force_render_(false)
++  force_render_(false),
++  render_target_listener_added_(false),
++  visibility_bit_allocated_(false)
+ {
+   image_position_property_ = new rviz_common::properties::EnumProperty(
+     "Image Rendering", BOTH,
+@@ -156,11 +176,51 @@ CameraDisplay::CameraDisplay()
+ 
+ CameraDisplay::~CameraDisplay()
+ {
+-  if (initialized()) {
++  teardown();
++}
++
++void CameraDisplay::teardown() noexcept
++{
++  if (!initialized()) {
++    return;
++  }
++
++  try {
+     unsubscribe();
+-    context_->visibilityBits()->freeBits(vis_bit_);
+-    rviz_rendering::RenderWindowOgreAdapter::removeListener(render_panel_->getRenderWindow(), this);
++  } catch (const std::exception & exception) {
++    log_teardown_exception("unsubscribe", exception);
++  } catch (...) {
++    log_unknown_teardown_exception("unsubscribe");
+   }
++
++  try {
++    removeRenderTargetListener();
++  } catch (const std::exception & exception) {
++    log_teardown_exception("remove the render target listener", exception);
++  } catch (...) {
++    log_unknown_teardown_exception("remove the render target listener");
++  }
++
++  try {
++    if (visibility_bit_allocated_ && context_ && context_->visibilityBits()) {
++      context_->visibilityBits()->freeBits(vis_bit_);
++      visibility_bit_allocated_ = false;
++    }
++  } catch (const std::exception & exception) {
++    log_teardown_exception("free the visibility bit", exception);
++  } catch (...) {
++    log_unknown_teardown_exception("free the visibility bit");
++  }
++}
++
++void CameraDisplay::removeRenderTargetListener()
++{
++  if (!render_target_listener_added_ || !render_panel_) {
++    return;
++  }
++
++  rviz_rendering::RenderWindowOgreAdapter::removeListener(render_panel_->getRenderWindow(), this);
++  render_target_listener_added_ = false;
+ }
+ 
+ void CameraDisplay::onInitialize()
+@@ -172,8 +232,10 @@ void CameraDisplay::onInitialize()
+ 
+   auto render_window = render_panel_->getRenderWindow();
+   rviz_rendering::RenderWindowOgreAdapter::addListener(render_window, this);
++  render_target_listener_added_ = true;
+ 
+   vis_bit_ = context_->visibilityBits()->allocBit();
++  visibility_bit_allocated_ = true;
+   rviz_rendering::RenderWindowOgreAdapter::setVisibilityMask(render_window, vis_bit_);
+ 
+   visibility_property_ = new rviz_common::properties::DisplayGroupVisibilityProperty(
+@@ -377,9 +439,14 @@ void CameraDisplay::createCameraInfoSubscription()
+ 
+ void CameraDisplay::unsubscribe()
+ {
++  // The TF filter owns a connection into the image transport subscriber. Destroy
++  // it first so MessageFilter disconnects while the subscriber is still alive.
++  if (tf_filter_) {
++    tf_filter_->clear();
++    tf_filter_.reset();
++  }
+   ITDClass::unsubscribe();
+   caminfo_sub_.reset();
+-  tf_filter_.reset();
+ }
+ 
+ void CameraDisplay::updateAlpha()

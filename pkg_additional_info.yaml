@@ -180,3 +180,11 @@ turtlebot4_gz_toolbox:
   build_number: 19
 realtime_tools:
   build_number: 19
+rviz2:
+  build_number: 19
+rviz_common:
+  build_number: 19
+rviz_default_plugins:
+  build_number: 19
+image_view:
+  build_number: 19
