@@ -232,6 +232,15 @@ packages_select_by_deps:
 
   - urdf_tutorial
 
+  # py_trees stack
+  - py_trees
+  - py_trees_ros_interfaces
+  - py_trees_ros
+  - py_trees_js
+  - py_trees_ros_viewer
+  - py_trees_ros_tutorial
+
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
