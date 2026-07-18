@@ -1,7 +1,7 @@
 tests:
   # Regression test for https://github.com/RoboStack/ros-jazzy/pull/246
   - script:
-    - python -c "import subprocess,sys,time; q=subprocess.Popen(['ros2','run','turtlebot4_node','turtlebot4_node']); time.sleep(3); rc=q.poll(); q.terminate() if rc is None else None; q.wait(); sys.exit(0 if rc is None else rc)"
+    - python -c "import os,signal,subprocess,sys,time; kw={'creationflags':subprocess.CREATE_NEW_PROCESS_GROUP} if os.name=='nt' else {'start_new_session':True}; p=subprocess.Popen(['ros2','run','turtlebot4_node','turtlebot4_node'],**kw); time.sleep(3); rc=p.poll(); (subprocess.run(['taskkill','/F','/T','/PID',str(p.pid)]) if os.name=='nt' else os.killpg(p.pid,signal.SIGKILL)) if rc is None else None; sys.exit(0 if rc is None else rc)"
     requirements:
       run:
         - ros-jazzy-ros2run
