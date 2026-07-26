@@ -1,4 +1,7 @@
 tests:
   # Regression test for https://github.com/RoboStack/ros-jazzy/pull/246
   - script:
-    - python -c "import os,sys; from pathlib import Path; p=Path(os.environ.get('LIBRARY_PREFIX') or os.environ['PREFIX']); roots=[p,p/'Library']; libnames=['libturtlebot4_node_lib.so','libturtlebot4_node_lib.dylib','turtlebot4_node_lib.dll']; shared=[r/d/f for r in roots for d in ('lib','bin') for f in libnames]; static=[p/'lib/libturtlebot4_node_lib.a', p/'Library/lib/turtlebot4_node_lib.lib']; assert any(x.exists() for x in shared), 'missing shared turtlebot4_node_lib'; assert sys.platform.startswith('win') or not any(x.exists() for x in static), 'static turtlebot4_node_lib was installed'"
+    - python -c "import os,signal,subprocess,sys,time; kw={'creationflags':subprocess.CREATE_NEW_PROCESS_GROUP} if os.name=='nt' else {'start_new_session':True}; p=subprocess.Popen(['ros2','run','turtlebot4_node','turtlebot4_node'],**kw); time.sleep(3); rc=p.poll(); (subprocess.run(['taskkill','/F','/T','/PID',str(p.pid)]) if os.name=='nt' else os.killpg(p.pid,signal.SIGKILL)) if rc is None else None; sys.exit(0 if rc is None else rc)"
+    requirements:
+      run:
+        - ros-jazzy-ros2run

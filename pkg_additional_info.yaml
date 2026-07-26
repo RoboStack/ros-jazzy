@@ -173,11 +173,19 @@ apriltag:
     max_pin: 'x.x.x'
 ouster_ros:
   additional_cmake_args: "-DOUSTER_USE_VCPKG_IF_AVAILABLE=OFF"
+py_trees:
+  generate_dummy_package_with_run_deps:
+    dep_name: py-trees
+    max_pin: 'x.x.x'
+    override_version: '2.5.0'
+  build_number: 19
 # Remove everything after this line on a full rebuild
+ament_index_cpp:
+  build_number: 19
 turtlebot4_node:
-  build_number: 19
+  build_number: 20
 turtlebot4_gz_toolbox:
-  build_number: 19
+  build_number: 20
 realtime_tools:
   build_number: 19
 rviz2:

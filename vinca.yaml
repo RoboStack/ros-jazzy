@@ -5,7 +5,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 20
+# Reminder for next full rebuild, the next build number should be 21
 build_number: 18
 
 mutex_package:
@@ -231,6 +231,14 @@ packages_select_by_deps:
   - cl_ros2_timer
 
   - urdf_tutorial
+
+  # py_trees stack, requested in https://github.com/RoboStack/ros-jazzy/issues/249
+  - py_trees
+  - py_trees_ros_interfaces
+  - py_trees_ros
+  - py_trees_js
+  - py_trees_ros_viewer
+  - py_trees_ros_tutorials
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
