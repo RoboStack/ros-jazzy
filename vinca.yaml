@@ -55,6 +55,7 @@ packages_select_by_deps:
   - dev_tools
   - diagnostics
   - teleop
+  - teleop_tools
   - robot
   - perception
   - navigation2
@@ -74,6 +75,9 @@ packages_select_by_deps:
   - gz_ros2_control
   - gz_ros2_control_demos
 
+  - joy_teleop
+  - key_teleop
+  - mouse_teleop
   - rviz_visual_tools
 
   - ur
