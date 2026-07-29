@@ -136,7 +136,6 @@ packages_select_by_deps:
 
   - rosbridge_suite
   - robotiq_controllers
-  - vision_msgs_rviz_plugins
   - rosidl_generator_dds_idl
 
   - foxglove_bridge
@@ -351,6 +350,7 @@ packages_select_by_deps:
       - cloudini-ros
       - spacenav
       - rviz_2d_overlay_plugins
+      - vision_msgs_rviz_plugins
 
       # lbr_fri_ros2_stack
       - lbr_bringup
