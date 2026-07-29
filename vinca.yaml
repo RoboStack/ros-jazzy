@@ -135,6 +135,9 @@ packages_select_by_deps:
   - gripper_controllers
 
   - rosbridge_suite
+  - robotiq_controllers
+  - vision_msgs_rviz_plugins
+  - rosidl_generator_dds_idl
 
   - foxglove_bridge
   - foxglove_msgs
