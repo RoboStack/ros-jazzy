@@ -1,0 +1,54 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3f6c3f0..4b2c4d4 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,27 @@
+ cmake_minimum_required(VERSION 3.10)
+ project(navmap_ros)
+ 
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+   add_compile_options(-Wall -Wextra -Wpedantic)
+ endif()
++
++# Avoid leaking system Eigen (e.g. /usr/include/eigen3) into exported include
++# directories through PCL.
++set(_eigen_prefix "")
++if(DEFINED ENV{PREFIX})
++  set(_eigen_prefix "$ENV{PREFIX}")
++elseif(DEFINED ENV{CONDA_PREFIX})
++  set(_eigen_prefix "$ENV{CONDA_PREFIX}")
++endif()
++if(_eigen_prefix)
++  set(Eigen3_DIR "${_eigen_prefix}/share/eigen3/cmake" CACHE PATH "" FORCE)
++  set(EIGEN3_INCLUDE_DIR "${_eigen_prefix}/include/eigen3" CACHE PATH "" FORCE)
++  set(EIGEN3_INCLUDE_DIRS "${_eigen_prefix}/include/eigen3" CACHE PATH "" FORCE)
++endif()
++find_package(Eigen3 CONFIG QUIET)
+ 
+ set(CMAKE_CXX_STANDARD 23)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+@@ -15,7 +36,18 @@ find_package(navmap_ros_interfaces REQUIRED)
+ find_package(geometry_msgs REQUIRED)
+ find_package(nav_msgs REQUIRED)
+ find_package(sensor_msgs REQUIRED)
+ find_package(std_srvs REQUIRED)
+ find_package(PCL REQUIRED COMPONENTS common io kdtree search)
++
++# PCLConfig.cmake may inject system Eigen include paths; filter them out to
++# prevent mixing system Eigen with the conda/pixi Eigen.
+if(PCL_INCLUDE_DIRS)
+  # Be permissive: the entry may have a trailing slash or whitespace depending
+  # on how PCL was configured.
+  list(FILTER PCL_INCLUDE_DIRS EXCLUDE REGEX "/usr/include/eigen3")
+endif()
++if(EIGEN3_INCLUDE_DIRS AND PCL_INCLUDE_DIRS)
++  list(FIND PCL_INCLUDE_DIRS "${EIGEN3_INCLUDE_DIRS}" _eigen_idx)
++  if(_eigen_idx EQUAL -1)
++    list(APPEND PCL_INCLUDE_DIRS "${EIGEN3_INCLUDE_DIRS}")
++  endif()
++endif()
++
+ find_package(pcl_conversions REQUIRED)
+ 
+ add_library(${PROJECT_NAME} SHARED
+   src/${PROJECT_NAME}/conversions.cpp
