@@ -48,6 +48,10 @@ packages_select_by_deps:
   - ament_cmake_catch2
   - ament_cmake_mypy
 
+  # Generic dependencies used by Isaac ROS without Jazzy rosdistro releases.
+  - negotiated
+  - topic_based_ros2_control
+
   - desktop
   - ros_base
   - ros_environment
