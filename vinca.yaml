@@ -250,27 +250,19 @@ packages_select_by_deps:
   - ros2_medkit_action_status_bridge
   - ros2_medkit_cmake
   - ros2_medkit_diagnostic_bridge
-  - ros2_medkit_fault_detection
   - ros2_medkit_fault_manager
   - ros2_medkit_fault_reporter
+  - ros2_medkit_integration_tests
   - ros2_medkit_log_bridge
   - ros2_medkit_msgs
   - ros2_medkit_serialization
-
-  # gateway + dependents need cpp-httplib, which conda-forge does not ship
-  # for ARM (osx-arm64 / linux-aarch64) — see conda-forge/cpp-httplib-feedstock
-  - if: not (aarch64 or arm64)
-    then:
-      - ros2_medkit_beacon_common
-      - ros2_medkit_gateway
-      - ros2_medkit_graph_provider
-      - ros2_medkit_graph_watchdog
-      - ros2_medkit_integration_tests
-      - ros2_medkit_linux_introspection
-      - ros2_medkit_opcua
-      - ros2_medkit_param_beacon
-      - ros2_medkit_sovd_service_interface
-      - ros2_medkit_topic_beacon
+  - ros2_medkit_beacon_common
+  - ros2_medkit_gateway
+  - ros2_medkit_graph_provider
+  - ros2_medkit_linux_introspection
+  - ros2_medkit_param_beacon
+  - ros2_medkit_sovd_service_interface
+  - ros2_medkit_topic_beacon
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
