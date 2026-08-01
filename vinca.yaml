@@ -246,24 +246,6 @@ packages_select_by_deps:
   - py_trees_ros_viewer
   - py_trees_ros_tutorials
 
-  # ros2_medkit diagnostic stack (https://index.ros.org/r/ros2_medkit/)
-  - ros2_medkit_action_status_bridge
-  - ros2_medkit_cmake
-  - ros2_medkit_diagnostic_bridge
-  - ros2_medkit_fault_manager
-  - ros2_medkit_fault_reporter
-  - ros2_medkit_integration_tests
-  - ros2_medkit_log_bridge
-  - ros2_medkit_msgs
-  - ros2_medkit_serialization
-  - ros2_medkit_beacon_common
-  - ros2_medkit_gateway
-  - ros2_medkit_graph_provider
-  - ros2_medkit_linux_introspection
-  - ros2_medkit_param_beacon
-  - ros2_medkit_sovd_service_interface
-  - ros2_medkit_topic_beacon
-
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
@@ -304,6 +286,24 @@ packages_select_by_deps:
 
       - septentrio_gnss_driver
 
+      # ros2_medkit diagnostic stack (https://index.ros.org/r/ros2_medkit/)
+      - ros2_medkit_action_status_bridge
+      - ros2_medkit_cmake
+      - ros2_medkit_diagnostic_bridge
+      - ros2_medkit_fault_manager
+      - ros2_medkit_fault_reporter
+      - ros2_medkit_integration_tests
+      - ros2_medkit_log_bridge
+      - ros2_medkit_msgs
+      - ros2_medkit_serialization
+      - ros2_medkit_beacon_common
+      - ros2_medkit_gateway
+      - ros2_medkit_graph_provider
+      - ros2_medkit_linux_introspection
+      - ros2_medkit_param_beacon
+      - ros2_medkit_sovd_service_interface
+      - ros2_medkit_topic_beacon
+      
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
   - if: linux
@@ -395,7 +395,7 @@ packages_select_by_deps:
       - rmw_stats_shim
       - rosgraph_monitor_msgs
       - rosgraph_monitor
-
+      
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
 rosdistro_additional_recipes: rosdistro_additional_recipes.yaml
