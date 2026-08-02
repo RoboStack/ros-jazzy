@@ -189,3 +189,72 @@ lbr_fri_idl:
   url: https://github.com/lbr-stack/lbr_fri_idl.git
   rev: e422bff2b3d70ec47853145b35645980df623a60
   version: 1.5.0
+# ros2_medkit 0.6.0 (16 packages released to jazzy).
+# The jazzy snapshot pins 0.4.0, which fails to build against conda-forge's
+# cpp-httplib 0.51 (gateway used the removed get_file_value API; fixed upstream
+# in 0.6.0 via the MultipartFormData API). fault_detection, graph_watchdog and
+# opcua are not released to jazzy, so they are intentionally omitted.
+ros2_medkit_action_status_bridge:
+  tag: release/jazzy/ros2_medkit_action_status_bridge/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_beacon_common:
+  tag: release/jazzy/ros2_medkit_beacon_common/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_cmake:
+  tag: release/jazzy/ros2_medkit_cmake/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_diagnostic_bridge:
+  tag: release/jazzy/ros2_medkit_diagnostic_bridge/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_fault_manager:
+  tag: release/jazzy/ros2_medkit_fault_manager/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_fault_reporter:
+  tag: release/jazzy/ros2_medkit_fault_reporter/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_gateway:
+  tag: release/jazzy/ros2_medkit_gateway/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_graph_provider:
+  tag: release/jazzy/ros2_medkit_graph_provider/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_integration_tests:
+  tag: release/jazzy/ros2_medkit_integration_tests/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_linux_introspection:
+  tag: release/jazzy/ros2_medkit_linux_introspection/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_log_bridge:
+  tag: release/jazzy/ros2_medkit_log_bridge/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_msgs:
+  tag: release/jazzy/ros2_medkit_msgs/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_param_beacon:
+  tag: release/jazzy/ros2_medkit_param_beacon/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_serialization:
+  tag: release/jazzy/ros2_medkit_serialization/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_sovd_service_interface:
+  tag: release/jazzy/ros2_medkit_sovd_service_interface/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0
+ros2_medkit_topic_beacon:
+  tag: release/jazzy/ros2_medkit_topic_beacon/0.6.0-1
+  url: https://github.com/ros2-gbp/ros2_medkit-release.git
+  version: 0.6.0

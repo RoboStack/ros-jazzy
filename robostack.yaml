@@ -509,6 +509,8 @@ libsndfile1-dev:
   robostack: [libsndfile]
 libspnav-dev:
   robostack: [libspnav, xorg-xorgproto]
+libcpp-httplib-dev:
+  robostack: [cpp-httplib]
 libsqlite3-dev:
   robostack: [sqlite 3.*]
 libssl-dev:
