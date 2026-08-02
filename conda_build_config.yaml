@@ -8,6 +8,9 @@ cmake:
   - 3.*
 eigen_abi_devel:
   - '5.0.1'
+icu:
+  # icu78 migration is nearly complete on conda-forge.
+  - '78'
 libprotobuf:
   - 6.33.5
 protobuf:
@@ -21,13 +24,13 @@ jsoncpp:
 libopencv:
   - 4.13.0
 libmujoco:
-  - 3.8.1
+  - 3.10.0
 # Mitigation for
 # https://github.com/RoboStack/ros-jazzy/pull/126#issuecomment-3515455380
 libcap:
   - 2.78
 libhwloc:
-  - 2.12.2
+  - 2.13.0
 libxml2:
   - '2.14'
 libzenohc:
@@ -39,13 +42,13 @@ lua:
 pugixml:
   - '1.15'
 shaderc:
-  - '2026.2'
+  - '2026.3'
 spdlog:
   - 1.17
 tbb:
-  - '2022'
+  - '2023'
 tbb_devel:
-  - '2022'
+  - '2023'
 urdfdom:
   - '6.0'
 urdfdom_headers:

@@ -112,9 +112,8 @@ spdlog_vendor:
 console_bridge_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 zenoh_cpp_vendor:
-  additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
+  additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK -DUSE_SYSTEM_ZENOH=ON"
 openvdb_vendor:
-  build_number: 19
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 sqlite3_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
@@ -178,13 +177,4 @@ py_trees:
     dep_name: py-trees
     max_pin: 'x.x.x'
     override_version: '2.5.0'
-  build_number: 19
 # Remove everything after this line on a full rebuild
-ament_index_cpp:
-  build_number: 19
-turtlebot4_node:
-  build_number: 20
-turtlebot4_gz_toolbox:
-  build_number: 20
-realtime_tools:
-  build_number: 19
