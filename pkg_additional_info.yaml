@@ -17,6 +17,8 @@ ompl:
   generate_dummy_package_with_run_deps:
     dep_name: ompl
     max_pin: 'x.x'
+    # OMPL 2 is rebuilt for Boost 1.90 on all supported platforms.
+    override_version: '2.0.1'
 urdfdom_py:
   generate_dummy_package_with_run_deps:
     dep_name: urdfdom-py
