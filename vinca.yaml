@@ -106,7 +106,7 @@ packages_select_by_deps:
   - turtlebot4_simulator
 
   - if: linux
-    then: 
+    then:
       - turtlebot4_robot
       - turtlebot4_bringup
       - turtlebot4_tests
@@ -307,7 +307,7 @@ packages_select_by_deps:
       - ros2_medkit_param_beacon
       - ros2_medkit_sovd_service_interface
       - ros2_medkit_topic_beacon
-      
+
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
   - if: linux
@@ -399,7 +399,18 @@ packages_select_by_deps:
       - rmw_stats_shim
       - rosgraph_monitor_msgs
       - rosgraph_monitor
-      
+
+      - yasmin
+      - yasmin_cli
+      - yasmin_demos
+      - yasmin_editor
+      - yasmin_factory
+      - yasmin_msgs
+      - yasmin_pcl
+      - yasmin_plugins_manager
+      - yasmin_ros
+      - yasmin_viewer
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
 rosdistro_additional_recipes: rosdistro_additional_recipes.yaml
