@@ -1,0 +1,14 @@
+diff --git a/include/yasmin/blackboard.hpp b/include/yasmin/blackboard.hpp
+index 1234567..abcdefg 100644
+--- a/include/yasmin/blackboard.hpp
++++ b/include/yasmin/blackboard.hpp
+@@ -16,7 +16,9 @@
+ 
+ #include <memory>
+ 
++#if !defined(_MSC_VER)
+ #include <cxxabi.h>
++#endif
+ 
+ #include <exception>
+ #include <map>
