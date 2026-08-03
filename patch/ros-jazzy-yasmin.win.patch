@@ -1,14 +1,28 @@
-diff --git a/yasmin/include/yasmin/demangle.hpp b/yasmin/include/yasmin/demangle.hpp
-index ceeff6c..abcdef0 100644
---- a/yasmin/include/yasmin/demangle.hpp
-+++ b/yasmin/include/yasmin/demangle.hpp
-@@ -15,7 +15,9 @@
- #ifndef YASMIN__DEMANGLE_HPP_
- #define YASMIN__DEMANGLE_HPP_
- 
+diff --git a/include/yasmin/blackboard.hpp b/include/yasmin/blackboard.hpp
+index 4673a0d..d8c4ea7 100644
+--- a/include/yasmin/blackboard.hpp
++++ b/include/yasmin/blackboard.hpp
+@@ -16,7 +16,9 @@
+ #ifndef YASMIN__BLACKBOARD_HPP_
+ #define YASMIN__BLACKBOARD_HPP_
+
 +#if defined(__GNUG__)
  #include <cxxabi.h>
 +#endif
- 
- #include <cstdlib>
- #include <list>
+
+ #include <exception>
+ #include <map>
+diff --git a/src/yasmin/state.cpp b/src/yasmin/state.cpp
+index 41d9e6d..7f4c3bc 100644
+--- a/src/yasmin/state.cpp
++++ b/src/yasmin/state.cpp
+@@ -15,7 +15,9 @@
+
+ #include "yasmin/state.hpp"
+
++#if defined(__GNUG__)
+ #include <cxxabi.h> // For abi::__cxa_demangle
++#endif
+
+ #include <algorithm>
+ #include <exception>
