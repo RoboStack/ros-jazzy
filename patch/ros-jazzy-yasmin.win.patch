@@ -1,14 +1,14 @@
-diff --git a/include/yasmin/blackboard.hpp b/include/yasmin/blackboard.hpp
-index 1234567..abcdefg 100644
---- a/include/yasmin/blackboard.hpp
-+++ b/include/yasmin/blackboard.hpp
-@@ -16,7 +16,9 @@
+diff --git a/yasmin/include/yasmin/demangle.hpp b/yasmin/include/yasmin/demangle.hpp
+index ceeff6c..abcdef0 100644
+--- a/yasmin/include/yasmin/demangle.hpp
++++ b/yasmin/include/yasmin/demangle.hpp
+@@ -15,7 +15,9 @@
+ #ifndef YASMIN__DEMANGLE_HPP_
+ #define YASMIN__DEMANGLE_HPP_
  
- #include <memory>
- 
-+#if !defined(_MSC_VER)
++#if defined(__GNUG__)
  #include <cxxabi.h>
 +#endif
  
- #include <exception>
- #include <map>
+ #include <cstdlib>
+ #include <list>
