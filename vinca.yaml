@@ -250,17 +250,6 @@ packages_select_by_deps:
   - py_trees_ros_viewer
   - py_trees_ros_tutorials
 
-  - yasmin
-  - yasmin_cli
-  - yasmin_demos
-  - yasmin_editor
-  - yasmin_factory
-  - yasmin_msgs
-  - yasmin_pcl
-  - yasmin_plugins_manager
-  - yasmin_ros
-  - yasmin_viewer
-
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
@@ -410,6 +399,17 @@ packages_select_by_deps:
       - rmw_stats_shim
       - rosgraph_monitor_msgs
       - rosgraph_monitor
+
+      - yasmin
+      - yasmin_cli
+      - yasmin_demos
+      - yasmin_editor
+      - yasmin_factory
+      - yasmin_msgs
+      - yasmin_pcl
+      - yasmin_plugins_manager
+      - yasmin_ros
+      - yasmin_viewer
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
