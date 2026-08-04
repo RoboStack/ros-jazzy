@@ -25,7 +25,8 @@ fmt:
 graphviz:
   - '14'
 jsoncpp:
-  - 1.9.7
+  # jsoncpp 1.9.8 migration is nearly complete on conda-forge.
+  - 1.9.8
 libopencv:
   - 4.13.0
 libmujoco:
