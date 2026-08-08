@@ -19,8 +19,8 @@ mutex_package:
     - gazebo 11.*
     - libprotobuf 7.35.*
     # Require OpenCV builds from the same Protobuf 7 migration.
-    - libopencv 4.13.0 *_614
-    - py-opencv 4.13.0 *_614
+    - libopencv ==4.13.0 *_614
+    - py-opencv ==4.13.0 *_614
     - vtk 9.6.2.*
 
 
