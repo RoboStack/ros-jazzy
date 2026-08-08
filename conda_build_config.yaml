@@ -11,15 +11,15 @@ eigen_abi_devel:
 icu:
   # icu78 migration is nearly complete on conda-forge.
   - '78'
-# Apply conda-forge's mostly-complete 2026 Q2 Abseil/gRPC/Protobuf migration.
+# Keep Protobuf compatible with the current OpenCV 4.13 builds.
 libabseil:
   - 20260526
 libgrpc:
   - '1.82'
 libprotobuf:
-  - 7.35.1
+  - 6.33.5
 protobuf:
-  - 7.35.1
+  - 6.33.5
 fmt:
   - '12.1'
 graphviz:
