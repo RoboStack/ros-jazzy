@@ -48,6 +48,10 @@ packages_select_by_deps:
   - ament_cmake_catch2
   - ament_cmake_mypy
 
+  # Generic dependencies used by Isaac ROS without Jazzy rosdistro releases.
+  - negotiated
+  - topic_based_ros2_control
+
   - desktop
   - ros_base
   - ros_environment
@@ -102,7 +106,7 @@ packages_select_by_deps:
   - turtlebot4_simulator
 
   - if: linux
-    then: 
+    then:
       - turtlebot4_robot
       - turtlebot4_bringup
       - turtlebot4_tests
@@ -331,6 +335,23 @@ packages_select_by_deps:
       - easynav_simple_maps_manager
       - easynav_simple_planner
       - easynav_vff_controller
+      # ros2_medkit diagnostic stack (https://index.ros.org/r/ros2_medkit/)
+      - ros2_medkit_action_status_bridge
+      - ros2_medkit_cmake
+      - ros2_medkit_diagnostic_bridge
+      - ros2_medkit_fault_manager
+      - ros2_medkit_fault_reporter
+      - ros2_medkit_integration_tests
+      - ros2_medkit_log_bridge
+      - ros2_medkit_msgs
+      - ros2_medkit_serialization
+      - ros2_medkit_beacon_common
+      - ros2_medkit_gateway
+      - ros2_medkit_graph_provider
+      - ros2_medkit_linux_introspection
+      - ros2_medkit_param_beacon
+      - ros2_medkit_sovd_service_interface
+      - ros2_medkit_topic_beacon
 
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
@@ -423,6 +444,17 @@ packages_select_by_deps:
       - rmw_stats_shim
       - rosgraph_monitor_msgs
       - rosgraph_monitor
+
+      - yasmin
+      - yasmin_cli
+      - yasmin_demos
+      - yasmin_editor
+      - yasmin_factory
+      - yasmin_msgs
+      - yasmin_pcl
+      - yasmin_plugins_manager
+      - yasmin_ros
+      - yasmin_viewer
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
