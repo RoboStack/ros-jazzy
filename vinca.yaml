@@ -17,10 +17,10 @@ mutex_package:
     - libboost-devel 1.90.*
     - pcl 1.15.1.*
     - gazebo 11.*
-    - libprotobuf 7.35.*
-    # Require OpenCV builds from the same Protobuf 7 migration.
-    - libopencv ==4.13.0 *_614
-    - py-opencv ==4.13.0 *_614
+    # Keep VTK and OpenCV on the pre-HDF5-2 migration builds.
+    - libprotobuf 6.33.*
+    - libopencv ==4.13.0 *_612
+    - py-opencv ==4.13.0 *_612
     - vtk 9.6.2.*
 
 

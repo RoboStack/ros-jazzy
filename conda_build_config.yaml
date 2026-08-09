@@ -11,15 +11,15 @@ eigen_abi_devel:
 icu:
   # icu78 migration is nearly complete on conda-forge.
   - '78'
-# Apply conda-forge's 2026 Q2 Abseil/gRPC/Protobuf migration.
+# Keep the pre-HDF5-2 migration stack until VTK supports HDF5 2.
 libabseil:
-  - 20260526
+  - 20260107.1
 libgrpc:
-  - '1.82'
+  - '1.81'
 libprotobuf:
-  - 7.35.1
+  - 6.33.5
 protobuf:
-  - 7.35.1
+  - 6.33.5
 fmt:
   - '12.1'
 graphviz:
