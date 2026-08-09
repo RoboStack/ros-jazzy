@@ -25,8 +25,8 @@ fmt:
 graphviz:
   - '14'
 jsoncpp:
-  # jsoncpp 1.9.8 migration is nearly complete on conda-forge.
-  - 1.9.8
+  # Keep Gazebo dependencies on the pre-HDF5-2 migration stack.
+  - 1.9.7
 libopencv:
   - 4.13.0
 libmujoco:
