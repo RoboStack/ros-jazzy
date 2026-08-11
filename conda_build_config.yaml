@@ -11,22 +11,22 @@ eigen_abi_devel:
 icu:
   # icu78 migration is nearly complete on conda-forge.
   - '78'
-# Keep the pre-HDF5-2 migration stack until VTK supports HDF5 2.
+# Apply conda-forge's 2026 Q2 Abseil/gRPC/Protobuf migration.
 libabseil:
-  - 20260107.1
+  - 20260526
 libgrpc:
-  - '1.81'
+  - '1.82'
 libprotobuf:
-  - 6.33.5
+  - 7.35.1
 protobuf:
-  - 6.33.5
+  - 7.35.1
 fmt:
   - '12.1'
 graphviz:
   - '14'
 jsoncpp:
-  # Keep Gazebo dependencies on the pre-HDF5-2 migration stack.
-  - 1.9.7
+  # jsoncpp 1.9.8 migration is nearly complete on conda-forge.
+  - 1.9.8
 libopencv:
   - 4.13.0
 libmujoco:
