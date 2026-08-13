@@ -42,6 +42,12 @@ pcl_conversions:
   add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "libboost-devel"]
 pcl_ros:
   add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "libboost-devel"]
+easynav_bonxai_maps_manager:
+  # drop once easynav_bonxai_maps_manager is updated to 0.4.2
+  add_host: ["eigen-abi-devel"]
+easynav_octomap_maps_manager:
+  # drop once easynav_octomap_maps_manager is updated to 0.4.2
+  add_host: ["octomap"]
 rviz_rendering:
   add_host: ["glew"]
 behaviortree_cpp:
