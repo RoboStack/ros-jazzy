@@ -331,6 +331,45 @@ packages_select_by_deps:
       - udp_driver
       - smacc2
 
+      - navmap_core
+      - navmap_ros
+      - navmap_ros_interfaces
+
+      - easynav
+      - easynav_common
+      - easynav_controller
+      - easynav_core
+      - easynav_interfaces
+      - easynav_localizer
+      - easynav_maps_manager
+      - easynav_planner
+      - easynav_sensors
+      - easynav_support_py
+      - easynav_system
+      - easynav_tools
+
+      - easynav_bonxai_maps_manager
+      - easynav_costmap_localizer
+      - easynav_costmap_maps_manager
+      - easynav_costmap_planner
+      - easynav_fusion_localizer
+      - easynav_gps_localizer
+      - easynav_mpc_controller
+      - easynav_mppi_controller
+      - easynav_navmap_localizer
+      - easynav_navmap_maps_manager
+      - easynav_navmap_planner
+      - easynav_octomap_maps_manager
+      - easynav_regulated_pp_controller
+      - easynav_routes_maps_manager
+      - easynav_serest_controller
+      - easynav_simple_common
+      - easynav_simple_controller
+      - easynav_simple_localizer
+      - easynav_simple_maps_manager
+      - easynav_simple_planner
+      - easynav_vff_controller
+
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
     then:
