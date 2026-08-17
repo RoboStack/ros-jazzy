@@ -285,7 +285,7 @@ cloudini_ros:
   add_host: ["eigen-abi-devel"]
 swri_console:
   add_build: ["${{ 'qt-main' if (build_platform != target_platform) }}"]
-  add_host: ["libboost-devel", "qt-main"]
+  add_host: ["libboost-devel", "qt-main", "${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
   add_run: ["libboost", "qt-main"]
 warehouse_ros_sqlite:
   add_host: ["ros-jazzy-sqlite3-vendor"]
