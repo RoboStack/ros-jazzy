@@ -18,6 +18,8 @@ mutex_package:
     - pcl 1.15.1.*
     - gazebo 11.*
     - libprotobuf 7.35.*
+    # Select HDF5 2 variants of VTK/OpenCV without pinning package build strings.
+    - hdf5 >=2,<3
     - vtk 9.6.2.*
 
 
