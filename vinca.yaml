@@ -51,6 +51,9 @@ packages_select_by_deps:
   - ament_cmake_catch2
   - ament_cmake_core
   - ament_cmake_mypy
+  - beluga
+  - beluga_amcl
+  - beluga_ros
   - desktop
   - desktop_full
   - dev_tools
