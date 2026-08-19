@@ -1,6 +1,14 @@
 # This file is used to add additional recipes to the ROS 2 distribution, not contained in the
 # upstream rosdistro. Differently from rosdistro_snapshot.yaml, this file is not
 # automatically generated, but manually maintained.
+
+beluga:
+  # Until: https://github.com/Ekumen-OS/beluga/pull/578
+  url: https://github.com/nobleo/beluga.git
+  rev: b27603b6a80546b72945de539146cbd33eeeb921
+  version: 2.1.1
+  additional_folder: beluga
+
 livox_ros_driver2:
   tag: 1.2.4
   url: https://github.com/Livox-SDK/livox_ros_driver2.git
