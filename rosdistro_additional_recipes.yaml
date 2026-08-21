@@ -5,7 +5,7 @@
 beluga:
   # Until: https://github.com/Ekumen-OS/beluga/pull/578
   url: https://github.com/nobleo/beluga.git
-  rev: b27603b6a80546b72945de539146cbd33eeeb921
+  rev: 6b1b6a2b9ddb36f7c777b86a2eb403434c5e892c
   version: 2.1.1
   additional_folder: beluga
 
