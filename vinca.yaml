@@ -233,6 +233,8 @@ packages_select_by_deps:
 
   - nmea-navsat-driver
 
+  - ntrip_client
+
   - tracetools
   - tracetools-launch
   - tracetools-trace
