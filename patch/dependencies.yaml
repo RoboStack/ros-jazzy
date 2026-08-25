@@ -42,6 +42,15 @@ pcl_conversions:
   add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "libboost-devel"]
 pcl_ros:
   add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "libboost-devel"]
+easynav_bonxai_maps_manager:
+  # robostack-jazzy's already-published pcl_ros requires the newer eigen-abi
+  # package (>=5.0.1.80); pin eigen-abi-devel so this package resolves it too.
+  add_host: ["eigen-abi-devel"]
+easynav_octomap_maps_manager:
+  # "octomap" isn't auto-resolved from rosdep for this package (same gap as
+  # geometric_shapes below); without it CMake fails to find octomapConfig.cmake.
+  add_host: ["octomap"]
+  add_run: ["octomap"]
 rviz_rendering:
   add_host: ["glew"]
 behaviortree_cpp:
