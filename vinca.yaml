@@ -253,6 +253,7 @@ packages_select_by_deps:
   - py_trees_js
   - py_trees_ros_viewer
   - py_trees_ros_tutorials
+  - rosidlcpp
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
