@@ -22,30 +22,30 @@ mutex_package:
 
 
 packages_skip_by_deps:
+
   - if: not linux
     then:
       - pendulum_control
       - rttest
       - tlsf
       - tlsf_cpp
-
 
 packages_remove_from_deps:
+
   - if: not linux
     then:
       - pendulum_control
       - rttest
       - tlsf
       - tlsf_cpp
-
 
 skip_existing:
   # - output
   - https://conda.anaconda.org/robostack-jazzy/
 
 packages_select_by_deps:
-  - ament_cmake_core
   - ament_cmake_catch2
+  - ament_cmake_core
   - ament_cmake_mypy
 
   # Generic dependencies used by Isaac ROS without Jazzy rosdistro releases.
@@ -107,13 +107,13 @@ packages_select_by_deps:
 
   - if: linux
     then: 
-      - turtlebot4_robot
-      - turtlebot4_bringup
-      - turtlebot4_tests
-      - turtlebot4_diagnostics
-      - turtlebot4_bringup
       - turtlebot4_base
+      - turtlebot4_bringup
+      - turtlebot4_bringup
+      - turtlebot4_diagnostics
+      - turtlebot4_robot
       - turtlebot4_setup
+      - turtlebot4_tests
 
   - irobot_create_toolbox
   - irobot_create_nodes
@@ -254,16 +254,15 @@ packages_select_by_deps:
   - if: linux
     then:
       # Depends on socketcan
-      - nobleo_socketcan_bridge
-      - ros2_socketcan
-      # Depends on v4l
-      - usb_cam
-      # Depends (indirectly) on libcamera
       - apriltag_ros
+      - mujoco_ros2_control
+      # Depends on v4l
+      - mujoco_ros2_control_demos
+      # Depends (indirectly) on libcamera
+      - nobleo_socketcan_bridge
       # Depends on v4l that is only available on linux
-      - v4l2_camera
-      # PlanSys2 packages and dependencies
       - plansys2_bringup
+      # PlanSys2 packages and dependencies
       - plansys2_bt_actions
       - plansys2_core
       - plansys2_domain_expert
@@ -279,166 +278,158 @@ packages_select_by_deps:
       - plansys2_tests
       - plansys2_tools
       - popf
-
-      # Use readlink and access at runtime linux-specific file
-      - mujoco_ros2_control
-      - mujoco_ros2_control_demos
-
-      # IntelRealSense
       - realsense2-camera
+      # Use readlink and access at runtime linux-specific file
       - realsense2-description
-
-      - septentrio_gnss_driver
-
-      # ros2_medkit diagnostic stack (https://index.ros.org/r/ros2_medkit/)
       - ros2_medkit_action_status_bridge
+      # IntelRealSense
+      - ros2_medkit_beacon_common
       - ros2_medkit_cmake
       - ros2_medkit_diagnostic_bridge
+      # ros2_medkit diagnostic stack (https://index.ros.org/r/ros2_medkit/)
       - ros2_medkit_fault_manager
       - ros2_medkit_fault_reporter
-      - ros2_medkit_integration_tests
-      - ros2_medkit_log_bridge
-      - ros2_medkit_msgs
-      - ros2_medkit_serialization
-      - ros2_medkit_beacon_common
       - ros2_medkit_gateway
       - ros2_medkit_graph_provider
+      - ros2_medkit_integration_tests
       - ros2_medkit_linux_introspection
+      - ros2_medkit_log_bridge
+      - ros2_medkit_msgs
       - ros2_medkit_param_beacon
+      - ros2_medkit_serialization
       - ros2_medkit_sovd_service_interface
       - ros2_medkit_topic_beacon
-      
+      - ros2_socketcan
+      - septentrio_gnss_driver
+      - usb_cam
+      - v4l2_camera
+
   # These packages are currently only build on Linux, but they currently only build on
   # Linux as trying to build them in the past on macos or Windows resulted in errors
   - if: linux
     then:
-      - livox_ros_driver2
-      - orbbec_camera
-      # on macos it fails with https://github.com/RoboStack/ros-jazzy/pull/135#issuecomment-3772187665
-      - mavros_extras
-      - proto2ros
-      # Uses linux-specific flags in  https://github.com/SteveMacenski/spatio_temporal_voxel_layer/blob/e23d730d35407bd8e2bf9c33d10388a6a07c735d/spatio_temporal_voxel_layer/CMakeLists.txt#L124,
-      # but should be easy to fix
-      - openvdb_vendor
-      - spatio_temporal_voxel_layer
-      - io_context
-      # Serial communication only implemented for linux
-      - serial_driver
-      - swri_serial_util
-      - udp_driver
-      - smacc2
-
-      - navmap_core
-      - navmap_ros
-      - navmap_ros_interfaces
-
       - easynav
+      - easynav_bonxai_maps_manager
+      # on macos it fails with https://github.com/RoboStack/ros-jazzy/pull/135#issuecomment-3772187665
       - easynav_common
       - easynav_controller
+      # Uses linux-specific flags in  https://github.com/SteveMacenski/spatio_temporal_voxel_layer/blob/e23d730d35407bd8e2bf9c33d10388a6a07c735d/spatio_temporal_voxel_layer/CMakeLists.txt#L124,
+      # but should be easy to fix
       - easynav_core
-      - easynav_interfaces
-      - easynav_localizer
-      - easynav_maps_manager
-      - easynav_planner
-      - easynav_sensors
-      - easynav_support_py
-      - easynav_system
-      - easynav_tools
-
-      - easynav_bonxai_maps_manager
       - easynav_costmap_localizer
       - easynav_costmap_maps_manager
+      # Serial communication only implemented for linux
       - easynav_costmap_planner
       - easynav_fusion_localizer
       - easynav_gps_localizer
+      - easynav_interfaces
+      - easynav_localizer
+      - easynav_maps_manager
       - easynav_mpc_controller
       - easynav_mppi_controller
       - easynav_navmap_localizer
       - easynav_navmap_maps_manager
       - easynav_navmap_planner
       - easynav_octomap_maps_manager
+      - easynav_planner
       - easynav_regulated_pp_controller
       - easynav_routes_maps_manager
+      - easynav_sensors
       - easynav_serest_controller
       - easynav_simple_common
       - easynav_simple_controller
       - easynav_simple_localizer
       - easynav_simple_maps_manager
       - easynav_simple_planner
+      - easynav_support_py
+      - easynav_system
+      - easynav_tools
       - easynav_vff_controller
+      - io_context
+      - livox_ros_driver2
+      - mavros_extras
+      - navmap_core
+      - navmap_ros
+      - navmap_ros_interfaces
+      - openvdb_vendor
+      - orbbec_camera
+      - proto2ros
+      - serial_driver
+      - smacc2
+      - spatio_temporal_voxel_layer
+      - swri_serial_util
+      - udp_driver
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
     then:
-      - diagnostic-remote-logging
-      - plotjuggler-ros
-      - foxglove_compressed_video_transport
-      - rplidar_ros
-      - velodyne
-      - moveit-py
-      - moveit-ros-perception
-      - moveit-ros-occupancy-map-monitor
-      - moveit-runtime
-      - swri_console  # Until sync of: https://github.com/ros/rosdistro/pull/49750
-      - moveit-task-constructor-demo
-      - moveit2-tutorials
-      - pinocchio
-      - trac_ik
-      # todo: switch to dummy vendored package that just depends on the conda-forge's gtsam, so it works also on Windows
-      - gtsam
-      # TODO on windows: fix iconv link issue
-      - ffmpeg_image_transport
-      # most of the dep of grid_map work on Windows, but there are some rviz linking problems in octomap_rviz_plugins,
-      # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
-      - grid_map
-      - dual-laser-merger
-      - laser-segmentation
-      - rqt_tf_tree
-      - rviz_satellite
-      - odom_to_tf_ros2
-      # Requested in https://github.com/RoboStack/ros-jazzy/issues/99
-      # error C2338: static_assert failed: 'the Header struct is not properly packed' error on Windows
-      - web_video_server
-      - orbbec_description
-      - orbbec_camera_msgs
-      # Requested in https://github.com/RoboStack/ros-jazzy/issues/112
-      # Error: LINK : fatal error LNK1181: cannot open input file 'zstd.lib' [%SRC_DIR%\build\zstd_point_cloud_transport.vcxproj]
-      - point_cloud_transport_plugins
       - bonxai_ros
-      - mavlink
-      - mavros
       - cloudini-lib
       - cloudini-ros
-      - spacenav
-      - rviz_2d_overlay_plugins
-      - vision_msgs_rviz_plugins
-
-      # lbr_fri_ros2_stack
+      - diagnostic-remote-logging
+      - dual-laser-merger
+      - ffmpeg_image_transport
+      - foxglove_compressed_video_transport
+      - grid_map
+      - gtsam
+      - iiwa14_moveit_config
+      - iiwa7_moveit_config
+      - kinematics_interface
+      - kinematics_interface_kdl
+      - laser-segmentation
+      # todo: switch to dummy vendored package that just depends on the conda-forge's gtsam, so it works also on Windows
       - lbr_bringup
+      # TODO on windows: fix iconv link issue
       - lbr_demos_advanced_cpp
+      # most of the dep of grid_map work on Windows, but there are some rviz linking problems in octomap_rviz_plugins,
+      # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
       - lbr_demos_advanced_py
       - lbr_demos_cpp
       - lbr_demos_py
+      - lbr_description
+      - lbr_fri_idl
+      - lbr_fri_ros2
+      # Requested in https://github.com/RoboStack/ros-jazzy/issues/99
+      # error C2338: static_assert failed: 'the Header struct is not properly packed' error on Windows
+      - lbr_fri_ros2_stack
       - lbr_moveit
       - lbr_moveit_cpp
-      - lbr_description
-      - lbr_fri_ros2
-      - lbr_fri_ros2_stack
-      - iiwa14_moveit_config
-      - iiwa7_moveit_config
+      # Requested in https://github.com/RoboStack/ros-jazzy/issues/112
+      # Error: LINK : fatal error LNK1181: cannot open input file 'zstd.lib' [%SRC_DIR%\build\zstd_point_cloud_transport.vcxproj]
+      - lbr_ros2_control
+      - libg2o
+      - mavlink
+      - mavros
       - med14_moveit_config
       - med7_moveit_config
-      - lbr_ros2_control
-      - lbr_fri_idl
-      - kinematics_interface
-      - kinematics_interface_kdl
-      - libg2o
-
-      # graph-monitor related packages
+      - moveit-py
+      - moveit-ros-occupancy-map-monitor
+      - moveit-ros-perception
+      # lbr_fri_ros2_stack
+      - moveit-runtime
+      - moveit-task-constructor-demo
+      - moveit2-tutorials
+      - odom_to_tf_ros2
+      - orbbec_camera_msgs
+      - orbbec_description
+      - pinocchio
+      - plotjuggler-ros
+      - point_cloud_transport_plugins
       - rmw_stats_shim
-      - rosgraph_monitor_msgs
       - rosgraph_monitor
-      
+      - rosgraph_monitor_msgs
+      - rplidar_ros
+      - rqt_tf_tree
+      - rviz_2d_overlay_plugins
+      - rviz_satellite
+      - spacenav
+      - swri_console  # Until sync of: https://github.com/ros/rosdistro/pull/49750
+      - trac_ik
+      # graph-monitor related packages
+      - velodyne
+      - vision_msgs_rviz_plugins
+      - web_video_server
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
 rosdistro_additional_recipes: rosdistro_additional_recipes.yaml
