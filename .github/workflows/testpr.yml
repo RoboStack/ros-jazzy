@@ -77,6 +77,11 @@ jobs:
       run: |
         pixi run anaconda --version
 
+    - name: Disable git auto-maintenance in source caches
+      shell: bash -l {0}
+      run: |
+        git config --global maintenance.auto false
+
     - name: Generate recipes
       shell: bash -l {0}
       run: |
