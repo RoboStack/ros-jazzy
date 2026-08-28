@@ -54,6 +54,7 @@ packages_select_by_deps:
 
   - desktop
   - ros_base
+  - ros_core
   - ros_environment
   - ros_workspace
   - dev_tools
@@ -363,72 +364,249 @@ packages_select_by_deps:
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
     then:
+      - ament_cmake
+      - ament_cmake_vendor_package
+      - apex_test_tools
+      - apriltag
+      - automatika_embodied_agents
+      - automatika_ros_sugar
+      - autoware_component_interface_specs
+      - autoware_core
+      - autoware_core_control
+      - autoware_core_localization
+      - autoware_ekf_localizer
+      - autoware_geography_utils
+      - autoware_global_parameter_loader
+      - autoware_internal_localization_msgs
+      # todo: switch to dummy vendored package that just depends on the conda-forge's gtsam, so it works also on Windows
+      - autoware_interpolation
+      # TODO on windows: fix iconv link issue
+      - autoware_kalman_filter
+      # most of the dep of grid_map work on Windows, but there are some rviz linking problems in octomap_rviz_plugins,
+      # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
+      - autoware_lanelet2_utils
+      - autoware_motion_utils
+      - autoware_node
+      - autoware_object_recognition_utils
+      - autoware_osqp_interface
+      - autoware_point_types
+      # Requested in https://github.com/RoboStack/ros-jazzy/issues/99
+      # error C2338: static_assert failed: 'the Header struct is not properly packed' error on Windows
+      - autoware_pose_initializer
+      - autoware_qp_interface
+      - autoware_signal_processing
+      # Requested in https://github.com/RoboStack/ros-jazzy/issues/112
+      # Error: LINK : fatal error LNK1181: cannot open input file 'zstd.lib' [%SRC_DIR%\build\zstd_point_cloud_transport.vcxproj]
+      - autoware_trajectory
+      - autoware_vehicle_info_utils
+      - avt_vimba_camera
+      - behaviortree_cpp_v3
+      - bno055
+      - bond_core
       - bonxai_ros
+      - camera_ros
+      - cartographer_ros
+      # lbr_fri_ros2_stack
       - cloudini-lib
       - cloudini-ros
+      - color_util
+      - control_msgs
+      - control_toolbox
+      - demo_nodes_cpp
+      - demo_nodes_py
       - diagnostic-remote-logging
+      - diff_drive_controller
       - dual-laser-merger
+      - event_camera_codecs
+      - event_camera_renderer
       - ffmpeg_image_transport
       - foxglove_compressed_video_transport
+      - gazebo_msgs
+      - geographic_info
+      - geometry_tutorials
+      - graph_msgs
       - grid_map
+      # graph-monitor related packages
       - gtsam
       - iiwa14_moveit_config
       - iiwa7_moveit_config
+  - ament_cmake_clang_tidy
+  - ament_flake8
+  - ament_lint
+  - ament_lint_common
+  - ament_pep257
+  - ament_pycodestyle
+  - autoware_adapi_v1_msgs
+  - autoware_adapi_version_msgs
+  - autoware_auto_msgs
+  - autoware_internal_debug_msgs
+  - autoware_internal_metric_msgs
+  - autoware_internal_perception_msgs
+  - autoware_internal_planning_msgs
+  - autoware_lanelet2_extension
+  - autoware_lanelet2_extension_python
+  - autoware_lint_common
+  - autoware_msgs
+  - autoware_utils_debug
+  - autoware_utils_diagnostics
+  - autoware_utils_geometry
+  - autoware_utils_logging
+  - autoware_utils_math
+  - autoware_utils_pcl
+  - autoware_utils_rclcpp
+  - autoware_utils_system
+  - autoware_utils_tf
+  - autoware_utils_uuid
+  - autoware_utils_visualization
+  - bondcpp
+  - builtin_interfaces
+  - cm_executors
+  - nav2_minimal_tb3_sim
+  - nav2_minimal_tb4_sim
+  - osrf_testing_tools_cpp
+  - persist_parameter_server
+  - pick_ik
+  - proxsuite
+  - rclc
+  - rclcpp
+  - rclpy
+  - rcpputils
+  - rcutils
+  - rmw
+  - robot_localization
+  - rosidl_runtime_c
+  - rosidl_runtime_cpp
+  - rosidl_typesupport_introspection_c
+  - rosidl_typesupport_introspection_cpp
+  - rtabmap
+  - turtlebot3_gazebo
+  - twist_stamper
+  - ur_client_library
+  - urdf_launch
+  - yaml_cpp_vendor
+  - if: not wasm32
+    then:
+      - imu_transformer
+      - joint_state_publisher
+      - joy
+      - joy_linux
       - kinematics_interface
       - kinematics_interface_kdl
       - laser-segmentation
-      # todo: switch to dummy vendored package that just depends on the conda-forge's gtsam, so it works also on Windows
       - lbr_bringup
-      # TODO on windows: fix iconv link issue
       - lbr_demos_advanced_cpp
-      # most of the dep of grid_map work on Windows, but there are some rviz linking problems in octomap_rviz_plugins,
-      # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
       - lbr_demos_advanced_py
       - lbr_demos_cpp
       - lbr_demos_py
       - lbr_description
       - lbr_fri_idl
       - lbr_fri_ros2
-      # Requested in https://github.com/RoboStack/ros-jazzy/issues/99
-      # error C2338: static_assert failed: 'the Header struct is not properly packed' error on Windows
       - lbr_fri_ros2_stack
       - lbr_moveit
       - lbr_moveit_cpp
-      # Requested in https://github.com/RoboStack/ros-jazzy/issues/112
-      # Error: LINK : fatal error LNK1181: cannot open input file 'zstd.lib' [%SRC_DIR%\build\zstd_point_cloud_transport.vcxproj]
       - lbr_ros2_control
+      - libcamera
       - libg2o
+      - marker_msgs
       - mavlink
       - mavros
       - med14_moveit_config
       - med7_moveit_config
+      - microstrain_inertial_description
+      - microstrain_inertial_driver
+      - microstrain_inertial_examples
+      - microstrain_inertial_msgs
+      - microstrain_inertial_rqt
+      - motion_capture_tracking
       - moveit-py
       - moveit-ros-occupancy-map-monitor
       - moveit-ros-perception
-      # lbr_fri_ros2_stack
       - moveit-runtime
       - moveit-task-constructor-demo
       - moveit2-tutorials
+      - moveit_hybrid_planning
+      - moveit_resources
+      - nmea_msgs
       - odom_to_tf_ros2
       - orbbec_camera_msgs
       - orbbec_description
+      - pal_statistics
+      - pilz_industrial_motion_planner
       - pinocchio
+      - plotjuggler
       - plotjuggler-ros
+      - plotjuggler_msgs
       - point_cloud_transport_plugins
+      - polygon_utils
+      - ptz_action_server_msgs
+      - quaternion_operation
+      - radar_msgs
+      - random_numbers
+      - rclc_examples
+      - rclc_lifecycle
+      - rclc_parameter
+      - realtime_tools
       - rmw_stats_shim
+      - robot_localization
+      - robotiq_description
+      - ros2_control_cmake
+      - ros_gz_interfaces
+      - rosbag2_performance_benchmarking
+      - rosbag2_storage_mcap
       - rosgraph_monitor
       - rosgraph_monitor_msgs
+      - rot_conv
       - rplidar_ros
+      - rqt
+  - if: linux
+    then:
+      - rqt_controller_manager
+      - rqt_gui
+      - rqt_image_overlay
+      - rqt_moveit
+      - rqt_robot_dashboard
+      - rqt_robot_steering
       - rqt_tf_tree
+      - rslidar_sdk
+      - rtcm_msgs
+      - rviz2
       - rviz_2d_overlay_plugins
       - rviz_satellite
+      - sdl2_vendor
+  - if: not wasm32 and not win
+    then:
+      - sick_safetyscanners2
+      - sick_safetyscanners2_interfaces
+      - sick_safetyscanners_base
+      - slider_publisher
       - spacenav
       - swri_console  # Until sync of: https://github.com/ros/rosdistro/pull/49750
+      - system_modes
+      - tf_transformations
+      - topic_tools
       - trac_ik
-      # graph-monitor related packages
+      - turtle_tf2_cpp
+      - turtle_tf2_py
+      - turtlebot3_gazebo
+      - twist_stamper
+      - ublox_dgnss
+      - ublox_dgnss_node
+      - ublox_ubx_interfaces
+      - ur_calibration
+      - ur_robot_driver
+      - urg_node
+      - vector_pursuit_controller
       - velodyne
+      - vision_msgs
+  - if: not win
+    then:
       - vision_msgs_rviz_plugins
+      - visp
       - web_video_server
+  - if: linux and not aarch64
+    then:
+      - webots_ros2
+      - zed_msgs
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
