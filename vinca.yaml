@@ -22,7 +22,6 @@ mutex_package:
     - libprotobuf 7.35.*
     - vtk 9.6.2.*
 
-
 packages_skip_by_deps:
   - if: not linux
     then:
