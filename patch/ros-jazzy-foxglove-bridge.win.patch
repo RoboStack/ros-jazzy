@@ -1,7 +1,7 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -23,7 +23,7 @@
+@@ -62,7 +62,7 @@ endif()
 
  macro(enable_strict_compiler_warnings target)
    if (MSVC)
@@ -10,16 +10,3 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
    elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
      target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -Wold-style-cast -Wfloat-equal -Wmost -Wunused-exception-parameter)
    else()
-@@ -87,9 +87,10 @@ target_sources(foxglove_cpp_shared PRIVATE ${FOXGLOVE_SDK_SOURCES})
- # Import the prebuilt C shared library from the fetched SDK
- add_library(foxglove-shared SHARED IMPORTED)
- set_target_properties(foxglove-shared PROPERTIES
--  IMPORTED_LOCATION ${foxglove_sdk_SOURCE_DIR}/lib/libfoxglove.so
-+  IMPORTED_LOCATION ${foxglove_sdk_SOURCE_DIR}/lib/foxglove.dll
-+  IMPORTED_IMPLIB ${foxglove_sdk_SOURCE_DIR}/lib/foxglove.dll.lib
- )
--target_link_libraries(foxglove_cpp_shared PRIVATE foxglove-shared)
-+target_link_libraries(foxglove_cpp_shared PRIVATE foxglove-shared Ws2_32 Userenv Ntdll)
- set_target_properties(foxglove_cpp_shared PROPERTIES
-   INSTALL_RPATH "$ORIGIN"
-   BUILD_WITH_INSTALL_RPATH TRUE

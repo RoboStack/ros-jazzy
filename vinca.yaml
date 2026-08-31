@@ -1,23 +1,25 @@
 ros_distro: jazzy
 
+package_name_mode: both
+
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 21
-build_number: 18
+# Reminder for next full rebuild, the next build number should be 22
+build_number: 21
 
 mutex_package:
   name: "ros2-distro-mutex"
-  version: "0.15.0"
+  version: "0.16.0"
   upper_bound: "x.x"
   run_constraints:
     - libboost 1.90.*
     - libboost-devel 1.90.*
     - pcl 1.15.1.*
     - gazebo 11.*
-    - libprotobuf 6.33.*
+    - libprotobuf 7.35.*
     - vtk 9.6.2.*
 
 
@@ -329,6 +331,45 @@ packages_select_by_deps:
       - swri_serial_util
       - udp_driver
       - smacc2
+
+      - navmap_core
+      - navmap_ros
+      - navmap_ros_interfaces
+
+      - easynav
+      - easynav_common
+      - easynav_controller
+      - easynav_core
+      - easynav_interfaces
+      - easynav_localizer
+      - easynav_maps_manager
+      - easynav_planner
+      - easynav_sensors
+      - easynav_support_py
+      - easynav_system
+      - easynav_tools
+
+      - easynav_bonxai_maps_manager
+      - easynav_costmap_localizer
+      - easynav_costmap_maps_manager
+      - easynav_costmap_planner
+      - easynav_fusion_localizer
+      - easynav_gps_localizer
+      - easynav_mpc_controller
+      - easynav_mppi_controller
+      - easynav_navmap_localizer
+      - easynav_navmap_maps_manager
+      - easynav_navmap_planner
+      - easynav_octomap_maps_manager
+      - easynav_regulated_pp_controller
+      - easynav_routes_maps_manager
+      - easynav_serest_controller
+      - easynav_simple_common
+      - easynav_simple_controller
+      - easynav_simple_localizer
+      - easynav_simple_maps_manager
+      - easynav_simple_planner
+      - easynav_vff_controller
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win

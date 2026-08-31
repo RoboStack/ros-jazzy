@@ -315,7 +315,9 @@ libgazebo11-dev:
 libgazebo9-dev:
   robostack: [gazebo, libprotobuf, libabseil]
 libgdal-dev:
-  robostack: [libgdal]
+  # Development headers and the linked GDAL library are in libgdal-core.
+  # Avoid the libgdal metapackage, which installs every optional plugin.
+  robostack: [libgdal-core]
 libgeos++-dev:
   robostack: [geos]
 libgflags-dev:

@@ -1,0 +1,121 @@
+diff --git a/src/main.cpp b/src/main.cpp
+index a7c7ce3e..69e74e8b 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -28,6 +28,7 @@
+  * POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
++#include <cstdlib>
+ #include <memory>
+ #include <string>
+ #include <vector>
+@@ -42,54 +43,65 @@
+ 
+ int main(int argc, char ** argv)
+ {
+-  // remove ROS arguments before passing to QApplication
+-  std::vector<std::string> non_ros_args = rclcpp::remove_ros_arguments(argc, argv);
++  int exit_code = 1;
+ 
+-  // check for wayland and if so force the use of X to render everything
+-  // but only if the user hasn't already tried to specify -platform
+-  // or override QT_QPA_PLATFORM
+-  auto env = QProcessEnvironment::systemEnvironment();
+-  if(env.value("XDG_SESSION_TYPE") == "wayland" &&
+-    non_ros_args.end() == std::find(non_ros_args.begin(), non_ros_args.end(),
+-      "-platform") &&
+-    !env.contains("QT_QPA_PLATFORM"))
+   {
+-    non_ros_args.push_back("-platform");
+-    non_ros_args.push_back("xcb");
+-  }
+-
+-  std::vector<char *> non_ros_args_c_strings;
+-  for (auto & arg : non_ros_args) {
+-    non_ros_args_c_strings.push_back(&arg.front());
+-  }
+-  int non_ros_argc = static_cast<int>(non_ros_args_c_strings.size());
++    // remove ROS arguments before passing to QApplication
++    std::vector<std::string> non_ros_args = rclcpp::remove_ros_arguments(argc, argv);
+ 
+-  QApplication qapp(non_ros_argc, non_ros_args_c_strings.data());
++    // check for wayland and if so force the use of X to render everything
++    // but only if the user hasn't already tried to specify -platform
++    // or override QT_QPA_PLATFORM
++    auto env = QProcessEnvironment::systemEnvironment();
++    if(env.value("XDG_SESSION_TYPE") == "wayland" &&
++      non_ros_args.end() == std::find(non_ros_args.begin(), non_ros_args.end(),
++        "-platform") &&
++      !env.contains("QT_QPA_PLATFORM"))
++    {
++      non_ros_args.push_back("-platform");
++      non_ros_args.push_back("xcb");
++    }
+ 
+-  // TODO(wjwwood): use node's logger here in stead
+-  auto logger = rclcpp::get_logger("rviz2");
+-  // install logging handlers to route logging through ROS's logging system
+-  rviz_common::set_logging_handlers(
+-    [logger](const std::string & msg, const std::string &, size_t) {
+-      RCLCPP_DEBUG(logger, "%s", msg.c_str());
+-    },
+-    [logger](const std::string & msg, const std::string &, size_t) {
+-      RCLCPP_INFO(logger, "%s", msg.c_str());
+-    },
+-    [logger](const std::string & msg, const std::string &, size_t) {
+-      RCLCPP_WARN(logger, "%s", msg.c_str());
+-    },
+-    [logger](const std::string & msg, const std::string &, size_t) {
+-      RCLCPP_ERROR(logger, "%s", msg.c_str());
++    std::vector<char *> non_ros_args_c_strings;
++    for (auto & arg : non_ros_args) {
++      non_ros_args_c_strings.push_back(&arg.front());
+     }
+-  );
++    int non_ros_argc = static_cast<int>(non_ros_args_c_strings.size());
+ 
+-  rviz_common::VisualizerApp vapp(
+-    std::make_unique<rviz_common::ros_integration::RosClientAbstraction>());
+-  vapp.setApp(&qapp);
+-  if (vapp.init(argc, argv)) {
+-    return qapp.exec();
+-  } else {
+-    return 1;
++    QApplication qapp(non_ros_argc, non_ros_args_c_strings.data());
++
++    // TODO(wjwwood): use node's logger here in stead
++    auto logger = rclcpp::get_logger("rviz2");
++    // install logging handlers to route logging through ROS's logging system
++    rviz_common::set_logging_handlers(
++      [logger](const std::string & msg, const std::string &, size_t) {
++        RCLCPP_DEBUG(logger, "%s", msg.c_str());
++      },
++      [logger](const std::string & msg, const std::string &, size_t) {
++        RCLCPP_INFO(logger, "%s", msg.c_str());
++      },
++      [logger](const std::string & msg, const std::string &, size_t) {
++        RCLCPP_WARN(logger, "%s", msg.c_str());
++      },
++      [logger](const std::string & msg, const std::string &, size_t) {
++        RCLCPP_ERROR(logger, "%s", msg.c_str());
++      }
++    );
++
++    rviz_common::VisualizerApp vapp(
++      std::make_unique<rviz_common::ros_integration::RosClientAbstraction>());
++    vapp.setApp(&qapp);
++    if (vapp.init(argc, argv)) {
++      exit_code = qapp.exec();
++    }
+   }
++
++#ifdef __APPLE__
++  // On macOS, process-global class_loader teardown can throw after RViz has
++  // already shut down its own Qt and ROS objects. Avoid running static
++  // destructors after the application-level teardown has completed.
++  std::_Exit(exit_code);
++#else
++  return exit_code;
++#endif
+ }

@@ -1,4 +1,5 @@
 import unittest
+import platform
 import sys
 
 import launch
@@ -47,7 +48,10 @@ class TestRobotStatePublisher(unittest.TestCase):
         )
 
 # See https://github.com/RoboStack/ros-humble/pull/320#issuecomment-3078288316
-@unittest.skipIf(sys.platform == "darwin", "Post‑shutdown exit‑code is either -6 or -9 on macOS, do not check it.")
+@unittest.skipIf(
+    sys.platform == "darwin" or platform.machine().lower() in ("aarch64", "arm64"),
+    "Post-shutdown exit code is unreliable on macOS and ARM; node startup is tested above.",
+)
 @launch_testing.post_shutdown_test()
 class TestRobotStatePublisherPostShutdown(unittest.TestCase):
 

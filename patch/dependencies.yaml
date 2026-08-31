@@ -42,6 +42,12 @@ pcl_conversions:
   add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "libboost-devel"]
 pcl_ros:
   add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "libboost-devel"]
+easynav_bonxai_maps_manager:
+  # drop once easynav_bonxai_maps_manager is updated to 0.4.2
+  add_host: ["eigen-abi-devel"]
+easynav_octomap_maps_manager:
+  # drop once easynav_octomap_maps_manager is updated to 0.4.2
+  add_host: ["octomap"]
 rviz_rendering:
   add_host: ["glew"]
 behaviortree_cpp:
@@ -278,8 +284,9 @@ cloudini_lib:
 cloudini_ros:
   add_host: ["eigen-abi-devel"]
 swri_console:
-  add_host: ["libboost-devel"]
-  add_run: ["libboost"]
+  add_build: ["${{ 'qt-main' if (build_platform != target_platform) }}"]
+  add_host: ["libboost-devel", "qt-main", "${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
+  add_run: ["libboost", "qt-main"]
 warehouse_ros_sqlite:
   add_host: ["ros-jazzy-sqlite3-vendor"]
   add_run: ["ros-jazzy-sqlite3-vendor"]
