@@ -190,7 +190,7 @@ environments:
       - conda: https://prefix.dev/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/urllib3-2.7.0-pyhd8ed1ab_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/zipp-4.1.0-pyhcf101f3_0.conda
-      - conda_source: vinca[45d6c451] @ git+https://github.com/robostack/vinca?rev=6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b#6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b
+      - conda_source: vinca[898eb535] @ git+https://github.com/wolfv/vinca?rev=8f1a3f9939ac3f466ca70c151827ee162e7f1f32#8f1a3f9939ac3f466ca70c151827ee162e7f1f32
       linux-aarch64-glibc-2-17:
       - conda: https://prefix.dev/conda-forge/linux-aarch64/_openmp_mutex-4.5-20_gnu.conda
       - conda: https://prefix.dev/conda-forge/linux-aarch64/backports.zstd-1.7.0-py312h22d1088_0.conda
@@ -348,7 +348,7 @@ environments:
       - conda: https://prefix.dev/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/urllib3-2.7.0-pyhd8ed1ab_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/zipp-4.1.0-pyhcf101f3_0.conda
-      - conda_source: vinca[74b0d920] @ git+https://github.com/robostack/vinca?rev=6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b#6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b
+      - conda_source: vinca[a1506f9a] @ git+https://github.com/wolfv/vinca?rev=8f1a3f9939ac3f466ca70c151827ee162e7f1f32#8f1a3f9939ac3f466ca70c151827ee162e7f1f32
       osx-64:
       - conda: https://prefix.dev/conda-forge/noarch/anaconda-auth-0.15.2-pyhd8ed1ab_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/anaconda-cli-base-0.8.2-pyhc364b38_0.conda
@@ -491,7 +491,7 @@ environments:
       - conda: https://prefix.dev/conda-forge/osx-64/zlib-ng-2.3.3-h646e873_1.conda
       - conda: https://prefix.dev/conda-forge/osx-64/zstandard-0.25.0-py312hdc27ec5_3.conda
       - conda: https://prefix.dev/conda-forge/osx-64/zstd-1.5.7-hbc1a06c_7.conda
-      - conda_source: vinca[43e9afa4] @ git+https://github.com/robostack/vinca?rev=6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b#6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b
+      - conda_source: vinca[49a7a16a] @ git+https://github.com/wolfv/vinca?rev=8f1a3f9939ac3f466ca70c151827ee162e7f1f32#8f1a3f9939ac3f466ca70c151827ee162e7f1f32
       osx-arm64:
       - conda: https://prefix.dev/conda-forge/noarch/anaconda-auth-0.15.2-pyhd8ed1ab_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/anaconda-cli-base-0.8.2-pyhc364b38_0.conda
@@ -634,7 +634,7 @@ environments:
       - conda: https://prefix.dev/conda-forge/osx-arm64/zlib-ng-2.3.3-h31dac16_1.conda
       - conda: https://prefix.dev/conda-forge/osx-arm64/zstandard-0.25.0-py312hbd136b4_3.conda
       - conda: https://prefix.dev/conda-forge/osx-arm64/zstd-1.5.7-hf451053_7.conda
-      - conda_source: vinca[092ae15c] @ git+https://github.com/robostack/vinca?rev=6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b#6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b
+      - conda_source: vinca[e7a371f9] @ git+https://github.com/wolfv/vinca?rev=8f1a3f9939ac3f466ca70c151827ee162e7f1f32#8f1a3f9939ac3f466ca70c151827ee162e7f1f32
       win-64:
       - conda: https://prefix.dev/conda-forge/noarch/anaconda-auth-0.15.2-pyhd8ed1ab_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/anaconda-cli-base-0.8.2-pyhc364b38_0.conda
@@ -784,7 +784,7 @@ environments:
       - conda: https://prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://prefix.dev/conda-forge/win-64/zstandard-0.25.0-py312he5662c2_3.conda
       - conda: https://prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - conda_source: vinca[0a983bac] @ git+https://github.com/robostack/vinca?rev=6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b#6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b
+      - conda_source: vinca[0328cdf6] @ git+https://github.com/wolfv/vinca?rev=8f1a3f9939ac3f466ca70c151827ee162e7f1f32#8f1a3f9939ac3f466ca70c151827ee162e7f1f32
 packages:
 - conda: https://prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
   build_number: 20
@@ -7303,58 +7303,7 @@ packages:
     - zstd >=1.5.7,<1.6.0a0
   size: 387535
   timestamp: 1786599623274
-- conda_source: vinca[092ae15c] @ git+https://github.com/robostack/vinca?rev=6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b#6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b
-  version: 0.2.0
-  build: pyh4616a5c_0
-  subdir: noarch
-  noarch: python
-  variants:
-    target_platform: noarch
-  depends:
-  - python >=3.9
-  - python *
-  - catkin_pkg >=0.4.16
-  - ruamel.yaml >=0.16.6,<0.18.0
-  - rosdistro >=0.8.0
-  - empy >=3.3.4,<4.0.0
-  - requests >=2.24.0
-  - networkx >=2.5
-  - rich >=10
-  - jinja2 >=3.0.0
-  - license-expression >=30.0.0
-  - packaging >=23.0
-  - zstandard >=0.19.0
-  license: MIT
-  host_packages:
-  - conda: https://prefix.dev/conda-forge/noarch/ca-certificates-2026.7.22-hbd8a1cb_0.conda
-  - conda: https://prefix.dev/conda-forge/noarch/editables-0.6-pyhcf101f3_0.conda
-  - conda: https://prefix.dev/conda-forge/noarch/hatchling-1.32.0-pyhcf101f3_0.conda
-  - conda: https://prefix.dev/conda-forge/noarch/packaging-26.3-pyhc364b38_0.conda
-  - conda: https://prefix.dev/conda-forge/noarch/pathspec-1.1.1-pyhd8ed1ab_0.conda
-  - conda: https://prefix.dev/conda-forge/noarch/pluggy-1.6.0-pyhf9edf01_1.conda
-  - conda: https://prefix.dev/conda-forge/noarch/python_abi-3.14-8_cp314.conda
-  - conda: https://prefix.dev/conda-forge/noarch/tomli-2.4.1-pyhcf101f3_0.conda
-  - conda: https://prefix.dev/conda-forge/noarch/tomlkit-0.15.1-pyhcf101f3_0.conda
-  - conda: https://prefix.dev/conda-forge/noarch/trove-classifiers-2026.6.1.19-pyhcf101f3_0.conda
-  - conda: https://prefix.dev/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/bzip2-1.0.8-h4e30115_10.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/icu-78.3-py310h579977c_2.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/libcxx-23.1.0-h55c6f16_0.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/libexpat-2.8.1-hf6b4638_1.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/libffi-3.7.0-h47dc5ef_1.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/liblzma-5.8.3-h8088a28_1.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/libmpdec-4.0.0-h84a0fba_2.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/libpython-3.14.7-h4311e70_104_cp314.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/libsqlite-3.53.4-hca69786_1.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/libzlib-1.3.2-h8088a28_3.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/ncurses-6.6-he64c551_1.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/openssl-3.6.4-h55eecbc_0.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/python-3.14.7-h0ae1c2c_104_cp314.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/readline-8.3-h8b90a29_1.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/tk-8.6.13-hbeba79b_4.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/uv-0.12.8-h0e72303_0.conda
-  - conda: https://prefix.dev/conda-forge/osx-arm64/zstd-1.5.7-hf451053_7.conda
-- conda_source: vinca[0a983bac] @ git+https://github.com/robostack/vinca?rev=6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b#6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b
+- conda_source: vinca[0328cdf6] @ git+https://github.com/wolfv/vinca?rev=8f1a3f9939ac3f466ca70c151827ee162e7f1f32#8f1a3f9939ac3f466ca70c151827ee162e7f1f32
   version: 0.2.0
   build: pyh4616a5c_0
   subdir: noarch
@@ -7405,7 +7354,7 @@ packages:
   - conda: https://prefix.dev/conda-forge/win-64/vc14_runtime-14.51.36247-habf1de7_41.conda
   - conda: https://prefix.dev/conda-forge/win-64/vcomp14-14.51.36247-habf1de7_41.conda
   - conda: https://prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-- conda_source: vinca[43e9afa4] @ git+https://github.com/robostack/vinca?rev=6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b#6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b
+- conda_source: vinca[49a7a16a] @ git+https://github.com/wolfv/vinca?rev=8f1a3f9939ac3f466ca70c151827ee162e7f1f32#8f1a3f9939ac3f466ca70c151827ee162e7f1f32
   version: 0.2.0
   build: pyh4616a5c_0
   subdir: noarch
@@ -7455,7 +7404,7 @@ packages:
   - conda: https://prefix.dev/conda-forge/osx-64/tk-8.6.13-ha6c374e_4.conda
   - conda: https://prefix.dev/conda-forge/osx-64/uv-0.12.8-h6c1caad_0.conda
   - conda: https://prefix.dev/conda-forge/osx-64/zstd-1.5.7-hbc1a06c_7.conda
-- conda_source: vinca[45d6c451] @ git+https://github.com/robostack/vinca?rev=6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b#6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b
+- conda_source: vinca[898eb535] @ git+https://github.com/wolfv/vinca?rev=8f1a3f9939ac3f466ca70c151827ee162e7f1f32#8f1a3f9939ac3f466ca70c151827ee162e7f1f32
   version: 0.2.0
   build: pyh4616a5c_0
   subdir: noarch
@@ -7511,7 +7460,7 @@ packages:
   - conda: https://prefix.dev/conda-forge/noarch/tomlkit-0.15.1-pyhcf101f3_0.conda
   - conda: https://prefix.dev/conda-forge/noarch/trove-classifiers-2026.6.1.19-pyhcf101f3_0.conda
   - conda: https://prefix.dev/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
-- conda_source: vinca[74b0d920] @ git+https://github.com/robostack/vinca?rev=6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b#6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b
+- conda_source: vinca[a1506f9a] @ git+https://github.com/wolfv/vinca?rev=8f1a3f9939ac3f466ca70c151827ee162e7f1f32#8f1a3f9939ac3f466ca70c151827ee162e7f1f32
   version: 0.2.0
   build: pyh4616a5c_0
   subdir: noarch
@@ -7567,3 +7516,54 @@ packages:
   - conda: https://prefix.dev/conda-forge/noarch/tomlkit-0.15.1-pyhcf101f3_0.conda
   - conda: https://prefix.dev/conda-forge/noarch/trove-classifiers-2026.6.1.19-pyhcf101f3_0.conda
   - conda: https://prefix.dev/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
+- conda_source: vinca[e7a371f9] @ git+https://github.com/wolfv/vinca?rev=8f1a3f9939ac3f466ca70c151827ee162e7f1f32#8f1a3f9939ac3f466ca70c151827ee162e7f1f32
+  version: 0.2.0
+  build: pyh4616a5c_0
+  subdir: noarch
+  noarch: python
+  variants:
+    target_platform: noarch
+  depends:
+  - python >=3.9
+  - python *
+  - catkin_pkg >=0.4.16
+  - ruamel.yaml >=0.16.6,<0.18.0
+  - rosdistro >=0.8.0
+  - empy >=3.3.4,<4.0.0
+  - requests >=2.24.0
+  - networkx >=2.5
+  - rich >=10
+  - jinja2 >=3.0.0
+  - license-expression >=30.0.0
+  - packaging >=23.0
+  - zstandard >=0.19.0
+  license: MIT
+  host_packages:
+  - conda: https://prefix.dev/conda-forge/noarch/ca-certificates-2026.7.22-hbd8a1cb_0.conda
+  - conda: https://prefix.dev/conda-forge/noarch/editables-0.6-pyhcf101f3_0.conda
+  - conda: https://prefix.dev/conda-forge/noarch/hatchling-1.32.0-pyhcf101f3_0.conda
+  - conda: https://prefix.dev/conda-forge/noarch/packaging-26.3-pyhc364b38_0.conda
+  - conda: https://prefix.dev/conda-forge/noarch/pathspec-1.1.1-pyhd8ed1ab_0.conda
+  - conda: https://prefix.dev/conda-forge/noarch/pluggy-1.6.0-pyhf9edf01_1.conda
+  - conda: https://prefix.dev/conda-forge/noarch/python_abi-3.14-8_cp314.conda
+  - conda: https://prefix.dev/conda-forge/noarch/tomli-2.4.1-pyhcf101f3_0.conda
+  - conda: https://prefix.dev/conda-forge/noarch/tomlkit-0.15.1-pyhcf101f3_0.conda
+  - conda: https://prefix.dev/conda-forge/noarch/trove-classifiers-2026.6.1.19-pyhcf101f3_0.conda
+  - conda: https://prefix.dev/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/bzip2-1.0.8-h4e30115_10.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/icu-78.3-py310h579977c_2.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/libcxx-23.1.0-h55c6f16_0.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/libexpat-2.8.1-hf6b4638_1.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/libffi-3.7.0-h47dc5ef_1.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/liblzma-5.8.3-h8088a28_1.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/libmpdec-4.0.0-h84a0fba_2.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/libpython-3.14.7-h4311e70_104_cp314.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/libsqlite-3.53.4-hca69786_1.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/libzlib-1.3.2-h8088a28_3.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/ncurses-6.6-he64c551_1.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/openssl-3.6.4-h55eecbc_0.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/python-3.14.7-h0ae1c2c_104_cp314.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/readline-8.3-h8b90a29_1.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/tk-8.6.13-hbeba79b_4.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/uv-0.12.8-h0e72303_0.conda
+  - conda: https://prefix.dev/conda-forge/osx-arm64/zstd-1.5.7-hf451053_7.conda
