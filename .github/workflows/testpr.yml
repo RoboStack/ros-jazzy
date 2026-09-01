@@ -75,7 +75,8 @@ jobs:
     - name: Check that anaconda-client command works fine
       shell: bash -l {0}
       run: |
-        pixi run anaconda --version
+        # --help used insted of --version for https://github.com/anaconda/anaconda-client/issues/925
+        pixi run anaconda --help
 
     - name: Disable git auto-maintenance in source caches
       shell: bash -l {0}
