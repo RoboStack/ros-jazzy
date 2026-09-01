@@ -65,3 +65,18 @@ index 47c24958..d5a95d48 100644
    endif()
  
    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libqt_gui_cpp_sip${LIBQT_GUI_CPP_SIP_SUFFIX}
+
+diff --git a/src/qt_gui_cpp_sip/pyproject.toml.in b/src/qt_gui_cpp_sip/pyproject.toml.in
+--- a/src/qt_gui_cpp_sip/pyproject.toml.in
++++ b/src/qt_gui_cpp_sip/pyproject.toml.in
+@@ -12,7 +12,10 @@ sip-include-dirs = ["@SIP_INCLUDE_DIR@"]
+
+ [tool.sip.builder]
+-qmake-settings = ["LIBS += @SIP_ABS_LIBRARIES@"]
++qmake-settings = [
++  "LIBS += @SIP_ABS_LIBRARIES@",
++  "macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = $$(MACOSX_DEPLOYMENT_TARGET)"
++]
+
+ [tool.sip.bindings.qt_gui_cpp_sip]
+ headers = ["qt_gui_cpp/qt_gui_cpp.h"]
