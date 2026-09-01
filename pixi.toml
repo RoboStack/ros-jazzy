@@ -19,7 +19,6 @@ PYTHONIOENCODING = "utf-8"
 [dependencies]
 python = ">=3.12.0,<3.13"
 rattler-build = ">=0.57.0,<0.58"
-anaconda-client = ">=1.13.0"
 cmake = "<4.0"
 # Some git repos may need git-lfs, see https://github.com/RoboStack/ros-jazzy/issues/118
 git-lfs = "*"
