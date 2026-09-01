@@ -10,6 +10,9 @@ preview = ["pixi-build"]
 # 2.17 is the glibc version used in centos 7
 libc = { family="glibc", version="2.17" }
 
+[target.win.activation.env]
+PYTHONIOENCODING = "utf-8"
+
 [dependencies]
 python = ">=3.12.0,<3.13"
 rattler-build = ">=0.57.0,<0.58"
