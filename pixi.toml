@@ -55,11 +55,6 @@ description = "Build all packages, from the ./recipes dir. This will skip alread
 cmd = "rm -rf recipes_only_patch; rm -rf recipes; mkdir recipes"
 description = "Remove all generated recipes, before regenerating them."
 
-[tasks.build-one]
-cmd = "cp ./patch/{{ PACKAGE }}.*patch ./recipes/{{ PACKAGE }}/patch/; rattler-build build --recipe ./recipes/{{ PACKAGE }}/recipe.yaml -m ./conda_build_config.yaml -c https://prefix.dev/robostack-jazzy -c https://prefix.dev/conda-forge"
-args = [{ arg = "PACKAGE", default = "ros-jazzy-ros-workspace" }]
-description = "Build a single package, from the ./recipes dir. Add the `ros-jazzy-` prefix to the package name, e.g. `pixi build-one ros-jazzy-ros-workspace`"
-
 [tasks.conda-build-config-upstream-diff]
 cmd = """
 curl -sLo .tmp.yaml https://github.com/conda-forge/conda-forge-pinning-feedstock/raw/refs/heads/main/recipe/conda_build_config.yaml && \
@@ -67,3 +62,8 @@ yq eval 'with_entries(.value = (load(".tmp.yaml")[.key] // .value))' conda_build
 rm .tmp.yaml
 """
 description = "Check if there are differences between the local conda_build_config.yaml and the one in the conda-forge-pinning-feedstock."
+
+[tasks.build-one]
+cmd = "cp ./patch/{{ PACKAGE }}.*patch ./recipes/{{ PACKAGE }}/patch/; rattler-build build --recipe ./recipes/{{ PACKAGE }}/recipe.yaml -m ./conda_build_config.yaml -c https://prefix.dev/robostack-jazzy -c https://prefix.dev/conda-forge"
+args = [{ arg = "PACKAGE", default = "ros-jazzy-ros-workspace" }]
+description = "Build a single package, from the ./recipes dir. Add the `ros-jazzy-` prefix to the package name, e.g. `pixi build-one ros-jazzy-ros-workspace`"

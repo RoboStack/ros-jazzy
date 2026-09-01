@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Working notes for future coding agents in a RoboStack repo. Replace $DISTRO with e.g. noetic/humble/jazzy/kilted and so forth; you can check the working directory.
+Working notes for future coding agents in a RoboStack repo. Replace $DISTRO with e.g. noetic/humble/kilted and so forth; you can check the working directory.
 
 ## Session defaults for this repo
 
@@ -17,7 +17,7 @@ Working notes for future coding agents in a RoboStack repo. Replace $DISTRO with
 
 ```bash
 # single package (preferred for debugging)
-pixi run build-one ros-jazzy-<pkg>
+pixi run build-one ros-$DISTRO-<pkg>
 
 # broad pass when needed
 pixi run build_continue_on_failure
@@ -91,7 +91,7 @@ bash -x conda_build.sh 2>&1 | less
 ### 7. Rebuild package
 
 ```bash
-pixi run build-one ros-jazzy-<pkg>
+pixi run build-one ros-$DISTRO-<pkg>
 ```
 
 ## Create a patch from build-directory edits
@@ -131,13 +131,13 @@ For faster iteration on one package patch, run the script directly with a recipe
 
 ```bash
 # prepare + check only one recipe
-python check_patches_clean_apply.py --recipe ros-jazzy-<pkg>
+python check_patches_clean_apply.py --recipe ros-$DISTRO-<pkg>
 
 # prepare only (no build), useful while editing
-python check_patches_clean_apply.py --dry --recipe ros-jazzy-<pkg>
+python check_patches_clean_apply.py --dry --recipe ros-$DISTRO-<pkg>
 
 # multiple focused recipes
-python check_patches_clean_apply.py --recipe ros-jazzy-<pkg1> --recipe ros-jazzy-<pkg2>
+python check_patches_clean_apply.py --recipe ros-$DISTRO-<pkg1> --recipe ros-$DISTRO-<pkg2>
 ```
 
 What it does:
@@ -148,14 +148,14 @@ What it does:
 
 ## Patch placement and recipe wiring
 
-- Canonical patch location: `patch/ros-jazzy-<pkg>.patch`
-- Keep recipe copy in `recipes/ros-jazzy-<pkg>/patch/` if this repo flow expects it.
-- Ensure `recipes/ros-jazzy-<pkg>/recipe.yaml` has:
+- Canonical patch location: `patch/ros-$DISTRO-<pkg>.patch`
+- Keep recipe copy in `recipes/ros-$DISTRO-<pkg>/patch/` if this repo flow expects it.
+- Ensure `recipes/ros-$DISTRO-<pkg>/recipe.yaml` has:
 
 ```yaml
 source:
   patches:
-    - patch/ros-jazzy-<pkg>.patch
+    - patch/ros-$DISTRO-<pkg>.patch
 ```
 
 ## Parallelization and dependency-aware scheduling
@@ -164,7 +164,7 @@ It is worth splitting work across multiple agents, but only for independent pack
 
 Rules:
 - Do not build dependent packages in parallel.
-- Infer dependency relationships from `recipes/ros-jazzy-<pkg>/recipe.yaml` (`requirements.host` and `requirements.run`).
+- Infer dependency relationships from `recipes/ros-$DISTRO-<pkg>/recipe.yaml` (`requirements.host` and `requirements.run`).
 - If package A depends on package B (for example `rosmon` -> `rosmon-core`), build/fix B first.
 - Run parallel lanes only for packages that do not depend on each other.
 - If unsure, serialize the builds.
