@@ -29,7 +29,10 @@ index 0000000..cf4f57f
 +
 +[tool.sip.builder]
 +qmake = "@QMAKE_EXECUTABLE@"
-+qmake-settings = [ "QMAKE_MACOSX_DEPLOYMENT_TARGET=@MACOS_MINIMUM_VERSION@", "CONFIG+=c++17" ]
++qmake-settings = [
++  "macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = $$(MACOSX_DEPLOYMENT_TARGET)",
++  "CONFIG += c++17",
++]
 +
 +[tool.sip.project]
 +sip-files-dir = "@SIP_FILES_DIR@"
