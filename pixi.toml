@@ -23,7 +23,7 @@ cmake = "<4.0"
 # Some git repos may need git-lfs, see https://github.com/RoboStack/ros-jazzy/issues/118
 git-lfs = "*"
 rattler-index = ">=0.27.16"
-vinca = { git = "https://github.com/RoboStack/vinca.git", rev = "6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b" }
+vinca = { git = "https://github.com/RoboStack/vinca.git", rev = "d644114a46dd5187412ad05837f936271f1bf3eb" }
 # For local development uncomment:
 # vinca.path = "../vinca"
 
