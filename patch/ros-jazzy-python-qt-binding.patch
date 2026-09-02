@@ -15,7 +15,7 @@ new file mode 100644
 index 0000000..cf4f57f
 --- /dev/null
 +++ b/cmake/pyproject.toml.in
-@@ -0,0 +1,31 @@
+@@ -0,0 +1,34 @@
 +[project]
 +name = "lib@PROJECT_NAME@"
 +
