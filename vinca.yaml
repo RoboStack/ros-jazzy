@@ -2,6 +2,9 @@ ros_distro: jazzy
 
 package_name_mode: both
 
+pixi_version: 0.78.0
+setup_pixi_version: 0.10.2
+
 # mapping for package keys
 conda_index:
   - robostack.yaml
