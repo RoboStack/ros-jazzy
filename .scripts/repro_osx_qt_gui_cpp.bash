@@ -62,10 +62,11 @@ collect_recipe_artifacts() {
     mkdir -p "$out"
     echo "$work_dir" > "$out/work-dir.txt"
 
-    find "$work_dir" -maxdepth 3 \( \
+    find "$work_dir" -maxdepth 8 \( \
       -name 'conda_build.log' -o \
       -name 'build_env.sh' -o \
       -name '.source_info.json' -o \
+      -name 'CMakeCache.txt' -o \
       -name 'pyproject.toml' -o \
       -name '*.pro' -o \
       -name 'Makefile' \
@@ -76,9 +77,16 @@ collect_recipe_artifacts() {
       cp "$file" "$out/$rel" || true
     done
 
+    while IFS= read -r -d '' helper_file; do
+      local rel
+      rel="${helper_file#$(dirname "$work_dir")/}"
+      mkdir -p "$out/host-helper/$(dirname "$rel")"
+      cp "$helper_file" "$out/host-helper/$rel" || true
+    done < <(find "$(dirname "$work_dir")" -path '*/share/python_qt_binding/cmake/*' -type f -print0 2>/dev/null)
+
     {
       echo "# grep: deployment target flags"
-      grep -RIn -- '-mmacosx-version-min\|QMAKE_MACOSX_DEPLOYMENT_TARGET\|minimum-macos-version\|MACOSX_DEPLOYMENT_TARGET' "$work_dir" 2>/dev/null || true
+      grep -RIn -- '-mmacosx-version-min\|QMAKE_MACOSX_DEPLOYMENT_TARGET\|minimum-macos-version\|MACOSX_DEPLOYMENT_TARGET\|CMAKE_OSX_DEPLOYMENT_TARGET' "$work_dir" "$(dirname "$work_dir")"/host_env*/share/python_qt_binding/cmake 2>/dev/null || true
     } > "$out/deployment-target-grep.txt"
   done < <(find "$CONDA_BLD_PATH" -path "*/rattler-build_${recipe}_*/work" -type d -print0 2>/dev/null)
 }
@@ -110,6 +118,19 @@ if [[ "$GENERATE_RECIPES" == "true" ]]; then
     exit "$gen_status"
   fi
 fi
+
+log_section "Generated recipe and patch inspection"
+for recipe in "${RECIPES[@]}"; do
+  echo "## $recipe"
+  if [[ -f "recipes/$recipe/recipe.yaml" ]]; then
+    grep -nE 'name:|version:|number:|patches:|ros2-python-qt-binding|python_qt_binding|MACOSX|CMAKE_OSX|qt-gui-cpp' "recipes/$recipe/recipe.yaml" || true
+  else
+    echo "recipes/$recipe/recipe.yaml is missing"
+  fi
+  find "recipes/$recipe/patch" -maxdepth 1 -type f -print -exec grep -nE 'CMAKE_OSX_DEPLOYMENT_TARGET|MACOSX_DEPLOYMENT_TARGET|OSX_DEPLOYMENT_TARGET|build_sip_binding|minimum-macos-version|QMAKE_MACOSX_DEPLOYMENT_TARGET' {} \; 2>/dev/null || true
+  echo
+done
+end_section
 
 status=0
 for recipe in "${RECIPES[@]}"; do
