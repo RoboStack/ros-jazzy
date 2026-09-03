@@ -222,7 +222,6 @@ packages_select_by_deps:
   - magic_enum
   - mavros_msgs
 
-
   - picknik_ament_copyright
 
   - rqt_robot_monitor
