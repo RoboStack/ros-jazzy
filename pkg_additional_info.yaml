@@ -179,3 +179,14 @@ py_trees:
     dep_name: py-trees
     max_pin: 'x.x.x'
     override_version: '2.5.0'
+ros2_actionlib_msgs:
+  build_number: 22
+ros2_controller_manager_msgs:
+  build_number: 22
+ros2_geometry_msgs:
+  build_number: 22
+ros2_pal_statistics_msgs:
+  build_number: 22
+ros2_rosidl_runtime-py:
+  build_number: 22
+
