@@ -15,7 +15,7 @@ new file mode 100644
 index 0000000..cf4f57f
 --- /dev/null
 +++ b/cmake/pyproject.toml.in
-@@ -0,0 +1,31 @@
+@@ -0,0 +1,34 @@
 +[project]
 +name = "lib@PROJECT_NAME@"
 +
@@ -29,7 +29,10 @@ index 0000000..cf4f57f
 +
 +[tool.sip.builder]
 +qmake = "@QMAKE_EXECUTABLE@"
-+qmake-settings = [ "QMAKE_MACOSX_DEPLOYMENT_TARGET=@MACOS_MINIMUM_VERSION@", "CONFIG+=c++17" ]
++qmake-settings = [
++  "macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = @MACOS_MINIMUM_VERSION@",
++  "CONFIG += c++17",
++]
 +
 +[tool.sip.project]
 +sip-files-dir = "@SIP_FILES_DIR@"
@@ -88,7 +91,7 @@ index a5ac3c2..fdc9c18 100644
  #
  # Run the SIP generator and compile the generated code into a library.
  #
-@@ -93,34 +102,107 @@ function(build_sip_binding PROJECT_NAME SIP_FILE)
+@@ -93,34 +102,116 @@ function(build_sip_binding PROJECT_NAME SIP_FILE)
      set(LIBRARY_DIRS ${${PROJECT_NAME}_LIBRARY_DIRS})
      set(LDFLAGS_OTHER ${${PROJECT_NAME}_LDFLAGS_OTHER})
  
@@ -161,6 +164,15 @@ index a5ac3c2..fdc9c18 100644
 +        message(WARNING "test lib dir: ${SIP_LIBRARY_DIRS}")
 +
 +        set(MACOS_MINIMUM_VERSION ${CMAKE_OSX_DEPLOYMENT_TARGET})
++        if(APPLE AND NOT MACOS_MINIMUM_VERSION)
++          if(DEFINED ENV{MACOSX_DEPLOYMENT_TARGET} AND NOT "$ENV{MACOSX_DEPLOYMENT_TARGET}" STREQUAL "")
++            set(MACOS_MINIMUM_VERSION "$ENV{MACOSX_DEPLOYMENT_TARGET}")
++          elseif(DEFINED ENV{OSX_DEPLOYMENT_TARGET} AND NOT "$ENV{OSX_DEPLOYMENT_TARGET}" STREQUAL "")
++            set(MACOS_MINIMUM_VERSION "$ENV{OSX_DEPLOYMENT_TARGET}")
++          else()
++            set(MACOS_MINIMUM_VERSION "12.0")
++          endif()
++        endif()
 +
 +        # TODO:
 +        #   I don't know what to do about LDFLAGS_OTHER

@@ -8,11 +8,23 @@ contain conda artifacts and reports gaps per platform.
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 from typing import Iterable, Set
 
 CONDA_SUFFIX = ".conda"
 TARBZ2_SUFFIX = ".tar.bz2"
+
+# Matches known conda platform directory names (osx-arm64, linux-64, win-64, …)
+_PLATFORM_RE = re.compile(r'^(osx|linux|win|emscripten)-')
+
+# Strips distro prefix so ros-jazzy-rclcpp, ros2-rclcpp, ros-kilted-rclcpp all
+# normalise to "rclcpp" for cross-naming-style comparison.
+# Handles two forms: ros-<word>-<base>  and  ros<digits>-<base>
+_DISTRO_PREFIX_RE = re.compile(r'^(?:ros-[a-z]+-|ros\d+-)')
+
+# Artifact/recipe names ending with -check-patches are patch-test helpers, not real packages.
+_CHECK_PATCHES_SUFFIX = "-check-patches"
 
 
 def parse_args() -> argparse.Namespace:
@@ -44,6 +56,15 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def normalize_name(name: str) -> str:
+    """Strip ros-<distro>- / ros2- prefix for cross-naming-style comparison."""
+    return _DISTRO_PREFIX_RE.sub("", name)
+
+
+def is_check_patches(name: str) -> bool:
+    return name.endswith(_CHECK_PATCHES_SUFFIX)
+
+
 def is_conda_artifact(filename: str) -> bool:
     return filename.endswith(CONDA_SUFFIX) or filename.endswith(TARBZ2_SUFFIX)
 
@@ -71,6 +92,8 @@ def discover_platform_dirs(output_root: Path) -> list[str]:
     for child in sorted(output_root.iterdir()):
         if not child.is_dir():
             continue
+        if not _PLATFORM_RE.match(child.name):
+            continue
         try:
             has_artifact = any(
                 entry.is_file() and is_conda_artifact(entry.name)
@@ -94,8 +117,8 @@ def built_packages_for_platform(output_root: Path, platform: str) -> Set[str]:
         if not artifact.is_file() or not is_conda_artifact(artifact.name):
             continue
         package_name = package_name_from_artifact(artifact.name)
-        if package_name:
-            packages.add(package_name)
+        if package_name and not is_check_patches(package_name):
+            packages.add(normalize_name(package_name))
 
     return packages
 
@@ -103,7 +126,11 @@ def built_packages_for_platform(output_root: Path, platform: str) -> Set[str]:
 def recipe_directories(recipes_dir: Path) -> Set[str]:
     if not recipes_dir.exists():
         return set()
-    return {entry.name for entry in recipes_dir.iterdir() if entry.is_dir()}
+    return {
+        entry.name
+        for entry in recipes_dir.iterdir()
+        if entry.is_dir() and not is_check_patches(entry.name)
+    }
 
 
 def print_list(title: str, values: Iterable[str]) -> None:
@@ -135,19 +162,29 @@ def main() -> int:
     for idx, platform in enumerate(selected_platforms):
         built = built_packages_for_platform(output_root, platform)
 
+        # Normalize recipe names for comparison so ros-jazzy-X and ros2-X match.
+        # Sort so ros-<distro>- names come first; ros2- names overwrite them,
+        # giving the newer naming convention priority in display output.
+        norm_to_recipe: dict[str, str] = {
+            normalize_name(r): r for r in sorted(recipes)
+        }
+        norm_recipes = set(norm_to_recipe)
+
         print(f"Platform: {platform}")
-        print_list(
-            "Built package artifacts without matching recipe directory",
-            built - recipes,
-        )
+        extra_norm = built - norm_recipes
+        extra_display = sorted(extra_norm)
+        print(f"Built package artifacts without matching recipe directory: {len(extra_display)}")
+        for name in extra_display:
+            print(f"  - {name}")
         print()
-        missing = recipes - built
+        missing_norm = norm_recipes - built
+        missing_display = sorted(norm_to_recipe[n] for n in missing_norm)
         print(
             f"Recipe directories without built artifact on {platform} platform: "
-            f"{len(missing)} out of {len(recipes)}"
+            f"{len(missing_display)} out of {len(recipes)}"
         )
-        if missing:
-            for recipe in sorted(missing):
+        if missing_display:
+            for recipe in missing_display:
                 print(f"  - {recipe}")
 
         if idx != len(selected_platforms) - 1:

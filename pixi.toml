@@ -26,7 +26,7 @@ rattler-index = ">=0.27.16"
 curl = "*"
 go-yq = "*"
 colordiff = "*"
-vinca = { git = "https://github.com/RoboStack/vinca.git", rev = "6aacb6f6334b0df6bc9c863c37eb02ba685f1a1b" }
+vinca = { git = "https://github.com/RoboStack/vinca.git", rev = "b4ff099aed2f43f535d255ce8a5d332f170d3532" }
 # For local development uncomment:
 # vinca.path = "../vinca"
 
