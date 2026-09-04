@@ -1,0 +1,38 @@
+jobs:
+  stage_0_job_0:
+    name: ros2-rclpy-message-converter-msgs ros2-rclpy-message-converter rclpy-message-converter-msgs
+      rclpy-message-converter
+    runs-on: macos-15-intel
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.10.2
+      with:
+        pixi-version: v0.78.0
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-rclpy-message-converter-msgs ros2-rclpy-message-converter ros-jazzy-rclpy-message-converter-msgs
+        ros-jazzy-rclpy-message-converter
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-rclpy-message-converter-msgs ros2-rclpy-message-converter
+          ros-jazzy-rclpy-message-converter-msgs ros-jazzy-rclpy-message-converter
+        BUILD_TARGET: osx-64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+name: build_osx64
+on:
+  push:
+    branches:
+    - buildbranch_osx
