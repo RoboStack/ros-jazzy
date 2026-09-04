@@ -144,6 +144,14 @@ jobs:
         mkdir -p ${{ matrix.folder_cache }}
         rm -rf ${{ matrix.folder_cache }}/ros2-python-qt-binding* || true
         rm -rf ${{ matrix.folder_cache }}/ros2-qt-gui-cpp* || true
+        # ros2-ros-workspace itself never failed to build, so its cached
+        # artifact (already at build_number 22, matching current) keeps
+        # getting reused by --skip-existing despite predating 904749dd's
+        # ros2-distro-mutex 0.16.0 -> 0.17.0 bump; the cached build's baked-in
+        # run_constraint on the old mutex is now unsatisfiable. Same pattern
+        # likely affects other "ros2-*" legacy-compat package aliases built
+        # around the same time -- add more here as they surface.
+        rm -rf ${{ matrix.folder_cache }}/ros2-ros-workspace* || true
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
         exit 0
 
