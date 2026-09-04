@@ -1002,12 +1002,12 @@ python3-texttable:
   robostack: [texttable]
 python3-textual:
   robostack: [textual]
+python3-tk:
+  robostack: [tk]
 python3-torchvision:
   robostack: [torchvision]
 python3-torchvision-pip:
   robostack: [torchvision]
-python3-tk:
-  robostack: [tk]
 python3-tornado:
   robostack: [tornado]
 python3-transforms3d:

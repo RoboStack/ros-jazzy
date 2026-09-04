@@ -2,6 +2,7 @@
 # upstream rosdistro. Differently from rosdistro_snapshot.yaml, this file is not
 # automatically generated, but manually maintained.
 bonxai_ros:
+  # TODO: Remove bonxai packages when they are available from ros2-gbp
   tag: v0.6.0
   url: https://github.com/facontidavide/Bonxai.git
   version: 0.6.0
@@ -97,11 +98,11 @@ med7_moveit_config:
   version: 0.3.0
   additional_folder: lbr_moveit_config/med7_moveit_config
 moveit2_tutorials:
+  # TODO: remove moveit2_tutorials and its sub packages when they are available from ros2-gbp
   rev: 27b5ed0232cd08de9631d26e823dccc6e8766513
   url: https://github.com/moveit/moveit2_tutorials.git
   version: 0.1.0
 
-# TODO: Remove bonxai packages when they are available from ros2-gbp
 negotiated:
   url: https://github.com/osrf/negotiated.git
   rev: eac198b55dcd052af5988f0f174902913c5f20e7
@@ -118,4 +119,3 @@ topic_based_ros2_control:
   rev: 6bd8d55e1c4ad3188770fe5c8b93b942bcede4a2
   version: 0.3.0
 
-# TODO: remove moveit2_tutorials and its sub packages when they are available from ros2-gbp
