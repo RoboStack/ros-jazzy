@@ -15,7 +15,10 @@ build_number: 22
 
 mutex_package:
   name: "ros2-distro-mutex"
-  version: "0.16.0"
+  version: "0.17.0"
+  # Bumped independently of build_number so the mutex is re-published with the new
+  # run_constraints (vtk 9.7.0) while already-built packages (ros2-distro-mutex
+  # 0.16.* jazzy_*) stay valid instead of silently resolving against a stale pin.
   upper_bound: "x.x"
   run_constraints:
     - libboost 1.90.*
