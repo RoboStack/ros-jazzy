@@ -183,6 +183,14 @@ visp:
 zenoh_cpp_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK -DUSE_SYSTEM_ZENOH=ON"
 ros2cli:
-  build_number: 22
+  # Bumped independently of the global build_number: ros2-ros2cli is already
+  # published on robostack-jazzy with build_number 22 (pinned to
+  # ros2-distro-mutex 0.16.*), so vinca's already-built check (which compares
+  # against this value) considers it current and never regenerates/rebuilds
+  # it -- even though that published build's hard mutex pin became
+  # unsatisfiable once the mutex was bumped to 0.17.0 in 904749dd.
+  build_number: 23
 rosidl_cli:
-  build_number: 22
+  # Same story as ros2cli above: ros2-rosidl-cli published with build_number
+  # 22 is pinned to the now-unsatisfiable ros2-distro-mutex 0.16.*.
+  build_number: 23
