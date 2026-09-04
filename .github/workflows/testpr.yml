@@ -153,6 +153,7 @@ jobs:
         # around the same time -- add more here as they surface.
         rm -rf ${{ matrix.folder_cache }}/ros2-ros-workspace* || true
         rm -rf ${{ matrix.folder_cache }}/ros2-ament-package* || true
+        rm -rf ${{ matrix.folder_cache }}/ros2-ament-cmake-core* || true
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
         exit 0
 

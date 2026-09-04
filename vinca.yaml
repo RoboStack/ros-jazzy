@@ -10,8 +10,17 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 23
-build_number: 22
+# Bumped 22 -> 23: at least ros2-ros-workspace, ros2-ament-package, and
+# ros2-ament-cmake-core (all foundational bootstrap-tier packages, likely
+# more) are cached/published at build_number 22 with the old
+# ros2-distro-mutex 0.16.* pin baked in from before 904749dd bumped the mutex
+# to 0.17.0 -- vinca's already-built check only compares build_number
+# equality, so it kept treating them as current despite the now-unsatisfiable
+# mutex pin. Individually cache-busting each one as it surfaced was turning
+# into unbounded whack-a-mole; a full build_number bump is what this field is
+# for when a distro-wide config change invalidates prior builds coordinately.
+# Reminder for next full rebuild, the next build number should be 24
+build_number: 23
 
 mutex_package:
   name: "ros2-distro-mutex"
