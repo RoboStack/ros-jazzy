@@ -10,7 +10,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 22
+# Reminder for next full rebuild, the next build number should be 23
 build_number: 21
 
 mutex_package:
