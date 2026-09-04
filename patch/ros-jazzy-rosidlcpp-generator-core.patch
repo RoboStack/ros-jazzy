@@ -1,0 +1,20 @@
+diff --git a/src/rosidlcpp_generator_core/generator_utils.cpp b/src/rosidlcpp_generator_core/generator_utils.cpp
+index f639efc..a79b072 100644
+--- a/src/rosidlcpp_generator_core/generator_utils.cpp
++++ b/src/rosidlcpp_generator_core/generator_utils.cpp
+@@ -275,7 +275,14 @@ auto is_service_type(const nlohmann::json& type) -> bool {
+  */
+
+ auto type_to_c_typename(const nlohmann::json& type) -> std::string {
+-  return fmt::format("{}__{}", fmt::join(type["namespaces"], "__"), type["name"].get<std::string>());
++  std::string namespaces;
++  for (const auto& ns : type["namespaces"]) {
++    if (!namespaces.empty()) {
++      namespaces += "__";
++    }
++    namespaces += ns.get<std::string>();
++  }
++  return namespaces + "__" + type["name"].get<std::string>();
+ }
+
+ auto basetype_to_c(const nlohmann::json& type) -> std::string {

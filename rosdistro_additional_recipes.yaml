@@ -115,10 +115,6 @@ med7_moveit_config:
   rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
   version: 0.3.0
   additional_folder: lbr_moveit_config/med7_moveit_config
-rosidl_cpp:
-  url: https://github.com/TonyWelte/rosidlcpp.git
-  rev: c68a296500fd1bd66ad45309858790d0f187f86d
-  version: 0.6.0
 lbr_fri_idl:
   url: https://github.com/lbr-stack/lbr_fri_idl.git
   rev: e422bff2b3d70ec47853145b35645980df623a60
