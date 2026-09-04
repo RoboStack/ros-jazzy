@@ -43,6 +43,12 @@ jobs:
       with:
         frozen: true
 
+    - name: Check sorting
+      if: matrix.platform == 'linux-64'
+      shell: bash -l {0}
+      run: |
+        pixi run sort --check
+
     - name: Long paths workarounds for win-64
       shell: bash -l {0}
       if: matrix.platform == 'win-64'
