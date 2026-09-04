@@ -379,6 +379,8 @@ packages_select_by_deps:
       - pinocchio
       - plotjuggler-ros
       - point_cloud_transport_plugins      # Error: LINK : fatal error LNK1181: cannot open input file 'zstd.lib' [%SRC_DIR%\build\zstd_point_cloud_transport.vcxproj]
+      - rclpy_message_converter
+      - rclpy_message_converter_msgs
       - rmw_stats_shim
       - rosgraph_monitor
       - rosgraph_monitor_msgs
