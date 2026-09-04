@@ -179,7 +179,7 @@ visp:
     override_version: '3.6.0'
 zenoh_cpp_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK -DUSE_SYSTEM_ZENOH=ON"
-rosidl_cli:
-  build_number: 22
 ros2cli:
+  build_number: 22
+rosidl_cli:
   build_number: 22
