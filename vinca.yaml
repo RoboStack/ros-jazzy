@@ -7,8 +7,8 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 22
-build_number: 21
+# Reminder for next full rebuild, the next build number should be 23
+build_number: 22
 
 mutex_package:
   name: "ros2-distro-mutex"
@@ -20,7 +20,7 @@ mutex_package:
     - pcl 1.15.1.*
     - gazebo 11.*
     - libprotobuf 7.35.*
-    - vtk 9.6.2.*
+    - vtk 9.7.0.*
 
 packages_skip_by_deps:
   - if: not linux
@@ -91,6 +91,74 @@ packages_select_by_deps:
   - slam_toolbox
   - turtlebot3
   - turtlebot3_simulations
+
+  # Parity sweep with ros-humble (2026-09-04): packages humble ships but jazzy's
+  # meta-package tree doesn't pull in on its own. Cross-platform (humble has these
+  # as unconditional or "not wasm32" seeds; jazzy has no wasm32 platform).
+  - ament_cmake_nose
+  - apex_test_tools
+  - automatika_embodied_agents
+  - automatika_ros_sugar
+  - autoware_adapi_v1_msgs
+  - autoware_adapi_version_msgs
+  - autoware_auto_msgs
+  - autoware_component_interface_specs
+  - autoware_geography_utils
+  - autoware_global_parameter_loader
+  - autoware_interpolation
+  - autoware_kalman_filter
+  - autoware_lanelet2_extension
+  - autoware_lanelet2_extension_python
+  - autoware_msgs
+  - autoware_node
+  - autoware_object_recognition_utils
+  - autoware_point_types
+  - autoware_signal_processing
+  - autoware_vehicle_info_utils
+  - aws_robomaker_small_warehouse_world
+  - behaviortree_cpp_v3
+  - bno055
+  - bond_core
+  - color_util
+  - dynmsg
+  - geographic_info
+  - geometry_tutorials
+  - imu_calib
+  - imu_transformer
+  - libnabo
+  - libpointmatcher
+  - marker_msgs
+  - moveit_chomp_optimizer_adapter
+  - open3d_conversions
+  - persist_parameter_server
+  - pick_ik
+  - polygon_utils
+  - proxsuite
+  - ptz_action_server_msgs
+  - radar_msgs
+  - rclc
+  - rclc_lifecycle
+  - rclc_parameter
+  - robot_controllers
+  - rosbag2_performance_benchmarking
+  - rqt
+  - rqt_controller_manager
+  - rqt_moveit
+  - rqt_robot_dashboard
+  - rqt_robot_steering
+  - rtabmap
+  - sick_safetyscanners_base
+  - stubborn_buddies
+  - system_modes
+  - turtle_tf2_cpp
+  - turtle_tf2_py
+  - urg_node
+  - vector_pursuit_controller
+  - velodyne_simulator
+  - visp
+  # Note: humble also ships the classic gazebo/ignition family (gazebo_ros_pkgs,
+  # ign_ros2_control, ros_ign*) here; deliberately not added since jazzy already
+  # uses the modern gz-sim stack (ros_gz above) instead.
 
   - turtlebot4_description
   - turtlebot4_msgs
@@ -372,6 +440,35 @@ packages_select_by_deps:
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
     then:
+      # Parity sweep with ros-humble (2026-09-04): "not wasm32 and not win" seeds
+      # there (jazzy has no wasm32 platform, so this collapses to "not win").
+      - as2_cli
+      - as2_msgs
+      - autoware_core
+      - autoware_core_control
+      - autoware_core_localization
+      - autoware_ekf_localizer
+      - autoware_lanelet2_utils
+      - autoware_motion_utils
+      - autoware_osqp_interface
+      - autoware_pose_initializer
+      - autoware_qp_interface
+      - autoware_trajectory
+      - microstrain_inertial_driver
+      - microstrain_inertial_examples
+      - microstrain_inertial_msgs
+      - microstrain_inertial_rqt
+      - mocap4r2_control
+      - mocap4r2_control_msgs
+      - mocap4r2_dummy_driver
+      - mocap4r2_marker_publisher
+      - mocap4r2_marker_viz
+      - mocap4r2_marker_viz_srvs
+      - mocap4r2_robot_gt
+      - mocap4r2_robot_gt_msgs
+      - motion_capture_tracking
+      - zed_msgs
+
       - diagnostic-remote-logging
       - plotjuggler-ros
       - foxglove_compressed_video_transport

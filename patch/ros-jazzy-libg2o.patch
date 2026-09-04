@@ -1,27 +1,19 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 1b86088..8aad22e 100644
+diff -ruN a/CMakeLists.txt b/CMakeLists.txt
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -477,7 +477,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${g2o_C_FLAGS}")
+@@ -477,7 +477,7 @@
  # Find Eigen3. If it defines the target, this is used. If not,
  # fall back to the using the module form.
  # See https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html for details
 -find_package(Eigen3 3.3 REQUIRED)
-+find_package(Eigen3 REQUIRED CONFIG)
++find_package(Eigen3 REQUIRED NO_MODULE)
  if (TARGET Eigen3::Eigen)
    set(G2O_EIGEN3_EIGEN_TARGET Eigen3::Eigen)
  else()
-diff --git a/g2o/examples/sphere/create_sphere.cpp b/g2o/examples/sphere/create_sphere.cpp
-index 0f48f1a..f83e5e0 100644
+diff -ruN a/g2o/examples/sphere/create_sphere.cpp b/g2o/examples/sphere/create_sphere.cpp
 --- a/g2o/examples/sphere/create_sphere.cpp
 +++ b/g2o/examples/sphere/create_sphere.cpp
-@@ -161,13 +161,13 @@ int main(int argc, char** argv) {
-   if (randomSeed) {
-     std::random_device r;
-     std::seed_seq seedSeq{r(), r(), r(), r(), r()};
--    vector<int> seeds(2);
-+    vector<unsigned int> seeds(2);
-     seedSeq.generate(seeds.begin(), seeds.end());
+@@ -166,8 +166,8 @@
      cerr << "using seeds:";
      for (size_t i = 0; i < seeds.size(); ++i) cerr << " " << seeds[i];
      cerr << endl;
@@ -30,16 +22,16 @@ index 0f48f1a..f83e5e0 100644
 +    transSampler.seed(static_cast<int>(seeds[0]));
 +    rotSampler.seed(static_cast<int>(seeds[1]));
    }
-
+ 
    // noise for all the edges
-diff --git a/g2o/stuff/misc.h b/g2o/stuff/misc.h
-index bbd8d87..395e6b4 100644
+diff -ruN a/g2o/stuff/misc.h b/g2o/stuff/misc.h
 --- a/g2o/stuff/misc.h
 +++ b/g2o/stuff/misc.h
 @@ -27,6 +27,7 @@
  #ifndef G2O_STUFF_MISC_H
  #define G2O_STUFF_MISC_H
-
+ 
 +#include <cassert>
  #include <cmath>
- #include <memory>
+ 
+ /** @addtogroup utils **/

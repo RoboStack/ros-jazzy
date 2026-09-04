@@ -1,0 +1,13 @@
+diff -ruN a/semantic_world/src/semantic_world.cpp b/semantic_world/src/semantic_world.cpp
+--- a/semantic_world/src/semantic_world.cpp
++++ b/semantic_world/src/semantic_world.cpp
+@@ -43,6 +43,9 @@
+ #include <moveit/utils/logger.hpp>
+ // OpenCV
+ #include <opencv2/imgproc/imgproc.hpp>
++#if CV_VERSION_MAJOR >= 5
++#include <opencv2/geometry/2d.hpp>
++#endif
+ #include <rclcpp/experimental/buffers/intra_process_buffer.hpp>
+ #include <rclcpp/logger.hpp>
+ #include <rclcpp/logging.hpp>

@@ -43,8 +43,10 @@ hpp_fcl:
   generate_dummy_package_with_run_deps:
     dep_name: hpp-fcl
     max_pin: 'x.x.x'
-    # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '3.0.2'
+    # the version on ros is outdated w.r.t. to the conda-forge one; hpp-fcl on ros still
+    # uses its pre-rename name, upstream renamed the project to coal. 3.0.2's native
+    # backend (libcoal) needs libboost 1.88, 3.0.4 already needs libboost 1.90.
+    override_version: '3.0.4'
 coal:
   generate_dummy_package_with_run_deps:
     dep_name: coal
@@ -59,8 +61,9 @@ pinocchio:
   generate_dummy_package_with_run_deps:
     dep_name: pinocchio
     max_pin: 'x.x.x'
-    # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '4.0.0'
+    # the version on ros is outdated w.r.t. to the conda-forge one; 4.0.0's libpinocchio
+    # needs libboost 1.88, 4.1.0 already needs libboost 1.90 and libcoal >=3.0.4.
+    override_version: '4.1.0'
 gtsam:
   generate_dummy_package_with_run_deps:
     dep_name: gtsam
@@ -138,7 +141,7 @@ visp:
     dep_name: visp
     max_pin: 'x.x'
     # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '3.6.0'
+    override_version: '3.7.0'
 pcl_ros:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 cartographer_ros:

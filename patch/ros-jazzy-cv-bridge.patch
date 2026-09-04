@@ -1,0 +1,52 @@
+diff -ruN a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -51,6 +51,15 @@
+   CONFIG
+ )
+ if(NOT OpenCV_FOUND)
++  find_package(OpenCV 5 QUIET
++    COMPONENTS
++      opencv_core
++      opencv_imgproc
++      opencv_imgcodecs
++    CONFIG
++  )
++endif()
++if(NOT OpenCV_FOUND)
+   find_package(OpenCV 3 REQUIRED
+     COMPONENTS
+       opencv_core
+diff -ruN a/include/cv_bridge/cv_bridge.hpp b/include/cv_bridge/cv_bridge.hpp
+--- a/include/cv_bridge/cv_bridge.hpp
++++ b/include/cv_bridge/cv_bridge.hpp
+@@ -42,7 +42,6 @@
+ #include <sensor_msgs/image_encodings.hpp>
+ #include <opencv2/core/core.hpp>
+ #include <opencv2/imgproc/imgproc.hpp>
+-#include <opencv2/imgproc/types_c.h>
+ #include <cv_bridge/cv_bridge_export.h>
+ 
+ #include <memory>
+diff -ruN a/src/module_opencv4.cpp b/src/module_opencv4.cpp
+--- a/src/module_opencv4.cpp
++++ b/src/module_opencv4.cpp
+@@ -2,7 +2,6 @@
+ 
+ #include "module.hpp"
+ 
+-#include "opencv2/core/types_c.h"
+ 
+ #include "opencv2/opencv_modules.hpp"
+ 
+@@ -99,8 +98,8 @@
+   NumpyAllocator() {stdAllocator = Mat::getStdAllocator();}
+   ~NumpyAllocator() {}
+ 
+-// To compile openCV3 with OpenCV4 APIs.
+-#ifndef OPENCV_VERSION_4
++// To compile openCV3 with OpenCV4/5 APIs.
++#if CV_MAJOR_VERSION < 4
+ #define AccessFlag int
+ #endif
+ 
