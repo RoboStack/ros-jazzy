@@ -2,6 +2,14 @@ on:
   pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  actions: read
+  contents: read
+
 env:
   ROS_VERSION: 2
   # Change to 'true' to enable the cache upload as artifacts
@@ -42,6 +50,13 @@ jobs:
     - uses: prefix-dev/setup-pixi@v0.10.2
       with:
         frozen: true
+        pixi-version: v0.75.0
+
+    - name: Check sorting
+      if: matrix.platform == 'linux-64'
+      shell: bash -l {0}
+      run: |
+        pixi run sort --check
 
     - name: Check sorting
       if: matrix.platform == 'linux-64'
@@ -85,8 +100,20 @@ jobs:
     - name: Generate recipes
       shell: bash -l {0}
       run: |
-        mkdir -p recipes
-        pixi run -v vinca --platform ${{ matrix.platform }} -m -n
+        set -e
+        for attempt in 1 2 3; do
+          rm -rf recipes
+          mkdir -p recipes
+          if pixi run -v vinca --platform ${{ matrix.platform }} -m -n; then
+            break
+          fi
+          if [[ "${attempt}" == "3" ]]; then
+            echo "Recipe generation failed after ${attempt} attempts" >&2
+            exit 1
+          fi
+          echo "Recipe generation attempt ${attempt} failed; retrying..." >&2
+          sleep 15
+        done
 
     - name: Check patches
       shell: bash -l {0}
@@ -114,9 +141,65 @@ jobs:
       shell: bash -l {0}
       run: |
         # rm -rf ${{ matrix.folder_cache }}/ros-jazzy-mrt-cmake-modules* || true
+        mkdir -p ${{ matrix.folder_cache }}
         rm -rf ${{ matrix.folder_cache }}/ros2-python-qt-binding* || true
         rm -rf ${{ matrix.folder_cache }}/ros2-qt-gui-cpp* || true
-        pixi run rattler-index fs ${CONDA_BLD_PATH:-output} --force
+        # ros2-ros-workspace itself never failed to build, so its cached
+        # artifact (already at build_number 22, matching current) keeps
+        # getting reused by --skip-existing despite predating 904749dd's
+        # ros2-distro-mutex 0.16.0 -> 0.17.0 bump; the cached build's baked-in
+        # run_constraint on the old mutex is now unsatisfiable. Same pattern
+        # likely affects other "ros2-*" legacy-compat package aliases built
+        # around the same time -- add more here as they surface.
+        rm -rf ${{ matrix.folder_cache }}/ros2-ros-workspace* || true
+        rm -rf ${{ matrix.folder_cache }}/ros2-ament-package* || true
+        rm -rf ${{ matrix.folder_cache }}/ros2-ament-cmake-core* || true
+        # ros2-control-msgs's win-64 build failed to find sensor_msgs's cmake
+        # config even though ros2-sensor-msgs was present in the local channel
+        # -- its cached .conda was only ~25KB (a normal message package is far
+        # larger), suggesting a prior interrupted/cancelled build (this PR has
+        # had many superseding pushes via the concurrency group) got cached in
+        # a corrupt, incomplete state. Force it to rebuild fresh.
+        rm -rf ${{ matrix.folder_cache }}/ros2-sensor-msgs* || true
+        # Same corrupt-cache pattern hit a second foundational message package:
+        # ros2-rcl (win-64) failed to find rcl_interfaces's cmake config, and
+        # its cached .conda was also only ~25KB. Add more here as they surface.
+        rm -rf ${{ matrix.folder_cache }}/ros2-rcl-interfaces* || true
+        # Third instance of the same ~25KB corrupt-cache pattern on win-64:
+        # ros2-hardware-interface failed to find control_msgs's cmake config.
+        # If this keeps recurring across more packages, consider a one-time
+        # full win-64 cache wipe (IGNORE_CACHE_AND_DO_FULL_REBUILD) instead of
+        # continuing to whack-a-mole individual packages here.
+        rm -rf ${{ matrix.folder_cache }}/ros2-control-msgs* || true
+        # Fifth instance of the same ~25KB corrupt-cache pattern on win-64
+        # (after sensor_msgs, rcl_interfaces, control_msgs, tf2_ros): this one
+        # recurred even after a full win-64 cache wipe, so a corruption is
+        # apparently still happening in some later save, not just a one-time
+        # legacy artifact. rclcpp_components failed to find
+        # composition_interfaces's cmake config.
+        rm -rf ${{ matrix.folder_cache }}/ros2-composition-interfaces* || true
+        # ros2-libg2o's cached artifact still has its old qt (Qt5) run
+        # dependency baked in from before the qt host dep was dropped,
+        # conflicting with pcl's qt6-main requirement and failing the solve
+        # entirely. Force it to rebuild fresh without that dependency.
+        rm -rf ${{ matrix.folder_cache }}/ros2-libg2o* || true
+        # Not actually a stale-cache issue (confirmed: still failed on a
+        # fresh rebuild) -- cartographer's own host env left lua unpinned,
+        # conflicting with conda-forge's separately-published "cartographer"
+        # package pulled in by its dummy-package run constraint. Real fix is
+        # the lua host pin in patch/dependencies.yaml; forcing a rebuild here
+        # just makes sure this picks up that fix promptly.
+        rm -rf ${{ matrix.folder_cache }}/ros2-cartographer* || true
+        # ros2-coal's generated dummy-package run-constraint was stale at
+        # "coal >=3.0.3,<3.0.4a0" (pkg_additional_info.yaml override_version),
+        # capping it below the libcoal >=3.0.4 that pinocchio 4.1.0 and
+        # eigenpy 3.13.0 need from conda-forge -- this made
+        # ros2-pinocchio's test-environment solve unsatisfiable (confirmed
+        # via full recipe resolution in a local multipass VM). Force both to
+        # rebuild fresh with the corrected 3.0.4 pin.
+        rm -rf ${{ matrix.folder_cache }}/ros2-coal* || true
+        rm -rf ${{ matrix.folder_cache }}/ros2-pinocchio* || true
+        pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
         exit 0
 
     - name: See packages restored by cache
@@ -125,9 +208,17 @@ jobs:
         ls ${{ matrix.folder_cache }} || true
 
     - name: Build recipes
+      id: build-recipes
       shell: bash -l {0}
       run: |
-        pixi run rattler-build build --recipe-dir recipes --target-platform ${{ matrix.platform }} -m ./conda_build_config.yaml -c conda-forge -c robostack-jazzy --skip-existing
+        # Without this, resolvo's strict channel priority can refuse a
+        # just-built local package outright once any other-channel build of
+        # the same name exists, even when the local one is the only valid
+        # option (confirmed via a peer session hitting and fixing the
+        # identical issue on rolling) -- e.g. ros2-pinocchio's own test step
+        # excluding its freshly-built local .conda and falling back through
+        # an unrelated, unsatisfiable dependency chain instead.
+        pixi run rattler-build build --recipe-dir recipes --target-platform ${{ matrix.platform }} -m ./conda_build_config.yaml -c conda-forge -c robostack-jazzy --skip-existing --channel-priority disabled
 
     - name: See packages that will be saved in cache
       shell: bash -l {0}
@@ -137,7 +228,8 @@ jobs:
 
     - name: Save build cache
       uses: actions/cache/save@v5
-      if: always()
+      # Save partial output when the build fails or is cancelled by the job timeout; do not save when it was skipped.
+      if: ${{ always() && (steps.build-recipes.outcome == 'success' || steps.build-recipes.outcome == 'failure' || steps.build-recipes.outcome == 'cancelled') }}
       with:
         path: |
           ${{ matrix.folder_cache }}
@@ -149,7 +241,8 @@ jobs:
         pixi run vinca-gha --platform ${{ matrix.platform }} --trigger-branch dummy_build_branch_as_it_is_unused -d ./recipes
 
     - name: Upload build cache as artifact
-      if: ${{ always() && env.SAVE_CACHE_AS_ARTIFACT == 'true' }}
+      # Keep artifacts consistent with the cache: retain partial output from failed or cancelled builds, but not skipped builds.
+      if: ${{ always() && env.SAVE_CACHE_AS_ARTIFACT == 'true' && (steps.build-recipes.outcome == 'success' || steps.build-recipes.outcome == 'failure' || steps.build-recipes.outcome == 'cancelled') }}
       uses: actions/upload-artifact@v6
       with:
         name: cache-${{ matrix.platform }}-${{ github.run_id }}

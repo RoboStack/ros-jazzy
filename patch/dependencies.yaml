@@ -4,6 +4,16 @@ foxglove_bridge:
   add_host: ["ros-jazzy-ament-cmake"]
 ros_ign_interfaces:
   add_host: ["ros-jazzy-rcl-interfaces"]
+cartographer:
+  # cartographer's own package.xml pulls in lua5.2-dev (mapped to bare "lua"
+  # via robostack.yaml, so unpinned) to build from source, but this recipe's
+  # dummy-package run constraint ("cartographer >=2.0.0,<2.1.0a0") also pulls
+  # in conda-forge's own separately-published "cartographer" package into the
+  # same solve for compatibility -- and that package is currently built
+  # against lua 5.4.x (pinned <5.5.0a0 via its own run_exports). Without a
+  # matching pin here, the solver can pick an incompatible newer lua (5.5.0)
+  # for our own build and fail to solve the two together.
+  add_host: ["lua 5.4.*"]
 cartographer_ros:
   add_host: ["cartographer 2.*", "libboost-devel"]
 libyaml_vendor:
@@ -80,7 +90,12 @@ tvm_vendor:
 libphidget22:
   add_host: ["libusb"]
 libg2o:
-  add_host: ["qt", "${{ 'libglu' if linux }}", "${{ 'freeglut' if not osx }}"]
+  # qt isn't declared in package.xml and CMakeLists.txt's
+  # find_package(QGLViewer) is optional (QGLViewer itself, a separate
+  # library, was never provided by this dep anyway) -- it's dead weight
+  # that conflicts with vtk's now-Qt6-only build. Same fix already
+  # applied on humble (same upstream source, ros2-gbp/libg2o-release).
+  add_host: ["${{ 'libglu' if linux }}", "${{ 'freeglut' if not osx }}"]
 fmilibrary_vendor:
   add_host: ["fmilib"]
 mrpt2:

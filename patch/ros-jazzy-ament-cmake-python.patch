@@ -1,0 +1,51 @@
+diff -ruN a/cmake/ament_python_install_package.cmake b/cmake/ament_python_install_package.cmake
+--- a/cmake/ament_python_install_package.cmake
++++ b/cmake/ament_python_install_package.cmake
+@@ -190,12 +190,20 @@ setup(
+ 
+   if(NOT ARG_SKIP_COMPILE)
+     get_executable_path(python_interpreter_config Python3::Interpreter CONFIGURE)
++    # Embedding a raw Windows path (with backslashes) into an install(CODE
++    # "...") string bakes it into cmake_install.cmake as literal source,
++    # where CMake's own string-escape parser can misinterpret sequences like
++    # "\b" (e.g. from a prefix such as C:\bld\...) as invalid escapes. Convert
++    # to forward slashes, which CMake accepts on Windows too, before
++    # embedding.
++    file(TO_CMAKE_PATH "${python_interpreter_config}" python_interpreter_config)
++    file(TO_CMAKE_PATH "${CMAKE_INSTALL_PREFIX}" install_prefix_config)
+     # compile Python files
+     install(CODE
+       "execute_process(
+         COMMAND
+         \"${python_interpreter_config}\" \"-m\" \"compileall\"
+-        \"${CMAKE_INSTALL_PREFIX}/${ARG_DESTINATION}/${package_name}\"
++        \"${install_prefix_config}/${ARG_DESTINATION}/${package_name}\"
+       )"
+     )
+   endif()
+
+diff -ruN a/cmake/ament_python_install_module.cmake b/cmake/ament_python_install_module.cmake
+--- a/cmake/ament_python_install_module.cmake
++++ b/cmake/ament_python_install_module.cmake
+@@ -60,12 +60,20 @@ function(_ament_cmake_python_install_module module_file)
+   get_filename_component(module_file "${module_file}" NAME)
+   if(NOT ARG_SKIP_COMPILE)
+     get_executable_path(python_interpreter Python3::Interpreter CONFIGURE)
++    # Embedding a raw Windows path (with backslashes) into an install(CODE
++    # "...") string bakes it into cmake_install.cmake as literal source,
++    # where CMake's own string-escape parser can misinterpret sequences like
++    # "\b" (e.g. from a prefix such as C:\bld\...) as invalid escapes. Convert
++    # to forward slashes, which CMake accepts on Windows too, before
++    # embedding.
++    file(TO_CMAKE_PATH "${python_interpreter}" python_interpreter)
++    file(TO_CMAKE_PATH "${CMAKE_INSTALL_PREFIX}" install_prefix_config)
+     # compile Python files
+     install(CODE
+       "execute_process(
+         COMMAND
+         \"${python_interpreter}\" \"-m\" \"compileall\"
+-        \"${CMAKE_INSTALL_PREFIX}/${destination}/${module_file}\"
++        \"${install_prefix_config}/${destination}/${module_file}\"
+       )"
+     )
+   endif()

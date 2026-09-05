@@ -23,7 +23,10 @@ cmake = "<4.0"
 # Some git repos may need git-lfs, see https://github.com/RoboStack/ros-jazzy/issues/118
 git-lfs = "*"
 rattler-index = ">=0.27.16"
-vinca = { git = "https://github.com/RoboStack/vinca.git" }
+curl = "*"
+go-yq = "*"
+colordiff = "*"
+vinca = { git = "https://github.com/RoboStack/vinca.git", rev = "b4ff099aed2f43f535d255ce8a5d332f170d3532" }
 # For local development uncomment:
 # vinca.path = "../vinca"
 
@@ -38,6 +41,7 @@ git = "*"
 generate-recipes = { cmd = "vinca -m", depends-on = ["remove-recipes"] }
 generate-gha-workflows = { cmd = "vinca-gha --trigger-branch dummy_build_branch_as_it_is_unused -d ./recipes", depends-on = ["generate-recipes"] }
 check-patches = { cmd = "python check_patches_clean_apply.py", depends-on = ["generate-recipes"] }
+check-deps = { cmd = "python check_dependency_compat.py", depends-on = ["generate-recipes"], description = "Solve one fake package containing every non-ROS dependency plus the mutex constraints to find pin conflicts before building anything. Run `python check_dependency_compat.py --stale` to list already-built artifacts that conflict with the current pins." }
 create_snapshot = { cmd = "vinca-snapshot -d jazzy -o rosdistro_snapshot.yaml" }
 upload = "rattler-build upload anaconda -o robostack-jazzy -a $ANACONDA_API_TOKEN"
 build_continue_on_failure = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c https://prefix.dev/robostack-jazzy -c https://prefix.dev/conda-forge --continue-on-failure --skip-existing", depends-on = ["generate-recipes"] }
@@ -52,8 +56,15 @@ description = "Build all packages, from the ./recipes dir. This will skip alread
 cmd = "rm -rf recipes_only_patch; rm -rf recipes; mkdir recipes"
 description = "Remove all generated recipes, before regenerating them."
 
+[tasks.conda-build-config-upstream-diff]
+cmd = """
+curl -sLo .tmp.yaml https://github.com/conda-forge/conda-forge-pinning-feedstock/raw/refs/heads/main/recipe/conda_build_config.yaml && \
+yq eval 'with_entries(.value = (load(".tmp.yaml")[.key] // .value))' conda_build_config.yaml | colordiff -u conda_build_config.yaml - ;\
+rm .tmp.yaml
+"""
+description = "Check if there are differences between the local conda_build_config.yaml and the one in the conda-forge-pinning-feedstock."
+
 [tasks.build-one]
 cmd = "cp ./patch/{{ PACKAGE }}.*patch ./recipes/{{ PACKAGE }}/patch/; rattler-build build --recipe ./recipes/{{ PACKAGE }}/recipe.yaml -m ./conda_build_config.yaml -c https://prefix.dev/robostack-jazzy -c https://prefix.dev/conda-forge"
 args = [{ arg = "PACKAGE", default = "ros-jazzy-ros-workspace" }]
 description = "Build a single package, from the ./recipes dir. Add the `ros-jazzy-` prefix to the package name, e.g. `pixi build-one ros-jazzy-ros-workspace`"
-

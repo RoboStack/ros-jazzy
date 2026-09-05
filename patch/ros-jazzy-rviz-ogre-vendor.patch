@@ -1,8 +1,15 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 8d23a299a..f58c62831 100644
+diff -ruN a/CMakeLists.txt b/CMakeLists.txt
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -76,7 +76,11 @@ endif()
+@@ -72,13 +72,19 @@
+ endif()
+ 
+ set(OGRE_CMAKE_ARGS)
++# OGRE 1.12.10 declares cmake_minimum_required < 3.5, rejected by CMake >= 4
++list(APPEND OGRE_CMAKE_ARGS -DCMAKE_POLICY_VERSION_MINIMUM=3.5)
+ if(NOT WIN32)
+   list(APPEND OGRE_CMAKE_ARGS -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON)
+ endif()
  
  if(APPLE)
    list(APPEND OGRE_CMAKE_ARGS -DOGRE_ENABLE_PRECOMPILED_HEADERS:BOOL=OFF)
@@ -15,10 +22,8 @@ index 8d23a299a..f58c62831 100644
  endif()
  
  ament_vendor(ogre_vendor
-diff --git a/patches/0005-fix-macos-arm64.patch b/patches/0005-fix-macos-arm64.patch
-new file mode 100644
-index 000000000..9494cc9ae
---- /dev/null
+diff -ruN a/patches/0005-fix-macos-arm64.patch b/patches/0005-fix-macos-arm64.patch
+--- a/patches/0005-fix-macos-arm64.patch
 +++ b/patches/0005-fix-macos-arm64.patch
 @@ -0,0 +1,19 @@
 +diff --git a/CMakeLists.txt b/CMakeLists.txt
@@ -40,10 +45,8 @@ index 000000000..9494cc9ae
 +   # Make sure that the OpenGL render system is selected for non-iOS Apple builds
 +   set(OGRE_BUILD_RENDERSYSTEM_GLES2 FALSE)
 + endif ()
-diff --git a/patches/0006-fix-char16.patch b/patches/0006-fix-char16.patch
-new file mode 100644
-index 000000000..dfc080bb9
---- /dev/null
+diff -ruN a/patches/0006-fix-char16.patch b/patches/0006-fix-char16.patch
+--- a/patches/0006-fix-char16.patch
 +++ b/patches/0006-fix-char16.patch
 @@ -0,0 +1,17 @@
 +diff --git a/Components/Overlay/include/OgreUTFString.h b/Components/Overlay/include/OgreUTFString.h

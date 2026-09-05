@@ -4,6 +4,13 @@ apriltag:
     max_pin: 'x.x.x'
 aws_sdk_cpp_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
+behaviortree_cpp_v3:
+  # Uses its own BUILD_UNIT_TESTS option (default ON) instead of the
+  # standard BUILD_TESTING that rattler-build already passes as OFF, so its
+  # test suite (needing gtest, via a separate ament_cmake_gtest path that
+  # doesn't get the FetchContent-provided gtest include dir) always gets
+  # built -- failing on win-64 with "Cannot open include file: gtest/gtest.h".
+  additional_cmake_args: "-DBUILD_UNIT_TESTS=OFF"
 cartographer:
   generate_dummy_package_with_run_deps:
     dep_name: cartographer
@@ -16,11 +23,26 @@ coal:
   generate_dummy_package_with_run_deps:
     dep_name: coal
     max_pin: 'x.x.x'
-    override_version: '3.0.3'
+    # 3.0.3's generated run-constraint (coal >=3.0.3,<3.0.4a0) capped coal
+    # below the libcoal >=3.0.4 that both pinocchio 4.1.0 and eigenpy 3.13.0
+    # (see their own dummy-package entries below/above) require from
+    # conda-forge, making ros2-pinocchio's test-environment solve
+    # unsatisfiable. Bump to match; conda-forge's coal 3.0.4 depends on
+    # libboost >=1.90.0, consistent with our own libboost-devel 1.90 pin.
+    override_version: '3.0.4'
 console_bridge_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 data_tamer_cpp:
+  # Remove once https://github.com/PickNikRobotics/data_tamer/pull/58 is merged and released
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+depthai:
+  # The patch's set(ENV{CMAKE_POLICY_VERSION_MINIMUM}) call (needed for
+  # Hunter's own subprocess-spawned cmake -H...-B... invocation) doesn't
+  # reach cmake/CMakeRC.cmake's cmake_minimum_required() -- that file is
+  # include()'d directly into the *same* top-level cmake process later on,
+  # so a plain cache arg on the top-level configure is what actually
+  # covers it. Same fix already needed on humble for the same source tag.
+  additional_cmake_args: '-DCMAKE_POLICY_VERSION_MINIMUM=3.5'
 diagnostic_aggregator:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 diagnostic_updater:
@@ -72,8 +94,10 @@ hpp_fcl:
   generate_dummy_package_with_run_deps:
     dep_name: hpp-fcl
     max_pin: 'x.x.x'
-    # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '3.0.2'
+    # the version on ros is outdated w.r.t. to the conda-forge one; hpp-fcl on ros still
+    # uses its pre-rename name, upstream renamed the project to coal. 3.0.2's native
+    # backend (libcoal) needs libboost 1.88, 3.0.4 already needs libboost 1.90.
+    override_version: '3.0.4'
 ignition_cmake2_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 ignition_math6_vendor:
@@ -95,6 +119,10 @@ libcamera:
     override_version: '0.5.0'
 libcurl_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
+libg2o:
+  # csparse_extension exports no symbols on win-64, so MSVC produces the
+  # .dll but no import .lib and solver_csparse fails LNK1181.
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 liblz4_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 librealsense2:
@@ -105,6 +133,15 @@ magic_enum:
   generate_dummy_package_with_run_deps:
     dep_name: magic_enum
     max_pin: 'x.x'
+mcap_vendor:
+  # FetchContent'd mcap v1.3.1 (foxglove/mcap)'s types.hpp uses uint16_t/
+  # uint64_t/etc without including <cstdint>; GCC 15's leaner libstdc++
+  # headers no longer pull it in transitively. It's a downloaded tarball,
+  # not a git checkout, so it can't be source-patched -- force-include the
+  # header instead, same approach used for as2_platform_multirotor_simulator.
+  additional_cmake_args:
+    if: unix
+    then: '-DCMAKE_CXX_FLAGS="-include cstdint"'
 mujoco_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 octomap:
@@ -131,8 +168,18 @@ pinocchio:
   generate_dummy_package_with_run_deps:
     dep_name: pinocchio
     max_pin: 'x.x.x'
+    # the version on ros is outdated w.r.t. to the conda-forge one; 4.0.0's libpinocchio
+    # needs libboost 1.88, 4.1.0 already needs libboost 1.90 and libcoal >=3.0.4.
+    override_version: '4.1.0'
+proxsuite:
+  # Building from ROS source fails to find Simde (its vectorization backend)
+  # via find_package -- same fix already applied on humble: skip the source
+  # build entirely and depend on the conda-forge package directly.
+  generate_dummy_package_with_run_deps:
+    dep_name: proxsuite
+    max_pin: 'x.x'
     # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '4.0.0'
+    override_version: '0.7.2'
 py_trees:
   generate_dummy_package_with_run_deps:
     dep_name: py-trees
@@ -146,7 +193,6 @@ robot_state_publisher:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 rviz_ogre_vendor:
   additional_cmake_args: "-DRVIZ_OGRE_VENDOR_MANGLE_NAME_OF_LIBRARIES_USED_BY_RVIZ=ON"
-# Remove once https://github.com/PickNikRobotics/data_tamer/pull/58 is merged and released
 sdformat_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 sick_scan_xd:
@@ -176,10 +222,18 @@ visp:
     dep_name: visp
     max_pin: 'x.x'
     # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '3.6.0'
+    override_version: '3.7.0'
 zenoh_cpp_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK -DUSE_SYSTEM_ZENOH=ON"
 ros2cli:
-  build_number: 22
+  # Bumped independently of the global build_number: ros2-ros2cli is already
+  # published on robostack-jazzy with build_number 22 (pinned to
+  # ros2-distro-mutex 0.16.*), so vinca's already-built check (which compares
+  # against this value) considers it current and never regenerates/rebuilds
+  # it -- even though that published build's hard mutex pin became
+  # unsatisfiable once the mutex was bumped to 0.17.0 in 904749dd.
+  build_number: 23
 rosidl_cli:
-  build_number: 22
+  # Same story as ros2cli above: ros2-rosidl-cli published with build_number
+  # 22 is pinned to the now-unsatisfiable ros2-distro-mutex 0.16.*.
+  build_number: 23

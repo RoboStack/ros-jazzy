@@ -1,0 +1,15 @@
+diff --git a/tools/CMakeLists.txt b/tools/CMakeLists.txt
+--- a/tools/CMakeLists.txt
++++ b/tools/CMakeLists.txt
+@@ -10,6 +10,11 @@
+ if( ZMQ_FOUND )
+     add_executable(bt3_recorder         bt_recorder.cpp )
+     target_link_libraries(bt3_recorder  ${BEHAVIOR_TREE_LIBRARY} ${ZMQ_LIBRARIES})
++    # ${BEHAVIOR_TREE_LIBRARY} only adds ZMQ_INCLUDE_DIRS as PRIVATE, so it
++    # isn't propagated here; harmless on most Unix toolchains since the conda
++    # prefix's include dir is already on the default search path, but MSVC
++    # needs it explicitly or zmq.h (via the vendored cppzmq wrapper) isn't found.
++    target_include_directories(bt3_recorder PRIVATE ${ZMQ_INCLUDE_DIRS})
+     install(TARGETS bt3_recorder
+             DESTINATION ${BEHAVIOR_TREE_BIN_DESTINATION} )
+ endif()

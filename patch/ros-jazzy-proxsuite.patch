@@ -1,0 +1,37 @@
+diff -ruN --exclude=.git a/test/CMakeLists.txt b/test/CMakeLists.txt
+--- a/test/CMakeLists.txt
++++ b/test/CMakeLists.txt
+@@ -1,5 +1,7 @@
+ include(../cmake-external/doctest.cmake)
+-find_package(Matio REQUIRED)
++# Matio is not packaged for this build; only the maros_meszaros benchmark
++# tests need it, so make it optional instead of hard-requiring it.
++find_package(Matio QUIET)
+ 
+ add_library(${PROJECT_NAME}-doctest STATIC doctest/doctest.cpp)
+ target_include_directories(${PROJECT_NAME}-doctest PUBLIC ./doctest)
+@@ -19,10 +21,13 @@
+ )
+ target_include_directories(proxsuite-test-util PUBLIC ./include)
+ if(BUILD_WITH_VECTORIZATION_SUPPORT)
+-  target_link_libraries(proxsuite-test-util proxsuite-vectorized matio)
++  target_link_libraries(proxsuite-test-util proxsuite-vectorized)
+ else()
+-  target_link_libraries(proxsuite-test-util proxsuite matio)
++  target_link_libraries(proxsuite-test-util proxsuite)
+ endif()
++if(MATIO_FOUND)
++  target_link_libraries(proxsuite-test-util matio)
++endif()
+ 
+ macro(proxsuite_test name path)
+   set(target_name ${PROJECT_NAME}-test-cpp-${name})
+@@ -85,7 +90,7 @@
+   )
+ endif()
+ 
+-if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug" AND NOT MSVC)
++if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug" AND NOT MSVC AND MATIO_FOUND)
+   proxsuite_test(dense_maros_meszaros src/dense_maros_meszaros.cpp)
+   proxsuite_test(sparse_maros_meszaros src/sparse_maros_meszaros.cpp)
+ endif()
