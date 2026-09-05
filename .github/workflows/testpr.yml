@@ -176,12 +176,12 @@ jobs:
         # conflicting with pcl's qt6-main requirement and failing the solve
         # entirely. Force it to rebuild fresh without that dependency.
         rm -rf ${{ matrix.folder_cache }}/ros2-libg2o* || true
-        # Same stale-cached-dummy-package-dependency pattern: ros2-cartographer
-        # (a generate_dummy_package_with_run_deps wrapper around conda-forge's
-        # cartographer) was cached with an old lua >=5.5.0 pin that now
-        # conflicts with the currently available cartographer 2.0.0, which
-        # wants lua >=5.4.8,<5.5.0 -- failing cartographer_ros's host solve
-        # entirely. Force a fresh rebuild.
+        # Not actually a stale-cache issue (confirmed: still failed on a
+        # fresh rebuild) -- cartographer's own host env left lua unpinned,
+        # conflicting with conda-forge's separately-published "cartographer"
+        # package pulled in by its dummy-package run constraint. Real fix is
+        # the lua host pin in patch/dependencies.yaml; forcing a rebuild here
+        # just makes sure this picks up that fix promptly.
         rm -rf ${{ matrix.folder_cache }}/ros2-cartographer* || true
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
         exit 0
