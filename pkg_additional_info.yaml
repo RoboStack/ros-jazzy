@@ -4,6 +4,13 @@ apriltag:
     max_pin: 'x.x.x'
 aws_sdk_cpp_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
+behaviortree_cpp_v3:
+  # Uses its own BUILD_UNIT_TESTS option (default ON) instead of the
+  # standard BUILD_TESTING that rattler-build already passes as OFF, so its
+  # test suite (needing gtest, via a separate ament_cmake_gtest path that
+  # doesn't get the FetchContent-provided gtest include dir) always gets
+  # built -- failing on win-64 with "Cannot open include file: gtest/gtest.h".
+  additional_cmake_args: "-DBUILD_UNIT_TESTS=OFF"
 cartographer:
   generate_dummy_package_with_run_deps:
     dep_name: cartographer
