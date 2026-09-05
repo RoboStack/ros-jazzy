@@ -161,6 +161,10 @@ jobs:
         # had many superseding pushes via the concurrency group) got cached in
         # a corrupt, incomplete state. Force it to rebuild fresh.
         rm -rf ${{ matrix.folder_cache }}/ros2-sensor-msgs* || true
+        # Same corrupt-cache pattern hit a second foundational message package:
+        # ros2-rcl (win-64) failed to find rcl_interfaces's cmake config, and
+        # its cached .conda was also only ~25KB. Add more here as they surface.
+        rm -rf ${{ matrix.folder_cache }}/ros2-rcl-interfaces* || true
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
         exit 0
 
