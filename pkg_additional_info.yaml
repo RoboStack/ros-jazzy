@@ -154,6 +154,15 @@ pinocchio:
     # the version on ros is outdated w.r.t. to the conda-forge one; 4.0.0's libpinocchio
     # needs libboost 1.88, 4.1.0 already needs libboost 1.90 and libcoal >=3.0.4.
     override_version: '4.1.0'
+proxsuite:
+  # Building from ROS source fails to find Simde (its vectorization backend)
+  # via find_package -- same fix already applied on humble: skip the source
+  # build entirely and depend on the conda-forge package directly.
+  generate_dummy_package_with_run_deps:
+    dep_name: proxsuite
+    max_pin: 'x.x'
+    # the version on ros is outdated w.r.t. to the conda-forge one
+    override_version: '0.7.2'
 py_trees:
   generate_dummy_package_with_run_deps:
     dep_name: py-trees
