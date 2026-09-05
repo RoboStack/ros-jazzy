@@ -171,6 +171,11 @@ jobs:
         # full win-64 cache wipe (IGNORE_CACHE_AND_DO_FULL_REBUILD) instead of
         # continuing to whack-a-mole individual packages here.
         rm -rf ${{ matrix.folder_cache }}/ros2-control-msgs* || true
+        # ros2-libg2o's cached artifact still has its old qt (Qt5) run
+        # dependency baked in from before the qt host dep was dropped,
+        # conflicting with pcl's qt6-main requirement and failing the solve
+        # entirely. Force it to rebuild fresh without that dependency.
+        rm -rf ${{ matrix.folder_cache }}/ros2-libg2o* || true
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
         exit 0
 
