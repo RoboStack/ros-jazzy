@@ -1,7 +1,16 @@
 diff -ruN a/CMakeLists.txt b/CMakeLists.txt
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -72,13 +72,19 @@
+@@ -22,6 +22,8 @@
+       -DFT_DISABLE_PNG:BOOL=ON
+       -DFT_DISABLE_HARFBUZZ:BOOL=ON
+       "-DCMAKE_C_FLAGS=${FREETYPE_C_FLAGS}"
++      # freetype 2.11.1 declares cmake_minimum_required < 3.5, rejected by CMake >= 4
++      -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+   )
+ 
+   set(ZLIB_C_FLAGS "${ZLIB_C_FLAGS}")
+@@ -72,13 +74,19 @@
  endif()
  
  set(OGRE_CMAKE_ARGS)
