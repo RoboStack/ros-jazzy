@@ -165,6 +165,12 @@ jobs:
         # ros2-rcl (win-64) failed to find rcl_interfaces's cmake config, and
         # its cached .conda was also only ~25KB. Add more here as they surface.
         rm -rf ${{ matrix.folder_cache }}/ros2-rcl-interfaces* || true
+        # Third instance of the same ~25KB corrupt-cache pattern on win-64:
+        # ros2-hardware-interface failed to find control_msgs's cmake config.
+        # If this keeps recurring across more packages, consider a one-time
+        # full win-64 cache wipe (IGNORE_CACHE_AND_DO_FULL_REBUILD) instead of
+        # continuing to whack-a-mole individual packages here.
+        rm -rf ${{ matrix.folder_cache }}/ros2-control-msgs* || true
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
         exit 0
 
