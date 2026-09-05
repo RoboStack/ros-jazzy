@@ -108,6 +108,15 @@ magic_enum:
   generate_dummy_package_with_run_deps:
     dep_name: magic_enum
     max_pin: 'x.x'
+mcap_vendor:
+  # FetchContent'd mcap v1.3.1 (foxglove/mcap)'s types.hpp uses uint16_t/
+  # uint64_t/etc without including <cstdint>; GCC 15's leaner libstdc++
+  # headers no longer pull it in transitively. It's a downloaded tarball,
+  # not a git checkout, so it can't be source-patched -- force-include the
+  # header instead, same approach used for as2_platform_multirotor_simulator.
+  additional_cmake_args:
+    if: unix
+    then: '-DCMAKE_CXX_FLAGS="-include cstdint"'
 mujoco_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 octomap:
