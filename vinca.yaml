@@ -103,7 +103,6 @@ packages_select_by_deps:
   # as unconditional or "not wasm32" seeds; jazzy has no wasm32 platform).
   - ament_cmake_nose
   - apex_test_tools
-  - automatika_embodied_agents
   - automatika_ros_sugar
   - autoware_adapi_v1_msgs
   - autoware_adapi_version_msgs
@@ -421,6 +420,13 @@ packages_select_by_deps:
       # there (jazzy has no wasm32 platform, so this collapses to "not win").
       - as2_cli
       - as2_msgs
+      # automatika_embodied_agents' generated rosidl_typesupport_fastrtps_c
+      # library fails to link on win-64 with dozens of "unresolved external
+      # symbol __imp_get_serialized_size_<pkg>__msg__<Type>" errors for
+      # sensor_msgs/std_msgs/unique_identifier_msgs/builtin_interfaces types,
+      # same as humble (same upstream source) -- root cause unclear without a
+      # Windows build environment to iterate against.
+      - automatika_embodied_agents
       - autoware_core
       - autoware_core_control
       - autoware_core_localization
