@@ -114,6 +114,61 @@ negotiated_interfaces:
   rev: eac198b55dcd052af5988f0f174902913c5f20e7
   version: 0.1.0
   additional_folder: negotiated_interfaces
+
+# RoboPlan 0.6.1: the jazzy snapshot pins 0.6.0, but 0.6.1 is what is packaged
+# on conda-forge (roboplan-*-python). Remove on the next snapshot bump.
+roboplan:
+  tag: release/jazzy/roboplan/0.6.1-1
+  url: https://github.com/ros2-gbp/roboplan-release.git
+  version: 0.6.1
+roboplan_cartesian_planning:
+  tag: release/jazzy/roboplan_cartesian_planning/0.6.1-1
+  url: https://github.com/ros2-gbp/roboplan-release.git
+  version: 0.6.1
+roboplan_example_models:
+  tag: release/jazzy/roboplan_example_models/0.6.1-1
+  url: https://github.com/ros2-gbp/roboplan-release.git
+  version: 0.6.1
+roboplan_examples:
+  tag: release/jazzy/roboplan_examples/0.6.1-1
+  url: https://github.com/ros2-gbp/roboplan-release.git
+  version: 0.6.1
+roboplan_oink:
+  tag: release/jazzy/roboplan_oink/0.6.1-1
+  url: https://github.com/ros2-gbp/roboplan-release.git
+  version: 0.6.1
+roboplan_ros_cpp:
+  tag: release/jazzy/roboplan_ros_cpp/0.6.1-1
+  url: https://github.com/ros2-gbp/roboplan_ros-release.git
+  version: 0.6.1
+roboplan_ros_examples:
+  tag: release/jazzy/roboplan_ros_examples/0.6.1-1
+  url: https://github.com/ros2-gbp/roboplan_ros-release.git
+  version: 0.6.1
+roboplan_ros_franka:
+  tag: release/jazzy/roboplan_ros_franka/0.6.1-1
+  url: https://github.com/ros2-gbp/roboplan_ros-release.git
+  version: 0.6.1
+roboplan_ros_py:
+  tag: release/jazzy/roboplan_ros_py/0.6.1-1
+  url: https://github.com/ros2-gbp/roboplan_ros-release.git
+  version: 0.6.1
+roboplan_ros_visualization:
+  tag: release/jazzy/roboplan_ros_visualization/0.6.1-1
+  url: https://github.com/ros2-gbp/roboplan_ros-release.git
+  version: 0.6.1
+roboplan_rrt:
+  tag: release/jazzy/roboplan_rrt/0.6.1-1
+  url: https://github.com/ros2-gbp/roboplan-release.git
+  version: 0.6.1
+roboplan_simple_ik:
+  tag: release/jazzy/roboplan_simple_ik/0.6.1-1
+  url: https://github.com/ros2-gbp/roboplan-release.git
+  version: 0.6.1
+roboplan_toppra:
+  tag: release/jazzy/roboplan_toppra/0.6.1-1
+  url: https://github.com/ros2-gbp/roboplan-release.git
+  version: 0.6.1
 topic_based_ros2_control:
   url: https://github.com/PickNikRobotics/topic_based_ros2_control.git
   rev: 6bd8d55e1c4ad3188770fe5c8b93b942bcede4a2

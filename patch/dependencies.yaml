@@ -294,3 +294,8 @@ py_trees:
   add_host: ["poetry-core"]
 py_trees_js:
   add_host: ["poetry-core"]
+roboplan_ros_examples:
+  # package.xml only declares ament_cmake_python, but CMakeLists.txt does
+  # find_package(ament_cmake REQUIRED) and build_type is ament_cmake.
+  # Fixed for roboplan_ros 0.7.0, so it can be removed when this releases.
+  add_host: ["ros-jazzy-ament-cmake"]
