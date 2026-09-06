@@ -12,11 +12,6 @@ cartographer:
     override_version: '2.0.0'
 cartographer_ros:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
-coal:
-  generate_dummy_package_with_run_deps:
-    dep_name: coal
-    max_pin: 'x.x.x'
-    override_version: '3.0.3'
 console_bridge_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 data_tamer_cpp:
@@ -127,12 +122,11 @@ ouster_ros:
   additional_cmake_args: "-DOUSTER_USE_VCPKG_IF_AVAILABLE=OFF"
 pcl_ros:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
-pinocchio:
+proxsuite:
   generate_dummy_package_with_run_deps:
-    dep_name: pinocchio
-    max_pin: 'x.x.x'
-    # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '4.0.0'
+    dep_name: proxsuite
+    max_pin: 'x.x'
+    override_version: '0.7.3'
 py_trees:
   generate_dummy_package_with_run_deps:
     dep_name: py-trees
@@ -142,6 +136,34 @@ pybind11_json_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR"
 pybind11_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR"
+roboplan:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-python
+    max_pin: 'x.x'
+roboplan_cartesian_planning:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-cartesian-planning-python
+    max_pin: 'x.x'
+roboplan_example_models:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-example-models-python
+    max_pin: 'x.x'
+roboplan_oink:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-oink-python
+    max_pin: 'x.x'
+roboplan_rrt:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-rrt-python
+    max_pin: 'x.x'
+roboplan_simple_ik:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-simple-ik-python
+    max_pin: 'x.x'
+roboplan_toppra:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-toppra-python
+    max_pin: 'x.x'
 robot_state_publisher:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 rviz_ogre_vendor:
@@ -155,6 +177,10 @@ spdlog_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 sqlite3_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
+toppra:
+  generate_dummy_package_with_run_deps:
+    dep_name: toppra-python
+    max_pin: 'x.x'
 uncrustify_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 urdfdom:
@@ -179,6 +205,21 @@ visp:
     override_version: '3.6.0'
 zenoh_cpp_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK -DUSE_SYSTEM_ZENOH=ON"
+coal:
+  generate_dummy_package_with_run_deps:
+    dep_name: coal
+    max_pin: 'x.x.x'
+    override_version: '3.0.4'
+  # Remove on next full rebuild: bumped so main rebuilds the 3.0.4 dummy
+  build_number: 22
+pinocchio:
+  generate_dummy_package_with_run_deps:
+    dep_name: pinocchio
+    max_pin: 'x.x.x'
+    # the version on ros is outdated w.r.t. to the conda-forge one
+    override_version: '4.1.0'
+  # Remove on next full rebuild: bumped so main rebuilds the 4.1.0 dummy
+  build_number: 22
 ros2cli:
   build_number: 22
 rosidl_cli:
