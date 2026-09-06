@@ -211,6 +211,7 @@ jobs:
       id: build-recipes
       shell: bash -l {0}
       run: |
+        set +e
         # Without this, resolvo's strict channel priority can refuse a
         # just-built local package outright once any other-channel build of
         # the same name exists, even when the local one is the only valid
@@ -218,7 +219,29 @@ jobs:
         # identical issue on rolling) -- e.g. ros2-pinocchio's own test step
         # excluding its freshly-built local .conda and falling back through
         # an unrelated, unsatisfiable dependency chain instead.
-        pixi run rattler-build build --recipe-dir recipes --target-platform ${{ matrix.platform }} -m ./conda_build_config.yaml -c conda-forge -c robostack-jazzy --skip-existing --channel-priority disabled
+        pixi run rattler-build build --recipe-dir recipes --target-platform ${{ matrix.platform }} -m ./conda_build_config.yaml -c conda-forge -c robostack-jazzy --skip-existing --channel-priority disabled 2>&1 | tee rattler-build.log
+        build_status=${PIPESTATUS[0]}
+        echo "exit-code=${build_status}" >> "$GITHUB_OUTPUT"
+        exit "$build_status"
+
+    - name: Summarize build result
+      if: always()
+      shell: bash -l {0}
+      run: |
+        pixi run python .github/scripts/summarize_rattler_build.py \
+          --log rattler-build.log \
+          --platform "${{ matrix.platform }}" \
+          --outcome "${{ steps.build-recipes.outcome }}" \
+          >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Upload build log
+      if: always()
+      uses: actions/upload-artifact@v6
+      with:
+        name: build-log-${{ matrix.platform }}-${{ github.run_id }}-${{ github.run_attempt }}
+        path: rattler-build.log
+        if-no-files-found: warn
+        retention-days: 7
 
     - name: See packages that will be saved in cache
       shell: bash -l {0}
