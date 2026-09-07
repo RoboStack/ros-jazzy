@@ -108,7 +108,12 @@ ros1_rosbag_storage_vendor:
 popf:
   add_host: ["perl"]
 rtabmap:
-  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "ceres-solver", "libdc1394", "libusb", "vtk"]
+  # libdc1394 (FireWire camera support) has no win-64 build on conda-forge at
+  # all. rtabmap's own CMakeLists.txt treats it as fully optional
+  # (FIND_PACKAGE(DC1394 QUIET), guarded by IF(DC1394_FOUND) everywhere), so
+  # simply not requesting it on Windows is enough -- rtabmap builds fine
+  # without FireWire camera support there.
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "ceres-solver", "${{ 'libdc1394' if not win }}", "libusb", "vtk"]
 backward_ros:
   # binutils is added only on linux to avoid the -liberty library not found in macos
   # see https://github.com/RoboStack/ros-jazzy/pull/95#issuecomment-3113166166
