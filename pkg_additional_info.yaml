@@ -21,6 +21,13 @@ coal:
     override_version: '3.0.4'
 console_bridge_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
+cyclonedds:
+  generate_dummy_package_with_run_deps:
+    # win-64 conda-forge only has cyclonedds 0.5/0.6/11.x, not the 0.10.x ROS is pinned to; keep it vendored there.
+    if: not win
+    then:
+      dep_name: cyclonedds
+      max_pin: 'x.x'
 data_tamer_cpp:
   # Remove once https://github.com/PickNikRobotics/data_tamer/pull/58 is merged and released
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
@@ -79,6 +86,21 @@ hpp_fcl:
     max_pin: 'x.x.x'
     # the version on ros is outdated w.r.t. to the conda-forge one
     override_version: '3.0.4'
+iceoryx_binding_c:
+  generate_dummy_package_with_run_deps:
+    dep_name: libiceoryx-binding-c
+    max_pin: 'x.x'
+    override_version: '2.95.8'
+iceoryx_hoofs:
+  generate_dummy_package_with_run_deps:
+    dep_name: libiceoryx-hoofs
+    max_pin: 'x.x'
+    override_version: '2.95.8'
+iceoryx_posh:
+  generate_dummy_package_with_run_deps:
+    dep_name: libiceoryx-posh
+    max_pin: 'x.x'
+    override_version: '2.95.8'
 ignition_cmake2_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 ignition_math6_vendor:
