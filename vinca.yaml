@@ -208,7 +208,6 @@ packages_select_by_deps:
   - rclc_lifecycle
   - rclc_parameter
   - robot_controllers
-  - rosbag2_performance_benchmarking
   - rqt
   - rqt_controller_manager
   - rqt_moveit
@@ -557,6 +556,17 @@ packages_select_by_deps:
       - plotjuggler-ros
       - point_cloud_transport_plugins      # Error: LINK : fatal error LNK1181: cannot open input file 'zstd.lib' [%SRC_DIR%\build\zstd_point_cloud_transport.vcxproj]
       - rmw_stats_shim
+      # rosbag2_performance_benchmarking_msgs' generated Python extension
+      # ("_s") rosidl typesupport target hits MSVC error C1083 "Cannot open
+      # compiler generated file: ''" on win-64 -- a known rosidl/ament_cmake
+      # codegen race between the main C library target and its Python
+      # extension sibling both consuming the same generated .c file without
+      # a proper build dependency edge (same error signature already seen
+      # on humble for iiwa14_moveit_config). Reproduced consistently across
+      # two separate CI runs, not a one-off flake. Excluding the tool
+      # itself since rosbag2_performance_benchmarking_msgs is its only
+      # dependency and it has no purpose without it.
+      - rosbag2_performance_benchmarking
       - rosgraph_monitor
       - rosgraph_monitor_msgs
       - rplidar_ros
