@@ -2959,3 +2959,32 @@ diff -ruN a/tools/StereoEval/main.cpp b/tools/StereoEval/main.cpp
  			UDEBUG("cv::cornerSubPix() end");
  		}
  
+
+diff -ruN a/app/src/main.cpp b/app/src/main.cpp
+--- a/app/src/main.cpp
++++ b/app/src/main.cpp
+@@ -25,6 +25,10 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+ 
++#ifdef WIN32
++#include <objbase.h>
++#endif
++
+ #include <QApplication>
+ #include <QtCore/QDir>
+ #include "rtabmap/utilite/UEventsManager.h"
+diff -ruN a/tools/DatabaseViewer/main.cpp b/tools/DatabaseViewer/main.cpp
+--- a/tools/DatabaseViewer/main.cpp
++++ b/tools/DatabaseViewer/main.cpp
+@@ -25,6 +25,10 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+ 
++#ifdef WIN32
++#include <objbase.h>
++#endif
++
+ #include <QApplication>
+ #include "rtabmap/gui/DatabaseViewer.h"
+ #include "rtabmap/utilite/ULogger.h"
