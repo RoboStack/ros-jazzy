@@ -1,0 +1,91 @@
+diff -ruN a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -83,7 +83,9 @@
+ 		set (CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+ 	endif ()
+ else ()
+-	set (CMAKE_CXX_STANDARD 11)
++	# Modern Eigen (bundled by conda-forge) requires C++14 (std::enable_if_t,
++	# std::integer_sequence); C++11 no longer compiles against it.
++	set (CMAKE_CXX_STANDARD 14)
+ endif ()
+ 
+ #======================== External Dependencies ===============================
+@@ -168,6 +170,9 @@
+ 		if (CMAKE_COMPILER_IS_GNUCC)
+ 			target_link_libraries(${LIB_NAME} PUBLIC gomp)
+ 		endif()
++		# Clang (e.g. on macOS) needs the OpenMP runtime linked explicitly too;
++		# PUBLIC so it propagates to the tests/examples that link libnabo.
++		target_link_libraries(${LIB_NAME} PUBLIC OpenMP::OpenMP_CXX)
+ 	endif()
+ endif ()
+ 
+@@ -194,7 +199,10 @@
+   add_subdirectory(tests)
+ endif()
+ 
+-option(LIBNABO_BUILD_PYTHON "Build libnabo python" ON)
++# python/nabo.cpp uses the pre-NumPy-1.7 C API (PyArray_DOUBLE, PyArray_INT,
++# NPY_C_CONTIGUOUS, ...) which was removed outright in modern NumPy; the ROS
++# package only needs the C++ library, so leave these bindings off by default.
++option(LIBNABO_BUILD_PYTHON "Build libnabo python" OFF)
+ if(LIBNABO_BUILD_PYTHON)
+   add_subdirectory(python)
+ endif()
+diff -ruN a/libnaboConfig.cmake.in b/libnaboConfig.cmake.in
+--- a/libnaboConfig.cmake.in
++++ b/libnaboConfig.cmake.in
+@@ -4,6 +4,11 @@
+ #  libnabo_LIBRARIES    - libraries to link against
+ @PACKAGE_INIT@
+ 
++# libnabo-targets.cmake exports a PUBLIC link dependency on OpenMP::OpenMP_CXX
++# (see CMakeLists.txt); consumers need that imported target in scope too.
++include(CMakeFindDependencyMacro)
++find_dependency(OpenMP)
++
+ include(${CMAKE_CURRENT_LIST_DIR}/libnabo-targets.cmake)
+ 
+ # This causes catkin_simple to link against these libraries
+diff -ruN a/nabo/kdtree_cpu.cpp b/nabo/kdtree_cpu.cpp
+--- a/nabo/kdtree_cpu.cpp
++++ b/nabo/kdtree_cpu.cpp
+@@ -31,6 +31,7 @@
+ 
+ #include "nabo_private.h"
+ #include "index_heap.h"
++#include <cassert>
+ #include <iostream>
+ #include <stdexcept>
+ #include <limits>
+diff -ruN a/python/CMakeLists.txt b/python/CMakeLists.txt
+--- a/python/CMakeLists.txt
++++ b/python/CMakeLists.txt
+@@ -48,7 +48,13 @@
+ 	find_package_handle_standard_args(numpy DEFAULT_MSG PY_NUMPY)
+ 	if (Boost_FOUND AND NUMPY_FOUND)
+ 		message("numpy and boost::python found, generating python bindings")
+-		include_directories(${PYTHON_INCLUDE_DIRS} ${PY_NUMPY}/core/include)
++		# numpy >= 2.0 moved its C headers from core/include to _core/include
++		if (EXISTS "${PY_NUMPY}/_core/include")
++			set(NUMPY_INCLUDE_DIR "${PY_NUMPY}/_core/include")
++		else ()
++			set(NUMPY_INCLUDE_DIR "${PY_NUMPY}/core/include")
++		endif ()
++		include_directories(${PYTHON_INCLUDE_DIRS} ${NUMPY_INCLUDE_DIR})
+ 		if (SHARED_LIBS)
+ 			python_add_module(pynabo SHARED nabo.cpp)
+ 			target_link_libraries(pynabo ${LIB_NAME} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
+diff -ruN a/tests/knnvalidate.cpp b/tests/knnvalidate.cpp
+--- a/tests/knnvalidate.cpp
++++ b/tests/knnvalidate.cpp
+@@ -32,6 +32,7 @@
+ #include "nabo/nabo.h"
+ #include "helpers.h"
+ //#include "experimental/nabo_experimental.h"
++#include <cassert>
+ #include <iostream>
+ #include <fstream>
+ #include <stdexcept>

@@ -10,12 +10,24 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 23
-build_number: 21
+# Bumped 22 -> 23: at least ros2-ros-workspace, ros2-ament-package, and
+# ros2-ament-cmake-core (all foundational bootstrap-tier packages, likely
+# more) are cached/published at build_number 22 with the old
+# ros2-distro-mutex 0.16.* pin baked in from before 904749dd bumped the mutex
+# to 0.17.0 -- vinca's already-built check only compares build_number
+# equality, so it kept treating them as current despite the now-unsatisfiable
+# mutex pin. Individually cache-busting each one as it surfaced was turning
+# into unbounded whack-a-mole; a full build_number bump is what this field is
+# for when a distro-wide config change invalidates prior builds coordinately.
+# Reminder for next full rebuild, the next build number should be 24
+build_number: 23
 
 mutex_package:
   name: "ros2-distro-mutex"
-  version: "0.16.0"
+  version: "0.17.0"
+  # Bumped independently of build_number so the mutex is re-published with the new
+  # run_constraints (vtk 9.7.0) while already-built packages (ros2-distro-mutex
+  # 0.16.* jazzy_*) stay valid instead of silently resolving against a stale pin.
   upper_bound: "x.x"
   run_constraints:
     - libboost 1.90.*
@@ -23,8 +35,59 @@ mutex_package:
     - pcl 1.15.1.*
     - gazebo 11.*
     - libprotobuf 7.35.*
-    - vtk 9.6.2.*
+    - vtk 9.7.0.*
 
+# --------------------------------------------------------------------------
+# Three related but DISTINCT ways to exclude a package -- read this before
+# adding to any of the three (vinca revision pinned in pixi.toml verified
+# against on 2026-09-06; re-check vinca/main.py + vinca/resolve.py if that
+# pin ever moves, in case the mechanism changes):
+#
+# 1. packages_select_by_deps, wrapped in `if: not <platform> then: [...]`
+#    (see below). This is the PRIMARY way to exclude a package's own
+#    recipe: vinca/main.py::get_selected_packages adds every name listed
+#    here to `selected_packages` unconditionally, before any skip-list is
+#    even consulted -- so simply never listing a package under the
+#    current platform's branch here is what keeps its own recipe from
+#    being generated.
+#
+# 2. packages_skip_by_deps (this list) only affects TRANSITIVE pull-in:
+#    it's passed as `ignore_pkgs` to `distro.get_depends()`, so it stops
+#    some OTHER selected package's dependency-closure walk from dragging
+#    the excluded package back in. It does NOT stop a package listed
+#    directly in packages_select_by_deps from being selected -- the two
+#    lists answer different questions ("should X be pulled in as someone
+#    else's dependency?" vs. "should X itself be built?").
+#
+# 3. packages_remove_from_deps (further below) is checked by
+#    vinca/resolve.py::should_skip_pkg via resolve_pkgname(), which is
+#    called BOTH when vinca resolves a package's OWN final name (in
+#    generate_fat_source -- an empty result makes it `continue`, i.e.
+#    skip generating that package's recipe entirely) AND when it resolves
+#    OTHER packages' host/run dependency names. So this list is really a
+#    THIRD, independent way to fully exclude a package's own build -- and
+#    it ALSO strips the package's name from every other recipe's
+#    dependency list as an inseparable side effect. If some other
+#    selected package legitimately needs to depend on the package you're
+#    excluding, packages_remove_from_deps is the WRONG tool (it removes
+#    both); use packages_select_by_deps's if-wrapper (+ packages_skip_by_deps
+#    if something's dependency closure would otherwise repull it) instead.
+#
+# Worked examples from real fixes across the RoboStack ros-humble/ros-jazzy repos:
+#   - ros-humble robot_localization (win-64): needed ALL THREE together,
+#     because clearpath_control (itself unconditionally selected)
+#     transitively depended on it -- (1) alone left it selected via
+#     clearpath_control's closure. See ros-humble commits 411b2f7d, 929734a9.
+#   - ros-humble rclc_examples (win-64): excluded via (3) ALONE -- it has
+#     NO `if: not win` wrapper under packages_select_by_deps at all, and
+#     isn't in packages_skip_by_deps either; it's only ever excluded
+#     because it's listed under packages_remove_from_deps's win branch.
+#     A win-64 compile bug in this package looked "never fixed" until it
+#     was traced to the package being fully excluded by this mechanism.
+#   - mavlink/mavros/mavros_extras/libmavconn (this repo): (1) alone was
+#     sufficient -- confirmed via full recipe regeneration that no other
+#     selected package referenced them, so (2)/(3) were never needed.
+# --------------------------------------------------------------------------
 packages_skip_by_deps:
 
   - if: not linux
@@ -33,6 +96,12 @@ packages_skip_by_deps:
       - rttest
       - tlsf
       - tlsf_cpp
+
+# See the "Three related but DISTINCT ways to exclude a package" block above
+# packages_skip_by_deps: this list (3) ALSO fully excludes a package's own
+# recipe (not just its appearance in others' deps) -- use packages_select_by_deps's
+# if-wrapper instead if you only want to stop this package's own build while
+# still letting another selected package depend on it.
 
 packages_remove_from_deps:
 
@@ -46,6 +115,12 @@ packages_remove_from_deps:
 skip_existing:
   # - output
   - https://conda.anaconda.org/robostack-jazzy/
+
+# See the "Three related but DISTINCT ways to exclude a package" block above
+# packages_skip_by_deps: an `if: not <platform> then: [pkg]` branch here is
+# mechanism (1), the primary way to exclude pkg's own recipe for that
+# platform. Add to packages_skip_by_deps too if something else's dependency
+# closure would otherwise still pull it back in.
 
 packages_select_by_deps:
   - ament_cmake_catch2
@@ -85,6 +160,74 @@ packages_select_by_deps:
   - topic_based_ros2_control  # Generic dependency used by Isaac ROS without Jazzy rosdistro releases.
   - turtlebot3
   - turtlebot3_simulations
+
+  # Parity sweep with ros-humble (2026-09-04): packages humble ships but jazzy's
+  # meta-package tree doesn't pull in on its own. Cross-platform (humble has these
+  # as unconditional or "not wasm32" seeds; jazzy has no wasm32 platform).
+  - ament_cmake_nose
+  - apex_test_tools
+  - automatika_ros_sugar
+  - autoware_adapi_v1_msgs
+  - autoware_adapi_version_msgs
+  - autoware_auto_msgs
+  - autoware_component_interface_specs
+  - autoware_geography_utils
+  - autoware_global_parameter_loader
+  - autoware_interpolation
+  - autoware_kalman_filter
+  - autoware_lanelet2_extension
+  - autoware_lanelet2_extension_python
+  - autoware_msgs
+  - autoware_node
+  - autoware_object_recognition_utils
+  - autoware_point_types
+  - autoware_signal_processing
+  - autoware_vehicle_info_utils
+  - aws_robomaker_small_warehouse_world
+  - behaviortree_cpp_v3
+  - bno055
+  - bond_core
+  - color_util
+  - dynmsg
+  - geographic_info
+  - geometry_tutorials
+  - imu_calib
+  - imu_transformer
+  - libnabo
+  - libpointmatcher
+  - marker_msgs
+  - moveit_chomp_optimizer_adapter
+  - open3d_conversions
+  - persist_parameter_server
+  - pick_ik
+  - polygon_utils
+  - proxsuite
+  - ptz_action_server_msgs
+  - radar_msgs
+  - rclc
+  - rclc_lifecycle
+  - rclc_parameter
+  - robot_controllers
+  - rosbag2_performance_benchmarking
+  - rqt
+  - rqt_controller_manager
+  - rqt_moveit
+  - rqt_robot_dashboard
+  - rqt_robot_steering
+  - rtabmap
+  - sick_safetyscanners_base
+  - stubborn_buddies
+  - system_modes
+  - turtle_tf2_cpp
+  - turtle_tf2_py
+  - urg_node
+  - vector_pursuit_controller
+  - velodyne_simulator
+  - visp
+  # Note: humble also ships the classic gazebo/ignition family (gazebo_ros_pkgs,
+  # ign_ros2_control, ros_ign*) here; deliberately not added since jazzy already
+  # uses the modern gz-sim stack (ros_gz above) instead.
+
   - turtlebot4_description
   - turtlebot4_desktop
   - turtlebot4_gz_bringup
@@ -336,6 +479,27 @@ packages_select_by_deps:
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
     then:
+      # Parity sweep with ros-humble (2026-09-04): "not wasm32 and not win" seeds
+      # there (jazzy has no wasm32 platform, so this collapses to "not win").
+      - as2_cli
+      - as2_msgs
+      # automatika_embodied_agents' generated rosidl_typesupport_fastrtps_c
+      # library fails to link on win-64 with dozens of "unresolved external
+      # symbol __imp_get_serialized_size_<pkg>__msg__<Type>" errors for
+      # sensor_msgs/std_msgs/unique_identifier_msgs/builtin_interfaces types,
+      # same as humble (same upstream source) -- root cause unclear without a
+      # Windows build environment to iterate against.
+      - automatika_embodied_agents
+      - autoware_core
+      - autoware_core_control
+      - autoware_core_localization
+      - autoware_ekf_localizer
+      - autoware_lanelet2_utils
+      - autoware_motion_utils
+      - autoware_osqp_interface
+      - autoware_pose_initializer
+      - autoware_qp_interface
+      - autoware_trajectory
       - bonxai_ros
       - cloudini-lib
       - cloudini-ros
@@ -367,6 +531,19 @@ packages_select_by_deps:
       - mavros
       - med14_moveit_config
       - med7_moveit_config
+      - microstrain_inertial_driver
+      - microstrain_inertial_examples
+      - microstrain_inertial_msgs
+      - microstrain_inertial_rqt
+      - mocap4r2_control
+      - mocap4r2_control_msgs
+      - mocap4r2_dummy_driver
+      - mocap4r2_marker_publisher
+      - mocap4r2_marker_viz
+      - mocap4r2_marker_viz_srvs
+      - mocap4r2_robot_gt
+      - mocap4r2_robot_gt_msgs
+      - motion_capture_tracking
       - moveit-py
       - moveit-ros-occupancy-map-monitor
       - moveit-ros-perception
@@ -404,6 +581,7 @@ packages_select_by_deps:
       - yasmin_plugins_manager
       - yasmin_ros
       - yasmin_viewer
+      - zed_msgs
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

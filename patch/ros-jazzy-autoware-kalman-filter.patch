@@ -1,0 +1,24 @@
+diff -ruN a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,17 +7,15 @@
+ find_package(eigen3_cmake_module REQUIRED)
+ find_package(Eigen3 REQUIRED)
+ 
+-include_directories(
+-  SYSTEM
+-    ${EIGEN3_INCLUDE_DIR}
+-)
+-
+ ament_auto_add_library(${PROJECT_NAME} SHARED
+   src/kalman_filter.cpp
+   src/time_delay_kalman_filter.cpp
+   include/autoware/kalman_filter/kalman_filter.hpp
+   include/autoware/kalman_filter/time_delay_kalman_filter.hpp
+ )
++# Eigen3Config.cmake (the modern conda-forge package config, as opposed to the legacy
++# FindEigen3.cmake module) only exports the Eigen3::Eigen target, not EIGEN3_INCLUDE_DIR.
++target_link_libraries(${PROJECT_NAME} PUBLIC Eigen3::Eigen)
+ 
+ if(BUILD_TESTING)
+   file(GLOB_RECURSE test_files test/*.cpp)

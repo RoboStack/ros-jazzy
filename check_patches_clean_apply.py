@@ -4,16 +4,16 @@ check_patches_clean_apply.py
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Scan *all* recipes inside the **recipes/** folder, keep only the parts
 needed to verify that every declared *patch* still applies, and then
-run **rattler-build** so the patch phase is executed -- nothing else.
+run **rattler-build** so the patch phase is executed – nothing else.
 
 Usage
 -----
 
     # From repository root
-    python .scripts/check_patches_clean_apply.py          # prepare + run
-    python .scripts/check_patches_clean_apply.py --dry    # prepare only
-    python .scripts/check_patches_clean_apply.py --dry --recipe ros-jazzy-rviz
-    python .scripts/check_patches_clean_apply.py --clean  # delete output
+    python check_patches_clean_apply.py          # prepare + run
+    python check_patches_clean_apply.py --dry    # prepare only
+    python check_patches_clean_apply.py --dry --recipe ros-jazzy-rviz
+    python check_patches_clean_apply.py --clean  # delete output
 
 The script creates (or refreshes) a sibling folder named
 *recipes_only_patch*.  Every recipe that declares *patches:* gets a
@@ -23,7 +23,7 @@ Implementation details
 ----------------------
 
 * Accepts both mapping or list forms of *source*.
-* Strips out *requirements*, *test*, *outputs*... -- only *package*,
+* Strips out *requirements*, *test*, *outputs*… – only *package*,
   *source* and a stub *build* section remain.
 * Automatically invokes ``rattler-build build`` if *--dry* is **not**
   given.
@@ -49,7 +49,7 @@ import yaml
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
-except Exception:
+except AttributeError:
     pass
 
 ROOT_DIR = Path.cwd()
@@ -127,7 +127,7 @@ def copy_patch_files(
             patches = [patches]
         for p in patches:
             if p.startswith(("http://", "https://")):
-                # Remote patches -- nothing to copy
+                # Remote patches – nothing to copy
                 continue
             src_patch = (orig_recipe_dir / p).resolve()
             dest_patch = dest_recipe_dir / p
@@ -189,6 +189,12 @@ def run_rattler_build_individually(recipes: List[Path]) -> None:
         print("\n Running:", " ".join(cmd), "\n", flush=True)
         try:
             proc = subprocess.run(cmd, text=True, capture_output=True, errors="replace", encoding="utf-8")
+            # rattler-build's shared Git source cache can occasionally retain
+            # tag refs whose objects were not fetched. Retry from a clean Git
+            # cache rather than reporting a spurious patch failure.
+            if proc.returncode != 0 and "Git error: Git fetch failed" in proc.stderr:
+                shutil.rmtree(ROOT_DIR / "output" / "src_cache" / "git", ignore_errors=True)
+                proc = subprocess.run(cmd, text=True, capture_output=True, errors="replace", encoding="utf-8")
             success = proc.returncode == 0
             results.append(
                 {
@@ -238,14 +244,14 @@ def run_rattler_build_individually(recipes: List[Path]) -> None:
             print(r["stderr"].rstrip())
         print("\n----------------------------------------------------\n")
 
-    sys.exit(2)
+    sys.exit(2 if failed else 0)
 
 
 def main() -> None:
     args = parse_args()
 
     if not RECIPES_DIR.is_dir():
-        print("recipes/ folder not found -- abort.")
+        print("recipes/ folder not found – abort.")
         sys.exit(1)
 
     if args.clean:
@@ -254,7 +260,7 @@ def main() -> None:
         return
 
     if PATCH_RECIPES_DIR.exists():
-        print("Refreshing recipes_only_patch/ ...")
+        print("Refreshing recipes_only_patch/ …")
         shutil.rmtree(PATCH_RECIPES_DIR)
 
     recipe_files = resolve_requested_recipe_files(args.recipe)
@@ -263,7 +269,7 @@ def main() -> None:
 
     recreated = prepare_patch_recipes(recipe_files)
     if not recreated:
-        print("No recipes with patches found -- nothing to test.")
+        print("No recipes with patches found – nothing to test.")
         return
 
     print(f"Prepared {len(recreated)} minimal recipe(s) in {PATCH_RECIPES_DIR}/")
@@ -271,7 +277,7 @@ def main() -> None:
     if not args.dry:
         run_rattler_build_individually(recreated)
     else:
-        print("--dry given -- rattler-build not executed.")
+        print("--dry given – rattler-build not executed.")
 
 
 if __name__ == "__main__":
