@@ -183,3 +183,5 @@ ros2cli:
   build_number: 22
 rosidl_cli:
   build_number: 22
+nav2_mppi_controller:
+  build_number: 22
