@@ -1152,7 +1152,7 @@ x11-dev:
 xsimd:
   robostack: [xsimd]
 xtensor:
-  robostack: [xtensor ==0.24.7]
+  robostack: [xtensor ==0.25.0]
 yaml:
   robostack: [yaml, yaml-cpp]
 yaml-cpp:
