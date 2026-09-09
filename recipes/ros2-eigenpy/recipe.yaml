@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-eigenpy
+  version: 3.13.0
+
+build:
+  number: 21
+  script: ''
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://github.com/stack-of-tasks/eigenpy
+  license: BSD-2-Clause
+  summary: Bindings between Numpy and Eigen using Boost.Python
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - if: build_platform != target_platform
+      then:
+        - git
+    - if: build_platform != target_platform
+      then:
+        - doxygen
+  host:
+    - eigen
+    - eigen-abi-devel
+    - graphviz
+    - libboost-devel
+    - libboost-python-devel
+    - numpy
+    - python
+    - ros2-distro-mutex 0.16.* jazzy_*
+    - ros2-jrl-cmakemodules
+    - ros2-ros-environment
+    - ros2-ros-workspace
+    - scipy
+    - if: build_platform == target_platform
+      then:
+        - git
+    - if: build_platform == target_platform
+      then:
+        - doxygen
+  run:
+    - eigen
+    - eigen-abi-devel
+    - eigenpy >=3.13.0, <3.13.1a0
+    - libboost-devel
+    - libboost-python-devel
+    - numpy
+    - python
+    - ros2-distro-mutex 0.16.* jazzy_*
+    - ros2-ros-workspace
+    - scipy

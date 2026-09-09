@@ -1,0 +1,107 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-jrl-cmakemodules
+  version: 2.2.4
+source:
+  git: https://github.com/ros2-gbp/jrl_cmakemodules-release.git
+  tag: release/jazzy/jrl_cmakemodules/2.2.4-1
+  target_directory: ros2-jrl-cmakemodules/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_catkin.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_catkin.bat' }}
+  number: 21
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://github.com/jrl-umi3218/jrl-cmakemodules
+  license: GPL-3.0-only OR LGPL-3.0-only OR BSD-3-Clause OR MIT OR Apache-2.0
+  summary: CMake utility toolbox
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - if: osx
+      then:
+        - clang-tools ${{ (cxx_compiler_version ~ '.*') if cxx_compiler_version is defined else '*' }}
+    - if: build_platform != target_platform
+      then:
+        - git
+    - if: build_platform != target_platform
+      then:
+        - doxygen
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - eigen
+    - eigen-abi-devel
+    - graphviz
+    - libboost-python-devel
+    - nanobind
+    - numpy
+    - pip
+    - pkg-config
+    - pytest
+    - python
+    - ros2-distro-mutex 0.16.* jazzy_*
+    - ros2-ros-environment
+    - ros2-ros-workspace
+    - typing_extensions
+    - if: build_platform == target_platform
+      then:
+        - git
+    - if: build_platform == target_platform
+      then:
+        - doxygen
+  run:
+    - doxygen
+    - graphviz
+    - pkg-config
+    - python
+    - ros2-distro-mutex 0.16.* jazzy_*
+    - ros2-ros-workspace
