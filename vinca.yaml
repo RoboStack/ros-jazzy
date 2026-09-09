@@ -253,8 +253,8 @@ packages_select_by_deps:
       - plansys2_tools
       - popf
       - proto2ros
-      - realsense2-camera
-      - realsense2-description
+      - realsense2_camera
+      - realsense2_description
       - ros2_medkit_action_status_bridge
       - ros2_medkit_beacon_common
       - ros2_medkit_cmake
