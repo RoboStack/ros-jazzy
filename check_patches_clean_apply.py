@@ -10,10 +10,10 @@ Usage
 -----
 
     # From repository root
-    python .scripts/check_patches_clean_apply.py          # prepare + run
-    python .scripts/check_patches_clean_apply.py --dry    # prepare only
-    python .scripts/check_patches_clean_apply.py --dry --recipe ros-jazzy-rviz
-    python .scripts/check_patches_clean_apply.py --clean  # delete output
+    python check_patches_clean_apply.py          # prepare + run
+    python check_patches_clean_apply.py --dry    # prepare only
+    python check_patches_clean_apply.py --dry --recipe ros-jazzy-rviz
+    python check_patches_clean_apply.py --clean  # delete output
 
 The script creates (or refreshes) a sibling folder named
 *recipes_only_patch*.  Every recipe that declares *patches:* gets a
