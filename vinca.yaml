@@ -165,15 +165,107 @@ packages_select_by_deps:
   - ur
   - ur_simulation_gz
 
+  # Packages only built on Linux (hardware-specific: turtlebot4/irobot_create-
+  # style deps, or Linux-only APIs like readlink/socketcan/v4l; a few were
+  # previously attempted on macOS/Windows and failed there).
   - if: linux
     then:
+      - apriltag_ros  # Depends (indirectly) on libcamera
+      - easynav
+      - easynav_bonxai_maps_manager
+      - easynav_common
+      - easynav_controller
+      - easynav_core
+      - easynav_costmap_localizer
+      - easynav_costmap_maps_manager
+      - easynav_costmap_planner
+      - easynav_fusion_localizer
+      - easynav_gps_localizer
+      - easynav_interfaces
+      - easynav_localizer
+      - easynav_maps_manager
+      - easynav_mpc_controller
+      - easynav_mppi_controller
+      - easynav_navmap_localizer
+      - easynav_navmap_maps_manager
+      - easynav_navmap_planner
+      - easynav_octomap_maps_manager
+      - easynav_planner
+      - easynav_regulated_pp_controller
+      - easynav_routes_maps_manager
+      - easynav_sensors
+      - easynav_serest_controller
+      - easynav_simple_common
+      - easynav_simple_controller
+      - easynav_simple_localizer
+      - easynav_simple_maps_manager
+      - easynav_simple_planner
+      - easynav_support_py
+      - easynav_system
+      - easynav_tools
+      - easynav_vff_controller
+      - io_context
+      - livox_ros_driver2
+      - mavros_extras      # on macos it fails with https://github.com/RoboStack/ros-jazzy/pull/135#issuecomment-3772187665
+      - mujoco_ros2_control  # Use readlink and access at runtime linux-specific file
+      - mujoco_ros2_control_demos  # Use readlink and access at runtime linux-specific file
+      - navmap_core
+      - navmap_ros
+      - navmap_ros_interfaces
+      - nobleo_socketcan_bridge  # Depends on socketcan
+      - openvdb_vendor
+      - orbbec_camera
+      - plansys2_bringup
+      - plansys2_bt_actions
+      - plansys2_core
+      - plansys2_domain_expert
+      - plansys2_executor
+      - plansys2_lifecycle_manager
+      - plansys2_msgs
+      - plansys2_pddl_parser
+      - plansys2_planner
+      - plansys2_popf_plan_solver
+      - plansys2_problem_expert
+      - plansys2_support_py
+      - plansys2_terminal
+      - plansys2_tests
+      - plansys2_tools
+      - popf
+      - proto2ros
+      - realsense2-camera
+      - realsense2-description
+      - roboplan_ros_franka  # exec_depends on mujoco_ros2_control, which is Linux-only
+      - ros2_medkit_action_status_bridge
+      - ros2_medkit_beacon_common
+      - ros2_medkit_cmake
+      - ros2_medkit_diagnostic_bridge
+      - ros2_medkit_fault_manager
+      - ros2_medkit_fault_reporter
+      - ros2_medkit_gateway
+      - ros2_medkit_graph_provider
+      - ros2_medkit_integration_tests
+      - ros2_medkit_linux_introspection
+      - ros2_medkit_log_bridge
+      - ros2_medkit_msgs
+      - ros2_medkit_param_beacon
+      - ros2_medkit_serialization
+      - ros2_medkit_sovd_service_interface
+      - ros2_medkit_topic_beacon
+      - ros2_socketcan  # Depends on socketcan
+      - septentrio_gnss_driver
+      - serial_driver      # Serial communication only implemented for linux
+      - smacc2
+      - spatio_temporal_voxel_layer      # Uses linux-specific flags in  https://github.com/SteveMacenski/spatio_temporal_voxel_layer/blob/e23d730d35407bd8e2bf9c33d10388a6a07c735d/spatio_temporal_voxel_layer/CMakeLists.txt#L124,
+      - swri_serial_util      # Serial communication only implemented for linux
       - turtlebot4_base
-      - turtlebot4_bringup
       - turtlebot4_bringup
       - turtlebot4_diagnostics
       - turtlebot4_robot
       - turtlebot4_setup
       - turtlebot4_tests
+      - udp_driver      # Serial communication only implemented for linux
+      - usb_cam  # Depends on v4l
+      - v4l2_camera  # Depends on v4l that is only available on linux
 
   - irobot_create_toolbox
   - irobot_create_nodes
@@ -320,105 +412,7 @@ packages_select_by_deps:
   - roboplan_toppra
   - toppra
 
-  # These packages are only built on Linux as they depend on Linux-specific API
-  - if: linux
-    then:
 
-      - apriltag_ros  # Depends (indirectly) on libcamera
-      - mujoco_ros2_control  # Use readlink and access at runtime linux-specific file
-      - mujoco_ros2_control_demos  # Use readlink and access at runtime linux-specific file
-      - nobleo_socketcan_bridge  # Depends on socketcan
-      - plansys2_bringup
-      - plansys2_bt_actions
-      - plansys2_core
-      - plansys2_domain_expert
-      - plansys2_executor
-      - plansys2_lifecycle_manager
-      - plansys2_msgs
-      - plansys2_pddl_parser
-      - plansys2_planner
-      - plansys2_popf_plan_solver
-      - plansys2_problem_expert
-      - plansys2_support_py
-      - plansys2_terminal
-      - plansys2_tests
-      - plansys2_tools
-      - popf
-      - realsense2-camera
-      - realsense2-description
-      - roboplan_ros_franka  # exec_depends on mujoco_ros2_control, which is Linux-only
-      - ros2_medkit_action_status_bridge
-      - ros2_medkit_beacon_common
-      - ros2_medkit_cmake
-      - ros2_medkit_diagnostic_bridge
-      - ros2_medkit_fault_manager
-      - ros2_medkit_fault_reporter
-      - ros2_medkit_gateway
-      - ros2_medkit_graph_provider
-      - ros2_medkit_integration_tests
-      - ros2_medkit_linux_introspection
-      - ros2_medkit_log_bridge
-      - ros2_medkit_msgs
-      - ros2_medkit_param_beacon
-      - ros2_medkit_serialization
-      - ros2_medkit_sovd_service_interface
-      - ros2_medkit_topic_beacon
-      - ros2_socketcan  # Depends on socketcan
-      - septentrio_gnss_driver
-      - usb_cam  # Depends on v4l
-      - v4l2_camera  # Depends on v4l that is only available on linux
-
-  # These packages are currently only build on Linux, but they currently only build on
-  # Linux as trying to build them in the past on macos or Windows resulted in errors
-  - if: linux
-    then:
-      - easynav
-      - easynav_bonxai_maps_manager
-      - easynav_common
-      - easynav_controller
-      - easynav_core
-      - easynav_costmap_localizer
-      - easynav_costmap_maps_manager
-      - easynav_costmap_planner
-      - easynav_fusion_localizer
-      - easynav_gps_localizer
-      - easynav_interfaces
-      - easynav_localizer
-      - easynav_maps_manager
-      - easynav_mpc_controller
-      - easynav_mppi_controller
-      - easynav_navmap_localizer
-      - easynav_navmap_maps_manager
-      - easynav_navmap_planner
-      - easynav_octomap_maps_manager
-      - easynav_planner
-      - easynav_regulated_pp_controller
-      - easynav_routes_maps_manager
-      - easynav_sensors
-      - easynav_serest_controller
-      - easynav_simple_common
-      - easynav_simple_controller
-      - easynav_simple_localizer
-      - easynav_simple_maps_manager
-      - easynav_simple_planner
-      - easynav_support_py
-      - easynav_system
-      - easynav_tools
-      - easynav_vff_controller
-      - io_context
-      - livox_ros_driver2
-      - mavros_extras      # on macos it fails with https://github.com/RoboStack/ros-jazzy/pull/135#issuecomment-3772187665
-      - navmap_core
-      - navmap_ros
-      - navmap_ros_interfaces
-      - openvdb_vendor
-      - orbbec_camera
-      - proto2ros
-      - serial_driver      # Serial communication only implemented for linux
-      - smacc2
-      - spatio_temporal_voxel_layer      # Uses linux-specific flags in  https://github.com/SteveMacenski/spatio_temporal_voxel_layer/blob/e23d730d35407bd8e2bf9c33d10388a6a07c735d/spatio_temporal_voxel_layer/CMakeLists.txt#L124,
-      - swri_serial_util      # Serial communication only implemented for linux
-      - udp_driver      # Serial communication only implemented for linux
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
