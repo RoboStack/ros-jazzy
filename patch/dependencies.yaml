@@ -295,5 +295,5 @@ py_trees:
 py_trees_js:
   add_host: ["poetry-core"]
 nav2_mppi_controller:
-  add_run: ["xtensor=0.25.0"]
+  add_run: ["xtensor==0.25.0"]
 
