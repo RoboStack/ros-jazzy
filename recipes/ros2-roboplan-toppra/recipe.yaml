@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-roboplan-toppra
+  version: 0.6.1
+
+build:
+  number: 21
+  script: ''
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://roboplan.readthedocs.io
+  repository: https://github.com/open-planning/roboplan
+  license: MIT
+  summary: Time Optimal Path Parameterization based on Reachability Analysis (TOPP-RA) wrapper for RoboPlan.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build: []
+  host:
+    - nanobind
+    - python
+    - ros2-ament-cmake
+    - ros2-ament-cmake-gtest
+    - ros2-ament-cmake-python
+    - ros2-distro-mutex 0.16.* jazzy_*
+    - ros2-roboplan
+    - ros2-roboplan-example-models
+    - ros2-ros-environment
+    - ros2-ros-workspace
+    - ros2-toppra
+    - typing_extensions
+  run:
+    - python
+    - roboplan-toppra-python >=0.6.1, <0.7.0a0
+    - ros2-distro-mutex 0.16.* jazzy_*
+    - ros2-roboplan
+    - ros2-ros-workspace
+    - ros2-toppra
