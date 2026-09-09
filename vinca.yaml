@@ -59,6 +59,7 @@ packages_select_by_deps:
   - gz_ros2_control_demos
   - joy_teleop
   - key_teleop
+  - mobile_robot_simulator
   - mouse_teleop
   - moveit
   - moveit-planners-chomp
@@ -233,7 +234,7 @@ packages_select_by_deps:
   - py_trees_js
   - py_trees_ros_viewer
   - py_trees_ros_tutorials
-  
+
   - rclpy_message_converter
   - rclpy_message_converter_msgs
 
