@@ -1178,3 +1178,8 @@ libzenohcxx:
   # ABI v12. Pin back to the last known-good line until upstream fixes it.
 sip:
   - 6.15
+  # nav2_mppi_controller needs xtensor 0.25.0's API; robostack.yaml maps
+  # the plain (unpinned) xtensor name so this variant pin controls the
+  # actual version instead of a hardcoded exact-version dependency name.
+xtensor:
+  - 0.25.0

@@ -47,9 +47,9 @@ index 391923eaf..0cb848aeb 100644
  # If building one the same hardware to be deployed on, try `-march=native`!
 -add_compile_options(-O3 -finline-limit=10000000 -ffp-contract=fast -ffast-math -mtune=generic)
 +if(APPLE)
-+  add_compile_options(-O3 -ffp-contract=fast -ffast-math -mtune=generic)
++  add_compile_options(-O3 -ffp-contract=fast -mtune=generic)
 +else()
-+  add_compile_options(-O3 -finline-limit=10000000 -ffp-contract=fast -ffast-math -mtune=generic)
++  add_compile_options(-O3 -finline-limit=10000000 -ffp-contract=fast -mtune=generic)
 +endif()
 
  add_library(mppi_controller SHARED
