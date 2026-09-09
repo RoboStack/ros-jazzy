@@ -59,7 +59,6 @@ packages_select_by_deps:
   - gz_ros2_control_demos
   - joy_teleop
   - key_teleop
-  - mobile_robot_simulator
   - mouse_teleop
   - moveit
   - moveit-planners-chomp
@@ -371,6 +370,7 @@ packages_select_by_deps:
       - mavros
       - med14_moveit_config
       - med7_moveit_config
+      - mobile_robot_simulator
       - moveit-py
       - moveit-ros-occupancy-map-monitor
       - moveit-ros-perception
