@@ -1,0 +1,323 @@
+jobs:
+  stage_0_job_0:
+    name: ros2-proxsuite ros2-coal ros2-roboplan-example-models ros2-toppra ros2-mobile-robot-simulator
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.10.2
+      with:
+        pixi-version: v0.78.0
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-proxsuite ros2-coal ros2-roboplan-example-models ros2-toppra
+        ros2-mobile-robot-simulator
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-proxsuite ros2-coal ros2-roboplan-example-models ros2-toppra
+          ros2-mobile-robot-simulator
+        BUILD_TARGET: osx-arm64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_1_job_1:
+    name: ros2-pinocchio toppra roboplan-example-models proxsuite mobile-robot-simulator
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.10.2
+      with:
+        pixi-version: v0.78.0
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-pinocchio ros-jazzy-toppra ros-jazzy-roboplan-example-models
+        ros-jazzy-proxsuite ros-jazzy-mobile-robot-simulator
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-pinocchio ros-jazzy-toppra ros-jazzy-roboplan-example-models
+          ros-jazzy-proxsuite ros-jazzy-mobile-robot-simulator
+        BUILD_TARGET: osx-arm64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_1_job_2:
+    name: coal
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.10.2
+      with:
+        pixi-version: v0.78.0
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-jazzy-coal
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-coal
+        BUILD_TARGET: osx-arm64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_2_job_3:
+    name: ros2-roboplan pinocchio
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    - stage_1_job_2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.10.2
+      with:
+        pixi-version: v0.78.0
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-roboplan ros-jazzy-pinocchio
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-roboplan ros-jazzy-pinocchio
+        BUILD_TARGET: osx-arm64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_3_job_4:
+    name: ros2-roboplan-toppra ros2-roboplan-oink ros2-roboplan-simple-ik ros2-roboplan-ros-cpp
+      ros2-roboplan-ros-examples
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_3
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.10.2
+      with:
+        pixi-version: v0.78.0
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-roboplan-toppra ros2-roboplan-oink ros2-roboplan-simple-ik
+        ros2-roboplan-ros-cpp ros2-roboplan-ros-examples
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-roboplan-toppra ros2-roboplan-oink ros2-roboplan-simple-ik
+          ros2-roboplan-ros-cpp ros2-roboplan-ros-examples
+        BUILD_TARGET: osx-arm64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_3_job_5:
+    name: ros2-roboplan-rrt roboplan
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_3
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.10.2
+      with:
+        pixi-version: v0.78.0
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-roboplan-rrt ros-jazzy-roboplan
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-roboplan-rrt ros-jazzy-roboplan
+        BUILD_TARGET: osx-arm64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_4_job_6:
+    name: ros2-roboplan-cartesian-planning ros2-roboplan-ros-visualization ros2-roboplan-ros-py
+      roboplan-toppra roboplan-simple-ik
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_4
+    - stage_3_job_5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.10.2
+      with:
+        pixi-version: v0.78.0
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-roboplan-cartesian-planning ros2-roboplan-ros-visualization
+        ros2-roboplan-ros-py ros-jazzy-roboplan-toppra ros-jazzy-roboplan-simple-ik
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-roboplan-cartesian-planning ros2-roboplan-ros-visualization
+          ros2-roboplan-ros-py ros-jazzy-roboplan-toppra ros-jazzy-roboplan-simple-ik
+        BUILD_TARGET: osx-arm64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_4_job_7:
+    name: roboplan-rrt roboplan-ros-examples roboplan-ros-cpp roboplan-oink
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_4
+    - stage_3_job_5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.10.2
+      with:
+        pixi-version: v0.78.0
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-jazzy-roboplan-rrt ros-jazzy-roboplan-ros-examples ros-jazzy-roboplan-ros-cpp
+        ros-jazzy-roboplan-oink
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-roboplan-rrt ros-jazzy-roboplan-ros-examples ros-jazzy-roboplan-ros-cpp
+          ros-jazzy-roboplan-oink
+        BUILD_TARGET: osx-arm64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_5_job_8:
+    name: ros2-roboplan-examples roboplan-ros-visualization roboplan-ros-py roboplan-cartesian-planning
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_6
+    - stage_4_job_7
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.10.2
+      with:
+        pixi-version: v0.78.0
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-roboplan-examples ros-jazzy-roboplan-ros-visualization ros-jazzy-roboplan-ros-py
+        ros-jazzy-roboplan-cartesian-planning
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-roboplan-examples ros-jazzy-roboplan-ros-visualization
+          ros-jazzy-roboplan-ros-py ros-jazzy-roboplan-cartesian-planning
+        BUILD_TARGET: osx-arm64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_6_job_9:
+    name: roboplan-examples
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_8
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.10.2
+      with:
+        pixi-version: v0.78.0
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-jazzy-roboplan-examples
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-jazzy-roboplan-examples
+        BUILD_TARGET: osx-arm64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+name: build_osx_arm64
+on:
+  push:
+    branches:
+    - buildbranch_osx_arm64
