@@ -26,7 +26,11 @@ rattler-index = ">=0.27.16"
 curl = "*"
 go-yq = "*"
 colordiff = "*"
-vinca = { git = "https://github.com/RoboStack/vinca.git", rev = "b4ff099aed2f43f535d255ce8a5d332f170d3532" }
+vinca = { git = "https://github.com/Tobias-Fischer/vinca.git", rev = "ddac23537fd8d33adffbcb4a47609bf37b4faf75" }
+# TEMPORARY: pinned to a fork commit (containing the previous pin's history,
+# plus a fix) for raw.githubusercontent.com tag-URL ambiguity
+# (RoboStack/vinca#156) that was causing persistent, non-transient
+# package.xml 404s in CI. Revert to RoboStack/vinca.git once that PR merges.
 # For local development uncomment:
 # vinca.path = "../vinca"
 
