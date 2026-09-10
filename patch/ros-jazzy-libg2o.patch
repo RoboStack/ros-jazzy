@@ -1,7 +1,8 @@
-diff -ruN a/CMakeLists.txt b/CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1b86088..ca7eca6 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -477,7 +477,7 @@
+@@ -477,7 +477,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${g2o_C_FLAGS}")
  # Find Eigen3. If it defines the target, this is used. If not,
  # fall back to the using the module form.
  # See https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html for details
@@ -10,10 +11,11 @@ diff -ruN a/CMakeLists.txt b/CMakeLists.txt
  if (TARGET Eigen3::Eigen)
    set(G2O_EIGEN3_EIGEN_TARGET Eigen3::Eigen)
  else()
-diff -ruN a/g2o/examples/sphere/create_sphere.cpp b/g2o/examples/sphere/create_sphere.cpp
+diff --git a/g2o/examples/sphere/create_sphere.cpp b/g2o/examples/sphere/create_sphere.cpp
+index 8c4b0fd..f83e5e0 100644
 --- a/g2o/examples/sphere/create_sphere.cpp
 +++ b/g2o/examples/sphere/create_sphere.cpp
-@@ -166,8 +166,8 @@
+@@ -166,8 +166,8 @@ int main(int argc, char** argv) {
      cerr << "using seeds:";
      for (size_t i = 0; i < seeds.size(); ++i) cerr << " " << seeds[i];
      cerr << endl;
@@ -24,7 +26,20 @@ diff -ruN a/g2o/examples/sphere/create_sphere.cpp b/g2o/examples/sphere/create_s
    }
  
    // noise for all the edges
-diff -ruN a/g2o/stuff/misc.h b/g2o/stuff/misc.h
+diff --git a/g2o/solvers/csparse/CMakeLists.txt b/g2o/solvers/csparse/CMakeLists.txt
+index e3a3980..e60f6bd 100644
+--- a/g2o/solvers/csparse/CMakeLists.txt
++++ b/g2o/solvers/csparse/CMakeLists.txt
+@@ -37,6 +37,7 @@ endif()
+ 
+ target_include_directories(solver_csparse PUBLIC
+   $<BUILD_INTERFACE:${CSPARSE_INCLUDE_DIR}>
++  $<INSTALL_INTERFACE:${CSPARSE_INCLUDE_DIR}>
+   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+   $<INSTALL_INTERFACE:include/g2o/solvers/csparse>)
+ target_compile_features(solver_csparse PUBLIC cxx_std_17)
+diff --git a/g2o/stuff/misc.h b/g2o/stuff/misc.h
+index 58a1afd..cd14ccc 100644
 --- a/g2o/stuff/misc.h
 +++ b/g2o/stuff/misc.h
 @@ -27,6 +27,7 @@
