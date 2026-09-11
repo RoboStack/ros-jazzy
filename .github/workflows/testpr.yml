@@ -53,7 +53,7 @@ jobs:
           - os: macos-15
             platform: osx-arm64
             folder_cache: 'output/osx-arm64'
-          - os: windows-2025
+          - os: windows-2022
             platform: win-64
             folder_cache: 'C:/bld/win-64'
 
@@ -82,7 +82,7 @@ jobs:
       if: matrix.platform == 'win-64'
       shell: pwsh
       run: |
-        # MSVC/MSBuild (VS 2019 16.0+, which windows-2025's toolset is well past)
+        # MSVC/MSBuild (VS 2019 16.0+, which windows-2022's toolset is well past)
         # honor the Win32 long-path opt-in via this registry key. Without it,
         # cl.exe can fail with a cryptic "fatal error C1083: Cannot open
         # compiler generated file: ''" once a target's generated intermediate
