@@ -391,7 +391,6 @@ packages_select_by_deps:
   - rclpy_message_converter_msgs
 
   # RoboPlan, requested in https://github.com/RoboStack/ros-jazzy/issues/250
-  - proxsuite
   - roboplan
   - roboplan_cartesian_planning
   - roboplan_example_models
