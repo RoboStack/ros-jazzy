@@ -86,9 +86,7 @@ packages_select_by_deps:
   - turtlebot3
   - turtlebot3_simulations
 
-  # Parity sweep with ros-humble (2026-09-04): packages humble ships but jazzy's
-  # meta-package tree doesn't pull in on its own. Cross-platform (humble has these
-  # as unconditional or "not wasm32" seeds; jazzy has no wasm32 platform).
+  # Parity sweep with ros-humble (2026-09-04): packages humble ships that jazzy's meta-package tree doesn't pull in on its own.
   - ament_cmake_nose
   - apex_test_tools
   - automatika_ros_sugar
@@ -148,9 +146,7 @@ packages_select_by_deps:
   - vector_pursuit_controller
   - velodyne_simulator
   - visp
-  # Note: humble also ships the classic gazebo/ignition family (gazebo_ros_pkgs,
-  # ign_ros2_control, ros_ign*) here; deliberately not added since jazzy already
-  # uses the modern gz-sim stack (ros_gz above) instead.
+  # Note: excludes humble's gazebo/ignition family (gazebo_ros_pkgs, ign_ros2_control, ros_ign*); jazzy uses the modern gz-sim stack (ros_gz above) instead.
 
   - turtlebot4_description
   - turtlebot4_desktop
@@ -165,9 +161,7 @@ packages_select_by_deps:
   - ur
   - ur_simulation_gz
 
-  # Packages only built on Linux (hardware-specific: turtlebot4/irobot_create-
-  # style deps, or Linux-only APIs like readlink/socketcan/v4l; a few were
-  # previously attempted on macOS/Windows and failed there).
+  # Packages only built on Linux (hardware-specific deps or Linux-only APIs; a few were previously attempted on macOS/Windows and failed there).
   - if: linux
     then:
       - apriltag_ros  # Depends (indirectly) on libcamera
@@ -417,17 +411,10 @@ packages_select_by_deps:
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
     then:
-      # Parity sweep with ros-humble (2026-09-04): "not wasm32 and not win" seeds
-      # there (jazzy has no wasm32 platform, so this collapses to "not win").
+      # Parity sweep with ros-humble (2026-09-04): "not wasm32 and not win" there collapses to "not win" (jazzy has no wasm32 platform).
       - as2_cli
       - as2_msgs
-      # automatika_embodied_agents' generated rosidl_typesupport_fastrtps_c
-      # library fails to link on win-64 with dozens of "unresolved external
-      # symbol __imp_get_serialized_size_<pkg>__msg__<Type>" errors for
-      # sensor_msgs/std_msgs/unique_identifier_msgs/builtin_interfaces types,
-      # same as humble (same upstream source) -- root cause unclear without a
-      # Windows build environment to iterate against.
-      - automatika_embodied_agents
+      - automatika_embodied_agents  # generated rosidl_typesupport_fastrtps_c fails to link on win-64 (unresolved externals), same as humble
       - autoware_core
       - autoware_core_control
       - autoware_core_localization
@@ -496,17 +483,7 @@ packages_select_by_deps:
       - plotjuggler-ros
       - point_cloud_transport_plugins      # Error: LINK : fatal error LNK1181: cannot open input file 'zstd.lib' [%SRC_DIR%\build\zstd_point_cloud_transport.vcxproj]
       - rmw_stats_shim
-      # rosbag2_performance_benchmarking_msgs' generated Python extension
-      # ("_s") rosidl typesupport target hits MSVC error C1083 "Cannot open
-      # compiler generated file: ''" on win-64 -- a known rosidl/ament_cmake
-      # codegen race between the main C library target and its Python
-      # extension sibling both consuming the same generated .c file without
-      # a proper build dependency edge (same error signature already seen
-      # on humble for iiwa14_moveit_config). Reproduced consistently across
-      # two separate CI runs, not a one-off flake. Excluding the tool
-      # itself since rosbag2_performance_benchmarking_msgs is its only
-      # dependency and it has no purpose without it.
-      - rosbag2_performance_benchmarking
+      - rosbag2_performance_benchmarking  # its _msgs' Python typesupport hits MSVC C1083 on win-64 (rosidl codegen race, same as humble's iiwa14_moveit_config)
       - rosgraph_monitor
       - rosgraph_monitor_msgs
       - rplidar_ros
