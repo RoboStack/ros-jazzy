@@ -12,12 +12,30 @@ permissions:
 
 env:
   ROS_VERSION: 2
+  PYTHONIOENCODING: utf-8
   # Change to 'true' to enable the cache upload as artifacts
-  SAVE_CACHE_AS_ARTIFACT: 'false'
+  SAVE_CACHE_AS_ARTIFACT: 'true'
   # Change to 'true' to ignore cache and force a full rebuild, but please restore to 'false' before merging
   IGNORE_CACHE_AND_DO_FULL_REBUILD: 'false'
 
 jobs:
+  sort-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: prefix-dev/setup-pixi@v0.10.2
+        with:
+          frozen: true
+          pixi-version: v0.75.0
+
+      - name: Check sorting
+        run: |
+          pixi run sort --check
+
   build:
     strategy:
       fail-fast: false
@@ -52,12 +70,6 @@ jobs:
         frozen: true
         pixi-version: v0.75.0
 
-    - name: Check sorting
-      if: matrix.platform == 'linux-64'
-      shell: bash -l {0}
-      run: |
-        pixi run sort --check
-
     - name: Long paths workarounds for win-64
       shell: bash -l {0}
       if: matrix.platform == 'win-64'
@@ -83,13 +95,7 @@ jobs:
       if: matrix.platform == 'win-64'
       shell: pwsh
       run: |
-        # win-64 jobs have repeatedly gone silent for 10-20+ minutes at points
-        # with no legitimate reason to be slow -- recipe enumeration (a pure
-        # local YAML-parse, no network, over ~2000 small files) and library
-        # linking (many small .obj/.pdb reads/writes) -- then either recover
-        # very late or run out the 6-hour job timeout. Both are exactly the
-        # I/O pattern real-time Defender scanning is known to silently stall
-        # on GH Actions Windows runners. Exclude the checkout and build dirs.
+        # Avoids Defender real-time scanning silently stalling heavy win-64 I/O.
         Add-MpPreference -ExclusionPath "${{ github.workspace }}"
         Add-MpPreference -ExclusionPath "C:\bld"
 
@@ -102,10 +108,7 @@ jobs:
         # git in C:\Program Files\Git\bin is used by pip install git+
         dirs: 'C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin'
 
-    # For some reason, the Strawberry perl's pkg-config is found
-    # instead of the conda's one, so let's delete the /c/Strawberry directory
-    # Furthermore, we also need to remove an older SDK that is used and can result in compilation problems
-    # And we also remove the vcpkg installed in the image, to avoid that projects pick it
+    # Strawberry Perl's pkg-config and an older Windows SDK can get picked up ahead of conda's.
     - name: Remove problematic files of GitHub Actions images
       if: contains(matrix.os, 'windows')
       shell: bash -l {0}
@@ -121,13 +124,7 @@ jobs:
     - name: Generate recipes
       shell: bash -l {0}
       env:
-        # vinca fetches additional packages' package.xml from
-        # raw.githubusercontent.com over ~12 concurrent requests; unauthenticated,
-        # that's subject to GitHub's much lower anonymous rate limit shared across
-        # every GH Actions runner's IP pool, which manifests as sporadic 404s that
-        # even the retry loop below doesn't reliably clear. vinca already knows to
-        # send this as an Authorization header when present (see distro.py's
-        # _get_auth_headers) -- it just was never wired up here.
+        # Raises vinca's raw.githubusercontent.com rate limit for package.xml fetches.
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         set -e
@@ -170,25 +167,10 @@ jobs:
     - name: Delete specific outdated cache entries
       shell: bash -l {0}
       run: |
-        # rm -rf ${{ matrix.folder_cache }}/ros-jazzy-mrt-cmake-modules* || true
+        # Uncomment to force-rebuild a package with a corrupted cache entry.
+        # rm -rf ${{ matrix.folder_cache }}/<package>* 2>/dev/null || true
         mkdir -p ${{ matrix.folder_cache }}
-        rm -rf ${{ matrix.folder_cache }}/ros2-python-qt-binding* || true
-        rm -rf ${{ matrix.folder_cache }}/ros2-qt-gui-cpp* || true
-        # Stale pre-patch build: this PR's cache persists across every commit, so
-        # --skip-existing was reusing the libg2o built before its CSparse
-        # INSTALL_INTERFACE fix landed, and rtabmap kept failing to find cs.h
-        # against that old artifact. Force a rebuild so the patch actually applies.
-        rm -rf ${{ matrix.folder_cache }}/ros2-libg2o* ${{ matrix.folder_cache }}/ros-jazzy-libg2o* || true
-        # Corrupt ~38KB cached artifact (same recurring pattern: a cancelled
-        # run's cache-save step caught it mid-write) missing its installed
-        # cmake config -- nav2_rviz_plugins' find_package(nav2_route) failed
-        # against it. Almost certainly from one of today's many win-64
-        # cancellations while chasing an unrelated runner hang.
-        rm -rf ${{ matrix.folder_cache }}/ros2-nav2-route* ${{ matrix.folder_cache }}/ros-jazzy-nav2-route* || true
-        # Corrupt cache entry, same recurring pattern.
-        rm -rf ${{ matrix.folder_cache }}/ros2-polygon-msgs* ${{ matrix.folder_cache }}/ros-jazzy-polygon-msgs* || true
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
-        exit 0
 
     - name: See packages restored by cache
       shell: bash -l {0}
