@@ -179,6 +179,12 @@ jobs:
         # INSTALL_INTERFACE fix landed, and rtabmap kept failing to find cs.h
         # against that old artifact. Force a rebuild so the patch actually applies.
         rm -rf ${{ matrix.folder_cache }}/ros2-libg2o* ${{ matrix.folder_cache }}/ros-jazzy-libg2o* || true
+        # Corrupt ~38KB cached artifact (same recurring pattern: a cancelled
+        # run's cache-save step caught it mid-write) missing its installed
+        # cmake config -- nav2_rviz_plugins' find_package(nav2_route) failed
+        # against it. Almost certainly from one of today's many win-64
+        # cancellations while chasing an unrelated runner hang.
+        rm -rf ${{ matrix.folder_cache }}/ros2-nav2-route* ${{ matrix.folder_cache }}/ros-jazzy-nav2-route* || true
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
         exit 0
 
