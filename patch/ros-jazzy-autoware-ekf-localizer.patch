@@ -1,0 +1,15 @@
+diff -ruN a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -33,7 +33,10 @@
+   ROS2_EXECUTOR SingleThreadedExecutor
+ )
+ 
+-target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
++# warning_message.cpp/ekf_module.cpp call fmt::vformat() directly; link it
++# explicitly since it's not header-only in this build.
++find_package(fmt REQUIRED)
++target_link_libraries(${PROJECT_NAME} Eigen3::Eigen fmt::fmt)
+ 
+ function(add_testcase filepath)
+   get_filename_component(filename ${filepath} NAME)

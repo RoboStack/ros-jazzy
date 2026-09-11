@@ -1,0 +1,13 @@
+diff --git a/src/stereo_image_proc/disparity_node.cpp b/src/stereo_image_proc/disparity_node.cpp
+index 958f43a..d82a240 100644
+--- a/src/stereo_image_proc/disparity_node.cpp
++++ b/src/stereo_image_proc/disparity_node.cpp
+@@ -53,7 +53,7 @@
+ #include <sensor_msgs/image_encodings.hpp>
+ #include <stereo_msgs/msg/disparity_image.hpp>
+ 
+-#include <opencv2/calib3d/calib3d.hpp>
++#include <opencv2/calib3d.hpp>
+ 
+ namespace stereo_image_proc
+ {

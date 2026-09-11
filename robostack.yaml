@@ -276,7 +276,10 @@ libcurl:
 libcurl-dev:
   robostack: [libcurl]
 libdc1394-dev:
-  robostack: [libdc1394]
+  robostack:
+    linux: [libdc1394]
+    osx: [libdc1394]
+    win64: []
 libdraco-dev:
   robostack: [draco]
 libdw-dev:
@@ -1162,7 +1165,10 @@ yaml:
 yaml-cpp:
   robostack: [yaml-cpp]
 zbar:
-  robostack: [zbar]
+  robostack:
+    linux: [zbar]
+    osx: [zbar]
+    win64: []
 zlib:
   robostack: [zlib]
 zziplib:

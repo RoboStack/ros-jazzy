@@ -1,0 +1,18 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2c0bf30..523562c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -15,6 +15,13 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+   add_compile_options(-Wall -Wextra -Wpedantic)
+ endif()
+ 
++# The mode library below has no explicit dllexport annotations, so on
++# Windows it builds as a DLL with zero exported symbols -- MSVC doesn't
++# generate an import library (.lib) for a DLL with no exports at all,
++# which then breaks mode_monitor/mode_manager's link step with LNK1181
++# ("cannot open input file 'mode.lib'"). Auto-export everything instead.
++set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
++
+ # find dependencies
+ find_package(ament_cmake REQUIRED)
+ find_package(builtin_interfaces REQUIRED)

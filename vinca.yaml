@@ -10,12 +10,12 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 23
-build_number: 21
+# Reminder for next full rebuild, the next build number should be 24
+build_number: 23
 
 mutex_package:
   name: "ros2-distro-mutex"
-  version: "0.16.0"
+  version: "0.17.0"
   upper_bound: "x.x"
   run_constraints:
     - libboost 1.90.*
@@ -23,7 +23,7 @@ mutex_package:
     - pcl 1.15.1.*
     - gazebo 11.*
     - libprotobuf 7.35.*
-    - vtk 9.6.2.*
+    - vtk 9.7.0.*
 
 packages_skip_by_deps:
 
@@ -48,17 +48,98 @@ skip_existing:
   - https://conda.anaconda.org/robostack-jazzy/
 
 packages_select_by_deps:
+  - ackermann-msgs
+  - ament_cmake_black
   - ament_cmake_catch2
   - ament_cmake_core
   - ament_cmake_mypy
+  - ament_cmake_nose  # Parity sweep with ros-humble (2026-09-04): packages humble ships that jazzy's meta-package tree doesn't pull in on its own.
+  - apex_test_tools
+  - apriltag_detector
+  - apriltag_detector_mit
+  - apriltag_detector_umich
+  - apriltag_draw
+  - apriltag_tools
+  - asio_cmake_module
+  - automatika_ros_sugar
+  - autoware_adapi_v1_msgs
+  - autoware_adapi_version_msgs
+  - autoware_auto_msgs
+  - autoware_cmake
+  - autoware_common_msgs
+  - autoware_component_interface_specs
+  - autoware_control_msgs
+  - autoware_geography_utils
+  - autoware_global_parameter_loader
+  - autoware_internal_msgs
+  - autoware_interpolation
+  - autoware_kalman_filter
+  - autoware_lanelet2_extension
+  - autoware_lanelet2_extension_python
+  - autoware_localization_msgs
+  - autoware_map_msgs
+  - autoware_msgs
+  - autoware_node
+  - autoware_object_recognition_utils
+  - autoware_perception_msgs
+  - autoware_planning_msgs
+  - autoware_point_types
+  - autoware_sensing_msgs
+  - autoware_signal_processing
+  - autoware_system_msgs
+  - autoware_utils
+  - autoware_v2x_msgs
+  - autoware_vehicle_info_utils
+  - autoware_vehicle_msgs
+  - aws_robomaker_small_warehouse_world
+  - battery_state_broadcaster
+  - behaviortree_cpp
+  - behaviortree_cpp_v3
+  - bno055
+  - bond_core
+  - can_msgs
+  - cascade-lifecycle-msgs
+  - cl_ros2_timer
+  - clearpath_common
+  - color_util
+  - data_tamer_cpp
   - desktop
   - desktop_full
   - dev_tools
   - diagnostics
+  - dynmsg
+  - flex_sync
+  - foxglove_bridge
+  - foxglove_msgs
+  - geodesy
+  - geographic_info
+  - geometry_tutorials
+  - gripper_controllers
   - gz_ros2_control
   - gz_ros2_control_demos
+  - imu_calib
+  - imu_tools
+  - imu_transformer
+  - irobot_create_common_bringup
+  - irobot_create_control
+  - irobot_create_description
+  - irobot_create_gz_bringup
+  - irobot_create_gz_plugins
+  - irobot_create_gz_sim
+  - irobot_create_gz_toolbox
+  - irobot_create_msgs
+  - irobot_create_nodes
+  - irobot_create_toolbox
   - joy_teleop
   - key_teleop
+  - lanelet2
+  - libnabo
+  - libpointmatcher
+  - librealsense2
+  - magic_enum
+  - marker_msgs
+  - mavros_msgs
+  - mocap4r2_msgs
   - mouse_teleop
   - moveit
   - moveit-planners-chomp
@@ -66,23 +147,97 @@ packages_select_by_deps:
   - moveit-ros-trajectory-cache
   - moveit-servo
   - moveit-visual-tools
+  - moveit_chomp_optimizer_adapter
+  - mujoco_ros2_control_msgs
+  - mujoco_vendor
+  - nav2_bringup
+  - nav2_loopback_sim
   - navigation2
   - negotiated  # Generic dependency used by Isaac ROS without Jazzy rosdistro releases.
+  - nmea-navsat-driver
+  - ntrip_client
+  - open3d_conversions
+  - ouster_ros
   - perception
+  - persist_parameter_server
+  - pick_ik
+  - picknik_ament_copyright
+  - point_cloud_transport_py
+  - pointcloud_to_laserscan
+  - polygon_msgs
+  - polygon_utils
+  - proxsuite
+  - ptz_action_server_msgs
+  - py_binding_tools
+  - py_trees
+  - py_trees_js
+  - py_trees_ros
+  - py_trees_ros_interfaces
+  - py_trees_ros_tutorials
+  - py_trees_ros_viewer
+  - radar_msgs
+  - rclc
+  - rclc_lifecycle
+  - rclc_parameter
+  - rclcpp-cascade-lifecycle
+  - rclpy-cascade-lifecycle
+  - rclpy_message_converter
+  - rclpy_message_converter_msgs
+  - rmw_zenoh_cpp
+  - roboplan  # RoboPlan, requested in https://github.com/RoboStack/ros-jazzy/issues/250
+  - roboplan_cartesian_planning
+  - roboplan_example_models
+  - roboplan_examples
+  - roboplan_oink
+  - roboplan_ros_cpp
+  - roboplan_ros_examples
+  - roboplan_ros_py
+  - roboplan_ros_visualization
+  - roboplan_rrt
+  - roboplan_simple_ik
+  - roboplan_toppra
   - robot
+  - robot_controllers
+  - robotiq_controllers
   - ros2_control
   - ros2_controllers
+  - ros2_fmt_logger
+  - ros2_socketcan_msgs
   - ros_base
   - ros_environment
   - ros_gz
   - ros_workspace
+  - rosbridge_suite
+  - rosidl_generator_dds_idl
+  - rqt
+  - rqt_controller_manager
+  - rqt_moveit
+  - rqt_robot_dashboard
+  - rqt_robot_monitor
+  - rqt_robot_steering
+  - rqt_runtime_monitor
+  - rtabmap
+  - rtest
+  - rviz_2d_overlay_msgs
   - rviz_visual_tools
+  - sbg_driver
+  - sick_safetyscanners_base
+  - sick_scan_xd
   - simulation
   - simulation_interfaces
   - slam_toolbox
+  - smacc2_msgs
+  - stubborn_buddies
+  - system_modes
   - teleop
   - teleop_tools
   - topic_based_ros2_control  # Generic dependency used by Isaac ROS without Jazzy rosdistro releases.
+  - toppra
+  - tracetools
+  - tracetools-launch
+  - tracetools-trace
+  - turtle_tf2_cpp
+  - turtle_tf2_py
   - turtlebot3
   - turtlebot3_simulations
   - turtlebot4_description
@@ -95,216 +250,20 @@ packages_select_by_deps:
   - turtlebot4_node
   - turtlebot4_simulator
   - turtlebot4_viz
+  - twist_mux
+  - ublox
   - ur
   - ur_simulation_gz
-
-  - if: linux
-    then:
-      - turtlebot4_base
-      - turtlebot4_bringup
-      - turtlebot4_bringup
-      - turtlebot4_diagnostics
-      - turtlebot4_robot
-      - turtlebot4_setup
-      - turtlebot4_tests
-
-  - irobot_create_toolbox
-  - irobot_create_nodes
-  - irobot_create_description
-  - irobot_create_control
-  - irobot_create_common_bringup
-  - irobot_create_gz_toolbox
-  - irobot_create_gz_plugins
-  - irobot_create_gz_bringup
-  - irobot_create_gz_sim
-  - irobot_create_msgs
-
-  - ackermann-msgs
-  - sbg_driver
-
-  - twist_mux
-
-  - rmw_zenoh_cpp
-
-  - flex_sync
-  - gripper_controllers
-
-  - rosbridge_suite
-  - robotiq_controllers
-  - rosidl_generator_dds_idl
-
-  - foxglove_bridge
-  - foxglove_msgs
-
-  - lanelet2
-
-  - imu_tools
-
-  - ublox
-
-  - can_msgs
-  - ros2_socketcan_msgs
-
-  - nav2_bringup
-  - nav2_loopback_sim
-
-  - autoware_internal_msgs
-  - autoware_common_msgs
-  - autoware_control_msgs
-  - autoware_localization_msgs
-  - autoware_map_msgs
-  - autoware_perception_msgs
-  - autoware_planning_msgs
-  - autoware_sensing_msgs
-  - autoware_system_msgs
-  - autoware_v2x_msgs
-  - autoware_vehicle_msgs
-  - autoware_cmake
-  - autoware_utils
-
-  - apriltag_detector
-
-  - apriltag_detector_umich
-
-  - apriltag_detector_mit
-  - apriltag_draw
-  - apriltag_tools
-
-  - ament_cmake_black
-
-  - behaviortree_cpp
-  - ouster_ros
-
-  - clearpath_common
-
-  - cascade-lifecycle-msgs
-  - rclcpp-cascade-lifecycle
-  - rclpy-cascade-lifecycle
-
-  - py_binding_tools
-
-  - data_tamer_cpp
-
-  - point_cloud_transport_py
-  - pointcloud_to_laserscan
-
-  - sick_scan_xd
-
-  - librealsense2
-
-  - geodesy
-
-  - mocap4r2_msgs
-
-  - rviz_2d_overlay_msgs
-  - asio_cmake_module
-  - battery_state_broadcaster
-  - polygon_msgs
-  - ros2_fmt_logger
-  - magic_enum
-  - mavros_msgs
-
-  - picknik_ament_copyright
-
-  - rqt_robot_monitor
-  - rqt_runtime_monitor
-
-  - mujoco_vendor
-  - mujoco_ros2_control_msgs
-
-  - rtest
-
-  - nmea-navsat-driver
-
-  - ntrip_client
-
-  - tracetools
-  - tracetools-launch
-  - tracetools-trace
-
-  - smacc2_msgs
-  - cl_ros2_timer
-
   - urdf_tutorial
+  - urg_node
+  - vector_pursuit_controller
+  - velodyne_simulator
+  - visp
 
-  - py_trees
-  - py_trees_ros_interfaces
-  - py_trees_ros
-  - py_trees_js
-  - py_trees_ros_viewer
-  - py_trees_ros_tutorials
-
-  - rclpy_message_converter
-  - rclpy_message_converter_msgs
-
-  # RoboPlan, requested in https://github.com/RoboStack/ros-jazzy/issues/250
-  - proxsuite
-  - roboplan
-  - roboplan_cartesian_planning
-  - roboplan_example_models
-  - roboplan_examples
-  - roboplan_oink
-  - roboplan_ros_cpp
-  - roboplan_ros_examples
-  - roboplan_ros_py
-  - roboplan_ros_visualization
-  - roboplan_rrt
-  - roboplan_simple_ik
-  - roboplan_toppra
-  - toppra
-
-  # These packages are only built on Linux as they depend on Linux-specific API
+  # Packages only built on Linux (hardware-specific deps or Linux-only APIs; a few were previously attempted on macOS/Windows and failed there).
   - if: linux
     then:
-
       - apriltag_ros  # Depends (indirectly) on libcamera
-      - mujoco_ros2_control  # Use readlink and access at runtime linux-specific file
-      - mujoco_ros2_control_demos  # Use readlink and access at runtime linux-specific file
-      - nobleo_socketcan_bridge  # Depends on socketcan
-      - plansys2_bringup
-      - plansys2_bt_actions
-      - plansys2_core
-      - plansys2_domain_expert
-      - plansys2_executor
-      - plansys2_lifecycle_manager
-      - plansys2_msgs
-      - plansys2_pddl_parser
-      - plansys2_planner
-      - plansys2_popf_plan_solver
-      - plansys2_problem_expert
-      - plansys2_support_py
-      - plansys2_terminal
-      - plansys2_tests
-      - plansys2_tools
-      - popf
-      - realsense2-camera
-      - realsense2-description
-      - roboplan_ros_franka  # exec_depends on mujoco_ros2_control, which is Linux-only
-      - ros2_medkit_action_status_bridge
-      - ros2_medkit_beacon_common
-      - ros2_medkit_cmake
-      - ros2_medkit_diagnostic_bridge
-      - ros2_medkit_fault_manager
-      - ros2_medkit_fault_reporter
-      - ros2_medkit_gateway
-      - ros2_medkit_graph_provider
-      - ros2_medkit_integration_tests
-      - ros2_medkit_linux_introspection
-      - ros2_medkit_log_bridge
-      - ros2_medkit_msgs
-      - ros2_medkit_param_beacon
-      - ros2_medkit_serialization
-      - ros2_medkit_sovd_service_interface
-      - ros2_medkit_topic_beacon
-      - ros2_socketcan  # Depends on socketcan
-      - septentrio_gnss_driver
-      - usb_cam  # Depends on v4l
-      - v4l2_camera  # Depends on v4l that is only available on linux
-
-  # These packages are currently only build on Linux, but they currently only build on
-  # Linux as trying to build them in the past on macos or Windows resulted in errors
-  - if: linux
-    then:
       - easynav
       - easynav_bonxai_maps_manager
       - easynav_common
@@ -341,21 +300,83 @@ packages_select_by_deps:
       - io_context
       - livox_ros_driver2
       - mavros_extras      # on macos it fails with https://github.com/RoboStack/ros-jazzy/pull/135#issuecomment-3772187665
+      - mujoco_ros2_control  # Use readlink and access at runtime linux-specific file
+      - mujoco_ros2_control_demos  # Use readlink and access at runtime linux-specific file
       - navmap_core
       - navmap_ros
       - navmap_ros_interfaces
+      - nobleo_socketcan_bridge  # Depends on socketcan
       - openvdb_vendor
       - orbbec_camera
+      - plansys2_bringup
+      - plansys2_bt_actions
+      - plansys2_core
+      - plansys2_domain_expert
+      - plansys2_executor
+      - plansys2_lifecycle_manager
+      - plansys2_msgs
+      - plansys2_pddl_parser
+      - plansys2_planner
+      - plansys2_popf_plan_solver
+      - plansys2_problem_expert
+      - plansys2_support_py
+      - plansys2_terminal
+      - plansys2_tests
+      - plansys2_tools
+      - popf
       - proto2ros
+      - realsense2-camera
+      - realsense2-description
+      - roboplan_ros_franka  # exec_depends on mujoco_ros2_control, which is Linux-only
+      - ros2_medkit_action_status_bridge
+      - ros2_medkit_beacon_common
+      - ros2_medkit_cmake
+      - ros2_medkit_diagnostic_bridge
+      - ros2_medkit_fault_manager
+      - ros2_medkit_fault_reporter
+      - ros2_medkit_gateway
+      - ros2_medkit_graph_provider
+      - ros2_medkit_integration_tests
+      - ros2_medkit_linux_introspection
+      - ros2_medkit_log_bridge
+      - ros2_medkit_msgs
+      - ros2_medkit_param_beacon
+      - ros2_medkit_serialization
+      - ros2_medkit_sovd_service_interface
+      - ros2_medkit_topic_beacon
+      - ros2_socketcan  # Depends on socketcan
+      - septentrio_gnss_driver
       - serial_driver      # Serial communication only implemented for linux
       - smacc2
       - spatio_temporal_voxel_layer      # Uses linux-specific flags in  https://github.com/SteveMacenski/spatio_temporal_voxel_layer/blob/e23d730d35407bd8e2bf9c33d10388a6a07c735d/spatio_temporal_voxel_layer/CMakeLists.txt#L124,
       - swri_serial_util      # Serial communication only implemented for linux
+      - turtlebot4_base
+      - turtlebot4_bringup
+      - turtlebot4_diagnostics
+      - turtlebot4_robot
+      - turtlebot4_setup
+      - turtlebot4_tests
       - udp_driver      # Serial communication only implemented for linux
+      - usb_cam  # Depends on v4l
+      - v4l2_camera  # Depends on v4l that is only available on linux
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
     then:
+      # Parity sweep with ros-humble (2026-09-04): "not wasm32 and not win" there collapses to "not win" (jazzy has no wasm32 platform).
+      - as2_cli
+      - as2_msgs
+      - automatika_embodied_agents  # generated rosidl_typesupport_fastrtps_c fails to link on win-64 (unresolved externals), same as humble
+      - autoware_core
+      - autoware_core_control
+      - autoware_core_localization
+      - autoware_ekf_localizer
+      - autoware_lanelet2_utils
+      - autoware_motion_utils
+      - autoware_osqp_interface
+      - autoware_pose_initializer
+      - autoware_qp_interface
+      - autoware_trajectory
       - bonxai_ros
       - cloudini-lib
       - cloudini-ros
@@ -387,7 +408,20 @@ packages_select_by_deps:
       - mavros
       - med14_moveit_config
       - med7_moveit_config
+      - microstrain_inertial_driver
+      - microstrain_inertial_examples
+      - microstrain_inertial_msgs
+      - microstrain_inertial_rqt
       - mobile_robot_simulator
+      - mocap4r2_control
+      - mocap4r2_control_msgs
+      - mocap4r2_dummy_driver
+      - mocap4r2_marker_publisher
+      - mocap4r2_marker_viz
+      - mocap4r2_marker_viz_srvs
+      - mocap4r2_robot_gt
+      - mocap4r2_robot_gt_msgs
+      - motion_capture_tracking
       - moveit-py
       - moveit-ros-occupancy-map-monitor
       - moveit-ros-perception
@@ -401,6 +435,7 @@ packages_select_by_deps:
       - plotjuggler-ros
       - point_cloud_transport_plugins      # Error: LINK : fatal error LNK1181: cannot open input file 'zstd.lib' [%SRC_DIR%\build\zstd_point_cloud_transport.vcxproj]
       - rmw_stats_shim
+      - rosbag2_performance_benchmarking  # its _msgs' Python typesupport hits MSVC C1083 on win-64 (rosidl codegen race, same as humble's iiwa14_moveit_config)
       - rosgraph_monitor
       - rosgraph_monitor_msgs
       - rplidar_ros
@@ -423,6 +458,7 @@ packages_select_by_deps:
       - yasmin_plugins_manager
       - yasmin_ros
       - yasmin_viewer
+      - zed_msgs
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

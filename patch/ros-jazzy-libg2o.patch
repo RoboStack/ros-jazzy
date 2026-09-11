@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 1b86088..8aad22e 100644
+index 1b86088..ca7eca6 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -477,7 +477,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${g2o_C_FLAGS}")
@@ -7,7 +7,46 @@ index 1b86088..8aad22e 100644
  # fall back to the using the module form.
  # See https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html for details
 -find_package(Eigen3 3.3 REQUIRED)
-+find_package(Eigen3 REQUIRED CONFIG)
++find_package(Eigen3 REQUIRED NO_MODULE)
  if (TARGET Eigen3::Eigen)
    set(G2O_EIGEN3_EIGEN_TARGET Eigen3::Eigen)
  else()
+diff --git a/g2o/examples/sphere/create_sphere.cpp b/g2o/examples/sphere/create_sphere.cpp
+index 8c4b0fd..f83e5e0 100644
+--- a/g2o/examples/sphere/create_sphere.cpp
++++ b/g2o/examples/sphere/create_sphere.cpp
+@@ -166,8 +166,8 @@ int main(int argc, char** argv) {
+     cerr << "using seeds:";
+     for (size_t i = 0; i < seeds.size(); ++i) cerr << " " << seeds[i];
+     cerr << endl;
+-    transSampler.seed(seeds[0]);
+-    rotSampler.seed(seeds[1]);
++    transSampler.seed(static_cast<int>(seeds[0]));
++    rotSampler.seed(static_cast<int>(seeds[1]));
+   }
+ 
+   // noise for all the edges
+diff --git a/g2o/solvers/csparse/CMakeLists.txt b/g2o/solvers/csparse/CMakeLists.txt
+index e3a3980..e60f6bd 100644
+--- a/g2o/solvers/csparse/CMakeLists.txt
++++ b/g2o/solvers/csparse/CMakeLists.txt
+@@ -37,6 +37,7 @@ endif()
+ 
+ target_include_directories(solver_csparse PUBLIC
+   $<BUILD_INTERFACE:${CSPARSE_INCLUDE_DIR}>
++  $<INSTALL_INTERFACE:${CSPARSE_INCLUDE_DIR}>
+   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+   $<INSTALL_INTERFACE:include/g2o/solvers/csparse>)
+ target_compile_features(solver_csparse PUBLIC cxx_std_17)
+diff --git a/g2o/stuff/misc.h b/g2o/stuff/misc.h
+index 58a1afd..cd14ccc 100644
+--- a/g2o/stuff/misc.h
++++ b/g2o/stuff/misc.h
+@@ -27,6 +27,7 @@
+ #ifndef G2O_STUFF_MISC_H
+ #define G2O_STUFF_MISC_H
+ 
++#include <cassert>
+ #include <cmath>
+ 
+ /** @addtogroup utils **/

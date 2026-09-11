@@ -1,0 +1,43 @@
+diff -ruN a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -34,9 +34,11 @@
+     "${EIGEN3_INCLUDE_DIR}"
+ )
+ 
+-ament_target_dependencies(${PROJECT_NAME}
+-  Eigen3
+-  osqp_vendor
++# Eigen3Config.cmake (the modern conda-forge package config) only exports the
++# Eigen3::Eigen target, not EIGEN3_INCLUDE_DIR used above.
++target_link_libraries(${PROJECT_NAME}
++  Eigen3::Eigen
++  osqp::osqp
+ )
+ 
+ # crucial so downstream package builds because autoware_osqp_interface exposes osqp.hpp
+diff -ruN a/src/csc_matrix_conv.cpp b/src/csc_matrix_conv.cpp
+--- a/src/csc_matrix_conv.cpp
++++ b/src/csc_matrix_conv.cpp
+@@ -25,9 +25,9 @@
+ {
+ CSC_Matrix calCSCMatrix(const Eigen::MatrixXd & mat)
+ {
+-  const size_t elem = static_cast<size_t>(mat.nonZeros());
+   const Eigen::Index rows = mat.rows();
+   const Eigen::Index cols = mat.cols();
++  const size_t elem = static_cast<size_t>(rows * cols);
+ 
+   std::vector<c_float> vals;
+   vals.reserve(elem);
+@@ -66,9 +66,9 @@
+ 
+ CSC_Matrix calCSCMatrixTrapezoidal(const Eigen::MatrixXd & mat)
+ {
+-  const size_t elem = static_cast<size_t>(mat.nonZeros());
+   const Eigen::Index rows = mat.rows();
+   const Eigen::Index cols = mat.cols();
++  const size_t elem = static_cast<size_t>(rows * (rows + 1) / 2);
+ 
+   if (rows != cols) {
+     throw std::invalid_argument("Matrix must be square (n, n)");
