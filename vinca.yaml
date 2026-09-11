@@ -48,17 +48,98 @@ skip_existing:
   - https://conda.anaconda.org/robostack-jazzy/
 
 packages_select_by_deps:
+  - ackermann-msgs
+  - ament_cmake_black
   - ament_cmake_catch2
   - ament_cmake_core
   - ament_cmake_mypy
+  - ament_cmake_nose  # Parity sweep with ros-humble (2026-09-04): packages humble ships that jazzy's meta-package tree doesn't pull in on its own.
+  - apex_test_tools
+  - apriltag_detector
+  - apriltag_detector_mit
+  - apriltag_detector_umich
+  - apriltag_draw
+  - apriltag_tools
+  - asio_cmake_module
+  - automatika_ros_sugar
+  - autoware_adapi_v1_msgs
+  - autoware_adapi_version_msgs
+  - autoware_auto_msgs
+  - autoware_cmake
+  - autoware_common_msgs
+  - autoware_component_interface_specs
+  - autoware_control_msgs
+  - autoware_geography_utils
+  - autoware_global_parameter_loader
+  - autoware_internal_msgs
+  - autoware_interpolation
+  - autoware_kalman_filter
+  - autoware_lanelet2_extension
+  - autoware_lanelet2_extension_python
+  - autoware_localization_msgs
+  - autoware_map_msgs
+  - autoware_msgs
+  - autoware_node
+  - autoware_object_recognition_utils
+  - autoware_perception_msgs
+  - autoware_planning_msgs
+  - autoware_point_types
+  - autoware_sensing_msgs
+  - autoware_signal_processing
+  - autoware_system_msgs
+  - autoware_utils
+  - autoware_v2x_msgs
+  - autoware_vehicle_info_utils
+  - autoware_vehicle_msgs
+  - aws_robomaker_small_warehouse_world
+  - battery_state_broadcaster
+  - behaviortree_cpp
+  - behaviortree_cpp_v3
+  - bno055
+  - bond_core
+  - can_msgs
+  - cascade-lifecycle-msgs
+  - cl_ros2_timer
+  - clearpath_common
+  - color_util
+  - data_tamer_cpp
   - desktop
   - desktop_full
   - dev_tools
   - diagnostics
+  - dynmsg
+  - flex_sync
+  - foxglove_bridge
+  - foxglove_msgs
+  - geodesy
+  - geographic_info
+  - geometry_tutorials
+  - gripper_controllers
   - gz_ros2_control
   - gz_ros2_control_demos
+  - imu_calib
+  - imu_tools
+  - imu_transformer
+  - irobot_create_common_bringup
+  - irobot_create_control
+  - irobot_create_description
+  - irobot_create_gz_bringup
+  - irobot_create_gz_plugins
+  - irobot_create_gz_sim
+  - irobot_create_gz_toolbox
+  - irobot_create_msgs
+  - irobot_create_nodes
+  - irobot_create_toolbox
   - joy_teleop
   - key_teleop
+  - lanelet2
+  - libnabo
+  - libpointmatcher
+  - librealsense2
+  - magic_enum
+  - marker_msgs
+  - mavros_msgs
+  - mocap4r2_msgs
   - mouse_teleop
   - moveit
   - moveit-planners-chomp
@@ -66,88 +147,99 @@ packages_select_by_deps:
   - moveit-ros-trajectory-cache
   - moveit-servo
   - moveit-visual-tools
+  - moveit_chomp_optimizer_adapter
+  - mujoco_ros2_control_msgs
+  - mujoco_vendor
+  - nav2_bringup
+  - nav2_loopback_sim
   - navigation2
   - negotiated  # Generic dependency used by Isaac ROS without Jazzy rosdistro releases.
-  - perception
-  - robot
-  - ros2_control
-  - ros2_controllers
-  - ros_base
-  - ros_environment
-  - ros_gz
-  - ros_workspace
-  - rviz_visual_tools
-  - simulation
-  - simulation_interfaces
-  - slam_toolbox
-  - teleop
-  - teleop_tools
-  - topic_based_ros2_control  # Generic dependency used by Isaac ROS without Jazzy rosdistro releases.
-  - turtlebot3
-  - turtlebot3_simulations
-
-  # Parity sweep with ros-humble (2026-09-04): packages humble ships that jazzy's meta-package tree doesn't pull in on its own.
-  - ament_cmake_nose
-  - apex_test_tools
-  - automatika_ros_sugar
-  - autoware_adapi_v1_msgs
-  - autoware_adapi_version_msgs
-  - autoware_auto_msgs
-  - autoware_component_interface_specs
-  - autoware_geography_utils
-  - autoware_global_parameter_loader
-  - autoware_interpolation
-  - autoware_kalman_filter
-  - autoware_lanelet2_extension
-  - autoware_lanelet2_extension_python
-  - autoware_msgs
-  - autoware_node
-  - autoware_object_recognition_utils
-  - autoware_point_types
-  - autoware_signal_processing
-  - autoware_vehicle_info_utils
-  - aws_robomaker_small_warehouse_world
-  - behaviortree_cpp_v3
-  - bno055
-  - bond_core
-  - color_util
-  - dynmsg
-  - geographic_info
-  - geometry_tutorials
-  - imu_calib
-  - imu_transformer
-  - libnabo
-  - libpointmatcher
-  - marker_msgs
-  - moveit_chomp_optimizer_adapter
+  - nmea-navsat-driver
+  - ntrip_client
   - open3d_conversions
+  - ouster_ros
+  - perception
   - persist_parameter_server
   - pick_ik
+  - picknik_ament_copyright
+  - point_cloud_transport_py
+  - pointcloud_to_laserscan
+  - polygon_msgs
   - polygon_utils
   - proxsuite
   - ptz_action_server_msgs
+  - py_binding_tools
+  - py_trees
+  - py_trees_js
+  - py_trees_ros
+  - py_trees_ros_interfaces
+  - py_trees_ros_tutorials
+  - py_trees_ros_viewer
   - radar_msgs
   - rclc
   - rclc_lifecycle
   - rclc_parameter
+  - rclcpp-cascade-lifecycle
+  - rclpy-cascade-lifecycle
+  - rclpy_message_converter
+  - rclpy_message_converter_msgs
+  - rmw_zenoh_cpp
+  - roboplan  # RoboPlan, requested in https://github.com/RoboStack/ros-jazzy/issues/250
+  - roboplan_cartesian_planning
+  - roboplan_example_models
+  - roboplan_examples
+  - roboplan_oink
+  - roboplan_ros_cpp
+  - roboplan_ros_examples
+  - roboplan_ros_py
+  - roboplan_ros_visualization
+  - roboplan_rrt
+  - roboplan_simple_ik
+  - roboplan_toppra
+  - robot
   - robot_controllers
+  - robotiq_controllers
+  - ros2_control
+  - ros2_controllers
+  - ros2_fmt_logger
+  - ros2_socketcan_msgs
+  - ros_base
+  - ros_environment
+  - ros_gz
+  - ros_workspace
+  - rosbridge_suite
+  - rosidl_generator_dds_idl
   - rqt
   - rqt_controller_manager
   - rqt_moveit
   - rqt_robot_dashboard
+  - rqt_robot_monitor
   - rqt_robot_steering
+  - rqt_runtime_monitor
   - rtabmap
+  - rtest
+  - rviz_2d_overlay_msgs
+  - rviz_visual_tools
+  - sbg_driver
   - sick_safetyscanners_base
+  - sick_scan_xd
+  - simulation
+  - simulation_interfaces
+  - slam_toolbox
+  - smacc2_msgs
   - stubborn_buddies
   - system_modes
+  - teleop
+  - teleop_tools
+  - topic_based_ros2_control  # Generic dependency used by Isaac ROS without Jazzy rosdistro releases.
+  - toppra
+  - tracetools
+  - tracetools-launch
+  - tracetools-trace
   - turtle_tf2_cpp
   - turtle_tf2_py
-  - urg_node
-  - vector_pursuit_controller
-  - velodyne_simulator
-  - visp
-  # Note: excludes humble's gazebo/ignition family (gazebo_ros_pkgs, ign_ros2_control, ros_ign*); jazzy uses the modern gz-sim stack (ros_gz above) instead.
-
+  - turtlebot3
+  - turtlebot3_simulations
   - turtlebot4_description
   - turtlebot4_desktop
   - turtlebot4_gz_bringup
@@ -158,8 +250,15 @@ packages_select_by_deps:
   - turtlebot4_node
   - turtlebot4_simulator
   - turtlebot4_viz
+  - twist_mux
+  - ublox
   - ur
   - ur_simulation_gz
+  - urdf_tutorial
+  - urg_node
+  - vector_pursuit_controller
+  - velodyne_simulator
+  - visp
 
   # Packages only built on Linux (hardware-specific deps or Linux-only APIs; a few were previously attempted on macOS/Windows and failed there).
   - if: linux
@@ -260,152 +359,6 @@ packages_select_by_deps:
       - udp_driver      # Serial communication only implemented for linux
       - usb_cam  # Depends on v4l
       - v4l2_camera  # Depends on v4l that is only available on linux
-
-  - irobot_create_toolbox
-  - irobot_create_nodes
-  - irobot_create_description
-  - irobot_create_control
-  - irobot_create_common_bringup
-  - irobot_create_gz_toolbox
-  - irobot_create_gz_plugins
-  - irobot_create_gz_bringup
-  - irobot_create_gz_sim
-  - irobot_create_msgs
-
-  - ackermann-msgs
-  - sbg_driver
-
-  - twist_mux
-
-  - rmw_zenoh_cpp
-
-  - flex_sync
-  - gripper_controllers
-
-  - rosbridge_suite
-  - robotiq_controllers
-  - rosidl_generator_dds_idl
-
-  - foxglove_bridge
-  - foxglove_msgs
-
-  - lanelet2
-
-  - imu_tools
-
-  - ublox
-
-  - can_msgs
-  - ros2_socketcan_msgs
-
-  - nav2_bringup
-  - nav2_loopback_sim
-
-  - autoware_internal_msgs
-  - autoware_common_msgs
-  - autoware_control_msgs
-  - autoware_localization_msgs
-  - autoware_map_msgs
-  - autoware_perception_msgs
-  - autoware_planning_msgs
-  - autoware_sensing_msgs
-  - autoware_system_msgs
-  - autoware_v2x_msgs
-  - autoware_vehicle_msgs
-  - autoware_cmake
-  - autoware_utils
-
-  - apriltag_detector
-
-  - apriltag_detector_umich
-
-  - apriltag_detector_mit
-  - apriltag_draw
-  - apriltag_tools
-
-  - ament_cmake_black
-
-  - behaviortree_cpp
-  - ouster_ros
-
-  - clearpath_common
-
-  - cascade-lifecycle-msgs
-  - rclcpp-cascade-lifecycle
-  - rclpy-cascade-lifecycle
-
-  - py_binding_tools
-
-  - data_tamer_cpp
-
-  - point_cloud_transport_py
-  - pointcloud_to_laserscan
-
-  - sick_scan_xd
-
-  - librealsense2
-
-  - geodesy
-
-  - mocap4r2_msgs
-
-  - rviz_2d_overlay_msgs
-  - asio_cmake_module
-  - battery_state_broadcaster
-  - polygon_msgs
-  - ros2_fmt_logger
-  - magic_enum
-  - mavros_msgs
-
-  - picknik_ament_copyright
-
-  - rqt_robot_monitor
-  - rqt_runtime_monitor
-
-  - mujoco_vendor
-  - mujoco_ros2_control_msgs
-
-  - rtest
-
-  - nmea-navsat-driver
-
-  - ntrip_client
-
-  - tracetools
-  - tracetools-launch
-  - tracetools-trace
-
-  - smacc2_msgs
-  - cl_ros2_timer
-
-  - urdf_tutorial
-
-  - py_trees
-  - py_trees_ros_interfaces
-  - py_trees_ros
-  - py_trees_js
-  - py_trees_ros_viewer
-  - py_trees_ros_tutorials
-
-  - rclpy_message_converter
-  - rclpy_message_converter_msgs
-
-  # RoboPlan, requested in https://github.com/RoboStack/ros-jazzy/issues/250
-  - roboplan
-  - roboplan_cartesian_planning
-  - roboplan_example_models
-  - roboplan_examples
-  - roboplan_oink
-  - roboplan_ros_cpp
-  - roboplan_ros_examples
-  - roboplan_ros_py
-  - roboplan_ros_visualization
-  - roboplan_rrt
-  - roboplan_simple_ik
-  - roboplan_toppra
-  - toppra
-
-
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
