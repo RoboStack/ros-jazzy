@@ -301,6 +301,10 @@ py_trees_js:
   add_host: ["poetry-core"]
 nav2_mppi_controller:
   add_run: ["xtensor==0.25.0"]
+roboplan_example_models:
+  # src/resources.cpp uses dladdr() from dlfcn.h, which is POSIX-only.
+  # On Windows we need to depend on dlfcn-win32 instead.
+  add_host: ["${{ 'dlfcn-win32' if win }}"]
 roboplan_ros_examples:
   # package.xml misses the ament_cmake dep; fixed in roboplan_ros 0.7.0, drop after that release.
   add_host: ["ros-jazzy-ament-cmake"]
