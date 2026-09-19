@@ -308,12 +308,3 @@ roboplan_example_models:
 roboplan_ros_examples:
   # package.xml misses the ament_cmake dep; fixed in roboplan_ros 0.7.0, drop after that release.
   add_host: ["ros-jazzy-ament-cmake"]
-irobot_create_gz_plugins:
-  # resolvo mutex-misattribution bug: solver picks ros2-gz-gui-vendor/ros2-ros-gz's
-  # OLDEST published build (mutex 0.16, long since removed from the channel) instead
-  # of the current one (mutex 0.17) even though a matching-mutex build exists locally.
-  # Same pattern as the cartographer_ros/yasmin_pcl pcl-conversions pin elsewhere.
-  remove_host: ["ros2-gz-gui-vendor", "ros2-ros-gz"]
-  remove_run: ["ros2-gz-gui-vendor", "ros2-ros-gz"]
-  add_host: ["ros2-gz-gui-vendor ==0.0.5 *_23", "ros2-ros-gz ==1.0.23 *_23"]
-  add_run: ["ros2-gz-gui-vendor ==0.0.5 *_23", "ros2-ros-gz ==1.0.23 *_23"]
