@@ -177,6 +177,12 @@ jobs:
         # source builds; evict the old dummy-package cache entries so this
         # run actually rebuilds and tests them for real.
         rm -rf ${{ matrix.folder_cache }}/ros2-roboplan* ${{ matrix.folder_cache }}/ros-jazzy-roboplan* 2>/dev/null || true
+        # Corrupt win-64 cache entry (likely from an earlier interrupted/cancelled
+        # run this session) -- moveit_ros_warehouse's find_package(warehouse_ros)
+        # fails against it ("Could not find a package configuration file"), same
+        # failure mode as the moveit_ros_visualization entry in ros-rolling's
+        # testpr.yml.
+        rm -rf ${{ matrix.folder_cache }}/ros2-warehouse-ros* ${{ matrix.folder_cache }}/ros-jazzy-warehouse-ros* 2>/dev/null || true
         mkdir -p ${{ matrix.folder_cache }}
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
 
