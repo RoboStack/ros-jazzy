@@ -38,6 +38,13 @@ mutex_package:
     # in the protobuf-6-only openvino also coexist in the channel. Pinning
     # ffmpeg directly to major version 9 removes the ambiguity outright.
     - ffmpeg 9.*
+    # libopencv 5.0.0 also depends on a *second*, separate openvino frontend
+    # package (tensorflow-LITE-frontend, distinct from tensorflow-frontend
+    # above) and every 5.0.0 build hardcodes it to the 2026.3.0.x line. Some
+    # ffmpeg 9.0.1/9.0.2 builds instead need 2026.3.1, which conflicts --
+    # constrain lite-frontend to the same range libopencv needs so resolvo
+    # picks an ffmpeg 9.x build compatible with it.
+    - libopenvino-tensorflow-lite-frontend >=2026.3.0,<2026.3.1.0a0
 
 packages_skip_by_deps:
 
