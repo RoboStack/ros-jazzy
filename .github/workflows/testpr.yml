@@ -183,6 +183,13 @@ jobs:
         # failure mode as the moveit_ros_visualization entry in ros-rolling's
         # testpr.yml.
         rm -rf ${{ matrix.folder_cache }}/ros2-warehouse-ros* ${{ matrix.folder_cache }}/ros-jazzy-warehouse-ros* 2>/dev/null || true
+        # Stale cache entries from before this repo's mutex bump to 0.17 --
+        # ros2-gz-gui-vendor/ros2-ros-gz still built against mutex 0.16 sit
+        # alongside the freshly-built 0.17 ones in the PR-scoped cache, and
+        # resolvo picks the wrong (orphaned-mutex) one when solving
+        # irobot_create_gz_plugins's environment. Evict the stale copies so
+        # only the current build remains.
+        rm -rf ${{ matrix.folder_cache }}/ros2-gz-gui-vendor* ${{ matrix.folder_cache }}/ros-jazzy-gz-gui-vendor* ${{ matrix.folder_cache }}/ros2-ros-gz-[0-9]* ${{ matrix.folder_cache }}/ros-jazzy-ros-gz-[0-9]* 2>/dev/null || true
         mkdir -p ${{ matrix.folder_cache }}
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
 
