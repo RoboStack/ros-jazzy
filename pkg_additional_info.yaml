@@ -214,6 +214,10 @@ coal:
   build_number: 22
 nav2_mppi_controller:
   build_number: 22
+launch:
+  build_number: 22
+launch_ros:
+  build_number: 22
 pinocchio:
   generate_dummy_package_with_run_deps:
     dep_name: pinocchio
