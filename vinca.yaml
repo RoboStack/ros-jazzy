@@ -10,8 +10,8 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 24
-build_number: 23
+# Reminder for next full rebuild, the next build number should be 25
+build_number: 24
 
 mutex_package:
   name: "ros2-distro-mutex"
@@ -25,10 +25,14 @@ mutex_package:
     - libprotobuf 7.35.*
     # ffmpeg (pulled in transitively by libopencv, needed by the whole image/gz
     # stack) only supports libprotobuf 7.35 via libopenvino-tensorflow-frontend
-    # >=2026.3.1; older libopenvino/libopencv/ffmpeg builds still coexist in the
+    # >=2026.3.0; older libopenvino/libopencv/ffmpeg builds still coexist in the
     # channel needing libprotobuf 6.x, so pin this directly rather than relying
-    # on resolvo to find the compatible combination on its own.
-    - libopenvino-tensorflow-frontend >=2026.3.1
+    # on resolvo to find the compatible combination on its own. libopencv/
+    # py-opencv are pinned too, since resolvo has shown trouble propagating the
+    # openvino constraint transitively through ffmpeg on its own.
+    - libopenvino-tensorflow-frontend >=2026.3.0
+    - libopencv >=5.0.0
+    - py-opencv >=5.0.0
     - vtk 9.7.0.*
 
 packages_skip_by_deps:
