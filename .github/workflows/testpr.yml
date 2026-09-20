@@ -190,6 +190,14 @@ jobs:
         # irobot_create_gz_plugins's environment. Evict the stale copies so
         # only the current build remains.
         rm -rf ${{ matrix.folder_cache }}/ros2-gz-gui-vendor* ${{ matrix.folder_cache }}/ros-jazzy-gz-gui-vendor* ${{ matrix.folder_cache }}/ros2-ros-gz-[0-9]* ${{ matrix.folder_cache }}/ros-jazzy-ros-gz-[0-9]* 2>/dev/null || true
+        # The above alone wasn't enough: ros2-gz-common-vendor (irobot_create_gz_plugins's
+        # actual ffmpeg pull-in point, via its own bare ffmpeg host dep) was still being
+        # skipped/reused from a build predating the libopencv 5.0.0 / libprotobuf 7.35.1 /
+        # ffmpeg 9 conda_build_config.yaml bump. A fully protobuf-7-compatible chain
+        # (libopencv 5.0.0 -> ffmpeg 9.0.x -> libopenvino 2026.3.1 -> libprotobuf 7.35.1)
+        # already exists on conda-forge; gz-common-vendor just needed to actually rebuild
+        # against it instead of reusing its stale cached/published artifact.
+        rm -rf ${{ matrix.folder_cache }}/ros2-gz-common-vendor* ${{ matrix.folder_cache }}/ros-jazzy-gz-common-vendor* 2>/dev/null || true
         mkdir -p ${{ matrix.folder_cache }}
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
 
