@@ -34,6 +34,10 @@ mutex_package:
     - libopencv >=5.0.0
     - py-opencv >=5.0.0
     - vtk 9.7.0.*
+    # Belt-and-suspenders for the same conflict: ffmpeg 8.1.2 builds that pull
+    # in the protobuf-6-only openvino also coexist in the channel. Pinning
+    # ffmpeg directly to major version 9 removes the ambiguity outright.
+    - ffmpeg 9.*
 
 packages_skip_by_deps:
 
