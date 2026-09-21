@@ -4,11 +4,6 @@ apriltag:
     max_pin: 'x.x.x'
 aws_sdk_cpp_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
-sophus:
-  generate_dummy_package_with_run_deps:
-    dep_name: sophus
-    max_pin: 'x.x.x'
-    override_version: '1.24.6'
 cartographer:
   generate_dummy_package_with_run_deps:
     dep_name: cartographer
@@ -178,6 +173,11 @@ sdformat_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 sick_scan_xd:
   additional_cmake_args: "-DBUILD_DEBUG_TARGET:BOOL=OFF -DROS_VERSION=2"
+sophus:
+  generate_dummy_package_with_run_deps:
+    dep_name: sophus
+    max_pin: 'x.x.x'
+    override_version: '1.24.6'
 spdlog_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 sqlite3_vendor:
