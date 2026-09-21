@@ -204,6 +204,13 @@ jobs:
         # see e6988a45 for the same technique used previously). Discard the stale
         # cached mutex package so it rebuilds fresh with the new constraint.
         rm -rf ${{ matrix.folder_cache }}/ros2-distro-mutex* ${{ matrix.folder_cache }}/ros-jazzy-distro-mutex* 2>/dev/null || true
+        # Corrupt win-64 cache entry, likely truncated by one of this PR's several
+        # win-64 job cancellations mid-build: ros2-nav2-util's CMake configure
+        # fails with "Could not find a package configuration file provided by
+        # nav2_msgs" even though skip-existing found a matching ros2-nav2-msgs
+        # package -- its .conda archive exists but is missing its installed
+        # CMake config files. Evict it so it rebuilds cleanly.
+        rm -rf ${{ matrix.folder_cache }}/ros2-nav2-msgs* ${{ matrix.folder_cache }}/ros-jazzy-nav2-msgs* 2>/dev/null || true
         mkdir -p ${{ matrix.folder_cache }}
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
 
