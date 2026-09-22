@@ -160,7 +160,7 @@ jobs:
       shell: bash -l {0}
       run: |
         # Uncomment to force-rebuild a package with a corrupted cache entry.
-        # rm -rf ${{ matrix.folder_cache }}/<package>* 2>/dev/null || true
+        rm -rf ${{ matrix.folder_cache }}/ros2-roboplan* ${{ matrix.folder_cache }}/ros-jazzy-roboplan* 2>/dev/null || true
         mkdir -p ${{ matrix.folder_cache }}
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
 
