@@ -83,6 +83,7 @@ packages_select_by_deps:
   - simulation
   - simulation_interfaces
   - slam_toolbox
+  - sophus
   - teleop
   - teleop_tools
   - topic_based_ros2_control  # Generic dependency used by Isaac ROS without Jazzy rosdistro releases.
