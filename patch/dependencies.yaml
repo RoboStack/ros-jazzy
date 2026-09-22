@@ -8,6 +8,10 @@ rosidl_buffer_backend_registry:
   # Upstream CMake requires this, but package.xml omits it.
   add_host: ["ros-jazzy-rosidl-buffer"]
   add_run: ["ros-jazzy-rosidl-buffer"]
+cuda_buffer:
+  add_host: ["cuda-nvcc"]
+cuda_buffer_backend:
+  add_host: ["cuda-nvcc"]
 cartographer_ros:
   add_host: ["cartographer 2.*", "libboost-devel"]
 libyaml_vendor:
