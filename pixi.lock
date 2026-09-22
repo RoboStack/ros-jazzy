@@ -115,7 +115,7 @@ environments:
       - conda: https://prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/urllib3-2.7.0-pyhd8ed1ab_0.conda
-      - conda_source: vinca[be849743] @ git+https://github.com/robostack/vinca#4683e080a18be89703b4088c90fca8eaa8620ebe
+      - conda_source: vinca[544ee5fb] @ git+https://github.com/baszalmstra/vinca?branch=experimental%2Fworkflow-batching#dd4707299fec2d3b7c51480cabd983c95ad05bd1
       linux-aarch64-glibc-2-17:
       - conda: https://prefix.dev/conda-forge/linux-aarch64/_openmp_mutex-4.5-20_gnu.conda
       - conda: https://prefix.dev/conda-forge/linux-aarch64/backports.zstd-1.7.0-py312h22d1088_0.conda
@@ -198,7 +198,7 @@ environments:
       - conda: https://prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/urllib3-2.7.0-pyhd8ed1ab_0.conda
-      - conda_source: vinca[2f07e57d] @ git+https://github.com/robostack/vinca#4683e080a18be89703b4088c90fca8eaa8620ebe
+      - conda_source: vinca[061b0b46] @ git+https://github.com/baszalmstra/vinca?branch=experimental%2Fworkflow-batching#dd4707299fec2d3b7c51480cabd983c95ad05bd1
       osx-64:
       - conda: https://prefix.dev/conda-forge/noarch/boolean.py-5.0-pyhd8ed1ab_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/ca-certificates-2026.7.22-hbd8a1cb_0.conda
@@ -271,7 +271,7 @@ environments:
       - conda: https://prefix.dev/conda-forge/osx-64/yaml-0.2.5-had63097_3.conda
       - conda: https://prefix.dev/conda-forge/osx-64/zstandard-0.25.0-py312hdc27ec5_3.conda
       - conda: https://prefix.dev/conda-forge/osx-64/zstd-1.5.7-hbc1a06c_7.conda
-      - conda_source: vinca[e231a206] @ git+https://github.com/robostack/vinca#4683e080a18be89703b4088c90fca8eaa8620ebe
+      - conda_source: vinca[b30e492f] @ git+https://github.com/baszalmstra/vinca?branch=experimental%2Fworkflow-batching#dd4707299fec2d3b7c51480cabd983c95ad05bd1
       osx-arm64:
       - conda: https://prefix.dev/conda-forge/noarch/boolean.py-5.0-pyhd8ed1ab_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/ca-certificates-2026.7.22-hbd8a1cb_0.conda
@@ -344,7 +344,7 @@ environments:
       - conda: https://prefix.dev/conda-forge/osx-arm64/yaml-0.2.5-h74c22ad_3.conda
       - conda: https://prefix.dev/conda-forge/osx-arm64/zstandard-0.25.0-py312hbd136b4_3.conda
       - conda: https://prefix.dev/conda-forge/osx-arm64/zstd-1.5.7-hf451053_7.conda
-      - conda_source: vinca[9e613799] @ git+https://github.com/robostack/vinca#4683e080a18be89703b4088c90fca8eaa8620ebe
+      - conda_source: vinca[c2031b90] @ git+https://github.com/baszalmstra/vinca?branch=experimental%2Fworkflow-batching#dd4707299fec2d3b7c51480cabd983c95ad05bd1
       win-64:
       - conda: https://prefix.dev/conda-forge/noarch/boolean.py-5.0-pyhd8ed1ab_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/ca-certificates-2026.7.22-h4c7d964_0.conda
@@ -418,7 +418,7 @@ environments:
       - conda: https://prefix.dev/conda-forge/win-64/yaml-0.2.5-h6a83c73_3.conda
       - conda: https://prefix.dev/conda-forge/win-64/zstandard-0.25.0-py312he5662c2_3.conda
       - conda: https://prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - conda_source: vinca[e5ba8080] @ git+https://github.com/robostack/vinca#4683e080a18be89703b4088c90fca8eaa8620ebe
+      - conda_source: vinca[fc4c5d94] @ git+https://github.com/baszalmstra/vinca?branch=experimental%2Fworkflow-batching#dd4707299fec2d3b7c51480cabd983c95ad05bd1
 packages:
 - conda: https://prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
   build_number: 20
@@ -4408,7 +4408,7 @@ packages:
     - zstd >=1.5.7,<1.6.0a0
   size: 387535
   timestamp: 1786599623274
-- conda_source: vinca[2f07e57d] @ git+https://github.com/robostack/vinca#4683e080a18be89703b4088c90fca8eaa8620ebe
+- conda_source: vinca[061b0b46] @ git+https://github.com/baszalmstra/vinca?branch=experimental%2Fworkflow-batching#dd4707299fec2d3b7c51480cabd983c95ad05bd1
   version: 0.2.0
   build: pyh4616a5c_0
   subdir: noarch
@@ -4464,7 +4464,7 @@ packages:
   - conda: https://prefix.dev/conda-forge/noarch/tomlkit-0.15.1-pyhcf101f3_0.conda
   - conda: https://prefix.dev/conda-forge/noarch/trove-classifiers-2026.6.1.19-pyhcf101f3_0.conda
   - conda: https://prefix.dev/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
-- conda_source: vinca[9e613799] @ git+https://github.com/robostack/vinca#4683e080a18be89703b4088c90fca8eaa8620ebe
+- conda_source: vinca[c2031b90] @ git+https://github.com/baszalmstra/vinca?branch=experimental%2Fworkflow-batching#dd4707299fec2d3b7c51480cabd983c95ad05bd1
   version: 0.2.0
   build: pyh4616a5c_0
   subdir: noarch
@@ -4515,7 +4515,7 @@ packages:
   - conda: https://prefix.dev/conda-forge/osx-arm64/tk-8.6.13-hbeba79b_4.conda
   - conda: https://prefix.dev/conda-forge/osx-arm64/uv-0.12.9-h0e72303_0.conda
   - conda: https://prefix.dev/conda-forge/osx-arm64/zstd-1.5.7-hf451053_7.conda
-- conda_source: vinca[be849743] @ git+https://github.com/robostack/vinca#4683e080a18be89703b4088c90fca8eaa8620ebe
+- conda_source: vinca[544ee5fb] @ git+https://github.com/baszalmstra/vinca?branch=experimental%2Fworkflow-batching#dd4707299fec2d3b7c51480cabd983c95ad05bd1
   version: 0.2.0
   build: pyh4616a5c_0
   subdir: noarch
@@ -4571,7 +4571,7 @@ packages:
   - conda: https://prefix.dev/conda-forge/noarch/tomlkit-0.15.1-pyhcf101f3_0.conda
   - conda: https://prefix.dev/conda-forge/noarch/trove-classifiers-2026.6.1.19-pyhcf101f3_0.conda
   - conda: https://prefix.dev/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
-- conda_source: vinca[e231a206] @ git+https://github.com/robostack/vinca#4683e080a18be89703b4088c90fca8eaa8620ebe
+- conda_source: vinca[b30e492f] @ git+https://github.com/baszalmstra/vinca?branch=experimental%2Fworkflow-batching#dd4707299fec2d3b7c51480cabd983c95ad05bd1
   version: 0.2.0
   build: pyh4616a5c_0
   subdir: noarch
@@ -4621,7 +4621,7 @@ packages:
   - conda: https://prefix.dev/conda-forge/osx-64/tk-8.6.13-ha6c374e_4.conda
   - conda: https://prefix.dev/conda-forge/osx-64/uv-0.12.9-h6c1caad_0.conda
   - conda: https://prefix.dev/conda-forge/osx-64/zstd-1.5.7-hbc1a06c_7.conda
-- conda_source: vinca[e5ba8080] @ git+https://github.com/robostack/vinca#4683e080a18be89703b4088c90fca8eaa8620ebe
+- conda_source: vinca[fc4c5d94] @ git+https://github.com/baszalmstra/vinca?branch=experimental%2Fworkflow-batching#dd4707299fec2d3b7c51480cabd983c95ad05bd1
   version: 0.2.0
   build: pyh4616a5c_0
   subdir: noarch
