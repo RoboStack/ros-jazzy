@@ -173,44 +173,6 @@ jobs:
       run: |
         # Uncomment to force-rebuild a package with a corrupted cache entry.
         # rm -rf ${{ matrix.folder_cache }}/<package>* 2>/dev/null || true
-        # roboplan_* switched from dummy run-deps-only metapackages to real
-        # source builds; evict the old dummy-package cache entries so this
-        # run actually rebuilds and tests them for real.
-        rm -rf ${{ matrix.folder_cache }}/ros2-roboplan* ${{ matrix.folder_cache }}/ros-jazzy-roboplan* 2>/dev/null || true
-        # Corrupt win-64 cache entry (likely from an earlier interrupted/cancelled
-        # run this session) -- moveit_ros_warehouse's find_package(warehouse_ros)
-        # fails against it ("Could not find a package configuration file"), same
-        # failure mode as the moveit_ros_visualization entry in ros-rolling's
-        # testpr.yml.
-        rm -rf ${{ matrix.folder_cache }}/ros2-warehouse-ros* ${{ matrix.folder_cache }}/ros-jazzy-warehouse-ros* 2>/dev/null || true
-        # Stale cache entries from before this repo's mutex bump to 0.17 --
-        # ros2-gz-gui-vendor/ros2-ros-gz still built against mutex 0.16 sit
-        # alongside the freshly-built 0.17 ones in the PR-scoped cache, and
-        # resolvo picks the wrong (orphaned-mutex) one when solving
-        # irobot_create_gz_plugins's environment. Evict the stale copies so
-        # only the current build remains.
-        rm -rf ${{ matrix.folder_cache }}/ros2-gz-gui-vendor* ${{ matrix.folder_cache }}/ros-jazzy-gz-gui-vendor* ${{ matrix.folder_cache }}/ros2-ros-gz-[0-9]* ${{ matrix.folder_cache }}/ros-jazzy-ros-gz-[0-9]* 2>/dev/null || true
-        # The above alone wasn't enough: ros2-gz-common-vendor (irobot_create_gz_plugins's
-        # actual ffmpeg pull-in point, via its own bare ffmpeg host dep) was still being
-        # skipped/reused from a build predating the libopencv 5.0.0 / libprotobuf 7.35.1 /
-        # ffmpeg 9 conda_build_config.yaml bump. A fully protobuf-7-compatible chain
-        # (libopencv 5.0.0 -> ffmpeg 9.0.x -> libopenvino 2026.3.1 -> libprotobuf 7.35.1)
-        # already exists on conda-forge; gz-common-vendor just needed to actually rebuild
-        # against it instead of reusing its stale cached/published artifact.
-        rm -rf ${{ matrix.folder_cache }}/ros2-gz-common-vendor* ${{ matrix.folder_cache }}/ros-jazzy-gz-common-vendor* 2>/dev/null || true
-        # The mutex's run_constraints gained an ffmpeg 9.* pin without a version/
-        # build-number bump (this workflow's cache is PR-scoped and never touches
-        # the real published channel, so there's no cross-run collision risk --
-        # see e6988a45 for the same technique used previously). Discard the stale
-        # cached mutex package so it rebuilds fresh with the new constraint.
-        rm -rf ${{ matrix.folder_cache }}/ros2-distro-mutex* ${{ matrix.folder_cache }}/ros-jazzy-distro-mutex* 2>/dev/null || true
-        # Corrupt win-64 cache entry, likely truncated by one of this PR's several
-        # win-64 job cancellations mid-build: ros2-nav2-util's CMake configure
-        # fails with "Could not find a package configuration file provided by
-        # nav2_msgs" even though skip-existing found a matching ros2-nav2-msgs
-        # package -- its .conda archive exists but is missing its installed
-        # CMake config files. Evict it so it rebuilds cleanly.
-        rm -rf ${{ matrix.folder_cache }}/ros2-nav2-msgs* ${{ matrix.folder_cache }}/ros-jazzy-nav2-msgs* 2>/dev/null || true
         mkdir -p ${{ matrix.folder_cache }}
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
 
