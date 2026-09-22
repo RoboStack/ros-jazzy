@@ -76,12 +76,14 @@ packages_select_by_deps:
   - ros_environment
   - ros_gz
   - ros_workspace
+  - rosidl_buffer_backend_registry  # Rolling bloom; required by Isaac ROS 5.0.
   - rviz_visual_tools
   - simulation
   - simulation_interfaces
   - slam_toolbox
   - teleop
   - teleop_tools
+  - tensor_msgs  # Rolling bloom; required by Isaac ROS 5.0.
   - topic_based_ros2_control  # Generic dependency used by Isaac ROS without Jazzy rosdistro releases.
   - turtlebot3
   - turtlebot3_simulations
@@ -100,6 +102,7 @@ packages_select_by_deps:
 
   - if: linux
     then:
+      - cuda_buffer_backend  # Rolling bloom; required by Isaac ROS 5.0.
       - turtlebot4_base
       - turtlebot4_bringup
       - turtlebot4_bringup

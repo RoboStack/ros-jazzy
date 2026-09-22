@@ -7,6 +7,19 @@ bonxai_ros:
   url: https://github.com/facontidavide/Bonxai.git
   version: 0.6.0
 
+cuda_buffer:
+  tag: release/rolling/cuda_buffer/0.1.2-1
+  url: https://github.com/ros2-gbp/rosidl_buffer_backends-release.git
+  version: 0.1.2
+cuda_buffer_backend:
+  tag: release/rolling/cuda_buffer_backend/0.1.2-1
+  url: https://github.com/ros2-gbp/rosidl_buffer_backends-release.git
+  version: 0.1.2
+cuda_buffer_backend_msgs:
+  tag: release/rolling/cuda_buffer_backend_msgs/0.1.2-1
+  url: https://github.com/ros2-gbp/rosidl_buffer_backends-release.git
+  version: 0.1.2
+
 iiwa14_moveit_config:
   url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
   rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
@@ -169,6 +182,22 @@ roboplan_toppra:
   tag: release/jazzy/roboplan_toppra/0.6.1-1
   url: https://github.com/ros2-gbp/roboplan-release.git
   version: 0.6.1
+rosidl_buffer:
+  tag: release/rolling/rosidl_buffer/5.3.1-2
+  url: https://github.com/ros2-gbp/rosidl-release.git
+  version: 5.3.1
+rosidl_buffer_backend:
+  tag: release/rolling/rosidl_buffer_backend/5.3.1-2
+  url: https://github.com/ros2-gbp/rosidl-release.git
+  version: 5.3.1
+rosidl_buffer_backend_registry:
+  tag: release/rolling/rosidl_buffer_backend_registry/5.3.1-2
+  url: https://github.com/ros2-gbp/rosidl-release.git
+  version: 5.3.1
+tensor_msgs:
+  tag: release/rolling/tensor_msgs/0.1.2-1
+  url: https://github.com/ros2-gbp/rosidl_buffer_backends-release.git
+  version: 0.1.2
 topic_based_ros2_control:
   url: https://github.com/PickNikRobotics/topic_based_ros2_control.git
   rev: 6bd8d55e1c4ad3188770fe5c8b93b942bcede4a2
