@@ -205,13 +205,16 @@ packages_select_by_deps:
   - rclpy_message_converter
   - rclpy_message_converter_msgs
   - rmw_zenoh_cpp
-  - roboplan  # RoboPlan, requested in https://github.com/RoboStack/ros-jazzy/issues/250
+  - roboplan  # Requested in https://github.com/RoboStack/ros-jazzy/issues/250
   - roboplan_cartesian_planning
+  - roboplan_common
+  - roboplan_core
   - roboplan_example_models
   - roboplan_examples
   - roboplan_oink
   - roboplan_ros_cpp
   - roboplan_ros_examples
+  - roboplan_ros_franka
   - roboplan_ros_py
   - roboplan_ros_visualization
   - roboplan_rrt
@@ -348,7 +351,6 @@ packages_select_by_deps:
       - proto2ros
       - realsense2-camera
       - realsense2-description
-      - roboplan_ros_franka  # exec_depends on mujoco_ros2_control, which is Linux-only
       - ros2_medkit_action_status_bridge
       - ros2_medkit_beacon_common
       - ros2_medkit_cmake
