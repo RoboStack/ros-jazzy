@@ -8,9 +8,6 @@ cartographer:
   # Pin lua 5.4.x: conda-forge's own cartographer package needs it, unpinned lua (from robostack.yaml) can conflict.
   add_host: ["lua 5.4.*"]
 cartographer_ros:
-  # Drop the ros2-cartographer dummy dep; vinca doesn't dedupe it against the direct conda-forge dep above.
-  remove_host: ["ros2-cartographer"]
-  remove_run: ["ros2-cartographer"]
   add_host: ["cartographer 2.*", "libboost-devel"]
 libyaml_vendor:
   add_host: ["yaml-cpp", "yaml"]
