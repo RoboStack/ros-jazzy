@@ -17,21 +17,21 @@ preview = ["pixi-build"]
 PYTHONIOENCODING = "utf-8"
 
 [dependencies]
-python = ">=3.12.0,<3.13"
-rattler-build = ">=0.57.0,<0.58"
-cmake = "<4.0"
+python = ">=3.12,<3.13"
+rattler-build = ">=0.75.0,<0.76"
+cmake = "<4"
 # Some git repos may need git-lfs, see https://github.com/RoboStack/ros-jazzy/issues/118
-git-lfs = "*"
-rattler-index = ">=0.27.16"
+git-lfs = ">=3.8.0,<4"
+rattler-index = ">=0.30.11,<0.31"
 vinca = { git = "https://github.com/RoboStack/vinca.git" }
 # For local development uncomment:
 # vinca.path = "../vinca"
 
 [target.win-64.dependencies]
 # patch is required by rattler-build
-m2-patch = "*"
+m2-patch = ">=2.7.6.3,<3"
 # git is required by rattler-build
-git = "*"
+git = ">=2.55.0,<3"
 
 
 [tasks]
