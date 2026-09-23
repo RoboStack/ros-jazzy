@@ -4,9 +4,6 @@ foxglove_bridge:
   add_host: ["ros-jazzy-ament-cmake"]
 ros_ign_interfaces:
   add_host: ["ros-jazzy-rcl-interfaces"]
-cartographer:
-  # Pin lua 5.4.x: conda-forge's own cartographer package needs it, unpinned lua (from robostack.yaml) can conflict.
-  add_host: ["lua 5.4.*"]
 cartographer_ros:
   add_host: ["cartographer 2.*", "libboost-devel"]
 libyaml_vendor:
