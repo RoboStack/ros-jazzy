@@ -1,0 +1,71 @@
+diff --git a/server/src/parameter_server.cpp b/server/src/parameter_server.cpp
+index 210a80a..14b2ccc 100644
+--- a/server/src/parameter_server.cpp
++++ b/server/src/parameter_server.cpp
+@@ -25,6 +25,12 @@
+ #include "rclcpp/parameter.hpp"
+ #include "rclcpp/parameter_map.hpp"
+ 
++#if defined(_MSC_VER)
++#define ROS2_PPS_PRETTY_FUNCTION __FUNCSIG__
++#else
++#define ROS2_PPS_PRETTY_FUNCTION __PRETTY_FUNCTION__
++#endif
++
+ #define ROS_PARAMETER_KEY     "ros__parameters"
+ #define ROS_PARAMETER_DOT_KEY "ros__parameters."
+ #define PERSISTENT_KEY        "persistent"
+@@ -65,7 +71,7 @@ ParameterServer::ParameterServer(
+   persistent_yaml_file_(persistent_yaml_file),
+   node_name_(get_name())
+ {
+-  RCLCPP_DEBUG(this->get_logger(), "%s yaml:%s", __PRETTY_FUNCTION__, persistent_yaml_file_.c_str());
++  RCLCPP_DEBUG(this->get_logger(), "%s yaml:%s", ROS2_PPS_PRETTY_FUNCTION, persistent_yaml_file_.c_str());
+ 
+   int storing_period = 0;
+   // if automatically_declare_parameters_from_overrides is false, then the parameter_overrides will not be declared.
+@@ -190,7 +196,7 @@ ParameterServer::ParameterServer(
+ 
+ ParameterServer::~ParameterServer()
+ {
+-  RCLCPP_DEBUG(this->get_logger(), "%s", __PRETTY_FUNCTION__);
++  RCLCPP_DEBUG(this->get_logger(), "%s", ROS2_PPS_PRETTY_FUNCTION);
+   this->remove_on_set_parameters_callback(callback_handler_.get());
+   StoreYamlFile();
+ }
+@@ -220,7 +226,7 @@ void ParameterServer::CheckYamlFile() {
+ }
+ 
+ void ParameterServer::CheckYamlFile(const std::string& file) {
+-  RCLCPP_DEBUG(this->get_logger(), "%s", __PRETTY_FUNCTION__);
++  RCLCPP_DEBUG(this->get_logger(), "%s", ROS2_PPS_PRETTY_FUNCTION);
+   YAML::Node parameter_config = YAML::LoadFile(file);
+   // check format "YAML must be dictionary type and level 1 can only have one key"
+   if ((parameter_config.size() == 1 && parameter_config.Type() != YAML::NodeType::Map) ||
+@@ -268,7 +274,7 @@ void ParameterServer::CheckYamlFile(const std::string& file) {
+ 
+ void ParameterServer::LoadYamlFile()
+ {
+-  RCLCPP_DEBUG(this->get_logger(), "%s", __PRETTY_FUNCTION__);
++  RCLCPP_DEBUG(this->get_logger(), "%s", ROS2_PPS_PRETTY_FUNCTION);
+   // check whether yaml file exist
+   if (!boost::filesystem::exists(persistent_yaml_file_))
+   {
+@@ -549,7 +555,7 @@ void ParameterServer::SaveNode(YAML::Emitter& out, YAML::Node node, const std::s
+ 
+ void ParameterServer::StoreYamlFile()
+ {
+-  RCLCPP_DEBUG(this->get_logger(), "%s", __PRETTY_FUNCTION__);
++  RCLCPP_DEBUG(this->get_logger(), "%s", ROS2_PPS_PRETTY_FUNCTION);
+ 
+   if (param_update_)
+   {
+@@ -757,7 +763,7 @@ void ParameterServer::StoreYamlFile()
+ 
+ bool ParameterServer::CheckPersistentParam(const std::vector<rclcpp::Parameter> & parameters)
+ {
+-  RCLCPP_DEBUG(this->get_logger(), "%s", __PRETTY_FUNCTION__);
++  RCLCPP_DEBUG(this->get_logger(), "%s", ROS2_PPS_PRETTY_FUNCTION);
+   bool flag = false;
+ 
+   for (auto& parameter : parameters) {

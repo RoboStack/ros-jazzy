@@ -1,0 +1,11 @@
+diff -ruN a/src/urg_c_wrapper.cpp b/src/urg_c_wrapper.cpp
+--- a/src/urg_c_wrapper.cpp
++++ b/src/urg_c_wrapper.cpp
+@@ -39,6 +39,7 @@
+ #include <memory>
+ #include <string>
+ #include <vector>
++#include <unistd.h>
+ 
+ #include "boost/crc.hpp"
+ 
