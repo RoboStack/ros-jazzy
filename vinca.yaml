@@ -206,6 +206,8 @@ packages_select_by_deps:
 
   - picknik_ament_copyright
 
+  - rqt_controller_manager
+  - rqt_joint_trajectory_controller
   - rqt_robot_monitor
   - rqt_runtime_monitor
 
