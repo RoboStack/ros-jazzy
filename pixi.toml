@@ -23,7 +23,7 @@ cmake = "<4.0"
 # Some git repos may need git-lfs, see https://github.com/RoboStack/ros-jazzy/issues/118
 git-lfs = "*"
 rattler-index = ">=0.27.16"
-vinca = { git = "https://github.com/RoboStack/vinca.git" }
+vinca = { git = "https://github.com/baszalmstra/vinca.git", branch = "experimental/workflow-batching" }
 # For local development uncomment:
 # vinca.path = "../vinca"
 
