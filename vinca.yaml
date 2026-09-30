@@ -68,6 +68,7 @@ packages_select_by_deps:
   - moveit-visual-tools
   - navigation2
   - negotiated  # Generic dependency used by Isaac ROS without Jazzy rosdistro releases.
+  - nonpersistent_voxel_layer
   - perception
   - robot
   - ros2_control
