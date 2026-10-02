@@ -1,12 +1,26 @@
 # This file is used to add additional recipes to the ROS 2 distribution, not contained in the
 # upstream rosdistro. Differently from rosdistro_snapshot.yaml, this file is not
 # automatically generated, but manually maintained.
+beluga:
+  url: https://github.com/Ekumen-OS/beluga.git
+  rev: 4db5294557d5a31f343c0375505b8bc278be0047
+  version: 2.1.1
+  additional_folder: beluga
+beluga_amcl:
+  url: https://github.com/Ekumen-OS/beluga.git
+  rev: 4db5294557d5a31f343c0375505b8bc278be0047
+  version: 2.1.1
+  additional_folder: beluga_amcl
+beluga_ros:
+  url: https://github.com/Ekumen-OS/beluga.git
+  rev: 4db5294557d5a31f343c0375505b8bc278be0047
+  version: 2.1.1
+  additional_folder: beluga_ros
 bonxai_ros:
   # TODO: Remove bonxai packages when they are available from ros2-gbp
   tag: v0.6.0
   url: https://github.com/facontidavide/Bonxai.git
   version: 0.6.0
-
 iiwa14_moveit_config:
   url: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
   rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
@@ -173,4 +187,3 @@ topic_based_ros2_control:
   url: https://github.com/PickNikRobotics/topic_based_ros2_control.git
   rev: 6bd8d55e1c4ad3188770fe5c8b93b942bcede4a2
   version: 0.3.0
-
