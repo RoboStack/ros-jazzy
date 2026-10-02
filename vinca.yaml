@@ -57,6 +57,7 @@ packages_select_by_deps:
   - diagnostics
   - gz_ros2_control
   - gz_ros2_control_demos
+  - imu_complementary_filter
   - joy_teleop
   - key_teleop
   - mouse_teleop
