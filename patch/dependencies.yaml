@@ -293,8 +293,6 @@ swri_console:
 warehouse_ros_sqlite:
   add_host: ["ros-jazzy-sqlite3-vendor"]
   add_run: ["ros-jazzy-sqlite3-vendor"]
-py_trees:
-  add_host: ["poetry-core"]
 py_trees_js:
   add_host: ["hatchling"]
 nav2_mppi_controller:
