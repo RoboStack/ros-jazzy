@@ -472,10 +472,10 @@ index a81e35a..b7c359d 100644
    const gz::msgs::Any & ign_msg,
    rcl_interfaces::msg::ParameterValue & ros_msg);
 diff --git a/include/ros_gz_bridge/convert/ros_gz_interfaces.hpp b/include/ros_gz_bridge/convert/ros_gz_interfaces.hpp
-index 65f58fa..654f013 100644
+index a869661..1664d53 100644
 --- a/include/ros_gz_bridge/convert/ros_gz_interfaces.hpp
 +++ b/include/ros_gz_bridge/convert/ros_gz_interfaces.hpp
-@@ -70,284 +70,284 @@ namespace ros_gz_bridge
+@@ -72,296 +72,296 @@ namespace ros_gz_bridge
  {
  
  template<>
@@ -491,6 +491,20 @@ index 65f58fa..654f013 100644
  convert_gz_to_ros(
    const gz::msgs::JointWrench & gz_msg,
    ros_gz_interfaces::msg::JointWrench & ros_msg);
+ 
+ template<>
+-void
++ROS_GZ_BRIDGE_VISIBLE void
+ convert_ros_to_gz(
+   const ros_gz_interfaces::msg::AirSpeed & ros_msg,
+   gz::msgs::AirSpeed & gz_msg);
+ 
+ template<>
+-void
++ROS_GZ_BRIDGE_VISIBLE void
+ convert_gz_to_ros(
+   const gz::msgs::AirSpeed & gz_msg,
+   ros_gz_interfaces::msg::AirSpeed & ros_msg);
  
  template<>
 -void

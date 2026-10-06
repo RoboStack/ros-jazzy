@@ -127,6 +127,8 @@ librealsense2:
   generate_dummy_package_with_run_deps:
     dep_name: librealsense
     max_pin: 'x.x'
+    # jazzy released 2.58.4, but conda-forge's librealsense is still at 2.58.3
+    override_version: '2.58.3'
 magic_enum:
   generate_dummy_package_with_run_deps:
     dep_name: magic_enum
@@ -215,6 +217,10 @@ roboplan_toppra:
     max_pin: 'x.x'
 robot_state_publisher:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+rtabmap:
+  # 0.23.13 enables tests by default, which downloads googletest during configure
+  # and installs libgtest/libgmock into the package.
+  additional_cmake_args: "-DBUILD_TESTING=OFF"
 rviz_ogre_vendor:
   additional_cmake_args: "-DRVIZ_OGRE_VENDOR_MANGLE_NAME_OF_LIBRARIES_USED_BY_RVIZ=ON"
 sdformat_vendor:

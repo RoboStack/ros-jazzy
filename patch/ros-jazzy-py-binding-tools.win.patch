@@ -1,9 +1,9 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e940609..a743203 100644
+index 4edb5ba..af2c029 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -1,6 +1,8 @@
- cmake_minimum_required(VERSION 3.5)
+ cmake_minimum_required(VERSION 3.12)
  project(py_binding_tools)
  
 +set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -11,7 +11,7 @@ index e940609..a743203 100644
  find_package(ament_cmake REQUIRED)
  find_package(ament_cmake_python REQUIRED)
  find_package(rclcpp REQUIRED)
-@@ -13,9 +15,14 @@ add_library(${PROJECT_NAME} SHARED
+@@ -11,9 +13,14 @@ add_library(${PROJECT_NAME} SHARED
    src/ros_msg_typecasters.cpp
    src/initializer.cpp
  )
@@ -24,9 +24,9 @@ index e940609..a743203 100644
      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 +    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
      $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
- ament_target_dependencies(${PROJECT_NAME} rclcpp geometry_msgs pybind11)
+ target_link_libraries(${PROJECT_NAME} PUBLIC rclcpp::rclcpp ${geometry_msgs_TARGETS} pybind11::module)
  
-@@ -34,6 +41,8 @@ install(
+@@ -32,6 +39,8 @@ install(
    DESTINATION include/${PROJECT_NAME}
  )
  

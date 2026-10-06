@@ -275,6 +275,10 @@ spatio_temporal_voxel_layer:
   add_host: [libgl-devel, libopengl-devel, openvdb]
 mujoco_vendor:
   add_host: ["libmujoco"]
+mujoco_ros2_control_plugins:
+  add_host:
+    - if: linux
+      then: ["libegl-devel"]
 lbr_ros2_control:
   add_host: ["ros-jazzy-kinematics-interface"]
   add_run: ["ros-jazzy-kinematics-interface"]
@@ -292,7 +296,7 @@ warehouse_ros_sqlite:
 py_trees:
   add_host: ["poetry-core"]
 py_trees_js:
-  add_host: ["poetry-core"]
+  add_host: ["hatchling"]
 nav2_mppi_controller:
   add_run: ["xtensor==0.25.0"]
 roboplan_example_models:
