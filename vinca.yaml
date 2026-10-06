@@ -139,6 +139,7 @@ packages_select_by_deps:
   - gz_ros2_control
   - gz_ros2_control_demos
   - imu_calib
+  - imu_complementary_filter
   - imu_tools
   - imu_transformer
   - irobot_create_common_bringup
@@ -176,6 +177,7 @@ packages_select_by_deps:
   - navigation2
   - negotiated  # Generic dependency used by Isaac ROS without Jazzy rosdistro releases.
   - nmea-navsat-driver
+  - nonpersistent_voxel_layer
   - ntrip_client
   - open3d_conversions
   - ouster_ros
@@ -235,6 +237,7 @@ packages_select_by_deps:
   - rosidl_generator_dds_idl
   - rqt
   - rqt_controller_manager
+  - rqt_joint_trajectory_controller
   - rqt_moveit
   - rqt_robot_dashboard
   - rqt_robot_monitor
