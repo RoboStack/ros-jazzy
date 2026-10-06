@@ -30,7 +30,7 @@ jsoncpp:
 libopencv:
   - 4.13.0
 libmujoco:
-  - 3.10.0
+  - 3.12.0
 # Mitigation for
 # https://github.com/RoboStack/ros-jazzy/pull/126#issuecomment-3515455380
 libcap:
