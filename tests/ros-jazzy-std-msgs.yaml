@@ -6,16 +6,17 @@ tests:
   # found in flat namespace '_PyExc_RuntimeError'") and fails to link or load
   # on Linux when it links Python3::Module
   # (https://github.com/RoboStack/ros-kilted/issues/76).
-  # LDFLAGS is cleared so -Wl,--as-needed / -Wl,-dead_strip_dylibs can't hide it.
+  # cxx-compiler (unlike compiler('cxx')) sets no LDFLAGS, like a user's
+  # environment, so -Wl,--as-needed / -Wl,-dead_strip_dylibs can't hide it.
   - if: unix
     then:
       script:
-        - env -u LDFLAGS cmake -S cpp_consumer -B build -G Ninja -DCMAKE_PREFIX_PATH="$PREFIX"
+        - cmake -S cpp_consumer -B build -G Ninja -DCMAKE_PREFIX_PATH="$PREFIX"
         - cmake --build build
         - ./build/std_msgs_cpp_consumer
       requirements:
         build:
-          - ${{ compiler('cxx') }}
+          - cxx-compiler
           - cmake
           - ninja
       files:
@@ -26,4 +27,4 @@ tests:
       - python -c "from rclpy.serialization import deserialize_message, serialize_message; from std_msgs.msg import Header; m = deserialize_message(serialize_message(Header(frame_id='map')), Header); assert m.frame_id == 'map'"
     requirements:
       run:
-        - ros-jazzy-rclpy
+        - ros2-rclpy
