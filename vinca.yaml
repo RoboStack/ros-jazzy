@@ -351,6 +351,7 @@ packages_select_by_deps:
       - openvdb_vendor
       - orbbec_camera
       - proto2ros
+      - ros2_easy_test
       - serial_driver      # Serial communication only implemented for linux
       - smacc2
       - spatio_temporal_voxel_layer      # Uses linux-specific flags in  https://github.com/SteveMacenski/spatio_temporal_voxel_layer/blob/e23d730d35407bd8e2bf9c33d10388a6a07c735d/spatio_temporal_voxel_layer/CMakeLists.txt#L124,
