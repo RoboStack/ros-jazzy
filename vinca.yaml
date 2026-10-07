@@ -354,6 +354,7 @@ packages_select_by_deps:
       - proto2ros
       - realsense2-camera
       - realsense2-description
+      - ros2_easy_test
       - ros2_medkit_action_status_bridge
       - ros2_medkit_beacon_common
       - ros2_medkit_cmake

@@ -115,6 +115,11 @@ negotiated_interfaces:
   version: 0.1.0
   additional_folder: negotiated_interfaces
 
+ros2_easy_test:  # Until: https://github.com/felixdivo/ros2-easy-test/issues/53
+  rev: 59ce58ef05f39826eaaa50c986eb039729a8c61e
+  url: https://github.com/felixdivo/ros2-easy-test.git
+  version: 0.3.0
+  additional_folder: ros2_easy_test
 topic_based_ros2_control:
   url: https://github.com/PickNikRobotics/topic_based_ros2_control.git
   rev: 6bd8d55e1c4ad3188770fe5c8b93b942bcede4a2
