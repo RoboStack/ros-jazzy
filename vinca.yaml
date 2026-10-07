@@ -410,6 +410,7 @@ packages_select_by_deps:
       - rosgraph_monitor_msgs
       - rplidar_ros
       - rqt_tf_tree
+      - rslidar_sdk
       - rviz_2d_overlay_plugins
       - rviz_satellite
       - spacenav
