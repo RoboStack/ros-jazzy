@@ -161,8 +161,6 @@ jobs:
       run: |
         # Uncomment to force-rebuild a package with a corrupted cache entry.
         # rm -rf ${{ matrix.folder_cache }}/ros2-<package>* ${{ matrix.folder_cache }}/ros-jazzy-<package>* 2>/dev/null || true
-        # python_qt_binding's run dependency changed to pyqt-builder <1.20 without a version/build-string change.
-        rm -rf ${{ matrix.folder_cache }}/ros-jazzy-python-qt-binding* ${{ matrix.folder_cache }}/ros2-python-qt-binding* 2>/dev/null || true
         mkdir -p ${{ matrix.folder_cache }}
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
 
