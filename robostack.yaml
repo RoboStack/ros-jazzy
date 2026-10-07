@@ -1100,8 +1100,6 @@ socat:
     linux: [socat]
     osx: [socat]
     win64: []
-sophus:
-  robostack: [sophus]
 spacenavd:
   robostack: [libspnav]
 spdlog:
