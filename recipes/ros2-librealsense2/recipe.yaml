@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-librealsense2
+  version: 2.58.3
+
+build:
+  number: 25
+  script: ''
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://github.com/realsenseai/librealsense/
+  repository: https://github.com/IntelRealSense/librealsense
+  license: Apache-2.0
+  summary: Library for controlling and capturing data from the RealSense depth streaming devices.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - if: build_platform != target_platform
+      then:
+        - git
+  host:
+    - glfw 3.*
+    - libgl-devel
+    - libopengl-devel
+    - libudev
+    - libusb
+    - openssl
+    - pkg-config
+    - python
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-environment
+    - ros2-ros-workspace
+    - xorg-libx11
+    - xorg-xorgproto
+    - if: build_platform == target_platform
+      then:
+        - git
+  run:
+    - glfw
+    - libgl-devel
+    - libopengl-devel
+    - librealsense >=2.58.3, <2.59.0a0
+    - python
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-workspace
+    - xorg-libx11
+    - xorg-xorgproto

@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1234567..abcdefg 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -32,7 +32,7 @@ find_package(pybind11 REQUIRED)
+
+ if(WIN32 OR APPLE OR ANDROID)
+   set(DISABLED_DEFAULT ON)
+ else()
+-  set(DISABLED_DEFAULT OFF)
++  set(DISABLED_DEFAULT ON)
+ endif()
+

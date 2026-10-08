@@ -1,0 +1,22 @@
+diff --git a/launch/sim.launch.py b/launch/sim.launch.py
+index 6132427..2c34b09 100644
+--- a/launch/sim.launch.py
++++ b/launch/sim.launch.py
+@@ -61,7 +61,7 @@ def generate_launch_description():
+     # Set Gazebo resource path
+     gz_resource_path = SetEnvironmentVariable(
+         name='GZ_SIM_RESOURCE_PATH',
+-        value=':'.join([
++        value=os.pathsep.join([
+             os.path.join(pkg_turtlebot4_gz_bringup, 'worlds'),
+             os.path.join(pkg_irobot_create_gz_bringup, 'worlds'),
+             str(Path(pkg_turtlebot4_description).parent.resolve()),
+@@ -71,7 +71,7 @@ def generate_launch_description():
+ 
+     gz_gui_plugin_path = SetEnvironmentVariable(
+         name='GZ_GUI_PLUGIN_PATH',
+-        value=':'.join([
++        value=os.pathsep.join([
+             os.path.join(pkg_turtlebot4_gz_gui_plugins, 'lib'),
+             os.path.join(pkg_irobot_create_gz_plugins, 'lib')
+         ])

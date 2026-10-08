@@ -1,0 +1,56 @@
+diff --git a/rosidl_generator_py/cmake/rosidl_generator_py_generate_interfaces.cmake b/rosidl_generator_py/cmake/rosidl_generator_py_generate_interfaces.cmake
+index cfc424a..1808ad5 100644
+--- a/rosidl_generator_py/cmake/rosidl_generator_py_generate_interfaces.cmake
++++ b/rosidl_generator_py/cmake/rosidl_generator_py_generate_interfaces.cmake
+@@ -21,6 +21,11 @@ find_package(rosidl_typesupport_interface REQUIRED)
+ 
+ find_package(Python3 REQUIRED COMPONENTS Interpreter Development NumPy)
+ 
++# The Python C bindings library of an interface package is exported in
++# <pkg>_TARGETS__rosidl_generator_py instead of <pkg>_TARGETS, so that C/C++
++# consumers of the interface package don't link it.
++set(rosidl_generator_py_suffix "__rosidl_generator_py")
++
+ # Get a list of typesupport implementations from valid rmw implementations.
+ rosidl_generator_py_get_typesupports(_typesupport_impls)
+ 
+@@ -146,10 +151,13 @@ add_dependencies(
+   ${rosidl_generate_interfaces_TARGET}__rosidl_typesupport_c
+ )
+ 
++# This library is only linked by Python extension modules, which get the
++# CPython symbols from the interpreter that loads them, so it links
++# Python3::Module rather than libpython (Python3::Python).
+ target_link_libraries(
+   ${_target_name_lib} PRIVATE
+   Python3::NumPy
+-  Python3::Python
++  Python3::Module
+ )
+ target_include_directories(${_target_name_lib}
+   PRIVATE
+@@ -243,9 +251,22 @@ if(NOT rosidl_generate_interfaces_SKIP_INSTALL)
+     LIBRARY DESTINATION lib
+     RUNTIME DESTINATION bin)
+ 
+-  # Export this target so downstream interface packages can depend on it
++  # Export this target so downstream interface packages can depend on it, in
++  # <pkg>_TARGETS__rosidl_generator_py. Not with ament_export_targets(), which
++  # would also add it to <pkg>_TARGETS: install the export set and include it
++  # from a config extras file instead, which creates the imported target that
++  # rosidl_export_typesupport_targets() adds to the suffixed list.
++  install(
++    EXPORT export_${_target_name_lib}
++    DESTINATION share/${PROJECT_NAME}/cmake
++    NAMESPACE "${PROJECT_NAME}::"
++    FILE "export_${_target_name_lib}Export.cmake")
++  set(_py_extras_file
++    "${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_py/${_target_name_lib}-extras.cmake")
++  file(WRITE "${_py_extras_file}"
++    "include(\"\${${PROJECT_NAME}_DIR}/export_${_target_name_lib}Export.cmake\")\n")
++  list(APPEND ${PROJECT_NAME}_CONFIG_EXTRAS "${_py_extras_file}")
+   rosidl_export_typesupport_targets("${rosidl_generator_py_suffix}" "${_target_name_lib}")
+-  ament_export_targets(export_${_target_name_lib})
+ endif()
+ 
+ if(BUILD_TESTING AND rosidl_generate_interfaces_ADD_LINTER_TESTS)

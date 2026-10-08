@@ -1,0 +1,12 @@
+diff --git a/src/aabb.cpp b/src/aabb.cpp
+index 8443335..a870f61 100644
+--- a/src/aabb.cpp
++++ b/src/aabb.cpp
+@@ -29,6 +29,7 @@
+ /* Author: Martin Pecka */
+ 
+ #include <geometric_shapes/aabb.h>
++#include <cassert>
+ 
+ #include <fcl/geometry/shape/utility.h>
+ 

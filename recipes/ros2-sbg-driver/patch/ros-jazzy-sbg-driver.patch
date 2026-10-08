@@ -1,0 +1,12 @@
+diff --git a/include/sbg_driver/sbg_vector3.h b/include/sbg_driver/sbg_vector3.h
+index 0bc5b80..0b1b02c 100644
+--- a/include/sbg_driver/sbg_vector3.h
++++ b/include/sbg_driver/sbg_vector3.h
+@@ -115,7 +115,7 @@ public:
+    * \param[in] p_raw_data                  Pointer to data array.
+    * \param[in] array_size                  Array size (Should be defined as 3).
+    */
+-  SbgVector3(const T* p_raw_data, size_t array_size)
++  SbgVector3(const T* p_raw_data, [[maybe_unused]] size_t array_size)
+   {
+     assert(array_size == 3);
