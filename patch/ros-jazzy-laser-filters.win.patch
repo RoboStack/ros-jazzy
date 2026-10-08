@@ -1,11 +1,29 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 3bb5bfd..b9f334b 100644
+index 18972ea..ae1c0df 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -23,1 +23,6 @@ ament_auto_add_library(laser_scan_filters SHARED src/laser_scan_filters.cpp)
+@@ -20,6 +20,11 @@ ament_auto_add_library(laser_scan_filters SHARED src/laser_scan_filters.cpp)
+ ament_auto_add_library(laser_filter_chains SHARED
+                          src/scan_to_cloud_filter_chain.cpp
+                          src/scan_to_scan_filter_chain.cpp)
 +find_package(Boost REQUIRED COMPONENTS thread)
 +target_link_libraries(laser_scan_filters Boost::thread)
 +set_target_properties(laser_scan_filters PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 +set_target_properties(laser_filter_chains PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 +set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
-
+ 
+ # The rclcpp_components_register_node macro registers an rclcpp component for the node with
+ # the ament resource index AND creates a templated executable that spins the given node.
+diff --git a/include/laser_filters/binning_filter.h b/include/laser_filters/binning_filter.h
+index d28a32b..b153119 100644
+--- a/include/laser_filters/binning_filter.h
++++ b/include/laser_filters/binning_filter.h
+@@ -51,7 +51,7 @@ class LaserScanBinningFilter : public filters::FilterBase<sensor_msgs::msg::Lase
+ {
+ public:
+ 
+-  uint num_bins_;
++  unsigned int num_bins_;
+ 
+   bool configure()
+   {
