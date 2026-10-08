@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-distro-mutex
+  version: 0.19.0
+
+build:
+  number: 25
+  string: jazzy_25
+  script: ''
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://github.com/robostack/ros-jazzy
+  license: BSD-3-Clause
+  summary: "The ROS2 distro mutex. To switch between ROS2 versions, you need to change the mutex.\nE.g. mamba install ros2-distro-mutex=*=jazzy to switch to jazzy."
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  run_constraints:
+    - libboost 1.90.*
+    - libboost-devel 1.90.*
+    - pcl 1.15.1.*
+    - gazebo 11.*
+    - libprotobuf 7.35.*
+    - libopenvino-tensorflow-frontend >=2026.3.0
+    - libopencv >=5.0.0
+    - py-opencv >=5.0.0
+    - vtk 9.7.0.*
+    - ffmpeg 9.*
+    - libopenvino-tensorflow-lite-frontend >=2026.3.0,<2026.3.1.0a0
+  run_exports:
+    weak:
+      - ${{ pin_subpackage('ros2-distro-mutex', upper_bound='x.x') }}

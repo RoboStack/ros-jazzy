@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e6e8de26..8e9ea2d3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -10,6 +10,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+   add_compile_options(-Wall -Wextra)
+ endif()
+ 
++find_package(gz-cmake3 REQUIRED 3.5.2)
++gz_find_package(TINYXML2 REQUIRED PRIVATE PRETTY tinyxml2)
++
+ find_package(ament_cmake REQUIRED)
+ find_package(image_transport REQUIRED)
+ find_package(ros_gz_bridge REQUIRED)

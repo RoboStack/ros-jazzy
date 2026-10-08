@@ -1,0 +1,109 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-easynav-simple-maps-manager
+  version: 0.4.0
+source:
+  git: https://github.com/EasyNavigation/easynav_plugins-release.git
+  tag: release/jazzy/easynav_simple_maps_manager/0.4.0-1
+  target_directory: ros2-easynav-simple-maps-manager/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 25
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  repository: https://github.com/EasyNavigation/easynav_plugins
+  license: Apache-2.0
+  summary: 'Easy Navigation: Simple MapsManager package.'
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - if: osx
+      then:
+        - clang-tools ${{ (cxx_compiler_version ~ '.*') if cxx_compiler_version is defined else '*' }}
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros2-ament-cmake
+    - ros2-ament-cmake-gtest
+    - ros2-ament-index-cpp
+    - ros2-ament-lint-auto
+    - ros2-ament-lint-common
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-easynav-common
+    - ros2-easynav-core
+    - ros2-easynav-sensors
+    - ros2-easynav-simple-common
+    - ros2-nav-msgs
+    - ros2-pluginlib
+    - ros2-rclcpp
+    - ros2-rclcpp-lifecycle
+    - ros2-ros-environment
+    - ros2-ros-workspace
+    - ros2-std-srvs
+    - ros2-tf2-ros
+    - ros2-yaets
+  run:
+    - python
+    - ros2-ament-index-cpp
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-easynav-common
+    - ros2-easynav-core
+    - ros2-easynav-simple-common
+    - ros2-nav-msgs
+    - ros2-pluginlib
+    - ros2-ros-workspace
+    - ros2-std-srvs
+    - ros2-tf2-ros
+    - ros2-yaets

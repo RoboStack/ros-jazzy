@@ -1,0 +1,61 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-libcamera
+  version: 0.5.0
+
+build:
+  number: 25
+  script: ''
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://libcamera.org
+  repository: https://git.libcamera.org/libcamera/libcamera
+  license: Apache-2.0 OR BSD-2-Clause OR BSD-3-Clause OR GPL-2.0-or-later OR LGPL-2.1-or-later
+  summary: An open source camera stack and framework for Linux, Android, and ChromeOS
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - git
+    - if: build_platform != target_platform
+      then:
+        - pybind11
+  host:
+    - jinja2
+    - libudev
+    - libusb
+    - openssl
+    - pkg-config
+    - pybind11
+    - python
+    - pyyaml
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-environment
+    - ros2-ros-workspace
+    - yaml
+    - yaml-cpp
+  run:
+    - libcamera >=0.5.0, <0.6.0a0
+    - libudev
+    - libusb
+    - openssl
+    - python
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-workspace
+    - yaml
+    - yaml-cpp

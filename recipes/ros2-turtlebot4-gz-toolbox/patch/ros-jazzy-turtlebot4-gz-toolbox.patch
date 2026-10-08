@@ -1,0 +1,38 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5d03643..ca3c839 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,11 @@
+ cmake_minimum_required(VERSION 3.8)
+ project(turtlebot4_gz_toolbox)
+ 
++if(MSVC)
++  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
++  add_compile_definitions(_USE_MATH_DEFINES NOMINMAX)
++endif()
++
+ # Default to C99
+ if(NOT CMAKE_C_STANDARD)
+   set(CMAKE_C_STANDARD 99)
+@@ -30,7 +35,7 @@ include_directories(
+   include
+ )
+ 
+-add_library(${PROJECT_NAME}_lib
++add_library(${PROJECT_NAME}_lib SHARED
+   "src/hmi_main.cpp"
+   "src/hmi_node.cpp"
+ )
+@@ -54,6 +59,12 @@ add_executable(${EXECUTABLE_NAME} src/hmi_main.cpp)
+ target_link_libraries(${EXECUTABLE_NAME} ${PROJECT_NAME}_lib)
+ ament_target_dependencies(${EXECUTABLE_NAME} ${DEPENDENCIES})
+ 
++install(TARGETS ${PROJECT_NAME}_lib
++  ARCHIVE DESTINATION lib
++  LIBRARY DESTINATION lib
++  RUNTIME DESTINATION lib/${PROJECT_NAME}
++)
++
+ install(TARGETS ${EXECUTABLE_NAME}
+   DESTINATION lib/${PROJECT_NAME}
+ )

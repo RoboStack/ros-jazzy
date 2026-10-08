@@ -1,0 +1,99 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-joy-teleop
+  version: 2.0.0
+source:
+  git: https://github.com/ros2-gbp/teleop_tools-release.git
+  tag: release/jazzy/joy_teleop/2.0.0-1
+  target_directory: ros2-joy-teleop/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_python.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_python.bat' }}
+  number: 25
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  repository: https://github.com/ros-teleop/teleop_tools
+  license: BSD-3-Clause
+  summary: A (to be) generic joystick interface to control a robot
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros2-ament-copyright
+    - ros2-ament-flake8
+    - ros2-ament-pep257
+    - ros2-ament-xmllint
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-example-interfaces
+    - ros2-geometry-msgs
+    - ros2-launch-ros
+    - ros2-launch-testing
+    - ros2-ros-environment
+    - ros2-ros-workspace
+    - ros2-std-msgs
+    - ros2-std-srvs
+    - ros2-test-msgs
+    - setuptools
+  run:
+    - python
+    - ros2-control-msgs
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-rclpy
+    - ros2-ros-workspace
+    - ros2-rosidl-runtime-py
+    - ros2-sensor-msgs
+    - ros2-teleop-tools-msgs
+    - ros2-trajectory-msgs

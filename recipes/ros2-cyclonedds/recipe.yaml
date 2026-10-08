@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-cyclonedds
+  version: 0.10.5
+
+build:
+  number: 25
+  script: ''
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://projects.eclipse.org/projects/iot.cyclonedds
+  repository: https://github.com/eclipse-cyclonedds/cyclonedds
+  license: EPL-2.0 OR BSD-3-Clause
+  summary: Eclipse Cyclone DDS is a very performant and robust open-source DDS implementation. Cyclone DDS is developed completely in the open as an Eclipse IoT project.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - if: build_platform != target_platform
+      then:
+        - ros2-cyclonedds
+  host:
+    - openssl
+    - python
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-iceoryx-binding-c
+    - ros2-iceoryx-hoofs
+    - ros2-iceoryx-posh
+    - ros2-ros-environment
+    - ros2-ros-workspace
+  run:
+    - cyclonedds >=0.10.5, <0.11.0a0
+    - openssl
+    - python
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-iceoryx-binding-c
+    - ros2-iceoryx-hoofs
+    - ros2-iceoryx-posh
+    - ros2-ros-workspace

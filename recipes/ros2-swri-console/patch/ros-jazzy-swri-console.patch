@@ -1,0 +1,22 @@
+diff --git a/src/unix_signal_handler.cpp b/src/unix_signal_handler.cpp
+index a211bc1..26b2a72 100644
+--- a/src/unix_signal_handler.cpp
++++ b/src/unix_signal_handler.cpp
+@@ -67,7 +67,7 @@ UnixSignalHandler::UnixSignalHandler()
+ 
+   struct sigaction int_action;
+   int_action.sa_handler = UnixSignalHandler::intSignalHandler;
+-  ::sigemptyset(&int_action.sa_mask);
++  sigemptyset(&int_action.sa_mask);
+   int_action.sa_flags = SA_RESTART;
+   if (::sigaction(SIGINT, &int_action, nullptr)) {
+     qFatal("UnixSignalHandler: couldn't install SIGINT handler");
+@@ -75,7 +75,7 @@ UnixSignalHandler::UnixSignalHandler()
+ 
+   struct sigaction term_action;
+   term_action.sa_handler = UnixSignalHandler::termSignalHandler;
+-  ::sigemptyset(&term_action.sa_mask);
++  sigemptyset(&term_action.sa_mask);
+   term_action.sa_flags = SA_RESTART;
+   if (::sigaction(SIGTERM, &term_action, nullptr)) {
+     qFatal("UnixSignalHandler: couldn't install SIGTERM handler");

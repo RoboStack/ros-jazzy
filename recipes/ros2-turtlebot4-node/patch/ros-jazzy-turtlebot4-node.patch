@@ -1,0 +1,73 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ec7088e..5e4b624 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,11 @@
+ cmake_minimum_required(VERSION 3.5)
+ project(turtlebot4_node)
+ 
++if(MSVC)
++  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
++  add_compile_definitions(_USE_MATH_DEFINES NOMINMAX)
++endif()
++
+ # Default to C99
+ if(NOT CMAKE_C_STANDARD)
+   set(CMAKE_C_STANDARD 99)
+@@ -32,7 +37,7 @@ include_directories(
+   include
+ )
+ 
+-add_library(${PROJECT_NAME}_lib
++add_library(${PROJECT_NAME}_lib SHARED
+   "src/main.cpp"
+   "src/turtlebot4.cpp"
+   "src/display.cpp"
+@@ -54,6 +59,12 @@ add_executable(${EXECUTABLE_NAME} src/main.cpp)
+ target_link_libraries(${EXECUTABLE_NAME} ${PROJECT_NAME}_lib)
+ ament_target_dependencies(${EXECUTABLE_NAME} ${DEPENDENCIES})
+ 
++install(TARGETS ${PROJECT_NAME}_lib
++  ARCHIVE DESTINATION lib
++  LIBRARY DESTINATION lib
++  RUNTIME DESTINATION lib/${PROJECT_NAME}
++)
++
+ install(TARGETS ${EXECUTABLE_NAME}
+   DESTINATION lib/${PROJECT_NAME}
+ )
+diff --git a/src/turtlebot4.cpp b/src/turtlebot4.cpp
+index 566d903..f0482e5 100644
+--- a/src/turtlebot4.cpp
++++ b/src/turtlebot4.cpp
+@@ -19,11 +19,13 @@
+ #include "turtlebot4_node/turtlebot4.hpp"
+ 
+ #include <stdio.h>
++#include <string.h>
++#ifndef _WIN32
+ #include <sys/types.h>
+ #include <ifaddrs.h>
+ #include <netinet/in.h>
+-#include <string.h>
+ #include <arpa/inet.h>
++#endif
+ 
+ #include <chrono>
+ #include <memory>
+@@ -715,6 +717,9 @@ void Turtlebot4::add_menu_function_callbacks()
+  */
+ std::string Turtlebot4::get_ip()
+ {
++#ifdef _WIN32
++  return std::string(UNKNOWN_IP);
++#else
+   struct ifaddrs * ifAddrStruct = NULL;
+   struct ifaddrs * ifa = NULL;
+   void * tmpAddrPtr = NULL;
+@@ -744,4 +749,5 @@ std::string Turtlebot4::get_ip()
+     freeifaddrs(ifAddrStruct);
+   }
+   return std::string(UNKNOWN_IP);
++#endif
+ }

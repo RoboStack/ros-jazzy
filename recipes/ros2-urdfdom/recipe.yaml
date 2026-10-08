@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-urdfdom
+  version: '6.0'
+
+build:
+  number: 25
+  script: ''
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  repository: https://github.com/ros/urdfdom
+  license: BSD-3-Clause
+  summary: A library to access URDFs using the DOM model.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build: []
+  host:
+    - console_bridge
+    - python
+    - ros2-console-bridge-vendor
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-environment
+    - ros2-ros-workspace
+    - ros2-tinyxml2-vendor
+    - ros2-urdfdom-headers
+    - tinyxml2
+  run:
+    - console_bridge
+    - python
+    - ros2-console-bridge-vendor
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-workspace
+    - ros2-tinyxml2-vendor
+    - ros2-urdfdom-headers
+    - tinyxml2
+    - urdfdom >=6.0, <6.1a0
