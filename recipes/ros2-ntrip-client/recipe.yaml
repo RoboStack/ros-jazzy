@@ -1,0 +1,95 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-ntrip-client
+  version: 1.4.1
+source:
+  git: https://github.com/ros2-gbp/ntrip_client-release.git
+  tag: release/jazzy/ntrip_client/1.4.1-1
+  target_directory: ros2-ntrip-client/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_python.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_python.bat' }}
+  number: 25
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://github.com/LORD-MicroStrain/ntrip_client
+  repository: https://github.com/LORD-MicroStrain/ntrip_client
+  license: MIT
+  summary: NTRIP client that will publish RTCM corrections to a ROS topic, and optionally subscribe to NMEA messages to send to an NTRIP server
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - pyserial
+    - python
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-nmea-msgs
+    - ros2-rclpy
+    - ros2-ros-environment
+    - ros2-ros-workspace
+    - ros2-rtcm-msgs
+    - ros2-sensor-msgs
+    - ros2-std-msgs
+    - setuptools
+  run:
+    - pyserial
+    - python
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-nmea-msgs
+    - ros2-rclpy
+    - ros2-ros-workspace
+    - ros2-rtcm-msgs
+    - ros2-sensor-msgs
+    - ros2-std-msgs

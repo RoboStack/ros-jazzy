@@ -1,0 +1,117 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-navigation2
+  version: 1.3.13
+source:
+  git: https://github.com/SteveMacenski/navigation2-release.git
+  tag: release/jazzy/navigation2/1.3.13-1
+  target_directory: ros2-navigation2/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 25
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  repository: https://github.com/ros-planning/navigation2
+  license: Apache-2.0
+  summary: ROS2 Navigation Stack
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - if: osx
+      then:
+        - clang-tools ${{ (cxx_compiler_version ~ '.*') if cxx_compiler_version is defined else '*' }}
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros2-ament-cmake
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-environment
+    - ros2-ros-workspace
+  run:
+    - python
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-nav2-amcl
+    - ros2-nav2-behavior-tree
+    - ros2-nav2-behaviors
+    - ros2-nav2-bt-navigator
+    - ros2-nav2-collision-monitor
+    - ros2-nav2-constrained-smoother
+    - ros2-nav2-controller
+    - ros2-nav2-core
+    - ros2-nav2-costmap-2d
+    - ros2-nav2-dwb-controller
+    - ros2-nav2-graceful-controller
+    - ros2-nav2-lifecycle-manager
+    - ros2-nav2-map-server
+    - ros2-nav2-mppi-controller
+    - ros2-nav2-msgs
+    - ros2-nav2-navfn-planner
+    - ros2-nav2-planner
+    - ros2-nav2-regulated-pure-pursuit-controller
+    - ros2-nav2-rotation-shim-controller
+    - ros2-nav2-route
+    - ros2-nav2-rviz-plugins
+    - ros2-nav2-simple-commander
+    - ros2-nav2-smac-planner
+    - ros2-nav2-smoother
+    - ros2-nav2-theta-star-planner
+    - ros2-nav2-util
+    - ros2-nav2-velocity-smoother
+    - ros2-nav2-voxel-grid
+    - ros2-nav2-waypoint-follower
+    - ros2-opennav-docking
+    - ros2-opennav-docking-bt
+    - ros2-opennav-docking-core
+    - ros2-ros-workspace

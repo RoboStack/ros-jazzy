@@ -1,0 +1,13 @@
+diff --git a/include/realtime_tools/realtime_thread_safe_box.hpp b/include/realtime_tools/realtime_thread_safe_box.hpp
+index a1eb9c9..1ec73e9 100644
+--- a/include/realtime_tools/realtime_thread_safe_box.hpp
++++ b/include/realtime_tools/realtime_thread_safe_box.hpp
+@@ -40,7 +40,7 @@
+ #include <utility>
+ 
+ #include <rcpputils/pointer_traits.hpp>
+-#ifndef _WIN32
++#if !defined(_WIN32) && !defined(__APPLE__)
+ #include "realtime_tools/mutex.hpp"
+ #define DEFAULT_MUTEX realtime_tools::prio_inherit_mutex
+ #define RECURSIVE_MUTEX realtime_tools::prio_inherit_recursive_mutex

@@ -1,0 +1,30 @@
+diff --git a/include/mavconn/io_context_runner.hpp b/include/mavconn/io_context_runner.hpp
+index 076c005..37aa16e 100644
+--- a/include/mavconn/io_context_runner.hpp
++++ b/include/mavconn/io_context_runner.hpp
+@@ -64,7 +64,7 @@ public:
+     // flag outlive the connection when shutdown is initiated from this thread
+     // (self-close) and join_owned() has to detach.
+     auto state = state_;
+-    io_thread_ = std::jthread(
++    io_thread_ = std::thread(
+       [state, f = std::forward<Fn>(fn)]() mutable {
+         state->is_running = true;
+         f();
+@@ -83,7 +83,6 @@ public:
+       return;
+     }
+ 
+-    io_thread_.request_stop();
+     state_->release_work_guard();
+     state_->stop();
+   }
+@@ -158,7 +157,7 @@ public:
+ 
+   bool owns_thread_;
+   std::shared_ptr<State> state_;
+-  std::jthread io_thread_;
++  std::thread io_thread_;
+ };
+ 
+ }  // namespace mavconn

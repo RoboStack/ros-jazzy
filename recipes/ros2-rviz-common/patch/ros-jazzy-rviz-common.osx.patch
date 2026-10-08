@@ -1,0 +1,278 @@
+diff --git a/src/rviz_common/visualization_frame.cpp b/src/rviz_common/visualization_frame.cpp
+index b53f21c4..1be2071e 100644
+--- a/src/rviz_common/visualization_frame.cpp
++++ b/src/rviz_common/visualization_frame.cpp
+@@ -201,6 +201,9 @@ void VisualizationFrame::updateFps()
+ void VisualizationFrame::closeEvent(QCloseEvent * event)
+ {
+   if (prepareToExit()) {
++    if (manager_) {
++      manager_->stopUpdate();
++    }
+     event->accept();
+   } else {
+     event->ignore();
+diff --git a/src/rviz_common/visualization_manager.cpp b/src/rviz_common/visualization_manager.cpp
+index d4ef45ae..dc2aa79a 100644
+--- a/src/rviz_common/visualization_manager.cpp
++++ b/src/rviz_common/visualization_manager.cpp
+@@ -236,9 +236,9 @@ VisualizationManager::VisualizationManager(
+ 
+ VisualizationManager::~VisualizationManager()
+ {
+-  delete update_timer_;
+-
+   shutting_down_ = true;
++  stopUpdate();
++  delete update_timer_;
+ 
+   delete display_property_tree_model_;
+   delete tool_manager_;
+@@ -335,6 +335,10 @@ BitAllocator * VisualizationManager::visibilityBits()
+ 
+ void VisualizationManager::onUpdate()
+ {
++  if (shutting_down_ || render_panel_ == nullptr || ogre_root_ == nullptr) {
++    return;
++  }
++
+   const auto wall_now = std::chrono::system_clock::now();
+   const auto wall_diff = wall_now - last_update_wall_time_;
+   const uint64_t wall_dt = std::chrono::duration_cast<std::chrono::nanoseconds>(wall_diff).count();
+diff --git a/include/rviz_common/render_panel.hpp b/include/rviz_common/render_panel.hpp
+index a55092ea..31217440 100644
+--- a/include/rviz_common/render_panel.hpp
++++ b/include/rviz_common/render_panel.hpp
+@@ -90,6 +90,9 @@ public:
+   /// Get the RenderWindow.
+   rviz_rendering::RenderWindow * getRenderWindow();
+ 
++  /// Disconnect this panel from its display context before shutdown.
++  void clearDisplayContext();
++
+   /// Overrides the default implementation.
+   /**
+    * This override is here for convenience. Returns a symbolic 320x240px size.
+diff --git a/src/rviz_common/render_panel.cpp b/src/rviz_common/render_panel.cpp
+index f8ca4fd6..32d656ee 100644
+--- a/src/rviz_common/render_panel.cpp
++++ b/src/rviz_common/render_panel.cpp
+@@ -88,6 +88,7 @@ RenderPanel::RenderPanel(QWidget * parent)
+ 
+ RenderPanel::~RenderPanel()
+ {
++  clearDisplayContext();
+   delete fake_mouse_move_event_timer_;
+   // if (scene_manager_ && default_camera_) {
+   //   scene_manager_->destroyCamera(default_camera_);
+@@ -133,6 +134,15 @@ DisplayContext * RenderPanel::getManager()
+   return context_;
+ }
+ 
++void RenderPanel::clearDisplayContext()
++{
++  context_ = nullptr;
++  if (render_window_) {
++    render_window_->setOnRenderWindowMouseEventsCallback(nullptr);
++    render_window_->setOnRenderWindowWheelEventsCallback(nullptr);
++  }
++}
++
+ ViewController * RenderPanel::getViewController()
+ {
+   return view_controller_;
+diff --git a/src/rviz_common/view_manager.cpp b/src/rviz_common/view_manager.cpp
+index 4a83baa2..85ee860a 100644
+--- a/src/rviz_common/view_manager.cpp
++++ b/src/rviz_common/view_manager.cpp
+@@ -77,7 +77,16 @@ ViewManager::ViewManager(DisplayContext * context)
+ }
+ 
+ ViewManager::~ViewManager()
+-{}
++{
++  if (impl_->current) {
++    // The property model owns view controllers; do not let their destruction
++    // call back into ViewManager while impl_ is unwinding.
++    disconnect(impl_->current, SIGNAL(destroyed(QObject*)), this, SLOT(onCurrentDestroyed(QObject*)));
++  }
++  if (impl_->render_panel) {
++    impl_->render_panel->setViewController(nullptr);
++  }
++}
+ 
+ void ViewManager::initialize()
+ {
+diff --git a/src/rviz_common/visualization_frame.cpp b/src/rviz_common/visualization_frame.cpp
+index 1be2071e..2a6e1659 100644
+--- a/src/rviz_common/visualization_frame.cpp
++++ b/src/rviz_common/visualization_frame.cpp
+@@ -157,6 +157,11 @@ VisualizationFrame::VisualizationFrame(
+ 
+ VisualizationFrame::~VisualizationFrame()
+ {
++  if (render_panel_) {
++    // Render callbacks carry a DisplayContext pointer owned by manager_.
++    render_panel_->clearDisplayContext();
++  }
++
+   delete manager_;
+   delete render_panel_;
+ 
+diff --git a/src/rviz_common/visualization_manager.cpp b/src/rviz_common/visualization_manager.cpp
+index dc2aa79a..e68f531d 100644
+--- a/src/rviz_common/visualization_manager.cpp
++++ b/src/rviz_common/visualization_manager.cpp
+@@ -56,7 +56,9 @@
+ #include <QWindow>  // NOLINT: cpplint cannot handle include order here
+ 
+ #include "rclcpp/clock.hpp"
++#include "rclcpp/exceptions.hpp"
+ #include "rclcpp/time.hpp"
++#include "rclcpp/utilities.hpp"
+ #include "rviz_rendering/material_manager.hpp"
+ #include "rviz_rendering/render_window.hpp"
+ 
+@@ -238,10 +240,19 @@ VisualizationManager::~VisualizationManager()
+ {
+   shutting_down_ = true;
+   stopUpdate();
++  executor_->cancel();
+   delete update_timer_;
+ 
+-  delete display_property_tree_model_;
++  // Tool and view destruction uses interaction managers and plugin instances.
++  // Keep those dependencies alive until after the owners have been deleted.
+   delete tool_manager_;
++  delete view_manager_;
++
++  view_picker_.reset();
++  selection_manager_.reset();
++  handler_manager_.reset();
++
++  delete display_property_tree_model_;
+   delete display_factory_;
+   delete frame_manager_;
+   delete private_;
+@@ -351,7 +362,19 @@ void VisualizationManager::onUpdate()
+     resetTime();
+   }
+ 
+-  executor_->spin_some(std::chrono::milliseconds(10));
++  if (!rclcpp::ok()) {
++    shutting_down_ = true;
++    stopUpdate();
++    return;
++  }
++
++  try {
++    executor_->spin_some(std::chrono::milliseconds(10));
++  } catch (const rclcpp::exceptions::RCLError &) {
++    shutting_down_ = true;
++    stopUpdate();
++    return;
++  }
+ 
+   Q_EMIT preUpdate();
+ 
+diff --git a/src/rviz_common/visualizer_app.cpp b/src/rviz_common/visualizer_app.cpp
+index 549af741..2fbb8543 100644
+--- a/src/rviz_common/visualizer_app.cpp
++++ b/src/rviz_common/visualizer_app.cpp
+@@ -43,6 +43,7 @@
+ #include <QCommandLineOption>  // NOLINT: cpplint is unable to handle the include order here
+ #include <QTimer>  // NOLINT: cpplint is unable to handle the include order here
+ 
++#include "rclcpp/exceptions.hpp"
+ #include "rviz_common/interaction/selection_manager.hpp"
+ #include "rviz_common/logging.hpp"
+ #include "rviz_rendering/ogre_logging.hpp"
+@@ -165,7 +166,15 @@ bool VisualizerApp::init(int argc, char ** argv)
+   if (!splash_path.isEmpty()) {
+     frame_->setSplashPath(splash_path);
+   }
+-  frame_->initialize(node_, display_config);
++  // SIGINT can invalidate the ROS context while Qt is still constructing RViz.
++  try {
++    frame_->initialize(node_, display_config);
++  } catch (const rclcpp::exceptions::RCLError & ex) {
++    RVIZ_COMMON_LOG_ERROR_STREAM("Failed to initialize RViz: " << ex.what());
++    delete frame_;
++    frame_ = nullptr;
++    return false;
++  }
+ 
+   if (!fixed_frame.isEmpty()) {
+     frame_->getManager()->setFixedFrame(fixed_frame);
+@@ -183,8 +192,10 @@ bool VisualizerApp::init(int argc, char ** argv)
+ VisualizerApp::~VisualizerApp()
+ {
+   delete continue_timer_;
+-  ros_client_abstraction_->shutdown();
++  // RViz-owned objects can still use ROS while they release subscriptions,
++  // executors, and plugin instances.
+   delete frame_;
++  ros_client_abstraction_->shutdown();
+ }
+ 
+ void VisualizerApp::startContinueChecker()
+diff --git a/src/rviz_common/ros_integration/ros_client_abstraction.cpp b/src/rviz_common/ros_integration/ros_client_abstraction.cpp
+index 2754cec6..a301935d 100644
+--- a/src/rviz_common/ros_integration/ros_client_abstraction.cpp
++++ b/src/rviz_common/ros_integration/ros_client_abstraction.cpp
+@@ -33,6 +33,7 @@
+ #include <memory>
+ #include <mutex>
+ #include <string>
++#include <utility>
+ 
+ #include "rclcpp/rclcpp.hpp"
+ 
+@@ -75,6 +76,16 @@ RosClientAbstraction::ok()
+ void
+ RosClientAbstraction::shutdown()
+ {
++#ifdef __APPLE__
++  // On macOS, tearing down the rclcpp node during process shutdown can crash in
++  // rclcpp::CallbackGroup destruction after Qt/RViz display teardown. The
++  // process is exiting, so keep the node alive and let the OS reclaim it.
++  auto leaked_rviz_ros_node =
++    new std::shared_ptr<RosNodeAbstractionIface>(std::move(rviz_ros_node_));
++  static_cast<void>(leaked_rviz_ros_node);
++#else
++  rviz_ros_node_.reset();
++#endif
+   rclcpp::shutdown();
+ }
+ 
+diff --git a/src/rviz_common/visualization_manager.cpp b/src/rviz_common/visualization_manager.cpp
+index e68f531d..b427dff3 100644
+--- a/src/rviz_common/visualization_manager.cpp
++++ b/src/rviz_common/visualization_manager.cpp
+@@ -82,6 +82,7 @@
+ #include "rviz_common/interaction/selection_manager_iface.hpp"
+ #include "rviz_common/interaction/view_picker.hpp"
+ #include "rviz_common/interaction/view_picker_iface.hpp"
++#include "rviz_common/logging.hpp"
+ #include "rviz_common/tool.hpp"
+ #include "rviz_common/tool_manager.hpp"
+ #include "rviz_common/view_manager.hpp"
+@@ -253,6 +254,18 @@ VisualizationManager::~VisualizationManager()
+   handler_manager_.reset();
+ 
+   delete display_property_tree_model_;
++
++  if (auto rviz_ros_node = rviz_ros_node_.lock()) {
++    try {
++      executor_->remove_node(rviz_ros_node->get_raw_node(), false);
++    } catch (const std::exception & exception) {
++      RVIZ_COMMON_LOG_ERROR_STREAM(
++        "Failed to remove RViz ROS node from executor during shutdown: " <<
++          exception.what());
++    }
++  }
++  executor_.reset();
++
+   delete display_factory_;
+   delete frame_manager_;
+   delete private_;

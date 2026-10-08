@@ -1,0 +1,89 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-liblz4-vendor
+  version: 0.26.11
+source:
+  git: https://github.com/ros2-gbp/rosbag2-release.git
+  tag: release/jazzy/liblz4_vendor/0.26.11-1
+  target_directory: ros2-liblz4-vendor/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 25
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://github.com/lz4/lz4/
+  repository: https://github.com/ros2/rosbag2
+  license: Apache-2.0 OR BSD-3-Clause OR GPL-2.0-only
+  summary: LZ4 compression vendor package, providing a dependency for LZ4.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - if: osx
+      then:
+        - clang-tools ${{ (cxx_compiler_version ~ '.*') if cxx_compiler_version is defined else '*' }}
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - lz4
+    - numpy
+    - pip
+    - python
+    - ros2-ament-cmake
+    - ros2-ament-cmake-vendor-package
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-environment
+    - ros2-ros-workspace
+  run:
+    - lz4
+    - python
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-workspace

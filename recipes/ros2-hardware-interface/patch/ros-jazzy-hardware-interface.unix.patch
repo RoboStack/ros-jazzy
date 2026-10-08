@@ -1,0 +1,26 @@
+diff --git a/include/hardware_interface/async_components.hpp b/include/hardware_interface/async_components.hpp
+index 052c4ba92..85efed01f 100644
+--- a/include/hardware_interface/async_components.hpp
++++ b/include/hardware_interface/async_components.hpp
+@@ -82,7 +82,11 @@ public:
+         {
+           auto const period = std::chrono::nanoseconds(1'000'000'000 / cm_update_rate_);
+           TimePoint next_iteration_time =
+-            TimePoint(std::chrono::nanoseconds(clock_interface_->get_clock()->now().nanoseconds()));
++            TimePoint(std::chrono::system_clock::time_point(
++                std::chrono::duration_cast<std::chrono::system_clock::duration>(
++                    std::chrono::nanoseconds(clock_interface_->get_clock()->now().nanoseconds())
++                )
++            ));
+ 
+           if (
+             component->get_lifecycle_state().id() ==
+@@ -99,7 +103,7 @@ public:
+             component->read(clock_interface_->get_clock()->now(), measured_period);
+             first_iteration = false;
+           }
+-          next_iteration_time += period;
++          next_iteration_time += std::chrono::duration_cast<decltype(next_iteration_time)::duration>(period);
+           std::this_thread::sleep_until(next_iteration_time);
+         }
+       },
