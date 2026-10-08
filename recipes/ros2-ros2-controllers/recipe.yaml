@@ -1,0 +1,114 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-ros2-controllers
+  version: 4.43.0
+source:
+  git: https://github.com/ros2-gbp/ros2_controllers-release.git
+  tag: release/jazzy/ros2_controllers/4.43.0-1
+  target_directory: ros2-ros2-controllers/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 25
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://control.ros.org
+  repository: https://github.com/ros-controls/ros2_controllers
+  license: Apache-2.0
+  summary: Metapackage for ros2_controllers related packages
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - if: osx
+      then:
+        - clang-tools ${{ (cxx_compiler_version ~ '.*') if cxx_compiler_version is defined else '*' }}
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros2-ament-cmake
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-environment
+    - ros2-ros-workspace
+  run:
+    - python
+    - ros2-ackermann-steering-controller
+    - ros2-admittance-controller
+    - ros2-battery-state-broadcaster
+    - ros2-bicycle-steering-controller
+    - ros2-chained-filter-controller
+    - ros2-diff-drive-controller
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-effort-controllers
+    - ros2-force-torque-sensor-broadcaster
+    - ros2-forward-command-controller
+    - ros2-gpio-controllers
+    - ros2-gps-sensor-broadcaster
+    - ros2-gripper-controllers
+    - ros2-imu-sensor-broadcaster
+    - ros2-joint-state-broadcaster
+    - ros2-joint-trajectory-controller
+    - ros2-magnetometer-broadcaster
+    - ros2-mecanum-drive-controller
+    - ros2-omni-wheel-drive-controller
+    - ros2-parallel-gripper-controller
+    - ros2-pid-controller
+    - ros2-pose-broadcaster
+    - ros2-position-controllers
+    - ros2-range-sensor-broadcaster
+    - ros2-ros-workspace
+    - ros2-state-interfaces-broadcaster
+    - ros2-steering-controllers-library
+    - ros2-tricycle-controller
+    - ros2-tricycle-steering-controller
+    - ros2-velocity-controllers

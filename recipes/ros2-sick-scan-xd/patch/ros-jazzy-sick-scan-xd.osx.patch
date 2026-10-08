@@ -1,0 +1,20 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0d3850d..a768d5c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -89,10 +89,6 @@ if(BUILD_LIB_HIDE_FUNCTIONS AND NOT WIN32)
+     add_link_options(-fvisibility=hidden)
+ endif()
+ 
+-# Switch on, if you use c11-specific commands
+-if(NOT WIN32)
+-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-format-overflow -fno-var-tracking-assignments")
+-endif()
+ 
+ # Option SICK_TARGET_ENDIANESS sets the endianess of the cmake target to build sick_scan_xd (default is little endian).
+ # The target endianess can be set either to little endian by cmake option "-DSICK_TARGET_ENDIANESS=1",
+@@ -1099,3 +1095,4 @@ if(${ENABLE_EMULATOR} OR ENABLE_EMULATOR EQUAL ON)
+         install(TARGETS pose2d_to_odom_converter DESTINATION lib/${PROJECT_NAME})
+     endif()    
+ endif()
++

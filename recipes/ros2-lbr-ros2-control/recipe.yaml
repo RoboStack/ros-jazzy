@@ -1,0 +1,114 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-lbr-ros2-control
+  version: 2.4.3
+source:
+  git: https://github.com/lbr-stack/lbr_fri_ros2_stack.git
+  rev: 14ecad839f482da0ee4ac4b9d222d0787db3bf11
+  target_directory: ros2-lbr-ros2-control/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 25
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  license: Apache-2.0
+  summary: ROS 2 hardware hardware_interface for KUKA LBR through Fast Robot Interface (FRI).
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - if: osx
+      then:
+        - clang-tools ${{ (cxx_compiler_version ~ '.*') if cxx_compiler_version is defined else '*' }}
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - eigen
+    - eigen-abi-devel
+    - lbr-fri-client-sdk
+    - numpy
+    - pip
+    - python
+    - ros2-ament-cmake
+    - ros2-controller-interface
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-eigen3-cmake-module
+    - ros2-geometry-msgs
+    - ros2-hardware-interface
+    - ros2-kinematics-interface
+    - ros2-lbr-fri-idl
+    - ros2-lbr-fri-ros2
+    - ros2-pluginlib
+    - ros2-rclcpp
+    - ros2-realtime-tools
+    - ros2-ros-environment
+    - ros2-ros-workspace
+    - ros2-ros2-control
+  run:
+    - eigen
+    - eigen-abi-devel
+    - lbr-fri-client-sdk
+    - python
+    - ros2-controller-interface
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-eigen3-cmake-module
+    - ros2-geometry-msgs
+    - ros2-hardware-interface
+    - ros2-kinematics-interface
+    - ros2-lbr-description
+    - ros2-lbr-fri-idl
+    - ros2-lbr-fri-ros2
+    - ros2-pluginlib
+    - ros2-rclcpp
+    - ros2-realtime-tools
+    - ros2-ros-workspace
+    - ros2-ros2-control
+    - ros2-ros2-controllers

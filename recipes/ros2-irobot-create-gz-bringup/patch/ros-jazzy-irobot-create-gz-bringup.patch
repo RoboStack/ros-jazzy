@@ -1,0 +1,22 @@
+diff --git a/launch/sim.launch.py b/launch/sim.launch.py
+index 740636f..0990c46 100644
+--- a/launch/sim.launch.py
++++ b/launch/sim.launch.py
+@@ -39,7 +39,7 @@ def generate_launch_description():
+     # Set Ignition resource path
+     gz_resource_path = SetEnvironmentVariable(
+         name='GZ_SIM_RESOURCE_PATH',
+-        value=':'.join([
++        value=os.pathsep.join([
+             os.path.join(pkg_irobot_create_gz_bringup, 'worlds'),
+             str(Path(pkg_irobot_create_description).parent.resolve())
+         ])
+@@ -47,7 +47,7 @@ def generate_launch_description():
+ 
+     gz_gui_plugin_path = SetEnvironmentVariable(
+         name='GZ_GUI_PLUGIN_PATH',
+-        value=':'.join([
++        value=os.pathsep.join([
+             os.path.join(pkg_irobot_create_gz_plugins, 'lib')
+         ])
+     )

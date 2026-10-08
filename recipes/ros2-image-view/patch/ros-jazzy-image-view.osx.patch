@@ -1,0 +1,111 @@
+diff --git a/include/image_view/image_view_node.hpp b/include/image_view/image_view_node.hpp
+index a982908..afa0afd 100644
+--- a/include/image_view/image_view_node.hpp
++++ b/include/image_view/image_view_node.hpp
+@@ -47,12 +47,13 @@ class ImageViewNode
+   : public rclcpp::Node
+ {
+ public:
+-  explicit ImageViewNode(const rclcpp::NodeOptions & options);
++  explicit ImageViewNode(const rclcpp::NodeOptions & options, bool start_window_thread = true);
+   explicit ImageViewNode(const ImageViewNode &) = default;
+   explicit ImageViewNode(ImageViewNode &&) = default;
+   ImageViewNode & operator=(const ImageViewNode &) = default;
+   ImageViewNode & operator=(ImageViewNode &&) = default;
+   ~ImageViewNode();
++  void runGui();
+ 
+ private:
+   ThreadSafeImage queued_image_, shown_image_;
+@@ -72,9 +73,10 @@ private:
+ 
+   void imageCb(const sensor_msgs::msg::Image::ConstSharedPtr & msg);
+   static void mouseCb(int event, int x, int y, int flags, void * param);
+-  void windowThread();
+   rcl_interfaces::msg::SetParametersResult paramCallback(const std::vector<rclcpp::Parameter> &);
+   std::mutex param_mutex_;
++
++  void startWindowThread();
+ };
+ 
+ }  // namespace image_view
+diff --git a/src/image_view.cpp b/src/image_view.cpp
+index 24d51fc..5d3b18f 100644
+--- a/src/image_view.cpp
++++ b/src/image_view.cpp
+@@ -47,6 +47,7 @@
+ // limitations under the License.
+ 
+ #include <memory>
++#include <thread>
+ 
+ #include <rclcpp/rclcpp.hpp>
+ 
+@@ -59,11 +60,21 @@ int main(int argc, char ** argv)
+   rclcpp::init(argc, argv);
+ 
+   rclcpp::NodeOptions options;
+-  auto iv_node = std::make_shared<ImageViewNode>(options);
++  auto iv_node = std::make_shared<ImageViewNode>(options, false);
+ 
+-  rclcpp::spin(iv_node);
++  std::thread spin_thread([iv_node]() {
++    rclcpp::spin(iv_node);
++  });
+ 
+-  rclcpp::shutdown();
++  iv_node->runGui();
++
++  if (spin_thread.joinable()) {
++    spin_thread.join();
++  }
++
++  if (rclcpp::ok()) {
++    rclcpp::shutdown();
++  }
+ 
+   return 0;
+ }
+diff --git a/src/image_view_node.cpp b/src/image_view_node.cpp
+index 9045d78..1806be5 100644
+--- a/src/image_view_node.cpp
++++ b/src/image_view_node.cpp
+@@ -102,7 +102,7 @@ cv_bridge::CvImageConstPtr ThreadSafeImage::pop()
+   return image;
+ }
+ 
+-ImageViewNode::ImageViewNode(const rclcpp::NodeOptions & options)
++ImageViewNode::ImageViewNode(const rclcpp::NodeOptions & options, bool start_window_thread)
+ : rclcpp::Node("image_view_node", options)
+ {
+   // TransportHints does not actually declare the parameter
+@@ -167,8 +167,8 @@ ImageViewNode::ImageViewNode(const rclcpp::NodeOptions & options)
+   max_image_value_ = this->declare_parameter(
+     max_image_value_paramDescriptor.name, 0, max_image_value_paramDescriptor);
+ 
+-  if (g_gui) {
+-    window_thread_ = std::thread(&ImageViewNode::windowThread, this);
++  if (g_gui && start_window_thread) {
++    startWindowThread();
+   }
+ 
+   on_set_parameters_callback_handle_ = this->add_on_set_parameters_callback(
+@@ -279,8 +279,17 @@ void ImageViewNode::mouseCb(int event, int /* x */, int /* y */, int /* flags */
+   }
+ }
+ 
+-void ImageViewNode::windowThread()
++void ImageViewNode::startWindowThread()
+ {
++  window_thread_ = std::thread(&ImageViewNode::runGui, this);
++}
++
++void ImageViewNode::runGui()
++{
++  if (!g_gui) {
++    return;
++  }
++
+   int flags = autosize_ ?
+     (cv::WINDOW_AUTOSIZE | cv::WINDOW_KEEPRATIO | cv::WINDOW_GUI_EXPANDED) : 0;
+   cv::namedWindow(window_name_, flags);
