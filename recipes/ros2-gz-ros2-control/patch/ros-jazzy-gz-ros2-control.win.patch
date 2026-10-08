@@ -1,0 +1,15 @@
+diff --git a/src/gz_system.cpp b/src/gz_system.cpp
+index 7d9eab3..92c6f5c 100644
+--- a/src/gz_system.cpp
++++ b/src/gz_system.cpp
+@@ -51,6 +51,10 @@
+ #include <hardware_interface/lexical_casts.hpp>
+ #include <hardware_interface/types/hardware_interface_type_values.hpp>
+ 
++#ifdef ERROR
++#undef ERROR
++#endif
++
+ struct jointData
+ {
+   /// \brief Joint's names.

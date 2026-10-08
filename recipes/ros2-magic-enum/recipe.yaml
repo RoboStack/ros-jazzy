@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-magic-enum
+  version: 0.9.8
+
+build:
+  number: 25
+  script: ''
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  repository: https://github.com/Neargye/magic_enum
+  license: MIT
+  summary: Static reflection for enums (to string, from string, iteration) for modern C++, work with any enum type without any macro or boilerplate code
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build: []
+  host:
+    - python
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-environment
+    - ros2-ros-workspace
+  run:
+    - magic_enum >=0.9.8, <0.10.0a0
+    - python
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-workspace

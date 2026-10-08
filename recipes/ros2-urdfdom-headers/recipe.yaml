@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-urdfdom-headers
+  version: '3.0'
+
+build:
+  number: 25
+  script: ''
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: http://ros.org/wiki/urdf
+  repository: https://github.com/ros/urdfdom_headers
+  license: BSD-3-Clause
+  summary: C++ headers for URDF.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build: []
+  host:
+    - python
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-environment
+    - ros2-ros-workspace
+  run:
+    - python
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-workspace
+    - urdfdom_headers >=3.0, <3.1a0

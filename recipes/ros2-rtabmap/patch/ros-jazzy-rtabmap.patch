@@ -1,0 +1,68 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8b55e49..8f84226 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,7 +1,10 @@
+ # Top-Level CmakeLists.txt
+-cmake_minimum_required(VERSION 3.14)
++cmake_minimum_required(VERSION 3.18)
+ 
+ PROJECT( RTABMap )
++if(POLICY CMP0167)
++  cmake_policy(SET CMP0167 NEW)
++endif()
+ SET(PROJECT_PREFIX rtabmap)
+ 
+ # Catkin doesn't support multiarch library path, 
+@@ -582,7 +585,10 @@ IF(WITH_DC1394)
+ ENDIF(WITH_DC1394)
+ 
+ IF(WITH_G2O)
++    SET(_RTABMAP_CMAKE_FIND_PACKAGE_PREFER_CONFIG ${CMAKE_FIND_PACKAGE_PREFER_CONFIG})
++    SET(CMAKE_FIND_PACKAGE_PREFER_CONFIG TRUE)
+     FIND_PACKAGE(g2o NO_MODULE)
++    SET(CMAKE_FIND_PACKAGE_PREFER_CONFIG ${_RTABMAP_CMAKE_FIND_PACKAGE_PREFER_CONFIG})
+     IF(g2o_FOUND)
+         MESSAGE(STATUS "Found g2o (targets)")
+         SET(G2O_FOUND ${g2o_FOUND})
+@@ -618,7 +624,10 @@ ENDIF(WITH_G2O)
+ 
+ IF(WITH_GTSAM)
+     # Force config mode to ignore PCL's findGTSAM.cmake file
++    SET(_RTABMAP_CMAKE_FIND_PACKAGE_PREFER_CONFIG ${CMAKE_FIND_PACKAGE_PREFER_CONFIG})
++    SET(CMAKE_FIND_PACKAGE_PREFER_CONFIG TRUE)
+     FIND_PACKAGE(GTSAM CONFIG QUIET)
++    SET(CMAKE_FIND_PACKAGE_PREFER_CONFIG ${_RTABMAP_CMAKE_FIND_PACKAGE_PREFER_CONFIG})
+     IF(GTSAM_FOUND)
+       INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/CheckGTSAMFeatures.cmake)
+     ENDIF(GTSAM_FOUND)
+diff --git a/app/src/main.cpp b/app/src/main.cpp
+index ae43343..1a2559f 100644
+--- a/app/src/main.cpp
++++ b/app/src/main.cpp
+@@ -25,6 +25,10 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+ 
++#ifdef WIN32
++#include <objbase.h>
++#endif
++
+ #include <QApplication>
+ #include <QtCore/QDir>
+ #include "rtabmap/utilite/UEventsManager.h"
+diff --git a/tools/DatabaseViewer/main.cpp b/tools/DatabaseViewer/main.cpp
+index 5625f70..71a5722 100644
+--- a/tools/DatabaseViewer/main.cpp
++++ b/tools/DatabaseViewer/main.cpp
+@@ -25,6 +25,10 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+ 
++#ifdef WIN32
++#include <objbase.h>
++#endif
++
+ #include <QApplication>
+ #include "rtabmap/gui/DatabaseViewer.h"
+ #include "rtabmap/utilite/ULogger.h"

@@ -1,0 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a279bf7..e36f853 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,11 @@
+ cmake_minimum_required(VERSION 3.5)
+ project(irobot_create_gz_toolbox)
+ 
++if(MSVC)
++  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
++  add_compile_definitions(_USE_MATH_DEFINES NOMINMAX)
++endif()
++
+ # Default to C99
+ if(NOT CMAKE_C_STANDARD)
+   set(CMAKE_C_STANDARD 99)

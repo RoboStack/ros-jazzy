@@ -1,0 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f601756..d751818 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.5)
+ 
+ project(irobot_create_nodes)
+ 
++if(MSVC)
++  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
++  add_compile_definitions(_USE_MATH_DEFINES NOMINMAX)
++endif()
++
+ # Default to C++14
+ if(NOT CMAKE_CXX_STANDARD)
+   set(CMAKE_CXX_STANDARD 14)

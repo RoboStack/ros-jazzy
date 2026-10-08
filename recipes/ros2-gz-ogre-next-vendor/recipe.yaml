@@ -1,0 +1,125 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-gz-ogre-next-vendor
+  version: 0.0.5
+source:
+  git: https://github.com/ros2-gbp/gz_ogre_next_vendor-release.git
+  tag: release/jazzy/gz_ogre_next_vendor/0.0.5-1
+  target_directory: ros2-gz-ogre-next-vendor/src/work
+  patches:
+    - patch/ros-jazzy-gz-ogre-next-vendor.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 25
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ogre3d.org/
+  repository: https://github.com/gazebo-release/gz_ogre_next_vendor
+  license: Apache-2.0 OR MIT
+  summary: Vendor package for Ogre-next v2.3.3
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - if: osx
+      then:
+        - clang-tools ${{ (cxx_compiler_version ~ '.*') if cxx_compiler_version is defined else '*' }}
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - freeimage
+    - freetype
+    - glslang
+    - libboost-devel
+    - libvulkan-headers
+    - libvulkan-loader
+    - numpy
+    - ogre-next
+    - pip
+    - poco
+    - python
+    - rapidjson
+    - ros2-ament-cmake
+    - ros2-ament-cmake-vendor-package
+    - ros2-ament-cmake-xmllint
+    - ros2-ament-lint-auto
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-environment
+    - ros2-ros-workspace
+    - sdl2
+    - shaderc
+    - tbb
+    - tbb-devel
+    - tinyxml2
+    - xorg-libx11
+    - xorg-xorgproto
+    - zziplib
+  run:
+    - freeimage
+    - freetype
+    - glslang
+    - libboost-devel
+    - libvulkan-headers
+    - libvulkan-loader
+    - ogre-next
+    - poco
+    - python
+    - rapidjson
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-workspace
+    - sdl2
+    - shaderc
+    - tbb
+    - tbb-devel
+    - tinyxml2
+    - xorg-libx11
+    - xorg-xorgproto
+    - zziplib

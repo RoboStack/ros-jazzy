@@ -1,0 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d13488c..4d175f5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -3,6 +3,11 @@ project(pointcloud_to_laserscan)
+ 
+ find_package(ament_cmake REQUIRED)
+ 
++# MSVC does not define M_PI by default
++if(MSVC)
++  add_compile_definitions(_USE_MATH_DEFINES)
++endif()
++
+ find_package(laser_geometry REQUIRED)
+ find_package(message_filters REQUIRED)
+ find_package(rclcpp REQUIRED)

@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros2-roboplan-common
+  version: 0.7.0
+
+build:
+  number: 25
+  script: ''
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://roboplan.readthedocs.io
+  repository: https://github.com/open-planning/roboplan
+  license: MIT
+  summary: Shared runtime support for RoboPlan Python packages.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build: []
+  host:
+    - python
+    - ros2-ament-cmake
+    - ros2-ament-cmake-python
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-environment
+    - ros2-ros-workspace
+  run:
+    - python
+    - roboplan-common >=0.7.0, <0.8.0a0
+    - ros2-distro-mutex 0.19.* jazzy_*
+    - ros2-ros-workspace

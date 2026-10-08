@@ -1,0 +1,10 @@
+diff --git a/moveit_core/online_signal_smoothing/src/acceleration_filter.cpp b/moveit_core/online_signal_smoothing/src/acceleration_filter.cpp
+index 3e6b3de049..3bafe55098 100644
+--- a/moveit_core/online_signal_smoothing/src/acceleration_filter.cpp
++++ b/moveit_core/online_signal_smoothing/src/acceleration_filter.cpp
+@@ -224,3 +224,3 @@ double jointLimitAccelerationScalingFactor(const Eigen::VectorXd& accelerations,
+-        min_scaling_factor = std::min(min_scaling_factor, joint_scaling_factor);
++        min_scaling_factor = (std::min)(min_scaling_factor, joint_scaling_factor);
+       }
+       ++idx;
+     }

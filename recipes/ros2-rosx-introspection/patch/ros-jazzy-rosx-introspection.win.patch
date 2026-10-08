@@ -1,0 +1,12 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 76462e6..cd0f75c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,7 @@
+ cmake_minimum_required(VERSION 3.10)
+ 
+ project(rosx_introspection LANGUAGES CXX VERSION 1.0.2)
++set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+ 
+ # create compile_commands.json
+ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

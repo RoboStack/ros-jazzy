@@ -1,0 +1,31 @@
+diff --git a/ros2cli/completion/ros2-argcomplete.zsh b/ros2cli/completion/ros2-argcomplete.zsh
+index b9fc309..ad14fbb 100644
+--- a/ros2cli/completion/ros2-argcomplete.zsh
++++ b/ros2cli/completion/ros2-argcomplete.zsh
+@@ -20,6 +20,6 @@ autoload -U +X bashcompinit && bashcompinit
+ # Get this scripts directory
+ __ros2cli_completion_dir=${0:a:h}
+ # Just source the bash version, it works in zsh too
+-source "$__ros2cli_completion_dir/ros2-argcomplete.bash"
++source "$CONDA_PREFIX/share/bash-completion/completions/ros2-argcomplete.bash"
+ # Cleanup
+ unset __ros2cli_completion_dir
+diff --git a/ros2cli/setup.py b/ros2cli/setup.py
+index f28b689..a0fe44a 100644
+--- a/ros2cli/setup.py
++++ b/ros2cli/setup.py
+@@ -23,6 +23,14 @@ setup(
+             'completion/ros2-argcomplete.bash',
+             'completion/ros2-argcomplete.zsh'
+         ]),
++
++        # [pixi] install autocompletion scripts
++        ('share/bash-completion/completions', [
++            'completion/ros2-argcomplete.bash',
++        ]),
++        ('share/zsh/site-functions', [
++            'completion/ros2-argcomplete.zsh'
++        ]),
+     ],
+     zip_safe=False,
+     author='Dirk Thomas',

@@ -1,0 +1,26 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0b1f094..3a4360b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.5)
+ 
+ project(irobot_create_toolbox)
+ 
++if(MSVC)
++  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
++  add_compile_definitions(_USE_MATH_DEFINES NOMINMAX)
++endif()
++
+ # Default to C++14
+ if(NOT CMAKE_CXX_STANDARD)
+   set(CMAKE_CXX_STANDARD 14)
+@@ -33,6 +38,9 @@ target_link_libraries(irobot_create_toolbox
+     ${rclcpp_TARGETS}
+ )
+ 
++target_compile_definitions(irobot_create_toolbox
++  PUBLIC "$<$<CXX_COMPILER_ID:MSVC>:_USE_MATH_DEFINES;NOMINMAX>")
++
+ #### Install
+ 
+ install(TARGETS
