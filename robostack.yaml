@@ -931,6 +931,8 @@ python3-pip:
   robostack: [pip]
 python3-pkg-resources:
   robostack: []
+python3-platformdirs:
+  robostack: [platformdirs]
 python3-protobuf:
   robostack: [protobuf]
 python3-psutil:
@@ -973,6 +975,8 @@ python3-requests:
   robostack: [requests]
 python3-requests-oauthlib:
   robostack: [requests-oauthlib]
+python3-rich:
+  robostack: [rich]
 python3-rosdep:
   robostack: [rosdep]
 python3-rosdep-modules:
