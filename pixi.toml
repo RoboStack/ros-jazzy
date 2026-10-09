@@ -26,12 +26,13 @@ rattler-index = ">=0.27.16"
 curl = "*"
 go-yq = "*"
 colordiff = "*"
-vinca = { git = "https://github.com/Tobias-Fischer/vinca.git", rev = "9e44663eaf17a1a7ae698e3140ff095a78e849e7" }
+vinca = { git = "https://github.com/Tobias-Fischer/vinca.git", rev = "18fd85dc68d7303bce76aa34210b2da3aedeac94" }
 # TEMPORARY: pinned to RoboStack/vinca@1f1dca5 (last commit before the
 # rosdistro-cache-snapshot feature landed -- our already-generated
 # rosdistro_snapshot.yaml wasn't produced with that machinery and broke
 # against it) with the raw.githubusercontent.com tag-URL ambiguity fix
-# (RoboStack/vinca#156) cherry-picked on top. Revert to RoboStack/vinca.git
+# (RoboStack/vinca#156) cherry-picked on top, plus RoboStack/vinca#167 (git
+# auto-maintenance off before Setup pixi). Revert to RoboStack/vinca.git
 # once #156 merges and the snapshot format is reconciled.
 # For local development uncomment:
 # vinca.path = "../vinca"
