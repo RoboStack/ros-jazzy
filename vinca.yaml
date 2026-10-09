@@ -296,21 +296,37 @@ packages_select_by_deps:
       - easynav_common
       - easynav_controller
       - easynav_core
+      - easynav_costmap_common
       - easynav_costmap_localizer
       - easynav_costmap_maps_manager
       - easynav_costmap_planner
+      - easynav_diagnostic_recovery
       - easynav_fusion_localizer
-      - easynav_gps_localizer
       - easynav_interfaces
       - easynav_localizer
       - easynav_maps_manager
+      - easynav_mhamcl_localizer
       - easynav_mpc_controller
       - easynav_mppi_controller
+      - easynav_nav2_bridge
       - easynav_navmap_localizer
       - easynav_navmap_maps_manager
       - easynav_navmap_planner
       - easynav_octomap_maps_manager
       - easynav_planner
+      - easynav_playground_kobuki
+      - easynav_playground_kobuki_description
+      - easynav_playground_kobuki_worlds
+      - easynav_playground_omni
+      - easynav_playground_omni_description
+      - easynav_playground_omni_worlds
+      - easynav_playground_summit
+      - easynav_playground_summit_description
+      - easynav_playground_summit_worlds
+      - easynav_playground_tiago
+      - easynav_playground_tiago_description
+      - easynav_playground_tiago_worlds
+      - easynav_recovery
       - easynav_regulated_pp_controller
       - easynav_routes_maps_manager
       - easynav_sensors
@@ -320,6 +336,7 @@ packages_select_by_deps:
       - easynav_simple_localizer
       - easynav_simple_maps_manager
       - easynav_simple_planner
+      - easynav_simple_recovery
       - easynav_support_py
       - easynav_system
       - easynav_tools
@@ -330,8 +347,11 @@ packages_select_by_deps:
       - mujoco_ros2_control  # Use readlink and access at runtime linux-specific file
       - mujoco_ros2_control_demos  # Use readlink and access at runtime linux-specific file
       - navmap_core
+      - navmap_examples
       - navmap_ros
       - navmap_ros_interfaces
+      - navmap_rviz_plugin
+      - navmap_tools
       - nobleo_socketcan_bridge  # Depends on socketcan
       - openvdb_vendor
       - orbbec_camera
@@ -386,6 +406,7 @@ packages_select_by_deps:
       - udp_driver      # Serial communication only implemented for linux
       - usb_cam  # Depends on v4l
       - v4l2_camera  # Depends on v4l that is only available on linux
+      - yaets
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
