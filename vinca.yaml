@@ -190,6 +190,7 @@ packages_select_by_deps:
   - polygon_msgs
   - polygon_utils
   - proxsuite
+  - psdk_interfaces  # not released for jazzy upstream; sourced via rosdistro_additional_recipes.yaml
   - ptz_action_server_msgs
   - py_binding_tools
   - py_trees
